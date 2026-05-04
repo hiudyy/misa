@@ -6,10 +6,10 @@ import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
 
-const menuCommand: Command = {
-  name: "menu",
-  aliases: ["help", "ajuda", "comandos"],
-  description: "Mostra o menu principal",
+const menuDlCommand: Command = {
+  name: "menudl",
+  aliases: ["menudownloads", "mdownloads"],
+  description: "Mostra os comandos de downloads",
   category: "geral",
   async execute({ misa, message, from, prefix }) {
     const config = await getBotConfig();
@@ -20,10 +20,10 @@ const menuCommand: Command = {
         text: [
           `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
           "│",
-          `│  ♡ ${prefix}menugeral`,
-          `│  ♡ ${prefix}menudl`,
-          `│  ♡ ${prefix}menuadm`,
-          `│  ♡ ${prefix}menudono`,
+          "├ 〔 downloads 〕",
+          `│  ♡ ${prefix}tiktok`,
+          `│  ♡ ${prefix}instagram`,
+          `│  ♡ ${prefix}pinterest`,
           "│",
           "‧₊˚ ────────────────˚₊‧",
         ].join("\n"),
@@ -33,4 +33,4 @@ const menuCommand: Command = {
   },
 };
 
-export default menuCommand;
+export default menuDlCommand;

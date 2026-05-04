@@ -6,11 +6,13 @@ import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
 
-const menuCommand: Command = {
-  name: "menu",
-  aliases: ["help", "ajuda", "comandos"],
-  description: "Mostra o menu principal",
+const menuAdmCommand: Command = {
+  name: "menuadm",
+  aliases: ["madm", "menuadmin"],
+  description: "Mostra os comandos de administração",
   category: "geral",
+  groupOnly: true,
+  adminOnly: true,
   async execute({ misa, message, from, prefix }) {
     const config = await getBotConfig();
 
@@ -20,10 +22,18 @@ const menuCommand: Command = {
         text: [
           `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
           "│",
-          `│  ♡ ${prefix}menugeral`,
-          `│  ♡ ${prefix}menudl`,
-          `│  ♡ ${prefix}menuadm`,
-          `│  ♡ ${prefix}menudono`,
+          "├ 〔 grupo 〕",
+          `│  ♡ ${prefix}gp`,
+          `│  ♡ ${prefix}kick`,
+          `│  ♡ ${prefix}promote`,
+          `│  ♡ ${prefix}demote`,
+          `│  ♡ ${prefix}nomegp`,
+          `│  ♡ ${prefix}descgp`,
+          "│",
+          "├ 〔 bem-vindo 〕",
+          `│  ♡ ${prefix}bemvindo`,
+          `│  ♡ ${prefix}legendabv`,
+          `│  ♡ ${prefix}midiabv`,
           "│",
           "‧₊˚ ────────────────˚₊‧",
         ].join("\n"),
@@ -33,4 +43,4 @@ const menuCommand: Command = {
   },
 };
 
-export default menuCommand;
+export default menuAdmCommand;

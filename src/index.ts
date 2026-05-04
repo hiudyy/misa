@@ -16,6 +16,7 @@ import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
 import { log } from "./logger.js";
+import { runAutoUpdate } from "./helpers/autoUpdate.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -163,7 +164,13 @@ if (entryPointUrl) {
   const args = process.argv.slice(2);
   const authMode = args.includes("--pairing") ? "pairing" : "qr";
   const phone = args.find((a) => /^\d+$/.test(a));
-  startBot(authMode, phone).catch((error) => {
+
+  getBotConfig().then(async (config) => {
+    if (config.autoUpdate) await runAutoUpdate();
+    startBot(authMode, phone).catch((error) => {
+      log.error("MISA", "Falha ao iniciar a bot.", error);
+    });
+  }).catch((error) => {
     log.error("MISA", "Falha ao iniciar a bot.", error);
   });
 }

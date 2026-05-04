@@ -13,6 +13,7 @@ const bemvindoCommand: Command = {
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
+  botAdminRequired: true,
   async execute({ misa, message, from }) {
     const config = await getGroup(from);
     const novoEstado = !config.bemvindo.ativo;

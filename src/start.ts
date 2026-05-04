@@ -9,6 +9,7 @@ import { getBotConfig, saveBotConfig, type BotConfig } from "./config.js";
 import { startBot } from "./index.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
+import { runAutoUpdate } from "./helpers/autoUpdate.js";
 
 const shouldAnimate = output.isTTY;
 const version = packageInfo.version;
@@ -183,6 +184,9 @@ async function main(): Promise<void> {
 
   try {
     await showIntro();
+
+    const config = await getBotConfig();
+    if (config.autoUpdate) await runAutoUpdate();
 
     while (true) {
       showMenu();
