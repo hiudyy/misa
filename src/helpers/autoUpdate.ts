@@ -33,8 +33,23 @@ export async function runAutoUpdate(): Promise<void> {
     const extracted = path.join(EXTRACT_PATH, "misa-main");
 
     const srcDestClean = path.join(paths.root, "src");
+
+    // Salva o config.json antes de substituir o src/
+    const configPath = path.join(srcDestClean, "config.json");
+    let configBackup: string | null = null;
+    try {
+      configBackup = await fs.readFile(configPath, "utf8");
+    } catch {
+      // config.json não existe, ignora
+    }
+
     await fs.rm(srcDestClean, { force: true, recursive: true });
     await fs.cp(path.join(extracted, "src"), srcDestClean, { recursive: true });
+
+    // Restaura o config.json
+    if (configBackup !== null) {
+      await fs.writeFile(configPath, configBackup, "utf8");
+    }
 
     await fs.copyFile(path.join(extracted, "package.json"), path.join(paths.root, "package.json"));
 
