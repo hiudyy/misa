@@ -1,0 +1,33 @@
+# Dependências
+node_modules/
+
+# Build
+dist/
+
+# Sessão e dados do bot
+dados/misa-qr/
+dados/grupos/
+dados/fotos/
+dados/cache/
+dados/bemvindo.json
+
+# Manter estrutura de dados
+!dados/.gitkeep
+
+# Config com dados sensíveis
+src/config.json
+
+# Cache npm local
+.npm-cache/
+
+# Logs
+*.log
+logs/
+
+# Ambiente
+.env
+.env.*
+
+# Sistema
+.DS_Store
+Thumbs.db

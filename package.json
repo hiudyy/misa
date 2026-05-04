@@ -1,0 +1,32 @@
+{
+  "name": "misa-bot",
+  "version": "beta-0.0.1",
+  "description": "Misa - Bot de WhatsApp modular com Baileys",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/start.ts",
+    "start:fast": "tsx src/index.ts"
+  },
+  "keywords": [
+    "whatsapp",
+    "baileys",
+    "bot",
+    "typescript"
+  ],
+  "author": "Cognima / Hiudy",
+  "license": "MIT",
+  "dependencies": {
+    "baileys": "^7.0.0-rc.9",
+    "pino": "^9.7.0",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "@types/qrcode-terminal": "^0.12.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "type": "module"
+}
