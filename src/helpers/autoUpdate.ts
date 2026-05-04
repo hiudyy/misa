@@ -61,7 +61,7 @@ export async function runAutoUpdate(): Promise<void> {
     await cleanup();
 
     process.on("exit", () => {
-      spawnSync(process.argv[0], process.argv.slice(1), { stdio: "inherit" });
+      spawnSync("npm", ["run", "start:fast"], { cwd: paths.root, stdio: "inherit", shell: true });
     });
 
     process.exit(0);
