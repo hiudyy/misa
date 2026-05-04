@@ -166,7 +166,7 @@ if (entryPointUrl) {
   const phone = args.find((a) => /^\d+$/.test(a));
 
   getBotConfig().then(async (config) => {
-    if (config.autoUpdate) await runAutoUpdate();
+    if (config.autoUpdate && !args.includes("--no-update")) await runAutoUpdate();
     startBot(authMode, phone).catch((error) => {
       log.error("MISA", "Falha ao iniciar a bot.", error);
     });
