@@ -52,6 +52,10 @@ export class CommandHandler {
     return [...unique.values()];
   }
 
+  listNames(): string[] {
+    return [...this.commands.keys()];
+  }
+
   private async walkDir(dir: string): Promise<string[]> {
     const entries = await fs.readdir(dir, { withFileTypes: true });
     const files = await Promise.all(

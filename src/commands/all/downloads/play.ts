@@ -51,7 +51,7 @@ async function downloadYouTubeAudio(url: string): Promise<{
   const config = await getBotConfig();
 
   if (!config.apiKey) {
-    throw new Error("API key não configurada. Configure em src/config.json");
+    throw new Error("API key não configurada. Configure em dados/owner/config.json");
   }
 
   const requestUrl = new URL("https://misaka.com.br/api/v1/youtube/download");

@@ -11,6 +11,8 @@ const SRC = path.dirname(fileURLToPath(import.meta.url));
 export const paths = {
   root:     ROOT,
   dados:    path.join(ROOT, "dados"),
+  owner:    path.join(ROOT, "dados", "owner"),
+  ownerConfig: path.join(ROOT, "dados", "owner", "config.json"),
   auth:     path.join(ROOT, "dados", "misa-qr"),
   cache:    path.join(ROOT, "dados", "cache"),
   lidCache: path.join(ROOT, "dados", "cache", "lid.json"),

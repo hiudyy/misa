@@ -14,6 +14,7 @@ import { toLID } from "./helpers/toLID.js";
 import { isOwner } from "./helpers/isOwner.js";
 import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
 import { applyAntiLink } from "./helpers/antiLink.js";
+import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknownCommand.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
 import { log } from "./logger.js";
@@ -109,7 +110,19 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (!commandName) return;
 
     const command = commandHandler.get(commandName);
-    if (!command) return;
+    if (!command) {
+      const similar = findSimilarCommand(commandName, commandHandler.listNames());
+      await sendUnknownCommandMessage(
+        misa,
+        from,
+        sender,
+        prefix,
+        commandName,
+        similar,
+        message as proto.IWebMessageInfo,
+      );
+      return;
+    }
 
     // Verificar permissões
     const userIsOwner = await isOwner(sender);

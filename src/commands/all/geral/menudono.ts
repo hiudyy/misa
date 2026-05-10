@@ -24,6 +24,7 @@ const menuDonoCommand: Command = {
         "│",
         "├ 〔 dono 〕",
         `│  ♡ ${prefix}eval`,
+        `│  ♡ ${prefix}cmdnf`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),

@@ -156,6 +156,7 @@ async function askBotConfig(rl: readline.Interface): Promise<void> {
   const autoUpdate = await askBoolean(rl, "Atualizacao automatica", currentConfig.autoUpdate);
 
   const nextConfig: BotConfig = {
+    ...currentConfig,
     botName,
     ownerName,
     prefix,
@@ -171,7 +172,7 @@ async function askBotConfig(rl: readline.Interface): Promise<void> {
     paint("  ╭─────────────────────────────────────────────╮", "green"),
     paint("  │", "green") + paint("             CONFIGURACAO SALVA               ", "white", "bold") + paint("│", "green"),
     paint("  ├─────────────────────────────────────────────┤", "green"),
-    paint("  │", "green") + paint("   Arquivo atualizado: src/config.json        ", "gray") + paint("│", "green"),
+    paint("  │", "green") + paint("   Arquivo atualizado: dados/owner/config.json", "gray") + paint("│", "green"),
     paint("  ╰─────────────────────────────────────────────╯", "green"),
     "",
   ].join("\n"));
