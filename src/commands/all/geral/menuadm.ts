@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
+import { sendMenu } from "../../../helpers/sendMenu.js";
 
 const menuAdmCommand: Command = {
   name: "menuadm",
@@ -16,29 +17,28 @@ const menuAdmCommand: Command = {
   async execute({ misa, message, from, prefix }) {
     const config = await getBotConfig();
 
-    await misa.sendMessage(
+    await sendMenu(
+      misa,
       from,
-      {
-        text: [
-          `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
-          "│",
-          "├ 〔 grupo 〕",
-          `│  ♡ ${prefix}gp`,
-          `│  ♡ ${prefix}kick`,
-          `│  ♡ ${prefix}promote`,
-          `│  ♡ ${prefix}demote`,
-          `│  ♡ ${prefix}nomegp`,
-          `│  ♡ ${prefix}descgp`,
-          "│",
-          "├ 〔 bem-vindo 〕",
-          `│  ♡ ${prefix}bemvindo`,
-          `│  ♡ ${prefix}legendabv`,
-          `│  ♡ ${prefix}midiabv`,
-          "│",
-          "‧₊˚ ────────────────˚₊‧",
-        ].join("\n"),
-      },
-      { quoted: message as WAMessage },
+      [
+        `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
+        "│",
+        "├ 〔 grupo 〕",
+        `│  ♡ ${prefix}gp`,
+        `│  ♡ ${prefix}kick`,
+        `│  ♡ ${prefix}promote`,
+        `│  ♡ ${prefix}demote`,
+        `│  ♡ ${prefix}nomegp`,
+        `│  ♡ ${prefix}descgp`,
+        "│",
+        "├ 〔 bem-vindo 〕",
+        `│  ♡ ${prefix}bemvindo`,
+        `│  ♡ ${prefix}legendabv`,
+        `│  ♡ ${prefix}midiabv`,
+        "│",
+        "‧₊˚ ────────────────˚₊‧",
+      ].join("\n"),
+      message as WAMessage,
     );
   },
 };

@@ -16,6 +16,7 @@ export const paths = {
   lidCache: path.join(ROOT, "dados", "cache", "lid.json"),
   grupos:   path.join(ROOT, "dados", "grupos"),
   fotos:    path.join(ROOT, "dados", "fotos"),
+  assets:   path.join(SRC, "..", "assets"),
   commands: path.join(SRC, "..", "commands"),
   events:   path.join(SRC, "..", "events"),
 };

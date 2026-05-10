@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
+import { sendMenu } from "../../../helpers/sendMenu.js";
 
 const menuDonoCommand: Command = {
   name: "menudono",
@@ -15,19 +16,18 @@ const menuDonoCommand: Command = {
   async execute({ misa, message, from, prefix }) {
     const config = await getBotConfig();
 
-    await misa.sendMessage(
+    await sendMenu(
+      misa,
       from,
-      {
-        text: [
-          `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
-          "│",
-          "├ 〔 dono 〕",
-          `│  ♡ ${prefix}eval`,
-          "│",
-          "‧₊˚ ────────────────˚₊‧",
-        ].join("\n"),
-      },
-      { quoted: message as WAMessage },
+      [
+        `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
+        "│",
+        "├ 〔 dono 〕",
+        `│  ♡ ${prefix}eval`,
+        "│",
+        "‧₊˚ ────────────────˚₊‧",
+      ].join("\n"),
+      message as WAMessage,
     );
   },
 };
