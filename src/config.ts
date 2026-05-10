@@ -31,7 +31,7 @@ const defaultConfig: BotConfig = {
   autoUpdate: false,
   comandoNaoEncontrado: {
     modo: "texto",
-    texto: "❌ @usuario, o comando *@comando* não existe.\n\nTalvez você quis dizer: *@parecido* (@similaridade)\nUse *@prefixo*menu* para ver os comandos.",
+    texto: "❌ @usuario, o comando @comando não existe.\n\nTalvez você quis dizer: @parecido (@similaridade)\nUse @prefixomenu para ver os comandos.",
   },
 };
 
