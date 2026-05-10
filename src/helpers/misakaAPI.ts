@@ -10,7 +10,7 @@ export async function misakaAPI<T>(endpoint: string, params: Record<string, stri
   const config = await getBotConfig();
   
   if (!config.apiKey) {
-    throw new Error("API key não configurada. Configure em dados/owner/config.json");
+    throw new Error("API key não configurada. Configure em src/config.json");
   }
 
   const url = new URL(`${API_BASE_URL}${endpoint}`);

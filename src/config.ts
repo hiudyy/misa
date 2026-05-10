@@ -5,7 +5,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { paths } from "./config/paths.js";
 import { log } from "./logger.js";
 
 export type BotConfig = {
@@ -16,10 +15,6 @@ export type BotConfig = {
   ownerLID?: string;
   apiKey: string;
   autoUpdate: boolean;
-  comandoNaoEncontrado: {
-    modo: "texto" | "mencao";
-    texto: string;
-  };
 };
 
 const defaultConfig: BotConfig = {
@@ -29,15 +24,11 @@ const defaultConfig: BotConfig = {
   ownerNumber: "",
   apiKey: "",
   autoUpdate: false,
-  comandoNaoEncontrado: {
-    modo: "texto",
-    texto: "❌ @usuario, o comando @comando não existe.\n\nTalvez você quis dizer: @parecido (@similaridade)\nUse @prefixomenu para ver os comandos.",
-  },
 };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const legacyConfigPath = path.join(__dirname, "config.json");
+const configPath = path.join(__dirname, "config.json");
 
 async function readConfigFile(filePath: string): Promise<Partial<BotConfig> | null> {
   try {
@@ -53,21 +44,16 @@ async function readConfigFile(filePath: string): Promise<Partial<BotConfig> | nu
 }
 
 export async function getBotConfig(): Promise<BotConfig> {
-  const config = await readConfigFile(paths.ownerConfig) ?? await readConfigFile(legacyConfigPath);
+  const config = await readConfigFile(configPath);
 
   if (!config) return structuredClone(defaultConfig);
 
   return {
     ...defaultConfig,
     ...config,
-    comandoNaoEncontrado: {
-      ...defaultConfig.comandoNaoEncontrado,
-      ...config.comandoNaoEncontrado,
-    },
   };
 }
 
 export async function saveBotConfig(config: BotConfig): Promise<void> {
-  await fs.mkdir(paths.owner, { recursive: true });
-  await fs.writeFile(paths.ownerConfig, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+  await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, "utf8");
 }

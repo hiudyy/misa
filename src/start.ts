@@ -64,11 +64,16 @@ function keepOrUpdate(answer: string, currentValue: string): string {
   return value || currentValue;
 }
 
+async function askInput(rl: readline.Interface, label: string): Promise<string> {
+  console.log(label);
+  return rl.question(paint("  › ", "cyan", "bold"));
+}
+
 async function askBoolean(rl: readline.Interface, question: string, currentValue: boolean): Promise<boolean> {
   const currentLabel = currentValue ? "S" : "N";
 
   while (true) {
-    const answer = (await rl.question(`${question} [${currentLabel}] (s/y/N): `)).trim().toLowerCase();
+    const answer = (await askInput(rl, `${question} [${currentLabel}] (s/y/N)`)).trim().toLowerCase();
 
     if (!answer) return currentValue;
     if (["s", "sim", "y", "yes"].includes(answer)) return true;
@@ -137,20 +142,20 @@ async function askBotConfig(rl: readline.Interface): Promise<void> {
 
   showConfigHeader();
 
-  const botName = keepOrUpdate(await rl.question(`Nome do bot [${currentConfig.botName}]: `), currentConfig.botName);
+  const botName = keepOrUpdate(await askInput(rl, `Nome do bot [${currentConfig.botName}]`), currentConfig.botName);
   const ownerName = keepOrUpdate(
-    await rl.question(`Nome do dono [${currentConfig.ownerName}]: `),
+    await askInput(rl, `Nome do dono [${currentConfig.ownerName}]`),
     currentConfig.ownerName,
   );
-  const prefix = keepOrUpdate(await rl.question(`Prefixo do bot [${currentConfig.prefix}]: `), currentConfig.prefix);
+  const prefix = keepOrUpdate(await askInput(rl, `Prefixo do bot [${currentConfig.prefix}]`), currentConfig.prefix);
   const ownerNumber = keepOrUpdate(
-    await rl.question(`Numero do dono [${currentConfig.ownerNumber || "nao configurado"}]: `),
+    await askInput(rl, `Numero do dono [${currentConfig.ownerNumber || "nao configurado"}]`),
     currentConfig.ownerNumber,
   );
 
   console.log(`\n${paint("[CONFIG]", "cyan")} A API key pode ser obtida em ${paint("https://misaka.com.br", "yellow")}`);
   const apiKey = keepOrUpdate(
-    await rl.question(`API key [${currentConfig.apiKey ? "configurada" : "nao configurada"}]: `),
+    await askInput(rl, `API key [${currentConfig.apiKey ? "configurada" : "nao configurada"}]`),
     currentConfig.apiKey,
   );
   const autoUpdate = await askBoolean(rl, "Atualizacao automatica", currentConfig.autoUpdate);
@@ -172,7 +177,7 @@ async function askBotConfig(rl: readline.Interface): Promise<void> {
     paint("  ╭─────────────────────────────────────────────╮", "green"),
     paint("  │", "green") + paint("             CONFIGURACAO SALVA               ", "white", "bold") + paint("│", "green"),
     paint("  ├─────────────────────────────────────────────┤", "green"),
-    paint("  │", "green") + paint("   Arquivo atualizado: dados/owner/config.json", "gray") + paint("│", "green"),
+    paint("  │", "green") + paint("   Arquivo atualizado: src/config.json        ", "gray") + paint("│", "green"),
     paint("  ╰─────────────────────────────────────────────╯", "green"),
     "",
   ].join("\n"));

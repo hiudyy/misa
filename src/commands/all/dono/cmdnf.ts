@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
 const PARAMS = [
@@ -23,7 +23,7 @@ const cmdnfCommand: Command = {
   category: "all",
   ownerOnly: true,
   async execute({ misa, message, from, args }) {
-    const config = await getBotConfig();
+    const config = await getOwnerConfig();
 
     if (args.length === 0) {
       await misa.sendMessage(
@@ -63,7 +63,7 @@ const cmdnfCommand: Command = {
       }
 
       config.comandoNaoEncontrado.modo = modo;
-      await saveBotConfig(config);
+      await saveOwnerConfig(config);
 
       await misa.sendMessage(
         from,
@@ -96,7 +96,7 @@ const cmdnfCommand: Command = {
       }
 
       config.comandoNaoEncontrado.texto = args.slice(1).join(" ");
-      await saveBotConfig(config);
+      await saveOwnerConfig(config);
 
       await misa.sendMessage(
         from,

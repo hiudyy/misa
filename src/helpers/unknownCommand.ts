@@ -4,6 +4,7 @@
  */
 import { proto, WAMessage, WASocket } from "baileys";
 import { getBotConfig } from "../config.js";
+import { getOwnerConfig } from "../ownerConfig.js";
 
 type SimilarCommand = {
   name: string;
@@ -69,9 +70,9 @@ export async function sendUnknownCommandMessage(
   similar: SimilarCommand | null,
   message: proto.IWebMessageInfo,
 ): Promise<void> {
-  const config = await getBotConfig();
+  const [config, ownerConfig] = await Promise.all([getBotConfig(), getOwnerConfig()]);
 
-  if (config.comandoNaoEncontrado.modo === "mencao") {
+  if (ownerConfig.comandoNaoEncontrado.modo === "mencao") {
     await misa.sendMessage(
       from,
       {
@@ -86,7 +87,7 @@ export async function sendUnknownCommandMessage(
   const nome = getDisplayName(message, sender);
   const parecido = similar ? `${prefix}${similar.name}` : "nenhum";
   const similaridade = similar ? `${similar.percentage}%` : "0%";
-  const texto = config.comandoNaoEncontrado.texto
+  const texto = ownerConfig.comandoNaoEncontrado.texto
     .replace(/@usuario/g, `@${sender.split("@")[0]}`)
     .replace(/@nome/g, nome)
     .replace(/@comando/g, `${prefix}${commandName}`)
