@@ -22,6 +22,7 @@ const menuDlCommand: Command = {
         `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
         "│",
         "├ 〔 downloads 〕",
+        `│  ♡ ${prefix}play`,
         `│  ♡ ${prefix}tiktok`,
         `│  ♡ ${prefix}instagram`,
         `│  ♡ ${prefix}pinterest`,
