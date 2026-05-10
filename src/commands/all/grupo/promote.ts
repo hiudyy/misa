@@ -4,6 +4,7 @@
  */
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
+import { toLID } from "../../../helpers/toLID.js";
 
 const promoteCommand: Command = {
   name: "promote",
@@ -14,9 +15,9 @@ const promoteCommand: Command = {
   adminOnly: true,
   botAdminRequired: true,
   async execute({ misa, message, from }) {
-    const mentionedJid = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
+    const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     
-    if (!mentionedJid || mentionedJid.length === 0) {
+    if (!mentionedIds || mentionedIds.length === 0) {
       await misa.sendMessage(
         from,
         { text: "❌ Mencione o usuário que deseja promover.\n\nUso: promote @usuario" },
@@ -25,7 +26,15 @@ const promoteCommand: Command = {
       return;
     }
 
-    const userToPromote = mentionedJid[0];
+    const userToPromote = await toLID(mentionedIds[0], misa);
+    if (!userToPromote) {
+      await misa.sendMessage(
+        from,
+        { text: "❌ Não foi possível resolver o LID do usuário mencionado." },
+        { quoted: message as WAMessage },
+      );
+      return;
+    }
 
     try {
       await misa.groupParticipantsUpdate(from, [userToPromote], "promote");

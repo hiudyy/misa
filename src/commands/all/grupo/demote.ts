@@ -4,6 +4,7 @@
  */
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
+import { toLID } from "../../../helpers/toLID.js";
 
 const demoteCommand: Command = {
   name: "demote",
@@ -14,9 +15,9 @@ const demoteCommand: Command = {
   adminOnly: true,
   botAdminRequired: true,
   async execute({ misa, message, from }) {
-    const mentionedJid = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
+    const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     
-    if (!mentionedJid || mentionedJid.length === 0) {
+    if (!mentionedIds || mentionedIds.length === 0) {
       await misa.sendMessage(
         from,
         { text: "❌ Mencione o administrador que deseja rebaixar.\n\nUso: demote @usuario" },
@@ -25,7 +26,15 @@ const demoteCommand: Command = {
       return;
     }
 
-    const userToDemote = mentionedJid[0];
+    const userToDemote = await toLID(mentionedIds[0], misa);
+    if (!userToDemote) {
+      await misa.sendMessage(
+        from,
+        { text: "❌ Não foi possível resolver o LID do usuário mencionado." },
+        { quoted: message as WAMessage },
+      );
+      return;
+    }
 
     try {
       await misa.groupParticipantsUpdate(from, [userToDemote], "demote");

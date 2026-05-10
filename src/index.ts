@@ -71,12 +71,15 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     const rawSender = (isGroup ? message.key.participant : message.key.remoteJid) || "";
     const senderLID = rawSender ? await toLID(rawSender, misa) : null;
 
-    if (senderLID) {
-      if (isGroup && message.key.participant) message.key.participant = senderLID;
-      if (message.participant) message.participant = senderLID;
+    if (!senderLID) {
+      log.warn("COMMAND", `Ignorado porque nao foi possivel resolver LID: ${rawSender || "remetente vazio"}`);
+      return;
     }
 
-    const sender = senderLID ?? (rawSender || "desconhecido");
+    if (isGroup && message.key.participant) message.key.participant = senderLID;
+    if (message.participant) message.participant = senderLID;
+
+    const sender = senderLID;
 
     const body =
       message.message.conversation ||

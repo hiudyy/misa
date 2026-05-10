@@ -6,6 +6,7 @@ import { GroupParticipant, ParticipantAction } from "baileys";
 import { Event } from "../../types/Event.js";
 import { getGroup } from "../../database/groupDB.js";
 import { promises as fs } from "node:fs";
+import { toLID } from "../../helpers/toLID.js";
 
 type GroupParticipantsUpdateEvent = {
   id: string;
@@ -31,8 +32,10 @@ const welcomeEvent: Event<GroupParticipantsUpdateEvent> = {
     }
 
     for (const participant of data.participants) {
-      const jid = participant.id;
-      const numero = jid.split("@")[0];
+      const lid = await toLID(participant.id, misa);
+      if (!lid) continue;
+
+      const numero = lid.split("@")[0];
       const nomeGrupo = groupMeta?.subject ?? "";
       const total = String(groupMeta?.participants.length ?? 0);
       const desc = groupMeta?.desc ?? "";
@@ -52,13 +55,13 @@ const welcomeEvent: Event<GroupParticipantsUpdateEvent> = {
               video: buffer,
               caption: texto,
               gifPlayback: true,
-              mentions: [jid],
+              mentions: [lid],
             });
           } else {
             await misa.sendMessage(data.id, {
               image: buffer,
               caption: texto,
-              mentions: [jid],
+              mentions: [lid],
             });
           }
           continue;
@@ -69,7 +72,7 @@ const welcomeEvent: Event<GroupParticipantsUpdateEvent> = {
 
       await misa.sendMessage(data.id, {
         text: texto,
-        mentions: [jid],
+        mentions: [lid],
       });
     }
   },
