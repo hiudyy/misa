@@ -29,7 +29,16 @@ const antilinkchCommand: Command = {
       await saveGroup(from, { antilinkch: { ...config.antilinkch, ativo: novoEstado } });
       await misa.sendMessage(
         from,
-        { text: novoEstado ? "✅ Anti-link de canal *ativado* neste grupo!" : "❌ Anti-link de canal *desativado* neste grupo." },
+        {
+          text: [
+            novoEstado ? "✅ Anti-link de canal *ativado* neste grupo!" : "❌ Anti-link de canal *desativado* neste grupo.",
+            "",
+            "⚙️ Configurações:",
+            "• antilinkch punicao apagar",
+            "• antilinkch punicao banir",
+            "• antilinkch texto <mensagem>",
+          ].join("\n"),
+        },
         { quoted: message as WAMessage },
       );
       return;

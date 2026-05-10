@@ -29,7 +29,16 @@ const antilinkCommand: Command = {
       await saveGroup(from, { antilink: { ...config.antilink, ativo: novoEstado } });
       await misa.sendMessage(
         from,
-        { text: novoEstado ? "✅ Anti-link *ativado* neste grupo!" : "❌ Anti-link *desativado* neste grupo." },
+        {
+          text: [
+            novoEstado ? "✅ Anti-link *ativado* neste grupo!" : "❌ Anti-link *desativado* neste grupo.",
+            "",
+            "⚙️ Configurações:",
+            "• antilink punicao apagar",
+            "• antilink punicao banir",
+            "• antilink texto <mensagem>",
+          ].join("\n"),
+        },
         { quoted: message as WAMessage },
       );
       return;
