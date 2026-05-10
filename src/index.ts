@@ -13,6 +13,7 @@ import { groupCache } from "./cache/groupCache.js";
 import { toLID } from "./helpers/toLID.js";
 import { isOwner } from "./helpers/isOwner.js";
 import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
+import { applyAntiLink } from "./helpers/antiLink.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
 import { log } from "./logger.js";
@@ -88,7 +89,19 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       message.message.videoMessage?.caption ||
       "";
 
-    if (!body.startsWith(prefix)) return;
+    const isCommandMessage = body.startsWith(prefix);
+    if (isGroup && !isCommandMessage) {
+      const userIsOwner = await isOwner(sender);
+      const userIsAdmin = userIsOwner ? true : await isAdmin(from, sender, misa);
+      const botIsAdmin = await isBotAdmin(from, misa);
+
+      if (!userIsOwner && !userIsAdmin && botIsAdmin) {
+        const handled = await applyAntiLink(misa, message as proto.IWebMessageInfo, from, sender);
+        if (handled) return;
+      }
+    }
+
+    if (!isCommandMessage) return;
 
     const [rawCommandName, ...args] = body.slice(prefix.length).trim().split(/\s+/);
     const commandName = rawCommandName?.toLowerCase();
