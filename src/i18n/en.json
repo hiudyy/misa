@@ -181,11 +181,14 @@
       "footer": "Powered By Misa."
     },
     "sticker": {
-      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s\n│\n│   send or reply to a video with:\n│   sticker\n│\n╰─ Video limit: up to 15 seconds",
+      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s\n│\n│   send or reply to a video with:\n│   sticker\n│\n╰─ Result: square sticker",
       "creating": "🪄 Creating sticker...",
       "videoTooLong": "❌ The video must be at most {{max}} seconds.",
       "error": "❌ Error creating sticker: {{message}}",
       "unknown": "Unknown error"
+    },
+    "sticker2": {
+      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s2\n│\n│   send or reply to a video with:\n│   sticker2\n│\n╰─ Result: keeps the original format"
     },
     "brat": {
       "usage": "╭─「 *BRAT* 」\n│\n│ ✦ How to use:\n│   brat <text>\n│\n╰─ Example:\n   brat i told you",
@@ -219,6 +222,7 @@
         "menuadm": "adminmenu",
         "menudono": "ownermenu",
         "sticker": "sticker",
+        "sticker2": "sticker2",
         "play": "play",
         "ytmp3": "ytmp3",
         "playvid": "playvid",

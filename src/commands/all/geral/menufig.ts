@@ -23,6 +23,7 @@ const menuFigCommand: Command = {
         "│",
         `├ 〔 ${t("commands.menu.categories.fig")} 〕`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.sticker")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.sticker2")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.brat")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.brat2")}`,
         "│",
