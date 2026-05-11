@@ -196,6 +196,9 @@
         "menuadm": "menuadm",
         "menudono": "menudono",
         "play": "play",
+        "ytmp3": "ytmp3",
+        "playvid": "playvid",
+        "ytmp4": "ytmp4",
         "tiktok": "tiktok",
         "instagram": "instagram",
         "pinterest": "pinterest",
@@ -231,6 +234,31 @@
       "error": "❌ Erro: {{message}}",
       "unknown": "Erro desconhecido",
       "author": "Desconhecido"
+    },
+    "ytmp3": {
+      "usage": "╭─「 *YTMP3* 」\n│\n│ ✦ Download:\n│   ytmp3 <link do YouTube>\n\n╰─ Exemplos:\n   ytmp3 https://youtube.com/watch?v=...\n   ytmp3 https://youtu.be/...\n   ytmp3 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ URL inválida. Use um link do YouTube.",
+      "downloading": "⬇️ Baixando áudio do YouTube...",
+      "error": "❌ Erro: {{message}}",
+      "unknown": "Erro desconhecido"
+    },
+    "playvid": {
+      "usage": "╭─「 *PLAYVID* 」\n│\n│ ✦ Pesquisa:\n│   playvid <nome do vídeo>\n│   pv <nome do vídeo>\n\n╰─ Exemplo:\n   playvid michael jackson thriller",
+      "searching": "🔍 Pesquisando vídeo...",
+      "notFound": "❌ Nenhum resultado encontrado.",
+      "channel": "Canal",
+      "duration": "Duração",
+      "views": "Views",
+      "downloading": "⬇️ Baixando vídeo...",
+      "error": "❌ Erro: {{message}}",
+      "unknown": "Erro desconhecido"
+    },
+    "ytmp4": {
+      "usage": "╭─「 *YTMP4* 」\n│\n│ ✦ Download:\n│   ytmp4 <link do YouTube>\n\n╰─ Exemplos:\n   ytmp4 https://youtube.com/watch?v=...\n   ytmp4 https://youtu.be/...\n   ytmp4 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ URL inválida. Use um link do YouTube.",
+      "downloading": "⬇️ Baixando vídeo do YouTube...",
+      "error": "❌ Erro: {{message}}",
+      "unknown": "Erro desconhecido"
     },
     "tiktok": {
       "usage": "╭─「 *TIKTOK* 」\n│\n│ ✦ Download:\n│   tiktok <url>\n│\n│ ✦ Pesquisa:\n│   tiktok <termo>\n│\n╰─ Exemplos:\n   tiktok https://vm.tiktok.com/...\n   tiktok dança viral",
