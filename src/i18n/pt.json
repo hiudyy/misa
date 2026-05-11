@@ -178,10 +178,28 @@
       "ownerStatus": "Status: Dono",
       "footer": "Powered By Misa."
     },
+    "sticker": {
+      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ Como usar:\n│   envie ou responda uma foto com:\n│   s\n│\n│   envie ou responda um vídeo com:\n│   sticker\n│\n╰─ Limite de vídeo: até 15 segundos",
+      "creating": "🪄 Criando figurinha...",
+      "videoTooLong": "❌ O vídeo precisa ter no máximo {{max}} segundos.",
+      "error": "❌ Erro ao criar figurinha: {{message}}",
+      "unknown": "Erro desconhecido"
+    },
+    "brat": {
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Como usar:\n│   brat <texto>\n│\n╰─ Exemplo:\n   brat eu te disse",
+      "creating": "🖼️ Gerando figurinha brat...",
+      "error": "❌ Erro ao criar brat: {{message}}",
+      "empty": "A API retornou uma imagem vazia.",
+      "unknown": "Erro desconhecido"
+    },
+    "brat2": {
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Como usar:\n│   brat2 <texto>\n│\n╰─ Exemplo:\n   brat2 hoje eu sumo"
+    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
         "geral": "geral",
+        "fig": "figurinhas",
         "downloads": "downloads",
         "grupo": "grupo",
         "owner": "dono",
@@ -191,10 +209,14 @@
       "cmds": {
         "ping": "ping",
         "menugeral": "menugeral",
+        "menufig": "menufig",
+        "brat": "brat",
+        "brat2": "brat2",
         "menudl": "menudl",
         "menugrupo": "menugrupo",
         "menuadm": "menuadm",
         "menudono": "menudono",
+        "sticker": "sticker",
         "play": "play",
         "ytmp3": "ytmp3",
         "playvid": "playvid",

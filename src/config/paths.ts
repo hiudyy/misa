@@ -15,6 +15,7 @@ export const paths = {
   ownerConfig: path.join(ROOT, "dados", "owner", "config.json"),
   auth:     path.join(ROOT, "dados", "misa-qr"),
   cache:    path.join(ROOT, "dados", "cache"),
+  tmp:      path.join(ROOT, "dados", "tmp"),
   lidCache: path.join(ROOT, "dados", "cache", "lid.json"),
   grupos:   path.join(ROOT, "dados", "grupos"),
   fotos:    path.join(ROOT, "dados", "fotos"),

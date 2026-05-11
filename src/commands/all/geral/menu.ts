@@ -22,6 +22,7 @@ const menuCommand: Command = {
         t("commands.menu.mainTitle", { botName: config.botName }),
         "│",
         `│  ♡ ${prefix}${t("commands.menu.cmds.menugeral")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.menufig")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menudl")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menugrupo")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menuadm")}`,

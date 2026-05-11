@@ -7,10 +7,10 @@ import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
 import { sendMenu } from "../../../helpers/sendMenu.js";
 
-const menuGeralCommand: Command = {
-  name: "menugeral",
-  aliases: ["mgeral", "generalmenu", "menugeneral"],
-  description: "Mostra os comandos gerais",
+const menuFigCommand: Command = {
+  name: "menufig",
+  aliases: ["mfig", "menusticker", "figmenu"],
+  description: "Mostra os comandos de figurinha",
   category: "geral",
   async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
@@ -21,9 +21,10 @@ const menuGeralCommand: Command = {
       [
         t("commands.menu.mainTitle", { botName: config.botName }),
         "│",
-        `├ 〔 ${t("commands.menu.categories.geral")} 〕`,
-        `│  ♡ ${prefix}${t("commands.menu.cmds.ping")}`,
-        `│  ♡ ${prefix}${t("commands.menu.cmds.menufig")}`,
+        `├ 〔 ${t("commands.menu.categories.fig")} 〕`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.sticker")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.brat")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.brat2")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),
@@ -32,4 +33,4 @@ const menuGeralCommand: Command = {
   },
 };
 
-export default menuGeralCommand;
+export default menuFigCommand;

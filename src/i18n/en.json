@@ -180,10 +180,28 @@
       "ownerStatus": "Status: Owner",
       "footer": "Powered By Misa."
     },
+    "sticker": {
+      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s\n│\n│   send or reply to a video with:\n│   sticker\n│\n╰─ Video limit: up to 15 seconds",
+      "creating": "🪄 Creating sticker...",
+      "videoTooLong": "❌ The video must be at most {{max}} seconds.",
+      "error": "❌ Error creating sticker: {{message}}",
+      "unknown": "Unknown error"
+    },
+    "brat": {
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ How to use:\n│   brat <text>\n│\n╰─ Example:\n   brat i told you",
+      "creating": "🖼️ Generating brat sticker...",
+      "error": "❌ Error creating brat: {{message}}",
+      "empty": "The API returned an empty image.",
+      "unknown": "Unknown error"
+    },
+    "brat2": {
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ How to use:\n│   brat2 <text>\n│\n╰─ Example:\n   brat2 today i disappear"
+    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
         "geral": "general",
+        "fig": "stickers",
         "downloads": "downloads",
         "grupo": "group",
         "owner": "owner",
@@ -193,10 +211,14 @@
       "cmds": {
         "ping": "ping",
         "menugeral": "generalmenu",
+        "menufig": "stickermenu",
+        "brat": "brat",
+        "brat2": "brat2",
         "menudl": "dlmenu",
         "menugrupo": "groupmenu",
         "menuadm": "adminmenu",
         "menudono": "ownermenu",
+        "sticker": "sticker",
         "play": "play",
         "ytmp3": "ytmp3",
         "playvid": "playvid",
