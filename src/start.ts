@@ -10,6 +10,7 @@ import { startBot } from "./index.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
 import { runAutoUpdate } from "./helpers/autoUpdate.js";
+import { getGlobalLocale, createTranslator } from "./i18n/index.js";
 
 const shouldAnimate = output.isTTY;
 const version = packageInfo.version;
@@ -69,21 +70,25 @@ async function askInput(rl: readline.Interface, label: string): Promise<string> 
   return rl.question(paint("  › ", "cyan", "bold"));
 }
 
-async function askBoolean(rl: readline.Interface, question: string, currentValue: boolean): Promise<boolean> {
-  const currentLabel = currentValue ? "S" : "N";
+async function askBoolean(rl: readline.Interface, question: string, currentValue: boolean, t: any): Promise<boolean> {
+  const currentLabel = currentValue ? t("common.yes")[0].toUpperCase() : t("common.no")[0].toUpperCase();
 
   while (true) {
-    const answer = (await askInput(rl, `${question} [${currentLabel}] (s/y/N)`)).trim().toLowerCase();
+    const answer = (await askInput(rl, `${question} [${currentLabel}] ${t("terminal.config.boolPrompt")}`)).trim().toLowerCase();
 
     if (!answer) return currentValue;
-    if (["s", "sim", "y", "yes"].includes(answer)) return true;
-    if (["n", "nao", "não", "no"].includes(answer)) return false;
+    
+    const boolYes = t("terminal.boolYes").split("|");
+    const boolNo = t("terminal.boolNo").split("|");
 
-    log.warn("CONFIG", "Responda com s/y para sim, n para nao, ou Enter para manter.");
+    if (boolYes.includes(answer)) return true;
+    if (boolNo.includes(answer)) return false;
+
+    log.warn("CONFIG", t("terminal.config.boolInvalid"));
   }
 }
 
-async function showIntro(): Promise<void> {
+async function showIntro(t: any): Promise<void> {
   clearTerminal();
 
   const banner = [
@@ -102,63 +107,65 @@ async function showIntro(): Promise<void> {
   console.log("");
   await sleep(400);
 
-  await typeLine(paint("  Inicializando...", "gray", "dim"), 22);
+  await typeLine(paint(t("terminal.initializing"), "gray", "dim"), 22);
   await sleep(900);
   clearTerminal();
 }
 
-function showMenu(): void {
+function showMenu(t: any): void {
   console.log([
     "",
     paint("  ╭─────────────────────────────────────────────╮", "magenta"),
-    paint("  │", "magenta") + paint("                     MISA                     ", "white", "bold") + paint("│", "magenta"),
-    paint("  │", "magenta") + paint(`             versao ${version.padEnd(25)}`, "gray") + paint("│", "magenta"),
+    paint("  │", "magenta") + paint("                     " + t("terminal.menu.title").padEnd(25) + " ", "white", "bold") + paint("│", "magenta"),
+    paint("  │", "magenta") + paint(`             ${t("terminal.menu.version")} ${version.padEnd(18)}`, "gray") + paint("│", "magenta"),
     paint("  ├─────────────────────────────────────────────┤", "magenta"),
     paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
-    paint("  │", "magenta") + `   ${paint(" 1 ", "magenta", "bold")}  ${paint("Configurar bot", "white")}                          ` + paint("│", "magenta"),
-    paint("  │", "magenta") + `   ${paint(" 2 ", "magenta", "bold")}  ${paint("Iniciar bot", "white")}                             ` + paint("│", "magenta"),
-    paint("  │", "magenta") + `   ${paint(" 0 ", "gray", "bold")}  ${paint("Sair", "gray")}                                    ` + paint("│", "magenta"),
+    paint("  │", "magenta") + `   ${paint(" 1 ", "magenta", "bold")}  ${paint(t("terminal.menu.configure").padEnd(35), "white")}  ` + paint("│", "magenta"),
+    paint("  │", "magenta") + `   ${paint(" 2 ", "magenta", "bold")}  ${paint(t("terminal.menu.start").padEnd(35), "white")}  ` + paint("│", "magenta"),
+    paint("  │", "magenta") + `   ${paint(" 0 ", "gray", "bold")}  ${paint(t("terminal.menu.exit").padEnd(35), "gray")}  ` + paint("│", "magenta"),
     paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
     paint("  ╰─────────────────────────────────────────────╯", "magenta"),
     "",
   ].join("\n"));
 }
 
-function showConfigHeader(): void {
+function showConfigHeader(t: any): void {
   clearTerminal();
   console.log([
     "",
     paint("  ╭─────────────────────────────────────────────╮", "cyan"),
-    paint("  │", "cyan") + paint("               CONFIGURAR BOT                 ", "white", "bold") + paint("│", "cyan"),
+    paint("  │", "cyan") + paint(t("terminal.config.header").padStart(30).padEnd(46), "white", "bold") + paint("│", "cyan"),
     paint("  ├─────────────────────────────────────────────┤", "cyan"),
-    paint("  │", "cyan") + paint("   Pressione Enter para manter o valor atual  ", "gray") + paint("│", "cyan"),
+    paint("  │", "cyan") + paint(t("terminal.config.pressEnter").padEnd(47), "gray") + paint("│", "cyan"),
     paint("  ╰─────────────────────────────────────────────╯", "cyan"),
     "",
   ].join("\n"));
 }
 
-async function askBotConfig(rl: readline.Interface): Promise<void> {
+async function askBotConfig(rl: readline.Interface, t: any): Promise<void> {
   const currentConfig = await getBotConfig();
 
-  showConfigHeader();
+  showConfigHeader(t);
 
-  const botName = keepOrUpdate(await askInput(rl, `Nome do bot [${currentConfig.botName}]`), currentConfig.botName);
+  const botName = keepOrUpdate(await askInput(rl, `${t("terminal.config.botName")} [${currentConfig.botName}]`), currentConfig.botName);
   const ownerName = keepOrUpdate(
-    await askInput(rl, `Nome do dono [${currentConfig.ownerName}]`),
+    await askInput(rl, `${t("terminal.config.ownerName")} [${currentConfig.ownerName}]`),
     currentConfig.ownerName,
   );
-  const prefix = keepOrUpdate(await askInput(rl, `Prefixo do bot [${currentConfig.prefix}]`), currentConfig.prefix);
+  const prefix = keepOrUpdate(await askInput(rl, `${t("terminal.config.prefix")} [${currentConfig.prefix}]`), currentConfig.prefix);
   const ownerNumber = keepOrUpdate(
-    await askInput(rl, `Numero do dono [${currentConfig.ownerNumber || "nao configurado"}]`),
+    await askInput(rl, `${t("terminal.config.ownerNumber")} [${currentConfig.ownerNumber || t("terminal.config.notConfigured")}]`),
     currentConfig.ownerNumber,
   );
 
-  console.log(`\n${paint("[CONFIG]", "cyan")} A API key pode ser obtida em ${paint("https://misaka.com.br", "yellow")}`);
+  console.log(`\n${t("terminal.config.apiKeyHint").replace("[CONFIG]", paint("[CONFIG]", "cyan")).replace("https://misaka.com.br", paint("https://misaka.com.br", "yellow"))}`);
   const apiKey = keepOrUpdate(
-    await askInput(rl, `API key [${currentConfig.apiKey ? "configurada" : "nao configurada"}]`),
+    await askInput(rl, `${t("terminal.config.apiKey")} [${currentConfig.apiKey ? t("terminal.config.configured") : t("terminal.config.notConfigured")}]`),
     currentConfig.apiKey,
   );
-  const autoUpdate = await askBoolean(rl, "Atualizacao automatica", currentConfig.autoUpdate);
+  const autoUpdate = await askBoolean(rl, t("terminal.config.autoUpdate"), currentConfig.autoUpdate, t);
+  const rawLang = keepOrUpdate(await askInput(rl, `${t("terminal.config.language")} ${t("terminal.config.languageHint")} [${currentConfig.language || "pt"}]`), currentConfig.language || "pt");
+  const language = ["pt", "es", "en"].includes(rawLang.toLowerCase()) ? rawLang.toLowerCase() as "pt" | "es" | "en" : currentConfig.language || "pt";
 
   const nextConfig: BotConfig = {
     ...currentConfig,
@@ -168,6 +175,7 @@ async function askBotConfig(rl: readline.Interface): Promise<void> {
     ownerNumber,
     apiKey,
     autoUpdate,
+    language,
   };
 
   await saveBotConfig(nextConfig);
@@ -175,9 +183,9 @@ async function askBotConfig(rl: readline.Interface): Promise<void> {
   console.log([
     "",
     paint("  ╭─────────────────────────────────────────────╮", "green"),
-    paint("  │", "green") + paint("             CONFIGURACAO SALVA               ", "white", "bold") + paint("│", "green"),
+    paint("  │", "green") + paint(t("terminal.config.saved").padStart(33).padEnd(46), "white", "bold") + paint("│", "green"),
     paint("  ├─────────────────────────────────────────────┤", "green"),
-    paint("  │", "green") + paint("   Arquivo atualizado: src/config.json        ", "gray") + paint("│", "green"),
+    paint("  │", "green") + paint(t("terminal.config.fileUpdated").padEnd(47), "gray") + paint("│", "green"),
     paint("  ╰─────────────────────────────────────────────╯", "green"),
     "",
   ].join("\n"));
@@ -189,25 +197,30 @@ async function main(): Promise<void> {
   const rl = readline.createInterface({ input, output });
 
   try {
-    await showIntro();
+    const globalLocale = await getGlobalLocale();
+    let t = createTranslator(globalLocale);
+
+    await showIntro(t);
 
     const config = await getBotConfig();
     if (config.autoUpdate) await runAutoUpdate();
 
     while (true) {
-      showMenu();
+      showMenu(t);
 
-      const option = (await rl.question(paint("  › Escolha uma opcao: ", "magenta", "bold"))).trim();
+      const option = (await rl.question(paint(t("terminal.menu.chooseOption"), "magenta", "bold"))).trim();
 
       if (option === "0") {
         clearTerminal();
-        log.info("MISA", "Ate logo.");
+        log.info("MISA", t("terminal.goodbye"));
         rl.close();
         process.exit(0);
       }
 
       if (option === "1") {
-        await askBotConfig(rl);
+        await askBotConfig(rl, t);
+        const newLocale = await getGlobalLocale();
+        t = createTranslator(newLocale);
         continue;
       }
 
@@ -217,7 +230,7 @@ async function main(): Promise<void> {
         
         if (hasSession) {
           clearTerminal();
-          log.info("MISA", "Sessao existente detectada. Conectando automaticamente...");
+          log.info("MISA", t("terminal.sessionDetected"));
           await startBot("qr");
           return;
         }
@@ -226,18 +239,18 @@ async function main(): Promise<void> {
         console.log([
           "",
           paint("  ╭─────────────────────────────────────────────╮", "magenta"),
-          paint("  │", "magenta") + paint("              METODO DE CONEXAO               ", "white", "bold") + paint("│", "magenta"),
+          paint("  │", "magenta") + paint(t("terminal.connection.title").padStart(33).padEnd(46), "white", "bold") + paint("│", "magenta"),
           paint("  ├─────────────────────────────────────────────┤", "magenta"),
           paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
-          paint("  │", "magenta") + `   ${paint(" 1 ", "magenta", "bold")}  ${paint("QR Code", "white")}                                 ` + paint("│", "magenta"),
-          paint("  │", "magenta") + `   ${paint(" 2 ", "magenta", "bold")}  ${paint("Pairing Code", "white")} ${paint("(numero de telefone)", "gray")}      ` + paint("│", "magenta"),
-          paint("  │", "magenta") + `   ${paint(" 0 ", "gray", "bold")}  ${paint("Voltar", "gray")}                                  ` + paint("│", "magenta"),
+          paint("  │", "magenta") + `   ${paint(" 1 ", "magenta", "bold")}  ${paint(t("terminal.connection.qr").padEnd(40), "white")} ` + paint("│", "magenta"),
+          paint("  │", "magenta") + `   ${paint(" 2 ", "magenta", "bold")}  ${paint(t("terminal.connection.pairing").padEnd(16), "white")} ${paint(t("terminal.connection.pairingHint").padEnd(23), "gray")} ` + paint("│", "magenta"),
+          paint("  │", "magenta") + `   ${paint(" 0 ", "gray", "bold")}  ${paint(t("terminal.connection.back").padEnd(40), "gray")} ` + paint("│", "magenta"),
           paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
           paint("  ╰─────────────────────────────────────────────╯", "magenta"),
           "",
         ].join("\n"));
 
-        const connOption = (await rl.question(paint("  › Escolha uma opcao: ", "magenta", "bold"))).trim();
+        const connOption = (await rl.question(paint(t("terminal.menu.chooseOption"), "magenta", "bold"))).trim();
 
         if (connOption === "0") {
           clearTerminal();
@@ -251,9 +264,9 @@ async function main(): Promise<void> {
         }
 
         if (connOption === "2") {
-          const phone = (await rl.question(paint("  › Numero com DDI (ex: 5511999999999): ", "cyan", "bold"))).trim().replace(/\D/g, "");
+          const phone = (await rl.question(paint(t("terminal.connection.phonePrompt"), "cyan", "bold"))).trim().replace(/\D/g, "");
           if (!phone) {
-            log.warn("MISA", "Numero invalido.");
+            log.warn("MISA", t("terminal.invalidPhone"));
             await sleep(1000);
             clearTerminal();
             continue;
@@ -263,13 +276,13 @@ async function main(): Promise<void> {
           return;
         }
 
-        log.warn("MISA", "Opcao invalida. Tente novamente.");
+        log.warn("MISA", t("terminal.invalidOption"));
         await sleep(1000);
         clearTerminal();
         continue;
       }
 
-      log.warn("MISA", "Opcao invalida. Tente novamente.");
+      log.warn("MISA", t("terminal.invalidOption"));
       await sleep(1000);
       clearTerminal();
     }
@@ -278,11 +291,14 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
+  const globalLocale = await getGlobalLocale();
+  const t = createTranslator(globalLocale);
+
   if ((error as NodeJS.ErrnoException).code === "ABORT_ERR") {
-    log.warn("MISA", "Start cancelado.");
+    log.warn("MISA", t("terminal.startCancelled"));
     return;
   }
 
-  log.error("MISA", "Falha no start.", error);
+  log.error("MISA", t("terminal.startFailed"), error);
 });

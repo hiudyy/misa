@@ -21,7 +21,7 @@ const antilinkchCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     const config = await getGroup(from);
 
     if (args.length === 0) {
@@ -30,14 +30,7 @@ const antilinkchCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: [
-            novoEstado ? "✅ Anti-link de canal *ativado* neste grupo!" : "❌ Anti-link de canal *desativado* neste grupo.",
-            "",
-            "⚙️ Configurações:",
-            "• antilinkch punicao apagar",
-            "• antilinkch punicao banir",
-            "• antilinkch texto <mensagem>",
-          ].join("\n"),
+          text: novoEstado ? t("commands.antilinkch.enabled") : t("commands.antilinkch.disabled") + "\n\n" + t("commands.antilinkch.settingsHint"),
         },
         { quoted: message as WAMessage },
       );
@@ -51,7 +44,7 @@ const antilinkchCommand: Command = {
       if (punicao !== "apagar" && punicao !== "banir") {
         await misa.sendMessage(
           from,
-          { text: "❌ Use: antilinkch punicao apagar | banir" },
+          { text: t("commands.antilinkch.invalidPunishment") },
           { quoted: message as WAMessage },
         );
         return;
@@ -60,7 +53,7 @@ const antilinkchCommand: Command = {
       await saveGroup(from, { antilinkch: { ...config.antilinkch, punicao } });
       await misa.sendMessage(
         from,
-        { text: `✅ Punição do anti-link de canal atualizada para *${punicao}*.` },
+        { text: t("commands.antilinkch.punishmentUpdated", { value: punicao }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -71,17 +64,10 @@ const antilinkchCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: [
-              "╭─「 *TEXTO ANTILINK CH* 」",
-              "│",
-              "│ *Parâmetros disponíveis:*",
-              `│ ${PARAMS}`,
-              "│",
-              "│ *Texto atual:*",
-              `│ ${config.antilinkch.texto}`,
-              "│",
-              "╰─ Use: antilinkch texto <mensagem>",
-            ].join("\n"),
+            text: t("commands.antilinkch.textHeader", {
+              params: t("commands.antilinkch.params"),
+              current: config.antilinkch.texto,
+            }),
           },
           { quoted: message as WAMessage },
         );
@@ -92,7 +78,7 @@ const antilinkchCommand: Command = {
       await saveGroup(from, { antilinkch: { ...config.antilinkch, texto } });
       await misa.sendMessage(
         from,
-        { text: `✅ Texto do anti-link de canal atualizado!\n\n${texto}` },
+        { text: t("commands.antilinkch.textUpdated", { text: texto }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -101,14 +87,7 @@ const antilinkchCommand: Command = {
     await misa.sendMessage(
       from,
       {
-        text: [
-          "╭─「 *ANTILINK CH* 」",
-          "│",
-          "│ antilinkch",
-          "│ antilinkch punicao apagar",
-          "│ antilinkch punicao banir",
-          "│ antilinkch texto <mensagem>",
-        ].join("\n"),
+        text: t("commands.antilinkch.usage"),
       },
       { quoted: message as WAMessage },
     );

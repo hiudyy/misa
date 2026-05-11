@@ -7,17 +7,17 @@ import { Command } from "../../../types/Command.js";
 
 const descGpCommand: Command = {
   name: "descgp",
-  aliases: ["descricao", "descricaogp"],
+  aliases: ["descricao", "descricaogp", "groupdesc", "descgrupo"],
   description: "Muda a descrição do grupo",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
-        { text: "❌ Informe a nova descrição.\n\nUso: descgp <descrição>" },
+        { text: t("commands.descgp.noArgs") },
         { quoted: message as WAMessage },
       );
       return;
@@ -27,7 +27,7 @@ const descGpCommand: Command = {
     await misa.groupUpdateDescription(from, novaDesc);
     await misa.sendMessage(
       from,
-      { text: `✅ Descrição do grupo atualizada!` },
+      { text: t("commands.descgp.success") },
       { quoted: message as WAMessage },
     );
   },

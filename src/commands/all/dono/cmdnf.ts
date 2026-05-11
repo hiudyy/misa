@@ -22,27 +22,18 @@ const cmdnfCommand: Command = {
   description: "Configura a mensagem de comando não encontrado",
   category: "all",
   ownerOnly: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     const config = await getOwnerConfig();
 
     if (args.length === 0) {
       await misa.sendMessage(
         from,
         {
-          text: [
-            "╭─「 *CMDNF* 」",
-            "│",
-            `│ *Modo atual:* ${config.comandoNaoEncontrado.modo}`,
-            `│ *Texto atual:* ${config.comandoNaoEncontrado.texto}`,
-            "│",
-            "│ *Parâmetros disponíveis:*",
-            `│ ${PARAMS}`,
-            "│",
-            "│ *Usos:*",
-            "│ cmdnf modo texto",
-            "│ cmdnf modo mencao",
-            "│ cmdnf texto <mensagem>",
-          ].join("\n"),
+          text: t("commands.cmdnf.header", {
+            mode: config.comandoNaoEncontrado.modo,
+            text: config.comandoNaoEncontrado.texto,
+            params: t("commands.cmdnf.params"),
+          }),
         },
         { quoted: message as WAMessage },
       );
@@ -56,7 +47,7 @@ const cmdnfCommand: Command = {
       if (modo !== "texto" && modo !== "mencao") {
         await misa.sendMessage(
           from,
-          { text: "❌ Use: cmdnf modo texto | mencao" },
+          { text: t("commands.cmdnf.invalidMode") },
           { quoted: message as WAMessage },
         );
         return;
@@ -67,7 +58,7 @@ const cmdnfCommand: Command = {
 
       await misa.sendMessage(
         from,
-        { text: `✅ Modo de comando não encontrado atualizado para *${modo}*.` },
+        { text: t("commands.cmdnf.modeUpdated", { mode: modo }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -78,17 +69,10 @@ const cmdnfCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: [
-              "╭─「 *TEXTO CMDNF* 」",
-              "│",
-              "│ *Parâmetros disponíveis:*",
-              `│ ${PARAMS}`,
-              "│",
-              "│ *Texto atual:*",
-              `│ ${config.comandoNaoEncontrado.texto}`,
-              "│",
-              "╰─ Use: cmdnf texto <mensagem>",
-            ].join("\n"),
+            text: t("commands.cmdnf.textHeader", {
+              current: config.comandoNaoEncontrado.texto,
+              params: t("commands.cmdnf.params"),
+            }),
           },
           { quoted: message as WAMessage },
         );
@@ -100,7 +84,7 @@ const cmdnfCommand: Command = {
 
       await misa.sendMessage(
         from,
-        { text: `✅ Texto de comando não encontrado atualizado!\n\n${config.comandoNaoEncontrado.texto}` },
+        { text: t("commands.cmdnf.textUpdated", { text: config.comandoNaoEncontrado.texto }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -109,13 +93,7 @@ const cmdnfCommand: Command = {
     await misa.sendMessage(
       from,
       {
-        text: [
-          "╭─「 *CMDNF* 」",
-          "│",
-          "│ cmdnf modo texto",
-          "│ cmdnf modo mencao",
-          "│ cmdnf texto <mensagem>",
-        ].join("\n"),
+        text: t("commands.cmdnf.usage"),
       },
       { quoted: message as WAMessage },
     );

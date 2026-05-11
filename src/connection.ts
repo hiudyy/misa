@@ -16,6 +16,7 @@ import { paths } from "./config/paths.js";
 import { groupCache } from "./cache/groupCache.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
+import { getGlobalLocale, createTranslator } from "./i18n/index.js";
 
 const logger = pino({ level: "silent" });
 
@@ -26,112 +27,120 @@ type DisconnectInfo = {
   shouldReconnect: boolean;
 };
 
-function getDisconnectInfo(statusCode?: number): DisconnectInfo {
+function getDisconnectInfo(statusCode: number | undefined, t: any): DisconnectInfo {
   switch (statusCode) {
     case DisconnectReason.loggedOut:
       return {
-        title: "Sessao desconectada",
-        description: "O WhatsApp encerrou esta sessao ou ela foi removida dos aparelhos conectados.",
-        action: "Vou limpar a sessao local. Inicie novamente para gerar um novo QR.",
+        title: t("connection.disconnect.loggedOut.title"),
+        description: t("connection.disconnect.loggedOut.description"),
+        action: t("connection.disconnect.loggedOut.action"),
         shouldReconnect: false,
       };
     case DisconnectReason.forbidden:
       return {
-        title: "Acesso negado",
-        description: "O WhatsApp recusou a conexao desta sessao.",
-        action: "Confira as credenciais, aguarde alguns minutos e gere uma nova sessao se continuar falhando.",
+        title: t("connection.disconnect.forbidden.title"),
+        description: t("connection.disconnect.forbidden.description"),
+        action: t("connection.disconnect.forbidden.action"),
         shouldReconnect: false,
       };
     case DisconnectReason.connectionLost:
       return {
-        title: "Conexao perdida ou expirada",
-        description: "A rede caiu, oscilou ou a tentativa demorou demais para responder.",
-        action: "Vou tentar reconectar automaticamente.",
+        title: t("connection.disconnect.connectionLost.title"),
+        description: t("connection.disconnect.connectionLost.description"),
+        action: t("connection.disconnect.connectionLost.action"),
         shouldReconnect: true,
       };
     case DisconnectReason.multideviceMismatch:
       return {
-        title: "Incompatibilidade multi-device",
-        description: "A sessao nao bate com o protocolo multi-device esperado pelo WhatsApp.",
-        action: "Atualize o Baileys/dependencias e gere uma nova sessao se necessario.",
+        title: t("connection.disconnect.multideviceMismatch.title"),
+        description: t("connection.disconnect.multideviceMismatch.description"),
+        action: t("connection.disconnect.multideviceMismatch.action"),
         shouldReconnect: false,
       };
     case DisconnectReason.connectionClosed:
       return {
-        title: "Conexao fechada",
-        description: "A conexao foi fechada pelo WhatsApp ou pela rede.",
-        action: "Vou tentar reconectar automaticamente.",
+        title: t("connection.disconnect.connectionClosed.title"),
+        description: t("connection.disconnect.connectionClosed.description"),
+        action: t("connection.disconnect.connectionClosed.action"),
         shouldReconnect: true,
       };
     case DisconnectReason.connectionReplaced:
       return {
-        title: "Conexao substituida",
-        description: "Outra instancia conectou usando a mesma sessao.",
-        action: "Feche a outra instancia antes de iniciar esta novamente.",
+        title: t("connection.disconnect.connectionReplaced.title"),
+        description: t("connection.disconnect.connectionReplaced.description"),
+        action: t("connection.disconnect.connectionReplaced.action"),
         shouldReconnect: false,
       };
     case DisconnectReason.badSession:
       return {
-        title: "Sessao invalida",
-        description: "Os arquivos de autenticacao parecem corrompidos ou invalidos.",
-        action: `Apague ${paths.auth} e escaneie um novo QR code.`,
+        title: t("connection.disconnect.badSession.title"),
+        description: t("connection.disconnect.badSession.description"),
+        action: t("connection.disconnect.badSession.action", { authPath: paths.auth }),
         shouldReconnect: false,
       };
     case DisconnectReason.unavailableService:
       return {
-        title: "Servico indisponivel",
-        description: "O WhatsApp ou a rota de conexao esta temporariamente indisponivel.",
-        action: "Vou tentar reconectar automaticamente.",
+        title: t("connection.disconnect.unavailableService.title"),
+        description: t("connection.disconnect.unavailableService.description"),
+        action: t("connection.disconnect.unavailableService.action"),
         shouldReconnect: true,
       };
     case DisconnectReason.restartRequired:
       return {
-        title: "Reinicio necessario",
-        description: "O servidor pediu que o cliente fosse reiniciado.",
-        action: "Vou reiniciar a conexao automaticamente.",
+        title: t("connection.disconnect.restartRequired.title"),
+        description: t("connection.disconnect.restartRequired.description"),
+        action: t("connection.disconnect.restartRequired.action"),
         shouldReconnect: true,
       };
     default:
       return {
-        title: "Conexao encerrada",
-        description: "A conexao foi fechada por um motivo nao mapeado.",
-        action: "Vou tentar reconectar automaticamente.",
+        title: t("connection.disconnect.default.title"),
+        description: t("connection.disconnect.default.description"),
+        action: t("connection.disconnect.default.action"),
         shouldReconnect: true,
       };
   }
 }
 
-function logDisconnect(statusCode?: number): boolean {
-  const info = getDisconnectInfo(statusCode);
-  const status = statusCode ?? "desconhecido";
+function logDisconnect(statusCode: number | undefined, t: any): boolean {
+  const info = getDisconnectInfo(statusCode, t);
+  const status = statusCode ?? t("common.unknown");
 
   log.box(
     "CONNECTION",
-    "Conexao encerrada",
-    [`Codigo: ${status}`, `Motivo: ${info.title}`, `Detalhe: ${info.description}`, `Acao: ${info.action}`],
+    t("connection.disconnected"),
+    [
+      t("connection.disconnectCode", { code: String(status) }),
+      t("connection.disconnectReason", { reason: info.title }),
+      t("connection.disconnectDetail", { detail: info.description }),
+      t("connection.disconnectAction", { action: info.action }),
+    ],
     info.shouldReconnect ? "yellow" : "red",
   );
 
   return info.shouldReconnect;
 }
 
-async function clearAuthSession(): Promise<void> {
+async function clearAuthSession(t: any): Promise<void> {
   try {
     await fs.rm(paths.auth, { force: true, recursive: true });
-    log.success("CONNECTION", "Sessao local removida. Inicie novamente para gerar um novo QR.");
+    log.success("CONNECTION", t("connection.sessionCleared"));
   } catch (error) {
-    log.error("CONNECTION", `Nao foi possivel remover ${paths.auth}.`, error);
+    log.error("CONNECTION", t("connection.sessionClearFailed", { path: paths.auth }), error);
   }
 }
 
 export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<WASocket> {
+  const globalLocale = await getGlobalLocale();
+  const t = createTranslator(globalLocale);
+
   const { state, saveCreds } = await useMultiFileAuthState(paths.auth);
   const { version } = await fetchLatestBaileysVersion();
 
   // Verifica se já existe uma sessão válida
   const hasSession = await hasValidSession();
   if (hasSession) {
-    log.info("CONNECTION", "Sessao existente detectada. Conectando automaticamente...");
+    log.info("CONNECTION", t("connection.sessionDetected"));
   }
 
   const misa = makeWASocket({
@@ -158,26 +167,26 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
       if (authMode === "pairing" && !pairingRequested && phoneNumber) {
         pairingRequested = true;
         misa.requestPairingCode(phoneNumber).then((code) => {
-          log.box("PAIRING", "Codigo de vinculacao", [`Codigo: ${code}`, "Digite no WhatsApp: Aparelhos conectados > Vincular aparelho > Vincular com numero de telefone."], "magenta");
+          log.box("PAIRING", t("connection.pairingCode"), [t("connection.pairingCodeValue", { code }), t("connection.pairingInstruction")], "magenta");
         }).catch((error) => {
-          log.error("PAIRING", "Erro ao solicitar pairing code.", error);
+          log.error("PAIRING", t("connection.pairingError"), error);
         });
         return;
       }
 
       // Só exibe QR se o modo for QR
       if (authMode === "qr") {
-        log.box("QR", "QR code recebido", ["Escaneie com o WhatsApp para conectar esta sessao."], "magenta");
+        log.box("QR", t("connection.qrReceived"), [t("connection.qrScan")], "magenta");
         qrcode.generate(qr, { small: true });
       } else if (authMode === "pairing") {
         // Se já solicitou pairing, apenas informa que o código expirou
         if (pairingRequested) {
-          log.warn("PAIRING", "Codigo de vinculacao expirado. Solicitando novo codigo...");
+          log.warn("PAIRING", t("connection.pairingExpired"));
           if (phoneNumber) {
             misa.requestPairingCode(phoneNumber).then((code) => {
-              log.box("PAIRING", "Novo codigo de vinculacao", [`Codigo: ${code}`, "Digite no WhatsApp: Aparelhos conectados > Vincular aparelho > Vincular com numero de telefone."], "magenta");
+              log.box("PAIRING", t("connection.pairingNewCode"), [t("connection.pairingCodeValue", { code }), t("connection.pairingInstruction")], "magenta");
             }).catch((error) => {
-              log.error("PAIRING", "Erro ao solicitar novo pairing code.", error);
+              log.error("PAIRING", t("connection.pairingError"), error);
             });
           }
         }
@@ -185,23 +194,23 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
     }
 
     if (connection === "connecting") {
-      log.info("CONNECTION", "Conectando ao WhatsApp...");
+      log.info("CONNECTION", t("connection.connecting"));
     }
 
     if (connection === "open") {
-      log.success("CONNECTION", "Conectado com sucesso.");
+      log.success("CONNECTION", t("connection.connected"));
     }
 
     if (connection === "close") {
       const statusCode = (lastDisconnect?.error as { output?: { statusCode?: number } })?.output?.statusCode;
-      const shouldReconnect = logDisconnect(statusCode);
+      const shouldReconnect = logDisconnect(statusCode, t);
 
       if (shouldReconnect) {
-        log.info("CONNECTION", "Tentando reconectar...");
+        log.info("CONNECTION", t("connection.reconnecting"));
       }
 
       if (statusCode === DisconnectReason.loggedOut) {
-        void clearAuthSession();
+        void clearAuthSession(t);
       }
     }
   });

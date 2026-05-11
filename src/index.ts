@@ -19,6 +19,7 @@ import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
 import { log } from "./logger.js";
 import { runAutoUpdate } from "./helpers/autoUpdate.js";
+import { resolveLocale, createTranslator } from "./i18n/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,14 +39,15 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (update.connection === "open") {
       // Buscar e salvar o LID do dono quando conectar
       if (config.ownerNumber && !config.ownerLID) {
-        log.info("OWNER", "Buscando LID do dono...");
+        const tGlobal = createTranslator(config.language || "pt");
+        log.info("OWNER", tGlobal("logs.ownerLidFetching"));
         const ownerLID = await toLID(config.ownerNumber, misa);
         if (ownerLID) {
           config.ownerLID = ownerLID;
           await saveBotConfig(config);
-          log.success("OWNER", `LID do dono salvo: ${ownerLID}`);
+          log.success("OWNER", tGlobal("logs.ownerLidSaved", { lid: ownerLID }));
         } else {
-          log.warn("OWNER", "Nao foi possivel obter o LID do dono.");
+          log.warn("OWNER", tGlobal("logs.ownerLidFailed"));
         }
       }
     }
@@ -74,7 +76,8 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     const senderLID = rawSender ? await toLID(rawSender, misa) : null;
 
     if (!senderLID) {
-      log.warn("COMMAND", `Ignorado porque nao foi possivel resolver LID: ${rawSender || "remetente vazio"}`);
+      const tGlobal = createTranslator(config.language || "pt");
+      log.warn("COMMAND", tGlobal("logs.commandIgnoredNoLid", { sender: rawSender || "remetente vazio" }));
       return;
     }
 
@@ -97,7 +100,8 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       const botIsAdmin = await isBotAdmin(from, misa);
 
       if (!userIsOwner && !userIsAdmin && botIsAdmin) {
-        const handled = await applyAntiLink(misa, message as proto.IWebMessageInfo, from, sender);
+        const locale = await resolveLocale(from);
+        const handled = await applyAntiLink(misa, message as proto.IWebMessageInfo, from, sender, locale);
         if (handled) return;
       }
     }
@@ -110,6 +114,9 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (!commandName) return;
 
     const command = commandHandler.get(commandName);
+    const locale = await resolveLocale(from);
+    const cmdTranslator = createTranslator(locale);
+
     if (!command) {
       const similar = findSimilarCommand(commandName, commandHandler.listNames());
       await sendUnknownCommandMessage(
@@ -120,6 +127,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
         commandName,
         similar,
         message as proto.IWebMessageInfo,
+        locale
       );
       return;
     }
@@ -129,19 +137,19 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
 
     // 1. Verificar se o comando é apenas para o dono
     if (command.ownerOnly && !userIsOwner) {
-      await misa.sendMessage(from, { text: "❌ Este comando é apenas para o dono do bot." });
+      await misa.sendMessage(from, { text: cmdTranslator("errors.ownerOnly") });
       return;
     }
 
     // 2. Verificar se o comando é apenas para grupos
     if (command.groupOnly && !isGroup) {
-      await misa.sendMessage(from, { text: "❌ Este comando só pode ser usado em grupos." });
+      await misa.sendMessage(from, { text: cmdTranslator("errors.groupOnly") });
       return;
     }
 
     // 3. Verificar se o comando é apenas para chat privado
     if (command.privateOnly && isGroup) {
-      await misa.sendMessage(from, { text: "❌ Este comando só pode ser usado no privado." });
+      await misa.sendMessage(from, { text: cmdTranslator("errors.privateOnly") });
       return;
     }
 
@@ -149,7 +157,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (command.adminOnly && isGroup) {
       const userIsAdmin = await isAdmin(from, sender, misa);
       if (!userIsAdmin && !userIsOwner) {
-        await misa.sendMessage(from, { text: "❌ Este comando é apenas para administradores do grupo." });
+        await misa.sendMessage(from, { text: cmdTranslator("errors.adminOnly") });
         return;
       }
     }
@@ -158,7 +166,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (command.botAdminRequired && isGroup) {
       const botIsAdmin = await isBotAdmin(from, misa);
       if (!botIsAdmin) {
-        await misa.sendMessage(from, { text: "❌ Preciso ser administrador do grupo para executar este comando." });
+        await misa.sendMessage(from, { text: cmdTranslator("errors.botAdminRequired") });
         return;
       }
     }
@@ -177,14 +185,18 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
         isGroup,
         isAdmin: () => isAdmin(from, sender, misa),
         isBotAdmin: () => isBotAdmin(from, misa),
+        locale,
+        t: cmdTranslator,
       });
     } catch (error) {
-      log.error("COMMAND", `Erro ao executar ${commandName}.`, error);
-      await misa.sendMessage(from, { text: "❌ Ocorreu um erro ao executar o comando." });
+      log.error("COMMAND", cmdTranslator("logs.commandError", { commandName }), error);
+      await misa.sendMessage(from, { text: cmdTranslator("errors.commandExecution") });
     }
   });
 
-  log.success("MISA", `${config.botName} iniciada e pronta para receber mensagens.`);
+  const globalLocale = await resolveLocale();
+  const tGlobal = createTranslator(globalLocale);
+  log.success("MISA", tGlobal("logs.botStarted", { botName: config.botName }));
 }
 
 const entryPointUrl = process.argv[1] ? fileURLToPath(import.meta.url) === path.resolve(process.argv[1]) : false;
@@ -195,11 +207,15 @@ if (entryPointUrl) {
   const phone = args.find((a) => /^\d+$/.test(a));
 
   getBotConfig().then(async (config) => {
+    // Definimos tGlobal provisório apenas para start do update/erros fatais fora do fluxo principal
+    const tGlobal = createTranslator(config.language || "pt");
+    
     if (config.autoUpdate && !args.includes("--no-update")) await runAutoUpdate();
     startBot(authMode, phone).catch((error) => {
-      log.error("MISA", "Falha ao iniciar a bot.", error);
+      log.error("MISA", tGlobal("terminal.startFailed"), error);
     });
   }).catch((error) => {
-    log.error("MISA", "Falha ao iniciar a bot.", error);
+    // Cannot easily access tGlobal here as it failed before getting config, so we log generic or fallback
+    log.error("MISA", "Start failed. / Falha ao iniciar a bot.", error);
   });
 }

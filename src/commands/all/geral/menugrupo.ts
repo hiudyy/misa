@@ -9,21 +9,21 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 
 const menuGrupoCommand: Command = {
   name: "menugrupo",
-  aliases: ["mgrupo"],
+  aliases: ["mgrupo", "groupmenu"],
   description: "Mostra os comandos disponíveis no grupo",
   category: "geral",
   groupOnly: true,
-  async execute({ misa, message, from, prefix }) {
+  async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
 
     await sendMenu(
       misa,
       from,
       [
-        `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
+        t("commands.menu.mainTitle", { botName: config.botName }),
         "│",
-        "├ 〔 grupo 〕",
-        `│  ♡ ${prefix}admins`,
+        `├ 〔 ${t("commands.menu.categories.grupo")} 〕`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.admins")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),

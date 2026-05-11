@@ -19,18 +19,10 @@ const instagramCommand: Command = {
   aliases: ["ig", "insta"],
   description: "Baixa fotos e vídeos do Instagram",
   category: "all",
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(from, {
-        text: [
-          "╭─「 *INSTAGRAM* 」",
-          "│",
-          "│ ✦ Download:",
-          "│   instagram <url>",
-          "│",
-          "╰─ Exemplo:",
-          "   instagram https://instagram.com/p/...",
-        ].join("\n"),
+        text: t("commands.instagram.usage"),
       });
       return;
     }
@@ -38,24 +30,27 @@ const instagramCommand: Command = {
     const url = args[0];
 
     if (!url.includes("instagram.com")) {
-      await misa.sendMessage(from, { text: "❌ URL inválida. Use uma URL do Instagram." }, { quoted: message as WAMessage });
+      await misa.sendMessage(from, { text: t("commands.instagram.invalidUrl") }, { quoted: message as WAMessage });
       return;
     }
 
-    await misa.sendMessage(from, { text: "⬇️ Baixando do Instagram..." }, { quoted: message as WAMessage });
+    await misa.sendMessage(from, { text: t("commands.instagram.downloading") }, { quoted: message as WAMessage });
 
     try {
-      const data = await misakaAPI<InstagramResponse>("/instagram/download", { url });
+      const data = await misakaAPI<InstagramResponse>("/instagram/download", { url }, t);
 
       if (!data || data.count === 0) {
-        await misa.sendMessage(from, { text: "❌ Não foi possível baixar o conteúdo." }, { quoted: message as WAMessage });
+        await misa.sendMessage(from, { text: t("commands.instagram.downloadFailed") }, { quoted: message as WAMessage });
         return;
       }
 
       await misa.sendMessage(
         from,
         {
-          text: `📥 Enviando ${data.count} ${data.count === 1 ? "arquivo" : "arquivos"}...`,
+          text: t("commands.instagram.sending", { 
+            count: String(data.count), 
+            fileWord: data.count === 1 ? t("common.file") : t("common.files") 
+          }),
         },
         { quoted: message as WAMessage },
       );
@@ -66,7 +61,7 @@ const instagramCommand: Command = {
             from,
             {
               video: { url: media.url },
-              caption: data.medias.indexOf(media) === 0 ? "✅ Download do Instagram concluído!" : undefined,
+              caption: data.medias.indexOf(media) === 0 ? t("commands.instagram.done") : undefined,
             },
             { quoted: message as WAMessage },
           );
@@ -75,7 +70,7 @@ const instagramCommand: Command = {
             from,
             {
               image: { url: media.url },
-              caption: data.medias.indexOf(media) === 0 ? "✅ Download do Instagram concluído!" : undefined,
+              caption: data.medias.indexOf(media) === 0 ? t("commands.instagram.done") : undefined,
             },
             { quoted: message as WAMessage },
           );
@@ -85,7 +80,7 @@ const instagramCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: `❌ Erro: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+          text: t("commands.instagram.error", { message: error instanceof Error ? error.message : t("commands.instagram.unknown") }),
         },
         { quoted: message as WAMessage },
       );

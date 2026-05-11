@@ -5,6 +5,7 @@
 import { proto, WASocket } from "baileys";
 import { getGroup, GroupData } from "../database/groupDB.js";
 import { log } from "../logger.js";
+import type { Locale } from "../i18n/index.js";
 
 type AntiLinkKey = "antilink" | "antilinkgp" | "antilinkch";
 
@@ -54,6 +55,7 @@ export async function applyAntiLink(
   message: proto.IWebMessageInfo,
   groupId: string,
   sender: string,
+  locale: Locale,
 ): Promise<boolean> {
   const body =
     message.message?.conversation ||
@@ -72,7 +74,26 @@ export async function applyAntiLink(
   const nome = getDisplayName(message);
   const grupo = groupMeta?.subject ?? "grupo";
   const antiConfig = config[matched.key];
-  const texto = buildPunishmentText(antiConfig.texto, sender, nome, grupo, matched.tipo);
+  
+  const { t } = await import("../i18n/index.js");
+
+  // Tradução do tipo
+  let tipoTraduzido: string = matched.tipo;
+  if (matched.tipo === "link") tipoTraduzido = t("group.antilink.typeLink", locale);
+  if (matched.tipo === "link de grupo") tipoTraduzido = t("group.antilink.typeGroupLink", locale);
+  if (matched.tipo === "link de canal") tipoTraduzido = t("group.antilink.typeChannelLink", locale);
+
+  // Fallback se for o texto default
+  let template = antiConfig.texto;
+  if (matched.key === "antilink" && template === t("group.antilink.defaultText", "pt")) {
+    template = t("group.antilink.defaultText", locale);
+  } else if (matched.key === "antilinkgp" && template === t("group.antilink.defaultGroupText", "pt")) {
+    template = t("group.antilink.defaultGroupText", locale);
+  } else if (matched.key === "antilinkch" && template === t("group.antilink.defaultChannelText", "pt")) {
+    template = t("group.antilink.defaultChannelText", locale);
+  }
+
+  const texto = buildPunishmentText(template, sender, nome, grupo, tipoTraduzido);
 
   if (message.key) {
     try {

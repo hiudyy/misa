@@ -21,7 +21,7 @@ const antilinkgpCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     const config = await getGroup(from);
 
     if (args.length === 0) {
@@ -30,14 +30,7 @@ const antilinkgpCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: [
-            novoEstado ? "✅ Anti-link de grupo *ativado* neste grupo!" : "❌ Anti-link de grupo *desativado* neste grupo.",
-            "",
-            "⚙️ Configurações:",
-            "• antilinkgp punicao apagar",
-            "• antilinkgp punicao banir",
-            "• antilinkgp texto <mensagem>",
-          ].join("\n"),
+          text: novoEstado ? t("commands.antilinkgp.enabled") : t("commands.antilinkgp.disabled") + "\n\n" + t("commands.antilinkgp.settingsHint"),
         },
         { quoted: message as WAMessage },
       );
@@ -51,7 +44,7 @@ const antilinkgpCommand: Command = {
       if (punicao !== "apagar" && punicao !== "banir") {
         await misa.sendMessage(
           from,
-          { text: "❌ Use: antilinkgp punicao apagar | banir" },
+          { text: t("commands.antilinkgp.invalidPunishment") },
           { quoted: message as WAMessage },
         );
         return;
@@ -60,7 +53,7 @@ const antilinkgpCommand: Command = {
       await saveGroup(from, { antilinkgp: { ...config.antilinkgp, punicao } });
       await misa.sendMessage(
         from,
-        { text: `✅ Punição do anti-link de grupo atualizada para *${punicao}*.` },
+        { text: t("commands.antilinkgp.punishmentUpdated", { value: punicao }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -71,17 +64,10 @@ const antilinkgpCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: [
-              "╭─「 *TEXTO ANTILINK GP* 」",
-              "│",
-              "│ *Parâmetros disponíveis:*",
-              `│ ${PARAMS}`,
-              "│",
-              "│ *Texto atual:*",
-              `│ ${config.antilinkgp.texto}`,
-              "│",
-              "╰─ Use: antilinkgp texto <mensagem>",
-            ].join("\n"),
+            text: t("commands.antilinkgp.textHeader", {
+              params: t("commands.antilinkgp.params"),
+              current: config.antilinkgp.texto,
+            }),
           },
           { quoted: message as WAMessage },
         );
@@ -92,7 +78,7 @@ const antilinkgpCommand: Command = {
       await saveGroup(from, { antilinkgp: { ...config.antilinkgp, texto } });
       await misa.sendMessage(
         from,
-        { text: `✅ Texto do anti-link de grupo atualizado!\n\n${texto}` },
+        { text: t("commands.antilinkgp.textUpdated", { text: texto }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -101,14 +87,7 @@ const antilinkgpCommand: Command = {
     await misa.sendMessage(
       from,
       {
-        text: [
-          "╭─「 *ANTILINK GP* 」",
-          "│",
-          "│ antilinkgp",
-          "│ antilinkgp punicao apagar",
-          "│ antilinkgp punicao banir",
-          "│ antilinkgp texto <mensagem>",
-        ].join("\n"),
+        text: t("commands.antilinkgp.usage"),
       },
       { quoted: message as WAMessage },
     );

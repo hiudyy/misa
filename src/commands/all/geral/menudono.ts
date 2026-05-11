@@ -9,22 +9,22 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 
 const menuDonoCommand: Command = {
   name: "menudono",
-  aliases: ["mdono"],
+  aliases: ["mdono", "ownermenu", "menudueño"],
   description: "Mostra os comandos do dono",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, prefix }) {
+  async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
 
     await sendMenu(
       misa,
       from,
       [
-        `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
+        t("commands.menu.mainTitle", { botName: config.botName }),
         "│",
-        "├ 〔 dono 〕",
-        `│  ♡ ${prefix}eval`,
-        `│  ♡ ${prefix}cmdnf`,
+        `├ 〔 ${t("commands.menu.categories.owner")} 〕`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.eval")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.cmdnf")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),

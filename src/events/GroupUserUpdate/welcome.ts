@@ -40,7 +40,16 @@ const welcomeEvent: Event<GroupParticipantsUpdateEvent> = {
       const total = String(groupMeta?.participants.length ?? 0);
       const desc = groupMeta?.desc ?? "";
 
-      const texto = config.bemvindo.legenda
+      const { resolveLocale, createTranslator, t: rawT } = await import("../../i18n/index.js");
+      const locale = await resolveLocale(data.id);
+      const t = createTranslator(locale);
+
+      let template = config.bemvindo.legenda;
+      if (template === rawT("group.welcome.defaultLegend", "pt")) {
+        template = t("group.welcome.defaultLegend");
+      }
+
+      const texto = template
         .replace(/@usuario/g, `@${numero}`)
         .replace(/@nome/g, numero)
         .replace(/@grupo/g, nomeGrupo)

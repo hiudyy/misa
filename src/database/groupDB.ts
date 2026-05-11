@@ -5,8 +5,10 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { paths } from "../config/paths.js";
+import type { Locale } from "../i18n/index.js";
 
 export type GroupData = {
+  language?: Locale;
   bemvindo: {
     ativo: boolean;
     legenda: string;

@@ -18,22 +18,10 @@ const tiktokCommand: Command = {
   aliases: ["ttk", "tt"],
   description: "Baixa vídeos do TikTok ou pesquisa por termo",
   category: "all",
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(from, {
-        text: [
-          "╭─「 *TIKTOK* 」",
-          "│",
-          "│ ✦ Download:",
-          "│   tiktok <url>",
-          "│",
-          "│ ✦ Pesquisa:",
-          "│   tiktok <termo>",
-          "│",
-          "╰─ Exemplos:",
-          "   tiktok https://vm.tiktok.com/...",
-          "   tiktok dança viral",
-        ].join("\n"),
+        text: t("commands.tiktok.usage"),
       });
       return;
     }
@@ -43,13 +31,13 @@ const tiktokCommand: Command = {
 
     // Se for URL, faz download
     if (isUrl) {
-      await misa.sendMessage(from, { text: "⬇️ Baixando do TikTok..." }, { quoted: message as WAMessage });
+      await misa.sendMessage(from, { text: t("commands.tiktok.downloading") }, { quoted: message as WAMessage });
 
       try {
-        const data = await misakaAPI<TikTokResponse>("/tiktok/download", { url: input });
+        const data = await misakaAPI<TikTokResponse>("/tiktok/download", { url: input }, t);
 
         if (!data) {
-          await misa.sendMessage(from, { text: "❌ Não foi possível baixar o vídeo." }, { quoted: message as WAMessage });
+          await misa.sendMessage(from, { text: t("commands.tiktok.downloadFailed") }, { quoted: message as WAMessage });
           return;
         }
 
@@ -58,7 +46,7 @@ const tiktokCommand: Command = {
             from,
             {
               video: { url: data.urls[0] },
-              caption: `🎵 *${data.title}*\n\n✅ Download concluído!`,
+              caption: `🎵 *${data.title}*\n\n${t("commands.tiktok.downloadDone")}`,
             },
             { quoted: message as WAMessage },
           );
@@ -69,7 +57,7 @@ const tiktokCommand: Command = {
               from,
               {
                 image: { url: imageUrl },
-                caption: data.urls.indexOf(imageUrl) === 0 ? `📸 *${data.title}*\n\n✅ Download concluído!` : undefined,
+                caption: data.urls.indexOf(imageUrl) === 0 ? `📸 *${data.title}*\n\n${t("commands.tiktok.downloadDone")}` : undefined,
               },
               { quoted: message as WAMessage },
             );
@@ -79,7 +67,7 @@ const tiktokCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: `❌ Erro: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+            text: t("commands.tiktok.error", { message: error instanceof Error ? error.message : t("commands.tiktok.unknown") }),
           },
           { quoted: message as WAMessage },
         );
@@ -88,20 +76,20 @@ const tiktokCommand: Command = {
     }
 
     // Se não for URL, faz pesquisa
-    await misa.sendMessage(from, { text: "🔍 Pesquisando no TikTok..." }, { quoted: message as WAMessage });
+    await misa.sendMessage(from, { text: t("commands.tiktok.searching") }, { quoted: message as WAMessage });
 
     try {
-      const data = await misakaAPI<TikTokResponse>("/tiktok/search", { q: input });
+      const data = await misakaAPI<TikTokResponse>("/tiktok/search", { q: input }, t);
 
       if (!data) {
-        await misa.sendMessage(from, { text: "❌ Nenhum resultado encontrado." }, { quoted: message as WAMessage });
+        await misa.sendMessage(from, { text: t("commands.tiktok.notFound") }, { quoted: message as WAMessage });
         return;
       }
 
       await misa.sendMessage(
         from,
         {
-          text: `📹 *${data.title}*\n\n⬇️ Baixando...`,
+          text: t("commands.tiktok.found", { title: data.title }),
         },
         { quoted: message as WAMessage },
       );
@@ -111,7 +99,7 @@ const tiktokCommand: Command = {
           from,
           {
             video: { url: data.urls[0] },
-            caption: `🎵 *${data.title}*\n\n🔍 Pesquisa: ${input}`,
+            caption: `🎵 *${data.title}*\n\n${t("commands.tiktok.searchCaption", { query: input })}`,
           },
           { quoted: message as WAMessage },
         );
@@ -122,7 +110,7 @@ const tiktokCommand: Command = {
             from,
             {
               image: { url },
-              caption: data.urls.indexOf(url) === 0 ? `📸 *${data.title}*\n\n🔍 Pesquisa: ${input}` : undefined,
+              caption: data.urls.indexOf(url) === 0 ? `📸 *${data.title}*\n\n${t("commands.tiktok.searchCaption", { query: input })}` : undefined,
             },
             { quoted: message as WAMessage },
           );
@@ -132,7 +120,7 @@ const tiktokCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: `❌ Erro: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+          text: t("commands.tiktok.error", { message: error instanceof Error ? error.message : t("commands.tiktok.unknown") }),
         },
         { quoted: message as WAMessage },
       );

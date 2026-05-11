@@ -8,6 +8,7 @@ import { execSync, spawnSync } from "node:child_process";
 import { inflateRawSync } from "node:zlib";
 import { paths } from "../config/paths.js";
 import { log } from "../logger.js";
+import { getGlobalLocale, createTranslator } from "../i18n/index.js";
 
 const REPO_ZIP = "https://github.com/hiudyy/misa/archive/refs/heads/main.zip";
 const ZIP_PATH = path.join(paths.dados, "update.zip");
@@ -140,16 +141,19 @@ async function extractZip(zipPath: string, destination: string): Promise<void> {
 }
 
 export async function runAutoUpdate(): Promise<void> {
-  log.info("UPDATE", "Verificando atualizações...");
+  const globalLocale = await getGlobalLocale();
+  const t = createTranslator(globalLocale);
+
+  log.info("UPDATE", t("update.checking"));
 
   try {
     await cleanup();
     await fs.mkdir(EXTRACT_PATH, { recursive: true });
 
-    log.info("UPDATE", "Baixando atualização...");
+    log.info("UPDATE", t("update.downloading"));
     await downloadFile(REPO_ZIP, ZIP_PATH);
 
-    log.info("UPDATE", "Extraindo...");
+    log.info("UPDATE", t("update.extracting"));
     await extractZip(ZIP_PATH, EXTRACT_PATH);
 
     const extracted = path.join(EXTRACT_PATH, "misa-main");
@@ -173,10 +177,10 @@ export async function runAutoUpdate(): Promise<void> {
 
     await fs.copyFile(path.join(extracted, "package.json"), path.join(paths.root, "package.json"));
 
-    log.info("UPDATE", "Instalando dependências...");
+    log.info("UPDATE", t("update.installingDeps"));
     execSync("npm install --prefer-offline", { cwd: paths.root, stdio: "inherit" });
 
-    log.success("UPDATE", "Atualização concluída! Reiniciando...");
+    log.success("UPDATE", t("update.done"));
 
     await cleanup();
 
@@ -186,7 +190,7 @@ export async function runAutoUpdate(): Promise<void> {
 
     process.exit(0);
   } catch (error) {
-    log.error("UPDATE", "Falha na atualização. Continuando com a versão atual.", error);
+    log.error("UPDATE", t("update.failed"), error);
     await cleanup();
   }
 }

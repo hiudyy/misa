@@ -2,8 +2,9 @@
  * @author Hiudy · github.com/hiudyy
  * @project Misa Bot
  */
-import { GroupMetadata, proto, WASocket } from "baileys";
+import { proto, WASocket } from "baileys";
 import { GroupCache } from "../cache/groupCache.js";
+import type { Locale } from "../i18n/index.js";
 
 export interface CommandContext {
   misa: WASocket;
@@ -18,11 +19,15 @@ export interface CommandContext {
   isGroup: boolean;
   isAdmin: () => Promise<boolean>;
   isBotAdmin: () => Promise<boolean>;
+  locale: Locale;
+  t: (key: string, vars?: Record<string, string>) => string;
 }
 
 export interface Command {
   name: string;
   aliases?: string[];
+  /** Aliases adicionais indexados por locale, registrados automaticamente */
+  i18nAliases?: Partial<Record<Locale, string[]>>;
   description: string;
   category: string;
   ownerOnly?: boolean;

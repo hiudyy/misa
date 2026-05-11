@@ -11,11 +11,11 @@ const evalCommand: Command = {
   description: "Executa código JavaScript (PERIGOSO - apenas dono)",
   category: "all",
   ownerOnly: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
-        { text: "❌ Uso: eval <código>" },
+        { text: t("commands.eval.noArgs") },
         { quoted: message as WAMessage },
       );
       return;
@@ -31,17 +31,7 @@ const evalCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: [
-            "╭─「 *EVAL RESULT* 」",
-            "│",
-            `│ ✦ Código: ${code}`,
-            "│",
-            "├─「 *OUTPUT* 」",
-            "│",
-            ...output.split("\n").map((line) => `│ ${line}`),
-            "│",
-            "╰─ Executado com sucesso.",
-          ].join("\n"),
+          text: t("commands.eval.success", { code, output: output.split("\n").map((line) => `│ ${line}`).join("\n") }),
         },
         { quoted: message as WAMessage },
       );
@@ -49,17 +39,7 @@ const evalCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: [
-            "╭─「 *EVAL ERROR* 」",
-            "│",
-            `│ ✦ Código: ${code}`,
-            "│",
-            "├─「 *ERROR* 」",
-            "│",
-            `│ ${String(error)}`,
-            "│",
-            "╰─ Erro na execução.",
-          ].join("\n"),
+          text: t("commands.eval.error", { code, error: String(error) }),
         },
         { quoted: message as WAMessage },
       );

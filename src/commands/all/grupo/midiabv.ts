@@ -13,17 +13,17 @@ const MAX_VIDEO_SECONDS = 15;
 
 const midiabvCommand: Command = {
   name: "midiabv",
-  aliases: ["fotobv", "videobv"],
+  aliases: ["fotobv", "videobv", "welcomemedia", "mediabv"],
   description: "Define ou remove a mídia de bem-vindo (imagem ou vídeo até 15s)",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args[0]?.toLowerCase() === "off") {
       const current = await getGroup(from);
       await saveGroup(from, { bemvindo: { ...current.bemvindo, midia: null } });
-      await misa.sendMessage(from, { text: "✅ Mídia de bem-vindo removida." }, { quoted: message as WAMessage });
+      await misa.sendMessage(from, { text: t("commands.midiabv.removed") }, { quoted: message as WAMessage });
       return;
     }
 
@@ -34,22 +34,12 @@ const midiabvCommand: Command = {
     if (!imageMsg && !videoMsg) {
       const config = await getGroup(from);
       const midiaStatus = config.bemvindo.midia
-        ? `${config.bemvindo.midia.tipo === "video" ? "Vídeo 🎥" : "Imagem 🖼️"} ✅`
-        : "Sem mídia ❌";
+        ? `${config.bemvindo.midia.tipo === "video" ? t("commands.midiabv.statusVideo") : t("commands.midiabv.statusImage")}`
+        : t("commands.midiabv.statusNone");
       await misa.sendMessage(
         from,
         {
-          text: [
-            "╭─「 *MÍDIA BV* 」",
-            "│",
-            `│ ✦ Status: ${midiaStatus}`,
-            "│",
-            "│ Envie ou responda uma imagem ou vídeo.",
-            "│ Vídeos: máximo 15 segundos (enviado como gif).",
-            "│ Para remover: midiabv off",
-            "│",
-            "╰─",
-          ].join("\n"),
+          text: t("commands.midiabv.noMedia", { status: midiaStatus }),
         },
         { quoted: message as WAMessage },
       );
@@ -62,7 +52,7 @@ const midiabvCommand: Command = {
       if (segundos > MAX_VIDEO_SECONDS) {
         await misa.sendMessage(
           from,
-          { text: `❌ O vídeo tem ${segundos}s. Máximo permitido: ${MAX_VIDEO_SECONDS}s.` },
+          { text: t("commands.midiabv.videoTooLong", { seconds: String(segundos), max: String(MAX_VIDEO_SECONDS) }) },
           { quoted: message as WAMessage },
         );
         return;
@@ -93,7 +83,7 @@ const midiabvCommand: Command = {
 
     await misa.sendMessage(
       from,
-      { text: `✅ ${tipo === "video" ? "Vídeo" : "Foto"} de bem-vindo configurado!` },
+      { text: tipo === "video" ? t("commands.midiabv.successVideo") : t("commands.midiabv.successImage") },
       { quoted: message as WAMessage },
     );
   },

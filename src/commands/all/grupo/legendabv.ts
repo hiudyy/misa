@@ -16,29 +16,22 @@ const PARAMS = [
 
 const legendabvCommand: Command = {
   name: "legendabv",
-  aliases: ["legendabemvindo", "textobv"],
+  aliases: ["legendabemvindo", "textobv", "welcometext"],
   description: "Configura o texto da mensagem de bem-vindo",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       const config = await getGroup(from);
       await misa.sendMessage(
         from,
         {
-          text: [
-            "╭─「 *LEGENDA BV* 」",
-            "│",
-            "│ *Parâmetros disponíveis:*",
-            `│ ${PARAMS}`,
-            "│",
-            `│ *Legenda atual:*`,
-            `│ ${config.bemvindo.legenda}`,
-            "│",
-            "╰─ Use: legendabv <texto>",
-          ].join("\n"),
+          text: t("commands.legendabv.header", {
+            params: t("commands.legendabv.params"),
+            current: config.bemvindo.legenda,
+          }),
         },
         { quoted: message as WAMessage },
       );
@@ -51,7 +44,7 @@ const legendabvCommand: Command = {
 
     await misa.sendMessage(
       from,
-      { text: `✅ Legenda de bem-vindo atualizada!\n\n${legenda}` },
+      { text: t("commands.legendabv.updated", { text: legenda }) },
       { quoted: message as WAMessage },
     );
   },

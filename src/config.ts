@@ -6,6 +6,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { log } from "./logger.js";
+import type { Locale } from "./i18n/index.js";
 
 export type BotConfig = {
   botName: string;
@@ -15,6 +16,7 @@ export type BotConfig = {
   ownerLID?: string;
   apiKey: string;
   autoUpdate: boolean;
+  language: Locale;
 };
 
 const defaultConfig: BotConfig = {
@@ -24,6 +26,7 @@ const defaultConfig: BotConfig = {
   ownerNumber: "",
   apiKey: "",
   autoUpdate: false,
+  language: "pt",
 };
 
 const __filename = fileURLToPath(import.meta.url);

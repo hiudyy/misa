@@ -5,6 +5,7 @@
 import { proto, WAMessage, WASocket } from "baileys";
 import { getBotConfig } from "../config.js";
 import { getOwnerConfig } from "../ownerConfig.js";
+import type { Locale } from "../i18n/index.js";
 
 type SimilarCommand = {
   name: string;
@@ -69,8 +70,10 @@ export async function sendUnknownCommandMessage(
   commandName: string,
   similar: SimilarCommand | null,
   message: proto.IWebMessageInfo,
+  locale: Locale,
 ): Promise<void> {
   const [config, ownerConfig] = await Promise.all([getBotConfig(), getOwnerConfig()]);
+  const { t } = await import("../i18n/index.js");
 
   if (ownerConfig.comandoNaoEncontrado.modo === "mencao") {
     await misa.sendMessage(
@@ -85,9 +88,16 @@ export async function sendUnknownCommandMessage(
   }
 
   const nome = getDisplayName(message, sender);
-  const parecido = similar ? `${prefix}${similar.name}` : "nenhum";
+  const parecido = similar ? `${prefix}${similar.name}` : t("common.none", locale);
   const similaridade = similar ? `${similar.percentage}%` : "0%";
-  const texto = ownerConfig.comandoNaoEncontrado.texto
+  
+  // Se o texto salvo é exatamente o default em PT, nós podemos usar a versão traduzida dinamicamente.
+  let template = ownerConfig.comandoNaoEncontrado.texto;
+  if (template === t("owner.cmdnf.defaultText", "pt")) {
+    template = t("owner.cmdnf.defaultText", locale);
+  }
+
+  const texto = template
     .replace(/@usuario/g, `@${sender.split("@")[0]}`)
     .replace(/@nome/g, nome)
     .replace(/@comando/g, `${prefix}${commandName}`)

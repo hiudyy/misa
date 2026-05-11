@@ -85,21 +85,12 @@ const playCommand: Command = {
   aliases: ["p"],
   description: "Pesquisa uma música no YouTube e envia o áudio",
   category: "all",
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
         {
-          text: [
-            "╭─「 *PLAY* 」",
-            "│",
-            "│ ✦ Pesquisa:",
-            "│   play <nome da música>",
-            "│   p <nome da música>",
-            "│",
-            "╰─ Exemplo:",
-            "   play michael jackson billie jean",
-          ].join("\n"),
+          text: t("commands.play.usage"),
         },
         { quoted: message as WAMessage },
       );
@@ -108,13 +99,13 @@ const playCommand: Command = {
 
     const query = args.join(" ").trim();
 
-    await misa.sendMessage(from, { text: "🔍 Pesquisando música..." }, { quoted: message as WAMessage });
+    await misa.sendMessage(from, { text: t("commands.play.searching") }, { quoted: message as WAMessage });
 
     try {
-      const result = await misakaAPI<YouTubeSearchResponse>("/youtube/search", { q: query });
+      const result = await misakaAPI<YouTubeSearchResponse>("/youtube/search", { q: query }, t);
 
       if (!result) {
-        await misa.sendMessage(from, { text: "❌ Nenhum resultado encontrado." }, { quoted: message as WAMessage });
+        await misa.sendMessage(from, { text: t("commands.play.notFound") }, { quoted: message as WAMessage });
         return;
       }
 
@@ -125,11 +116,11 @@ const playCommand: Command = {
           caption: [
             `🎵 *${result.title}*`,
             "",
-            `👤 Canal: ${result.author}`,
-            `⏱️ Duração: ${formatDuration(result.duration)}`,
-            `👁️ Views: ${formatViews(result.views)}`,
+            `👤 ${t("commands.play.channel")}: ${result.author}`,
+            `⏱️ ${t("commands.play.duration")}: ${formatDuration(result.duration)}`,
+            `👀 ${t("commands.play.views")}: ${formatViews(result.views)}`,
             "",
-            "⬇️ Baixando áudio...",
+            t("commands.play.downloading"),
           ].join("\n"),
         },
         { quoted: message as WAMessage },
@@ -150,7 +141,7 @@ const playCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: `❌ Erro: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+          text: t("commands.play.error", { message: error instanceof Error ? error.message : t("commands.play.unknown") }),
         },
         { quoted: message as WAMessage },
       );

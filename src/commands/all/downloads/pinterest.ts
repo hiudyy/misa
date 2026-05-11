@@ -20,22 +20,10 @@ const pinterestCommand: Command = {
   aliases: ["pin", "pint"],
   description: "Baixa imagens do Pinterest ou pesquisa por termo",
   category: "all",
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(from, {
-        text: [
-          "╭─「 *PINTEREST* 」",
-          "│",
-          "│ ✦ Download:",
-          "│   pinterest <url>",
-          "│",
-          "│ ✦ Pesquisa:",
-          "│   pinterest <termo>",
-          "│",
-          "╰─ Exemplos:",
-          "   pinterest https://pin.it/...",
-          "   pinterest wallpaper 4k",
-        ].join("\n"),
+        text: t("commands.pinterest.usage"),
       });
       return;
     }
@@ -45,13 +33,13 @@ const pinterestCommand: Command = {
 
     // Se for URL, faz download
     if (isUrl) {
-      await misa.sendMessage(from, { text: "⬇️ Baixando do Pinterest..." }, { quoted: message as WAMessage });
+      await misa.sendMessage(from, { text: t("commands.pinterest.downloading") }, { quoted: message as WAMessage });
 
       try {
-        const data = await misakaAPI<PinterestDownloadResponse>("/pinterest/download", { url: input });
+        const data = await misakaAPI<PinterestDownloadResponse>("/pinterest/download", { url: input }, t);
 
         if (!data) {
-          await misa.sendMessage(from, { text: "❌ Não foi possível baixar o conteúdo." }, { quoted: message as WAMessage });
+          await misa.sendMessage(from, { text: t("commands.pinterest.downloadFailed") }, { quoted: message as WAMessage });
           return;
         }
 
@@ -60,7 +48,7 @@ const pinterestCommand: Command = {
             from,
             {
               video: { url: data.url },
-              caption: "✅ Download do Pinterest concluído!",
+              caption: t("commands.pinterest.done"),
             },
             { quoted: message as WAMessage },
           );
@@ -69,7 +57,7 @@ const pinterestCommand: Command = {
             from,
             {
               image: { url: data.url },
-              caption: "✅ Download do Pinterest concluído!",
+              caption: t("commands.pinterest.done"),
             },
             { quoted: message as WAMessage },
           );
@@ -78,7 +66,7 @@ const pinterestCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: `❌ Erro: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+            text: t("commands.pinterest.error", { message: error instanceof Error ? error.message : t("commands.pinterest.unknown") }),
           },
           { quoted: message as WAMessage },
         );
@@ -87,20 +75,20 @@ const pinterestCommand: Command = {
     }
 
     // Se não for URL, faz pesquisa
-    await misa.sendMessage(from, { text: "🔍 Pesquisando no Pinterest..." }, { quoted: message as WAMessage });
+    await misa.sendMessage(from, { text: t("commands.pinterest.searching") }, { quoted: message as WAMessage });
 
     try {
-      const data = await misakaAPI<PinterestSearchResponse>("/pinterest/search", { q: input });
+      const data = await misakaAPI<PinterestSearchResponse>("/pinterest/search", { q: input }, t);
 
       if (!data || data.images.length === 0) {
-        await misa.sendMessage(from, { text: "❌ Nenhum resultado encontrado." }, { quoted: message as WAMessage });
+        await misa.sendMessage(from, { text: t("commands.pinterest.notFound") }, { quoted: message as WAMessage });
         return;
       }
 
       await misa.sendMessage(
         from,
         {
-          text: `📸 Encontrei ${data.images.length} imagens!\n\n⬇️ Enviando...`,
+          text: t("commands.pinterest.found", { count: String(data.images.length) }),
         },
         { quoted: message as WAMessage },
       );
@@ -112,7 +100,7 @@ const pinterestCommand: Command = {
           from,
           {
             image: { url: data.images[i] },
-            caption: i === 0 ? `🔍 Pesquisa: ${input}` : undefined,
+            caption: i === 0 ? t("commands.pinterest.searchCaption", { query: input }) : undefined,
           },
           { quoted: message as WAMessage },
         );
@@ -122,7 +110,7 @@ const pinterestCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: `ℹ️ Foram encontradas ${data.images.length} imagens, mas enviei apenas 5.`,
+            text: t("commands.pinterest.limited", { total: String(data.images.length), sent: "5" }),
           },
           { quoted: message as WAMessage },
         );
@@ -131,7 +119,7 @@ const pinterestCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: `❌ Erro: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+          text: t("commands.pinterest.error", { message: error instanceof Error ? error.message : t("commands.pinterest.unknown") }),
         },
         { quoted: message as WAMessage },
       );

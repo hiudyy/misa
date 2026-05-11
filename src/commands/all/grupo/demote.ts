@@ -8,19 +8,19 @@ import { toLID } from "../../../helpers/toLID.js";
 
 const demoteCommand: Command = {
   name: "demote",
-  aliases: ["rebaixar", "demover"],
+  aliases: ["rebaixar", "demover", "degradar"],
   description: "Remove cargo de administrador de um membro",
   category: "all",
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from }) {
+  async execute({ misa, message, from, t }) {
     const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     
     if (!mentionedIds || mentionedIds.length === 0) {
       await misa.sendMessage(
         from,
-        { text: "❌ Mencione o administrador que deseja rebaixar.\n\nUso: demote @usuario" },
+        { text: t("commands.demote.noMention") },
         { quoted: message as WAMessage },
       );
       return;
@@ -30,7 +30,7 @@ const demoteCommand: Command = {
     if (!userToDemote) {
       await misa.sendMessage(
         from,
-        { text: "❌ Não foi possível resolver o LID do usuário mencionado." },
+        { text: t("commands.demote.lidFailed") },
         { quoted: message as WAMessage },
       );
       return;
@@ -42,14 +42,14 @@ const demoteCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: `✅ Administrador rebaixado a membro comum!`,
+          text: t("commands.demote.success"),
         },
         { quoted: message as WAMessage },
       );
     } catch (error) {
       await misa.sendMessage(
         from,
-        { text: `❌ Erro ao rebaixar administrador: ${String(error)}` },
+        { text: t("commands.demote.error", { error: String(error) }) },
         { quoted: message as WAMessage },
       );
     }

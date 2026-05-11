@@ -31,11 +31,11 @@ const pingCommand: Command = {
   aliases: ["p"],
   description: "Mostra se a bot esta respondendo",
   category: "all",
-  async execute({ misa, message, from, isOwner }) {
+  async execute({ misa, message, from, isOwner, t }) {
     const config = await getBotConfig();
     const messageTimestamp = Number(message.messageTimestamp ?? 0);
     const latency = messageTimestamp > 0 ? Math.max(0, Date.now() - messageTimestamp * 1000) : null;
-    const latencyText = latency === null ? "indisponivel" : `${latency}ms`;
+    const latencyText = latency === null ? t("commands.ping.unavailable") : `${latency}ms`;
     const uptime = formatUptime(process.uptime());
     const ramUsage = formatMemory(process.memoryUsage().rss);
     const userIsOwner = await isOwner();
@@ -46,17 +46,17 @@ const pingCommand: Command = {
         text: [
           `╭─「 *${config.botName}* 」`,
           "│",
-          `│ ✦ Latencia: ${latencyText}`,
-          `│ ✦ Ativa ha: ${uptime}`,
-          `│ ✦ Memoria: ${ramUsage}`,
-          userIsOwner ? `│ ✦ Status: Dono` : "",
+          `│ ✦ ${t("commands.ping.latency")}: ${latencyText}`,
+          `│ ✦ ${t("commands.ping.uptime")}: ${uptime}`,
+          `│ ✦ ${t("commands.ping.memory")}: ${ramUsage}`,
+          userIsOwner ? `│ ✦ ${t("commands.ping.ownerStatus")}` : "",
           "│",
-          "╰─ Powered By Misa.",
+          `╰─ ${t("commands.ping.footer")}`,
         ].filter(Boolean).join("\n"),
       },
       { quoted: message as WAMessage },
     );
   },
-};;
+};
 
 export default pingCommand;

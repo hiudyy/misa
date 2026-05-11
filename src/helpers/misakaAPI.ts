@@ -6,11 +6,11 @@ import { getBotConfig } from "../config.js";
 
 const API_BASE_URL = "https://misaka.com.br/api/v1";
 
-export async function misakaAPI<T>(endpoint: string, params: Record<string, string> = {}): Promise<T | null> {
+export async function misakaAPI<T>(endpoint: string, params: Record<string, string> = {}, t?: any): Promise<T | null> {
   const config = await getBotConfig();
   
   if (!config.apiKey) {
-    throw new Error("API key não configurada. Configure em src/config.json");
+    throw new Error(t ? t("api.errors.missingKey") : "API key não configurada. Configure em src/config.json");
   }
 
   const url = new URL(`${API_BASE_URL}${endpoint}`);
@@ -27,24 +27,24 @@ export async function misakaAPI<T>(endpoint: string, params: Record<string, stri
 
     if (!response.ok) {
       if (response.status === 401) {
-        throw new Error("API key inválida");
+        throw new Error(t ? t("api.errors.invalidKey") : "API key inválida");
       }
       if (response.status === 403) {
-        throw new Error("Sem permissão para este endpoint");
+        throw new Error(t ? t("api.errors.forbidden") : "Sem permissão para este endpoint");
       }
       if (response.status === 429) {
-        throw new Error("Rate limit excedido. Tente novamente mais tarde");
+        throw new Error(t ? t("api.errors.rateLimit") : "Rate limit excedido. Tente novamente mais tarde");
       }
       if (response.status === 400) {
-        throw new Error("Parâmetro inválido ou ausente");
+        throw new Error(t ? t("api.errors.invalidParam") : "Parâmetro inválido ou ausente");
       }
-      throw new Error(`Erro na API: ${response.status}`);
+      throw new Error(t ? t("api.errors.serverError", { status: String(response.status) }) : `Erro na API: ${response.status}`);
     }
 
     const data = await response.json();
     
     if (!data.success) {
-      throw new Error("Resposta da API indica falha");
+      throw new Error(t ? t("api.errors.failure") : "Resposta da API indica falha");
     }
 
     return data.data as T;
@@ -52,6 +52,6 @@ export async function misakaAPI<T>(endpoint: string, params: Record<string, stri
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error("Erro ao conectar com a API");
+    throw new Error(t ? t("api.errors.connection") : "Erro ao conectar com a API");
   }
 }

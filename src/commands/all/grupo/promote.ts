@@ -14,13 +14,13 @@ const promoteCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from }) {
+  async execute({ misa, message, from, t }) {
     const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     
     if (!mentionedIds || mentionedIds.length === 0) {
       await misa.sendMessage(
         from,
-        { text: "❌ Mencione o usuário que deseja promover.\n\nUso: promote @usuario" },
+        { text: t("commands.promote.noMention") },
         { quoted: message as WAMessage },
       );
       return;
@@ -30,7 +30,7 @@ const promoteCommand: Command = {
     if (!userToPromote) {
       await misa.sendMessage(
         from,
-        { text: "❌ Não foi possível resolver o LID do usuário mencionado." },
+        { text: t("commands.promote.lidFailed") },
         { quoted: message as WAMessage },
       );
       return;
@@ -42,14 +42,14 @@ const promoteCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: `✅ Usuário promovido a administrador!`,
+          text: t("commands.promote.success"),
         },
         { quoted: message as WAMessage },
       );
     } catch (error) {
       await misa.sendMessage(
         from,
-        { text: `❌ Erro ao promover usuário: ${String(error)}` },
+        { text: t("commands.promote.error", { error: String(error) }) },
         { quoted: message as WAMessage },
       );
     }

@@ -9,23 +9,23 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 
 const menuDlCommand: Command = {
   name: "menudl",
-  aliases: ["menudownloads", "mdownloads"],
+  aliases: ["menudownloads", "mdownloads", "dlmenu", "menudescargas"],
   description: "Mostra os comandos de downloads",
   category: "geral",
-  async execute({ misa, message, from, prefix }) {
+  async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
 
     await sendMenu(
       misa,
       from,
       [
-        `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
+        t("commands.menu.mainTitle", { botName: config.botName }),
         "│",
-        "├ 〔 downloads 〕",
-        `│  ♡ ${prefix}play`,
-        `│  ♡ ${prefix}tiktok`,
-        `│  ♡ ${prefix}instagram`,
-        `│  ♡ ${prefix}pinterest`,
+        `├ 〔 ${t("commands.menu.categories.downloads")} 〕`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.play")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.tiktok")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.instagram")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.pinterest")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),

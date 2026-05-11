@@ -9,20 +9,20 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 
 const menuGeralCommand: Command = {
   name: "menugeral",
-  aliases: ["mgeral"],
+  aliases: ["mgeral", "generalmenu", "menugeneral"],
   description: "Mostra os comandos gerais",
   category: "geral",
-  async execute({ misa, message, from, prefix }) {
+  async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
 
     await sendMenu(
       misa,
       from,
       [
-        `‧₊˚ ✿ ── ${config.botName} ──✿ ˚₊‧`,
+        t("commands.menu.mainTitle", { botName: config.botName }),
         "│",
-        "├ 〔 geral 〕",
-        `│  ♡ ${prefix}ping`,
+        `├ 〔 ${t("commands.menu.categories.geral")} 〕`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.ping")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),

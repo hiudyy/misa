@@ -7,17 +7,17 @@ import { Command } from "../../../types/Command.js";
 
 const nomeGpCommand: Command = {
   name: "nomegp",
-  aliases: ["nomegrup", "renamegp"],
+  aliases: ["nomegrup", "renamegp", "groupname", "nombregrupo"],
   description: "Muda o nome do grupo",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args }) {
+  async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
-        { text: "❌ Informe o novo nome.\n\nUso: nomegp <nome>" },
+        { text: t("commands.nomegp.noArgs") },
         { quoted: message as WAMessage },
       );
       return;
@@ -27,7 +27,7 @@ const nomeGpCommand: Command = {
     await misa.groupUpdateSubject(from, novoNome);
     await misa.sendMessage(
       from,
-      { text: `✅ Nome do grupo alterado para *${novoNome}*!` },
+      { text: t("commands.nomegp.success", { name: novoNome }) },
       { quoted: message as WAMessage },
     );
   },
