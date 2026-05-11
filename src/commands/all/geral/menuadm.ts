@@ -30,6 +30,8 @@ const menuAdmCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.demote")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.nomegp")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.descgp")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.hidetag")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.del")}`,
         "│",
         `├ 〔 ${t("commands.menu.categories.activations")} 〕`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antilink")}`,

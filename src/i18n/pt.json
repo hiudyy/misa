@@ -200,6 +200,8 @@
         "instagram": "instagram",
         "pinterest": "pinterest",
         "admins": "admins",
+        "hidetag": "hidetag",
+        "del": "del",
         "gp": "gp",
         "kick": "kick",
         "promote": "promote",
@@ -269,6 +271,16 @@
       "groupInfoFailed": "❌ Não foi possível obter informações do grupo.",
       "noAdmins": "❌ Nenhum admin encontrado.",
       "defaultMessage": "os admins foram chamados!"
+    },
+    "hidetag": {
+      "fetchError": "❌ Não foi possível obter informações do grupo.",
+      "noMembers": "❌ Nenhum membro encontrado no grupo.",
+      "defaultMessage": "Todos foram marcados!"
+    },
+    "del": {
+      "noQuoted": "❌ Responda a mensagem que deseja deletar.\n\nUso: del (responda uma mensagem)",
+      "success": "✅ Mensagem deletada com sucesso!",
+      "error": "❌ Erro ao deletar mensagem: {{error}}"
     },
     "antilink": {
       "enabled": "✅ Anti-link *ativado* neste grupo!",

@@ -202,6 +202,8 @@
         "instagram": "instagram",
         "pinterest": "pinterest",
         "admins": "administradores",
+        "hidetag": "hidetag",
+        "del": "del",
         "gp": "grupo",
         "kick": "expulsar",
         "promote": "promover",
@@ -271,6 +273,16 @@
       "groupInfoFailed": "❌ No fue posible obtener información del grupo.",
       "noAdmins": "❌ No se encontraron admins.",
       "defaultMessage": "los admins fueron llamados!"
+    },
+    "hidetag": {
+      "fetchError": "❌ No fue posible obtener información del grupo.",
+      "noMembers": "❌ No se encontraron miembros en el grupo.",
+      "defaultMessage": "¡Todos fueron mencionados!"
+    },
+    "del": {
+      "noQuoted": "❌ Responde al mensaje que deseas eliminar.\n\nUso: del (responde a un mensaje)",
+      "success": "✅ ¡Mensaje eliminado con éxito!",
+      "error": "❌ Error al eliminar mensaje: {{error}}"
     },
     "antilink": {
       "enabled": "✅ Anti-link *activado* en este grupo!",
