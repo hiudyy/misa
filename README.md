@@ -2,16 +2,18 @@
 
 <img src="src/assets/menu.jpeg" alt="Misa Bot" width="860" />
 
-<img src="https://count.getloli.com/@misa?name=misa&theme=miku&padding=7&offset=0&align=top&scale=1&pixelated=0&darkmode=auto" alt="Contador de visitas do projeto" />
-
 <br />
 
 <a href="https://chat.whatsapp.com/IZRLPKgiDk6JLaNktVPE4M">
-  <img src="https://img.shields.io/badge/WhatsApp-Entrar%20na%20comunidade-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Comunidade no WhatsApp" />
+  <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="WhatsApp" />
 </a>
 <a href="https://discord.gg/HhfnR7BSnS">
-  <img src="https://img.shields.io/badge/Discord-Entrar%20no%20servidor-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Servidor no Discord" />
+  <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" />
 </a>
+
+<br /><br />
+
+<img src="https://count.getloli.com/@misa?name=misa&theme=miku&padding=7&offset=0&align=top&scale=1&pixelated=0&darkmode=auto" alt="Contador de visitas do projeto" />
 
 </div>
 
