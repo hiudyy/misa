@@ -16,6 +16,8 @@
     "goodbye": "Ate logo.",
     "startCancelled": "Start cancelado.",
     "startFailed": "Falha no start.",
+    "boolYes": "s|sim|y|yes",
+    "boolNo": "n|nao|não|no",
     "invalidOption": "Opcao invalida. Tente novamente.",
     "invalidPhone": "Numero invalido.",
     "sessionDetected": "Sessao existente detectada. Conectando automaticamente...",
