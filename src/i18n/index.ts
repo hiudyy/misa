@@ -6,9 +6,9 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-export type Locale = "pt" | "es" | "en";
+export type Locale = "pt" | "es" | "en" | "id";
 
-export const SUPPORTED_LOCALES: Locale[] = ["pt", "es", "en"];
+export const SUPPORTED_LOCALES: Locale[] = ["pt", "es", "en", "id"];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
