@@ -1,0 +1,478 @@
+{
+  "common": {
+    "yes": "Ya",
+    "no": "Tidak",
+    "enabled": "aktif",
+    "disabled": "nonaktif",
+    "error": "Kesalahan",
+    "success": "Berhasil",
+    "unknown": "tidak diketahui",
+    "none": "tidak ada",
+    "file": "file",
+    "files": "file"
+  },
+  "terminal": {
+    "initializing": "  Menginisialisasi...",
+    "goodbye": "Sampai jumpa.",
+    "startCancelled": "Mulai dibatalkan.",
+    "startFailed": "Gagal memulai.",
+    "invalidOption": "Pilihan tidak valid. Silakan coba lagi.",
+    "invalidPhone": "Nomor tidak valid.",
+    "sessionDetected": "Sesi yang ada terdeteksi. Menghubungkan secara otomatis...",
+    "menu": {
+      "title": "MISA",
+      "version": "versi",
+      "configure": "Konfigurasi bot",
+      "start": "Mulai bot",
+      "exit": "Keluar",
+      "chooseOption": "  › Pilih opsi: "
+    },
+    "config": {
+      "header": "KONFIGURASI BOT",
+      "pressEnter": "   Tekan Enter untuk mempertahankan nilai saat ini  ",
+      "saved": "KONFIGURASI DISIMPAN",
+      "fileUpdated": "   File diperbarui: src/config.json              ",
+      "botName": "Nama bot",
+      "ownerName": "Nama pemilik",
+      "prefix": "Prefiks bot",
+      "ownerNumber": "Nomor pemilik",
+      "apiKey": "Kunci API",
+      "apiKeyHint": "[CONFIG] Kunci API dapat diperoleh di https://misaka.com.br",
+      "autoUpdate": "Pembaruan otomatis",
+      "language": "Bahasa bot",
+      "languageHint": "(pt, es, en)",
+      "notConfigured": "belum dikonfigurasi",
+      "configured": "sudah dikonfigurasi",
+      "boolPrompt": "(y/T)",
+      "boolInvalid": "Jawab dengan y/ya untuk ya, t untuk tidak, atau Enter untuk mempertahankan."
+    },
+    "connection": {
+      "title": "METODE KONEKSI",
+      "qr": "Kode QR",
+      "pairing": "Kode Pairing",
+      "pairingHint": "(nomor telepon)",
+      "back": "Kembali",
+      "phonePrompt": "  › Nomor dengan kode negara (cth. 6281999999999): "
+    }
+  },
+  "logs": {
+    "ownerLidFetching": "Mengambil LID pemilik...",
+    "ownerLidSaved": "LID pemilik disimpan: {{lid}}",
+    "ownerLidFailed": "Tidak dapat mengambil LID pemilik.",
+    "commandIgnoredNoLid": "Diabaikan karena LID tidak dapat diselesaikan: {{sender}}",
+    "commandError": "Kesalahan saat menjalankan {{commandName}}.",
+    "commandInvalid": "Diabaikan karena tidak valid: {{file}}",
+    "eventInvalid": "Diabaikan karena tidak valid: {{file}}",
+    "eventError": "Kesalahan pada {{name}}.",
+    "configReadFailed": "Tidak dapat membaca {{path}}.",
+    "configMigrated": "Konfigurasi dimigrasikan ke {{path}}.",
+    "botStarted": "{{botName}} dimulai dan siap menerima pesan."
+  },
+  "errors": {
+    "ownerOnly": "❌ Perintah ini hanya untuk pemilik bot.",
+    "groupOnly": "❌ Perintah ini hanya dapat digunakan di grup.",
+    "privateOnly": "❌ Perintah ini hanya dapat digunakan di chat pribadi.",
+    "adminOnly": "❌ Perintah ini hanya untuk administrator grup.",
+    "botAdminRequired": "❌ Saya harus menjadi administrator grup untuk menjalankan perintah ini.",
+    "commandExecution": "❌ Terjadi kesalahan saat menjalankan perintah."
+  },
+  "api": {
+    "errors": {
+      "missingKey": "Kunci API belum dikonfigurasi. Konfigurasikan di src/config.json",
+      "invalidKey": "Kunci API tidak valid",
+      "forbidden": "Tidak ada izin untuk endpoint ini",
+      "rateLimit": "Batas permintaan terlampaui. Coba lagi nanti",
+      "invalidParam": "Parameter tidak valid atau hilang",
+      "serverError": "Kesalahan API: {{status}}",
+      "failure": "Respons API menunjukkan kegagalan",
+      "connection": "Kesalahan menghubungkan ke API"
+    }
+  },
+  "connection": {
+    "sessionDetected": "Sesi yang ada terdeteksi. Menghubungkan secara otomatis...",
+    "connecting": "Menghubungkan ke WhatsApp...",
+    "connected": "Berhasil terhubung.",
+    "disconnected": "Koneksi ditutup",
+    "reconnecting": "Mencoba menghubungkan kembali...",
+    "sessionCleared": "Sesi lokal dihapus. Mulai lagi untuk membuat QR baru.",
+    "sessionClearFailed": "Tidak dapat menghapus {{path}}.",
+    "qrReceived": "Kode QR diterima",
+    "qrScan": "Pindai dengan WhatsApp untuk menghubungkan sesi ini.",
+    "pairingCode": "Kode pairing",
+    "pairingNewCode": "Kode pairing baru",
+    "pairingCodeValue": "Kode: {{code}}",
+    "pairingInstruction": "Masukkan di WhatsApp: Perangkat tertaut > Hubungkan perangkat > Hubungkan dengan nomor telepon.",
+    "pairingExpired": "Kode pairing kedaluwarsa. Meminta kode baru...",
+    "pairingError": "Kesalahan saat meminta kode pairing.",
+    "disconnectCode": "Kode: {{code}}",
+    "disconnectReason": "Alasan: {{reason}}",
+    "disconnectDetail": "Detail: {{detail}}",
+    "disconnectAction": "Tindakan: {{action}}",
+    "disconnect": {
+      "loggedOut": {
+        "title": "Sesi terputus",
+        "description": "WhatsApp mengakhiri sesi ini atau dihapus dari perangkat yang terhubung.",
+        "action": "Saya akan menghapus sesi lokal. Mulai lagi untuk membuat QR baru."
+      },
+      "forbidden": {
+        "title": "Akses ditolak",
+        "description": "WhatsApp menolak koneksi untuk sesi ini.",
+        "action": "Periksa kredensial Anda, tunggu beberapa menit dan buat sesi baru jika terus gagal."
+      },
+      "connectionLost": {
+        "title": "Koneksi terputus atau habis waktu",
+        "description": "Jaringan terputus, tidak stabil, atau percobaan terlalu lama untuk merespons.",
+        "action": "Saya akan mencoba menghubungkan kembali secara otomatis."
+      },
+      "multideviceMismatch": {
+        "title": "Ketidakcocokan multi-perangkat",
+        "description": "Sesi tidak cocok dengan protokol multi-perangkat yang diharapkan oleh WhatsApp.",
+        "action": "Perbarui Baileys/dependensi dan buat sesi baru jika diperlukan."
+      },
+      "connectionClosed": {
+        "title": "Koneksi ditutup",
+        "description": "Koneksi ditutup oleh WhatsApp atau jaringan.",
+        "action": "Saya akan mencoba menghubungkan kembali secara otomatis."
+      },
+      "connectionReplaced": {
+        "title": "Koneksi digantikan",
+        "description": "Instance lain terhubung menggunakan sesi yang sama.",
+        "action": "Tutup instance lain sebelum memulai yang ini lagi."
+      },
+      "badSession": {
+        "title": "Sesi tidak valid",
+        "description": "File autentikasi tampaknya rusak atau tidak valid.",
+        "action": "Hapus {{authPath}} dan pindai kode QR baru."
+      },
+      "unavailableService": {
+        "title": "Layanan tidak tersedia",
+        "description": "WhatsApp atau rute koneksi sementara tidak tersedia.",
+        "action": "Saya akan mencoba menghubungkan kembali secara otomatis."
+      },
+      "restartRequired": {
+        "title": "Perlu restart",
+        "description": "Server meminta agar klien di-restart.",
+        "action": "Saya akan me-restart koneksi secara otomatis."
+      },
+      "default": {
+        "title": "Koneksi ditutup",
+        "description": "Koneksi ditutup karena alasan yang tidak terpetakan.",
+        "action": "Saya akan mencoba menghubungkan kembali secara otomatis."
+      }
+    }
+  },
+  "update": {
+    "checking": "Memeriksa pembaruan...",
+    "downloading": "Mengunduh pembaruan...",
+    "extracting": "Mengekstrak...",
+    "installingDeps": "Menginstal dependensi...",
+    "done": "Pembaruan selesai! Memulai ulang...",
+    "failed": "Pembaruan gagal. Melanjutkan dengan versi saat ini."
+  },
+  "commands": {
+    "ping": {
+      "latency": "Latensi",
+      "unavailable": "tidak tersedia",
+      "uptime": "Online selama",
+      "memory": "Memori",
+      "ownerStatus": "Status: Pemilik",
+      "footer": "Powered By Misa."
+    },
+    "sticker": {
+      "usage": "╭─「 *STIKER* 」\n│\n│ ✦ Cara penggunaan:\n│   kirim atau balas foto dengan:\n│   s\n│\n│   kirim atau balas video dengan:\n│   stiker\n│\n╰─ Hasil: stiker persegi",
+      "creating": "🪄 Membuat stiker...",
+      "videoTooLong": "❌ Video harus maksimal {{max}} detik.",
+      "error": "❌ Kesalahan membuat stiker: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "sticker2": {
+      "usage": "╭─「 *STIKER2* 」\n│\n│ ✦ Cara penggunaan:\n│   kirim atau balas foto dengan:\n│   s2\n│\n│   kirim atau balas video dengan:\n│   stiker2\n│\n╰─ Hasil: mempertahankan format asli"
+    },
+    "brat": {
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Cara penggunaan:\n│   brat <teks>\n│\n╰─ Contoh:\n   brat aku sudah bilang",
+      "creating": "🖼️ Membuat stiker brat...",
+      "error": "❌ Kesalahan membuat brat: {{message}}",
+      "empty": "API mengembalikan gambar kosong.",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "brat2": {
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Cara penggunaan:\n│   brat2 <teks>\n│\n╰─ Contoh:\n   brat2 hari ini aku menghilang"
+    },
+    "menu": {
+      "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
+      "categories": {
+        "geral": "umum",
+        "fig": "stiker",
+        "downloads": "unduhan",
+        "grupo": "grup",
+        "owner": "pemilik",
+        "activations": "aktivasi",
+        "welcome": "sambutan"
+      },
+      "cmds": {
+        "ping": "ping",
+        "menugeral": "menuumum",
+        "menufig": "menustiker",
+        "brat": "brat",
+        "brat2": "brat2",
+        "menudl": "menuunduhan",
+        "menugrupo": "menugrup",
+        "menuadm": "menuadmin",
+        "menudono": "menupemilik",
+        "sticker": "stiker",
+        "sticker2": "stiker2",
+        "play": "putar",
+        "ytmp3": "ytmp3",
+        "playvid": "putarvid",
+        "ytmp4": "ytmp4",
+        "tiktok": "tiktok",
+        "instagram": "instagram",
+        "pinterest": "pinterest",
+        "admins": "admin",
+        "hidetag": "sembunyitag",
+        "del": "hapus",
+        "gp": "grup",
+        "kick": "keluarkan",
+        "promote": "promosikan",
+        "demote": "turunkan",
+        "nomegp": "namagrup",
+        "descgp": "deskripsigrup",
+        "antilink": "antilink",
+        "antilinkgp": "antilinkgp",
+        "antilinkch": "antilinksaluran",
+        "bemvindo": "sambutan",
+        "legendabv": "tekssambutan",
+        "midiabv": "mediasambutan",
+        "eval": "eval",
+        "cmdnf": "cmdtidakditemukan",
+        "idioma": "bahasa",
+        "idiomagp": "bahasagrup"
+      }
+    },
+    "play": {
+      "usage": "╭─「 *PUTAR* 」\n│\n│ ✦ Cari:\n│   putar <nama lagu>\n│   p <nama lagu>\n│\n╰─ Contoh:\n   putar michael jackson billie jean",
+      "searching": "🔍 Mencari lagu...",
+      "notFound": "❌ Tidak ada hasil ditemukan.",
+      "channel": "Saluran",
+      "duration": "Durasi",
+      "views": "Tontonan",
+      "downloading": "⬇️ Mengunduh audio...",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui",
+      "author": "Tidak diketahui"
+    },
+    "ytmp3": {
+      "usage": "╭─「 *YTMP3* 」\n│\n│ ✦ Unduh:\n│   ytmp3 <tautan YouTube>\n\n╰─ Contoh:\n   ytmp3 https://youtube.com/watch?v=...\n   ytmp3 https://youtu.be/...\n   ytmp3 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ URL tidak valid. Gunakan tautan YouTube.",
+      "downloading": "⬇️ Mengunduh audio dari YouTube...",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "playvid": {
+      "usage": "╭─「 *PUTARVID* 」\n│\n│ ✦ Cari:\n│   putarvid <nama video>\n│   pv <nama video>\n\n╰─ Contoh:\n   putarvid michael jackson thriller",
+      "searching": "🔍 Mencari video...",
+      "notFound": "❌ Tidak ada hasil ditemukan.",
+      "channel": "Saluran",
+      "duration": "Durasi",
+      "views": "Tontonan",
+      "downloading": "⬇️ Mengunduh video...",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "ytmp4": {
+      "usage": "╭─「 *YTMP4* 」\n│\n│ ✦ Unduh:\n│   ytmp4 <tautan YouTube>\n\n╰─ Contoh:\n   ytmp4 https://youtube.com/watch?v=...\n   ytmp4 https://youtu.be/...\n   ytmp4 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ URL tidak valid. Gunakan tautan YouTube.",
+      "downloading": "⬇️ Mengunduh video dari YouTube...",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "tiktok": {
+      "usage": "╭─「 *TIKTOK* 」\n│\n│ ✦ Unduh:\n│   tiktok <url>\n│\n│ ✦ Cari:\n│   tiktok <kata kunci>\n│\n╰─ Contoh:\n   tiktok https://vm.tiktok.com/...\n   tiktok tarian viral",
+      "downloading": "⬇️ Mengunduh dari TikTok...",
+      "downloadFailed": "❌ Tidak dapat mengunduh video.",
+      "downloadDone": "✅ Unduhan selesai!",
+      "searching": "🔍 Mencari di TikTok...",
+      "notFound": "❌ Tidak ada hasil ditemukan.",
+      "found": "📹 *{{title}}*\n\n⬇️ Mengunduh...",
+      "searchCaption": "🔍 Pencarian: {{query}}",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "instagram": {
+      "usage": "╭─「 *INSTAGRAM* 」\n│\n│ ✦ Unduh:\n│   instagram <url>\n│\n╰─ Contoh:\n   instagram https://instagram.com/p/...",
+      "invalidUrl": "❌ URL tidak valid. Gunakan URL Instagram.",
+      "downloading": "⬇️ Mengunduh dari Instagram...",
+      "downloadFailed": "❌ Tidak dapat mengunduh konten.",
+      "sending": "📥 Mengirim {{count}} {{fileWord}}...",
+      "done": "✅ Unduhan Instagram selesai!",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "pinterest": {
+      "usage": "╭─「 *PINTEREST* 」\n│\n│ ✦ Unduh:\n│   pinterest <url>\n│\n│ ✦ Cari:\n│   pinterest <kata kunci>\n│\n╰─ Contoh:\n   pinterest https://pin.it/...\n   pinterest wallpaper 4k",
+      "downloading": "⬇️ Mengunduh dari Pinterest...",
+      "downloadFailed": "❌ Tidak dapat mengunduh konten.",
+      "done": "✅ Unduhan Pinterest selesai!",
+      "searching": "🔍 Mencari di Pinterest...",
+      "notFound": "❌ Tidak ada hasil ditemukan.",
+      "found": "📸 Ditemukan {{count}} gambar!\n\n⬇️ Mengirim...",
+      "searchCaption": "🔍 Pencarian: {{query}}",
+      "limited": "ℹ️ Ditemukan {{total}} gambar, tetapi hanya mengirim {{sent}}.",
+      "error": "❌ Kesalahan: {{message}}",
+      "unknown": "Kesalahan tidak diketahui"
+    },
+    "admins": {
+      "groupInfoFailed": "❌ Tidak dapat mengambil informasi grup.",
+      "noAdmins": "❌ Tidak ada admin yang ditemukan.",
+      "defaultMessage": "para admin telah dipanggil!"
+    },
+    "hidetag": {
+      "fetchError": "❌ Tidak dapat mengambil informasi grup.",
+      "noMembers": "❌ Tidak ada anggota yang ditemukan di grup.",
+      "defaultMessage": "Semua orang telah ditandai!"
+    },
+    "del": {
+      "noQuoted": "❌ Balas pesan yang ingin Anda hapus.\n\nPenggunaan: hapus (balas pesan)",
+      "success": "✅ Pesan berhasil dihapus!",
+      "error": "❌ Kesalahan menghapus pesan: {{error}}"
+    },
+    "antilink": {
+      "enabled": "✅ Anti-link *diaktifkan* di grup ini!",
+      "disabled": "❌ Anti-link *dinonaktifkan* di grup ini.",
+      "settingsHint": "⚙️ Pengaturan:\n• antilink hukuman hapus\n• antilink hukuman ban\n• antilink teks <pesan>",
+      "punishmentUpdated": "✅ Hukuman anti-link diperbarui menjadi *{{value}}*.",
+      "invalidPunishment": "❌ Gunakan: antilink hukuman hapus | ban",
+      "textUpdated": "✅ Teks anti-link diperbarui!\n\n{{text}}",
+      "textHeader": "╭─「 *TEKS ANTILINK* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilink teks <pesan>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink hukuman hapus\n│ antilink hukuman ban\n│ antilink teks <pesan>",
+      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+    },
+    "antilinkgp": {
+      "enabled": "✅ Anti-link grup *diaktifkan* di grup ini!",
+      "disabled": "❌ Anti-link grup *dinonaktifkan* di grup ini.",
+      "settingsHint": "⚙️ Pengaturan:\n• antilinkgp hukuman hapus\n• antilinkgp hukuman ban\n• antilinkgp teks <pesan>",
+      "punishmentUpdated": "✅ Hukuman anti-link grup diperbarui menjadi *{{value}}*.",
+      "invalidPunishment": "❌ Gunakan: antilinkgp hukuman hapus | ban",
+      "textUpdated": "✅ Teks anti-link grup diperbarui!\n\n{{text}}",
+      "textHeader": "╭─「 *TEKS ANTILINKGP* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilinkgp teks <pesan>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp hukuman hapus\n│ antilinkgp hukuman ban\n│ antilinkgp teks <pesan>",
+      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+    },
+    "antilinkch": {
+      "enabled": "✅ Anti-link saluran *diaktifkan* di grup ini!",
+      "disabled": "❌ Anti-link saluran *dinonaktifkan* di grup ini.",
+      "settingsHint": "⚙️ Pengaturan:\n• antilinksaluran hukuman hapus\n• antilinksaluran hukuman ban\n• antilinksaluran teks <pesan>",
+      "punishmentUpdated": "✅ Hukuman anti-link saluran diperbarui menjadi *{{value}}*.",
+      "invalidPunishment": "❌ Gunakan: antilinksaluran hukuman hapus | ban",
+      "textUpdated": "✅ Teks anti-link saluran diperbarui!\n\n{{text}}",
+      "textHeader": "╭─「 *TEKS ANTILINKSALURAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilinksaluran teks <pesan>",
+      "usage": "╭─「 *ANTILINKSALURAN* 」\n│\n│ antilinksaluran\n│ antilinksaluran hukuman hapus\n│ antilinksaluran hukuman ban\n│ antilinksaluran teks <pesan>",
+      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+    },
+    "bemvindo": {
+      "enabled": "✅ Sambutan *diaktifkan* di grup ini!",
+      "disabled": "❌ Sambutan *dinonaktifkan* di grup ini."
+    },
+    "gp": {
+      "usage": "╭─「 *GRUP* 」\n│\n│ ✦ grup a → buka grup\n│ ✦ grup t → tutup grup\n│\n╰─",
+      "closed": "🔒 Grup ditutup! Hanya admin yang dapat mengirim pesan.",
+      "opened": "🔓 Grup dibuka! Semua orang dapat mengirim pesan."
+    },
+    "kick": {
+      "noMention": "❌ Sebutkan pengguna yang ingin Anda keluarkan.\n\nPenggunaan: keluarkan @pengguna",
+      "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebutkan.",
+      "success": "✅ Pengguna berhasil dikeluarkan!",
+      "error": "❌ Kesalahan mengeluarkan pengguna: {{error}}"
+    },
+    "promote": {
+      "noMention": "❌ Sebutkan pengguna yang ingin Anda promosikan.\n\nPenggunaan: promosikan @pengguna",
+      "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebutkan.",
+      "success": "✅ Pengguna berhasil dipromosikan menjadi administrator!",
+      "error": "❌ Kesalahan mempromosikan pengguna: {{error}}"
+    },
+    "demote": {
+      "noMention": "❌ Sebutkan administrator yang ingin Anda turunkan.\n\nPenggunaan: turunkan @pengguna",
+      "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebutkan.",
+      "success": "✅ Administrator berhasil diturunkan menjadi anggota biasa!",
+      "error": "❌ Kesalahan menurunkan administrator: {{error}}"
+    },
+    "nomegp": {
+      "noArgs": "❌ Berikan nama baru.\n\nPenggunaan: namagrup <nama>",
+      "success": "✅ Nama grup diubah menjadi *{{name}}*!"
+    },
+    "descgp": {
+      "noArgs": "❌ Berikan deskripsi baru.\n\nPenggunaan: deskripsigrup <deskripsi>",
+      "success": "✅ Deskripsi grup berhasil diperbarui!"
+    },
+    "legendabv": {
+      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @total     → total anggota\n│ @deskripsi → deskripsi grup",
+      "header": "╭─「 *KETERANGAN SAMBUTAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Keterangan saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: tekssambutan <teks>",
+      "updated": "✅ Keterangan sambutan diperbarui!\n\n{{text}}"
+    },
+    "midiabv": {
+      "removed": "✅ Media sambutan dihapus.",
+      "noMedia": "╭─「 *MEDIA SAMBUTAN* 」\n│\n│ ✦ Status: {{status}}\n│\n│ Kirim atau balas dengan gambar atau video.\n│ Video: maks 15 detik (dikirim sebagai gif).\n│ Untuk menghapus: mediasambutan mati\n│\n╰─",
+      "statusVideo": "Video 🎥 ✅",
+      "statusImage": "Gambar 🖼️ ✅",
+      "statusNone": "Tidak ada media ❌",
+      "videoTooLong": "❌ Video berdurasi {{seconds}} detik. Maksimum yang diizinkan: {{max}} detik.",
+      "successVideo": "✅ Video sambutan dikonfigurasi!",
+      "successImage": "✅ Foto sambutan dikonfigurasi!"
+    },
+    "cmdnf": {
+      "params": "@pengguna     → menyebut pengguna\n│ @nama         → nama pengguna\n│ @perintah     → perintah yang diketik\n│ @mirip        → perintah yang paling mirip\n│ @kemiripan    → persentase kemiripan\n│ @prefiks      → prefiks saat ini\n│ @bot          → nama bot",
+      "header": "╭─「 *CMDTIDAKDITEMUKAN* 」\n│\n│ *Mode saat ini:* {{mode}}\n│ *Teks saat ini:* {{text}}\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Penggunaan:*\n│ cmdtidakditemukan mode teks\n│ cmdtidakditemukan mode sebut\n│ cmdtidakditemukan teks <pesan>",
+      "invalidMode": "❌ Gunakan: cmdtidakditemukan mode teks | sebut",
+      "modeUpdated": "✅ Mode perintah tidak ditemukan diperbarui menjadi *{{mode}}*.",
+      "textHeader": "╭─「 *TEKS CMDTIDAKDITEMUKAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: cmdtidakditemukan teks <pesan>",
+      "textUpdated": "✅ Teks perintah tidak ditemukan diperbarui!\n\n{{text}}",
+      "usage": "╭─「 *CMDTIDAKDITEMUKAN* 」\n│\n│ cmdtidakditemukan mode teks\n│ cmdtidakditemukan mode sebut\n│ cmdtidakditemukan teks <pesan>"
+    },
+    "eval": {
+      "noArgs": "❌ Penggunaan: eval <kode>",
+      "success": "╭─「 *HASIL EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ Berhasil dieksekusi.",
+      "error": "╭─「 *KESALAHAN EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *KESALAHAN* 」\n│\n│ {{error}}\n│\n╰─ Kesalahan eksekusi."
+    },
+    "idioma": {
+      "current": "🌐 Bahasa global saat ini: *{{language}}*\n\nPenggunaan: bahasa <pt|es|en|id>",
+      "updated": "✅ Bahasa global diperbarui menjadi *{{language}}*.",
+      "invalid": "❌ Bahasa tidak valid. Gunakan: pt, es, en atau id",
+      "i18nAliases": {
+        "pt": ["idioma", "setidioma"],
+        "es": ["idioma", "lenguaje", "setlenguaje"],
+        "en": ["language", "setlanguage", "lang", "setlang"],
+        "id": ["bahasa", "setbahasa", "lang", "setlang"]
+      }
+    },
+    "idiomagp": {
+      "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nPenggunaan: bahasagrup <pt|es|en|id|reset>",
+      "updated": "✅ Bahasa grup diperbarui menjadi *{{language}}*.",
+      "reset": "✅ Bahasa grup direset ke global (*{{language}}*).",
+      "invalid": "❌ Bahasa tidak valid. Gunakan: pt, es, en atau id (atau 'reset' untuk menggunakan global)",
+      "i18nAliases": {
+        "pt": ["idiomagp", "idiomagrupo"],
+        "es": ["idiomgp", "lenguajegrupo"],
+        "en": ["langgroup", "languagegroup", "setlanggroup"],
+        "id": ["bahasagrup", "setbahasagrup", "langgroup"]
+      }
+    }
+  },
+  "group": {
+    "welcome": {
+      "defaultLegend": "Selamat datang, @pengguna! 👋\nAnda adalah anggota ke-@total di grup *@grup*."
+    },
+    "antilink": {
+      "defaultText": "🚫 @pengguna, tautan tidak diizinkan di grup ini.",
+      "defaultGroupText": "🚫 @pengguna, tautan grup tidak diizinkan di grup ini.",
+      "defaultChannelText": "🚫 @pengguna, tautan saluran tidak diizinkan di grup ini.",
+      "typeLink": "tautan",
+      "typeGroupLink": "tautan grup",
+      "typeChannelLink": "tautan saluran"
+    }
+  },
+  "owner": {
+    "cmdnf": {
+      "defaultText": "❌ @pengguna, perintah @perintah tidak ada.\n\nMungkin maksud Anda: @mirip (@kemiripan)\nGunakan @prefiksmenu untuk melihat daftar perintah."
+    }
+  }
+}

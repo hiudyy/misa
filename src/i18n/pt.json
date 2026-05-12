@@ -436,22 +436,24 @@
     "idioma": {
       "current": "🌐 Idioma global atual: *{{language}}*\n\nUso: idioma <pt|es|en>",
       "updated": "✅ Idioma global atualizado para *{{language}}*.",
-      "invalid": "❌ Idioma inválido. Use: pt, es ou en",
+      "invalid": "❌ Idioma inválido. Use: pt, es, en ou id",
       "i18nAliases": {
         "pt": ["idioma", "setidioma"],
         "es": ["idioma", "lenguaje", "setlenguaje"],
-        "en": ["language", "setlanguage", "lang", "setlang"]
+        "en": ["language", "setlanguage", "lang", "setlang"],
+        "id": ["bahasa", "setbahasa", "lang", "setlang"]
       }
     },
     "idiomagp": {
-      "current": "🌐 Idioma do grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|reset>",
+      "current": "🌐 Idioma do grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|reset>",
       "updated": "✅ Idioma do grupo atualizado para *{{language}}*.",
       "reset": "✅ Idioma do grupo resetado para o global (*{{language}}*).",
-      "invalid": "❌ Idioma inválido. Use: pt, es ou en (ou 'reset' para usar o global)",
+      "invalid": "❌ Idioma inválido. Use: pt, es, en ou id (ou 'reset' para usar o global)",
       "i18nAliases": {
         "pt": ["idiomagp", "idiomagrupo"],
         "es": ["idiomgp", "lenguajegrupo"],
-        "en": ["langgroup", "languagegroup", "setlanggroup"]
+        "en": ["langgroup", "languagegroup", "setlanggroup"],
+        "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
     }
   },
