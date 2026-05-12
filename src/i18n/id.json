@@ -16,6 +16,8 @@
     "goodbye": "Sampai jumpa.",
     "startCancelled": "Mulai dibatalkan.",
     "startFailed": "Gagal memulai.",
+    "boolYes": "y|ya",
+    "boolNo": "t|tidak|n|no",
     "invalidOption": "Pilihan tidak valid. Silakan coba lagi.",
     "invalidPhone": "Nomor tidak valid.",
     "sessionDetected": "Sesi yang ada terdeteksi. Menghubungkan secara otomatis...",
