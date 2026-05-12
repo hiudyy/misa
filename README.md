@@ -24,13 +24,13 @@
 
 **Misa** é um bot avançado e modular para **WhatsApp**, construído inteiramente em **TypeScript** utilizando a biblioteca **Baileys** (Multi-Device). 
 
-Feita para ser incrivelmente simples de instalar, fácil de manter e totalmente escalável. Com suporte nativo a internacionalização (i18n), a Misa fala **Português, Inglês e Espanhol**, sendo a escolha perfeita para comunidades de todos os tamanhos. Criado pela [Cognima](https://cognima.com.br/urls).
+Feita para ser incrivelmente simples de instalar, fácil de manter e totalmente escalável. Com suporte nativo a internacionalização (i18n), a Misa fala **Português, Inglês, Espanhol e Indonésio**, sendo a escolha perfeita para comunidades de todos os tamanhos. Criado pela [Cognima](https://cognima.com.br/urls).
 
 ## 🌐 A Primeira Bot 100% Internacionalizada
 
 A Misa não é apenas mais uma bot de WhatsApp. Ela foi projetada com uma arquitetura avançada de **internacionalização (i18n)**, destacando-se como a primeira bot Open Source verdadeiramente multilíngue da comunidade.
 
-- **Idiomas Nativos:** Suporte total a **Português (PT)**, **Inglês (EN)** e **Espanhol (ES)**.
+- **Idiomas Nativos:** Suporte total a **Português (PT)**, **Inglês (EN)**, **Espanhol (ES)** e **Indonésio (ID)**.
 - **Tradução Completa:** Não são apenas os menus que mudam! Absolutamente **todo o ecossistema** é traduzido de forma impecável: alertas do terminal, mensagens de anti-link, logs internos, erros de API, setups de conexão e painéis interativos.
 - **Aliases Dinâmicos:** A imersão é completa. Ao configurar o bot para Inglês, os próprios comandos do WhatsApp se adaptam ao idioma nativo. Em vez de usar `!nomegp`, o seu usuário poderá digitar livremente `!groupname`. O bot entende os aliases traduzidos automaticamente.
 - **Independência por Grupo:** A Misa permite definir um idioma global, mas vai além: cada grupo pode escolher seu próprio idioma. Um administrador pode configurar o grupo para falar Espanhol, e a Misa passará a responder apenas em espanhol naquele grupo, enquanto atende o resto dos usuários em inglês ou português.
@@ -309,13 +309,13 @@ Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code o
 
 **Misa** is an advanced and modular **WhatsApp** bot, built entirely in **TypeScript** using the **Baileys** (Multi-Device) library.
 
-Designed to be incredibly simple to install, easy to maintain, and fully scalable. With native internationalization (i18n) support, Misa speaks **Portuguese, English, and Spanish**, making it the perfect choice for communities of all sizes. Created by [Cognima](https://cognima.com.br/urls).
+Designed to be incredibly simple to install, easy to maintain, and fully scalable. With native internationalization (i18n) support, Misa speaks **Portuguese, English, Spanish and Indonesian**, making it the perfect choice for communities of all sizes. Created by [Cognima](https://cognima.com.br/urls).
 
 ## 🌐 The First 100% Internationalized Bot
 
 Misa is not just another WhatsApp bot. It was designed with an advanced **internationalization (i18n)** architecture, standing out as the first truly multi-language Open Source bot in the community.
 
-- **Native Languages:** Full support for **Portuguese (PT)**, **English (EN)**, and **Spanish (ES)**.
+- **Native Languages:** Full support for **Portuguese (PT)**, **English (EN)**, **Spanish (ES)** and **Indonesian (ID)**.
 - **Complete Translation:** It's not just the menus that change! Absolutely **the entire ecosystem** is flawlessly translated: terminal alerts, anti-link messages, internal logs, API errors, connection setups, and interactive panels.
 - **Dynamic Aliases:** Complete immersion. When you set the bot to English, the WhatsApp commands themselves adapt to the native language. Instead of using `!nomegp`, your users can freely type `!groupname`. The bot understands the translated aliases automatically.
 - **Group Independence:** Misa allows you to set a global language, but it goes further: each group can choose its own language. An administrator can configure a group to speak Spanish, and Misa will respond only in Spanish in that group, while serving the rest of the users in English or Portuguese.
@@ -594,13 +594,13 @@ If you still don't have a session, run `npm start` first to configure QR Code or
 
 **Misa** es un bot avanzado y modular para **WhatsApp**, construido completamente en **TypeScript** utilizando la biblioteca **Baileys** (Multi-Device).
 
-Diseñado para ser increíblemente fácil de instalar, de mantener y totalmente escalable. Con soporte nativo de internacionalización (i18n), Misa habla **Portugués, Inglés y Español**, siendo la elección perfecta para comunidades de todos los tamaños. Creado por [Cognima](https://cognima.com.br/urls).
+Diseñado para ser increíblemente fácil de instalar, de mantener y totalmente escalable. Con soporte nativo de internacionalización (i18n), Misa habla **Portugués, Inglés, Español y Indonesio**, siendo la elección perfecta para comunidades de todos los tamaños. Creado por [Cognima](https://cognima.com.br/urls).
 
 ## 🌐 El Primer Bot 100% Internacionalizado
 
 Misa no es solo otro bot de WhatsApp. Fue diseñado con una arquitectura avanzada de **internacionalización (i18n)**, destacándose como el primer bot Open Source verdaderamente multilingüe en la comunidad.
 
-- **Idiomas Nativos:** Soporte total para **Portugués (PT)**, **Inglés (EN)** y **Español (ES)**.
+- **Idiomas Nativos:** Soporte total para **Portugués (PT)**, **Inglés (EN)**, **Español (ES)** e **Indonesio (ID)**.
 - **Traducción Completa:** ¡No son solo los menús los que cambian! Absolutamente **todo el ecosistema** está traducido impecablemente: alertas de la terminal, mensajes de anti-link, logs internos, errores de API, configuraciones de conexión y paneles interactivos.
 - **Alias Dinámicos:** La inmersión es completa. Al configurar el bot en Inglés o Español, los comandos de WhatsApp se adaptan al idioma nativo. En lugar de usar `!nomegp`, tus usuarios podrán escribir libremente `!nombregrupo`. El bot entiende los alias traducidos automáticamente.
 - **Independencia por Grupo:** Misa permite configurar un idioma global, pero va más allá: cada grupo puede elegir su propio idioma. Un administrador puede configurar un grupo para hablar Español, y Misa responderá solo en español en ese grupo, mientras atiende al resto de los usuarios en inglés o portugués.
@@ -867,6 +867,291 @@ Si aún no tienes una sesión, ejecuta primero `npm start` para configurar QR Co
 - `dados/misa-qr/`: sesión de WhatsApp
 - `dados/grupos/`: configuraciones de los grupos
 - `dados/owner/config.json`: configuraciones realizadas por el dueño vía bot
+
+</details>
+<br>
+</details>
+
+<details>
+<summary><h2>🇮🇩 Bahasa Indonesia</h2></summary>
+
+# Misa Bot - WhatsApp Multi-Device 🤖
+
+**Misa** adalah bot canggih dan modular untuk **WhatsApp**, dibangun sepenuhnya dalam **TypeScript** menggunakan library **Baileys** (Multi-Device).
+
+Dirancang agar sangat mudah dipasang, dipelihara, dan sepenuhnya skalabel. Dengan dukungan internasionalisasi (i18n) bawaan, Misa berbicara **Portugis, Inggris, Spanyol, dan Indonesia**, menjadikannya pilihan sempurna untuk komunitas dari berbagai ukuran. Dibuat oleh [Cognima](https://cognima.com.br/urls).
+
+## 🌐 Bot Pertama yang 100% Terinternasionalisasi
+
+Misa bukan sekadar bot WhatsApp biasa. Bot ini dirancang dengan arsitektur **internasionalisasi (i18n)** yang canggih, menjadikannya bot Open Source pertama yang benar-benar multibahasa di komunitas ini.
+
+- **Bahasa Asli:** Dukungan penuh untuk **Portugis (PT)**, **Inggris (EN)**, **Spanyol (ES)**, dan **Indonesia (ID)**.
+- **Terjemahan Lengkap:** Bukan hanya menu yang berubah! Seluruh **ekosistem** diterjemahkan dengan sempurna: pesan terminal, pesan anti-link, log internal, error API, pengaturan koneksi, dan panel interaktif.
+- **Alias Dinamis:** Pengalaman yang sepenuhnya imersif. Saat bot dikonfigurasi dalam bahasa Indonesia, perintah WhatsApp pun menyesuaikan diri. Alih-alih mengetik `!nomegp`, pengguna Anda cukup mengetik `!namagrup`. Bot memahami alias yang sudah diterjemahkan secara otomatis.
+- **Kemandirian per Grup:** Misa memungkinkan pengaturan bahasa global, namun lebih dari itu: setiap grup dapat memilih bahasanya sendiri. Seorang admin dapat mengatur satu grup untuk berbahasa Indonesia, dan Misa akan merespons hanya dalam bahasa Indonesia di grup tersebut, sementara melayani pengguna lain dalam bahasa Inggris atau Portugis.
+
+## Tutorial
+
+<details>
+<summary><strong>Tutorial Linux</strong></summary>
+
+### 1. Instal Node.js
+
+Gunakan Node.js versi 22 atau lebih tinggi.
+
+Ubuntu/Debian:
+
+```bash
+sudo apt update
+sudo apt install -y curl git
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+Verifikasi:
+
+```bash
+node -v
+npm -v
+```
+
+### 2. Unduh proyek
+
+```bash
+git clone https://github.com/hiudyy/misa.git
+cd misa
+```
+
+Jika Anda mengunduh ZIP, ekstrak dan masuk ke folder proyek.
+
+### 3. Instal dependensi
+
+```bash
+npm install
+```
+
+### 4. Konfigurasi
+
+```bash
+npm start
+```
+
+Pilih `Konfigurasi bot` dan isi:
+
+- Nama bot
+- Nama pemilik
+- Prefiks
+- Nomor pemilik dengan kode negara
+- Kunci API Misaka
+- Pembaruan otomatis
+- Bahasa bot (pt, es, en, id)
+
+### 5. Mulai
+
+Masih di menu:
+
+```text
+2. Mulai bot
+```
+
+Kemudian pilih QR Code atau kode pairing.
+
+### 6. Jalankan langsung
+
+Setelah konfigurasi pertama:
+
+```bash
+npm run start:fast
+```
+
+</details>
+
+<details>
+<summary><strong>Tutorial Windows</strong></summary>
+
+### 1. Instal program yang diperlukan
+
+Instal:
+
+- Node.js 22 atau lebih tinggi: https://nodejs.org/
+- Git: https://git-scm.com/
+
+Kemudian buka PowerShell dan verifikasi:
+
+```powershell
+node -v
+npm -v
+git --version
+```
+
+### 2. Unduh proyek
+
+```powershell
+git clone https://github.com/hiudyy/misa.git
+cd misa
+```
+
+Anda juga bisa mengunduh ZIP dari GitHub, mengekstraknya, dan membuka terminal di dalam folder tersebut.
+
+### 3. Instal dependensi
+
+```powershell
+npm install
+```
+
+### 4. Konfigurasi dan mulai
+
+```powershell
+npm start
+```
+
+Di menu, pilih:
+
+```text
+1. Konfigurasi bot
+```
+
+Isi data yang diminta, seperti bahasa dan nama. Kemudian kembali dan pilih:
+
+```text
+2. Mulai bot
+```
+
+Gunakan QR Code atau kode pairing.
+
+### 5. Mulai di lain waktu
+
+```powershell
+npm run start:fast
+```
+
+</details>
+
+<details>
+<summary><strong>Tutorial Android</strong></summary>
+
+Tutorial ini menggunakan Termux.
+
+### 1. Instal Termux
+
+Instal Termux melalui F-Droid:
+
+```text
+https://f-droid.org/packages/com.termux/
+```
+
+Hindari versi lama dari Play Store.
+
+### 2. Perbarui paket
+
+```bash
+pkg update -y
+pkg upgrade -y
+```
+
+### 3. Instal Node.js dan Git
+
+```bash
+pkg install -y nodejs git
+```
+
+Verifikasi:
+
+```bash
+node -v
+npm -v
+git --version
+```
+
+### 4. Unduh proyek
+
+```bash
+git clone https://github.com/hiudyy/misa.git
+cd misa
+```
+
+### 5. Instal dependensi
+
+```bash
+npm install
+```
+
+### 6. Konfigurasi dan mulai
+
+```bash
+npm start
+```
+
+Pilih `Konfigurasi bot`, isi data (termasuk bahasa), lalu gunakan `Mulai bot`.
+
+Untuk kode pairing, masukkan nomor dengan kode negara, contohnya:
+
+```text
+6281234567890
+```
+
+### 7. Mulai kembali
+
+```bash
+cd misa
+npm run start:fast
+```
+
+</details>
+
+<details>
+<summary><strong>Tutorial VPS atau Pterodactyl</strong></summary>
+
+### 1. Persyaratan
+
+Gunakan egg/image dengan:
+
+- Node.js 22+
+- npm
+- Git, jika Anda ingin meng-clone langsung dari repositori
+
+### 2. Unggah atau clone file
+
+Melalui terminal:
+
+```bash
+git clone https://github.com/hiudyy/misa.git .
+```
+
+Atau unggah file melalui pengelola panel.
+
+### 3. Instal dependensi
+
+```bash
+npm install
+```
+
+### 4. Konfigurasi
+
+Di konsol panel:
+
+```bash
+npm start
+```
+
+Pilih `Konfigurasi bot`. Pertanyaan konfigurasi (bahasa, prefiks, API, dll.) akan muncul di baris terpisah untuk kemudahan membaca di panel seperti Pterodactyl.
+
+### 5. Perintah startup
+
+Gunakan:
+
+```bash
+npm run start:fast
+```
+
+Jika Anda belum memiliki sesi, jalankan `npm start` terlebih dahulu untuk mengatur QR Code atau kode pairing.
+
+### 6. File penting
+
+- `src/config.json`: konfigurasi utama
+- `dados/misa-qr/`: sesi WhatsApp
+- `dados/grupos/`: konfigurasi grup
+- `dados/owner/config.json`: konfigurasi yang dilakukan pemilik melalui bot
 
 </details>
 <br>
