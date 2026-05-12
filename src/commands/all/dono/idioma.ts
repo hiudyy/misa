@@ -27,7 +27,7 @@ const idiomaCommand: Command = {
 
     const newLang = args[0].toLowerCase();
     
-    if (newLang !== "pt" && newLang !== "es" && newLang !== "en") {
+    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id") {
       await misa.sendMessage(
         from,
         { text: t("commands.idioma.invalid") },
@@ -36,7 +36,7 @@ const idiomaCommand: Command = {
       return;
     }
 
-    config.language = newLang as "pt" | "es" | "en";
+    config.language = newLang as "pt" | "es" | "en" | "id";
     await saveBotConfig(config);
 
     // Update global translator if needed (though t is injected contextually, 
@@ -45,7 +45,7 @@ const idiomaCommand: Command = {
     await misa.sendMessage(
       from,
       // We manually create a translator for the new language to reply in the new language
-      { text: createTranslator(newLang as "pt" | "es" | "en")("commands.idioma.updated", { language: newLang }) },
+      { text: createTranslator(newLang as "pt" | "es" | "en" | "id")("commands.idioma.updated", { language: newLang }) },
       { quoted: message as WAMessage },
     );
   },

@@ -44,7 +44,7 @@ const idiomagpCommand: Command = {
       return;
     }
 
-    if (newLang !== "pt" && newLang !== "es" && newLang !== "en") {
+    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id") {
       await misa.sendMessage(
         from,
         { text: t("commands.idiomagp.invalid") },
@@ -53,12 +53,12 @@ const idiomagpCommand: Command = {
       return;
     }
 
-    await saveGroup(from, { language: newLang as "pt" | "es" | "en" });
+    await saveGroup(from, { language: newLang as "pt" | "es" | "en" | "id" });
 
     await misa.sendMessage(
       from,
       // Create translator for the new language
-      { text: createTranslator(newLang as "pt" | "es" | "en")("commands.idiomagp.updated", { language: newLang }) },
+      { text: createTranslator(newLang as "pt" | "es" | "en" | "id")("commands.idiomagp.updated", { language: newLang }) },
       { quoted: message as WAMessage },
     );
   },
