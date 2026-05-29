@@ -1,0 +1,710 @@
+{
+  "common": {
+    "yes": "Ja",
+    "no": "Nein",
+    "enabled": "aktiviert",
+    "disabled": "deaktiviert",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "unknown": "unbekannt",
+    "none": "keine",
+    "file": "Datei",
+    "files": "Dateien"
+  },
+  "terminal": {
+    "initializing": "  Initialisierung...",
+    "goodbye": "Bis bald.",
+    "startCancelled": "Initialisierung abgebrochen.",
+    "startFailed": "Start fehlgeschlagen.",
+    "boolYes": "s|ja|y|ja",
+    "boolNo": "n|nein|nein|nein",
+    "invalidOption": "Ungültige Option. Bitte versuchen Sie es erneut.",
+    "invalidPhone": "Ungültige Nummer.",
+    "sessionDetected": "Vorhandene Sitzung erkannt. Automatische Verbindung...",
+    "menu": {
+      "title": "MISA",
+      "version": "Version",
+      "configure": "Bot konfigurieren",
+      "start": "Bot starten",
+      "exit": "Ausstieg",
+      "chooseOption": "  › Wählen Sie eine Option: "
+    },
+    "config": {
+      "header": "BOT KONFIGURIEREN",
+      "pressEnter": "   Drücken Sie die Eingabetaste, um den aktuellen Wert beizubehalten  ",
+      "saved": "EINSTELLUNGEN GESPEICHERT",
+      "fileUpdated": "   Aktualisierte Datei: src/config.json        ",
+      "botName": "Bot-Name",
+      "ownerName": "Name des Besitzers",
+      "prefix": "Bot-Präfix",
+      "ownerNumber": "Besitzernummer",
+      "apiKey": "APITaste",
+      "apiKeyHint": "[CONFIG] Der Schlüssel API kann von https://misaka.com.br abgerufen werden.",
+      "autoUpdate": "Automatisches Update",
+      "language": "Bot-Sprache",
+      "languageHint": "({{options}})",
+      "notConfigured": "nicht konfiguriert",
+      "configured": "konfiguriert",
+      "boolPrompt": "(j/j/n)",
+      "boolInvalid": "Antworten Sie mit y/y für Ja, n für Nein oder Enter, um zu behalten."
+    },
+    "connection": {
+      "title": "VERBINDUNGSMETHODE",
+      "qr": "QR Code",
+      "pairing": "Kopplung Code",
+      "pairingHint": "(Telefonnummer)",
+      "back": "Zurück",
+      "phonePrompt": "  › Nummer mit DDI (z. B. 5511999999999): "
+    }
+  },
+  "logs": {
+    "ownerLidFetching": "Ich suche LID vom Eigentümer...",
+    "ownerLidSaved": "LID vom gespeicherten Besitzer: {{lid}}",
+    "ownerLidFailed": "LID konnte nicht vom Eigentümer abgerufen werden.",
+    "commandIgnoredNoLid": "Ignoriert, da LID nicht aufgelöst werden konnte: {{sender}}",
+    "commandError": "Fehler beim Ausführen von {{commandName}}.",
+    "commandInvalid": "Ignoriert, weil ungültig: {{file}}",
+    "eventInvalid": "Ignoriert, weil ungültig: {{file}}",
+    "eventError": "Fehler in {{name}}.",
+    "configReadFailed": "{{path}} konnte nicht gelesen werden.",
+    "configMigrated": "Konfiguration wurde nach {{path}} migriert.",
+    "botStarted": "{{botName}} gestartet und bereit zum Empfangen von Nachrichten."
+  },
+  "errors": {
+    "ownerOnly": "❌ Dieser Befehl ist nur für den Bot-Besitzer.",
+    "groupOnly": "❌ Dieser Befehl kann nur in Gruppen verwendet werden.",
+    "privateOnly": "❌ This command can only be used in private.",
+    "adminOnly": "❌ Dieser Befehl ist nur für Gruppenadministratoren.",
+    "botAdminRequired": "❌ Ich muss ein Gruppenadministrator sein, um diesen Befehl auszuführen.",
+    "commandBlocked": "❌ Dieser Befehl wurde vom Bot-Besitzer blockiert.",
+    "groupCommandsAdminOnly": "❌ In dieser Gruppe können nur Administratoren Befehle verwenden.",
+    "commandExecution": "❌ Beim Ausführen des Befehls ist ein Fehler aufgetreten."
+  },
+  "api": {
+    "errors": {
+      "missingKey": "API-Taste nicht konfiguriert. Konfigurieren Sie in src/config.json",
+      "invalidKey": "API ungültiger Schlüssel",
+      "forbidden": "Keine Berechtigung für diesen Endpunkt",
+      "rateLimit": "Ratenlimit überschritten. Versuchen Sie es später noch einmal",
+      "invalidParam": "Ungültiger oder fehlender Parameter",
+      "serverError": "Fehler in API: {{status}}",
+      "failure": "Die Antwort von API weist auf einen Fehler hin",
+      "connection": "Fehler beim Herstellen der Verbindung zu API"
+    }
+  },
+  "connection": {
+    "sessionDetected": "Vorhandene Sitzung erkannt. Automatische Verbindung...",
+    "connecting": "Verbindung zu WhatsApp wird hergestellt...",
+    "connected": "Erfolgreich verbunden.",
+    "disconnected": "Verbindung geschlossen",
+    "reconnecting": "Versuche, die Verbindung wiederherzustellen...",
+    "sessionCleared": "Lokale Sitzung entfernt. Beginnen Sie erneut, um ein neues QR zu generieren.",
+    "sessionClearFailed": "{{path}} konnte nicht entfernt werden.",
+    "qrReceived": "QR Code empfangen",
+    "qrScan": "Scannen Sie mit WhatsApp, um diese Sitzung zu verbinden.",
+    "pairingCode": "Bindungscode",
+    "pairingNewCode": "Neuer Verknüpfungscode",
+    "pairingCodeValue": "Code: {{code}}",
+    "pairingInstruction": "Digite in WhatsApp: Verbundene Geräte > Gerät verknüpfen > Mit Telefonnummer verknüpfen.",
+    "pairingExpired": "Abgelaufener Verknüpfungscode. Neuen Code anfordern...",
+    "pairingError": "Fehler beim Anfordern des Pairing-Codes.",
+    "disconnectCode": "Code: {{code}}",
+    "disconnectReason": "Grund: {{reason}}",
+    "disconnectDetail": "Detail: {{detail}}",
+    "disconnectAction": "Aktion: {{action}}",
+    "disconnect": {
+      "loggedOut": {
+        "title": "Sitzung getrennt",
+        "description": "WhatsApp hat diese Sitzung beendet oder von verbundenen Geräten entfernt.",
+        "action": "Ich werde die lokale Sitzung bereinigen. Beginnen Sie erneut, um ein neues QR zu generieren."
+      },
+      "forbidden": {
+        "title": "Zugriff verweigert",
+        "description": "WhatsApp hat die Verbindung für diese Sitzung abgelehnt.",
+        "action": "Überprüfen Sie die Anmeldeinformationen, warten Sie einige Minuten und erstellen Sie eine neue Sitzung, wenn der Vorgang weiterhin fehlschlägt."
+      },
+      "connectionLost": {
+        "title": "Verbindung verloren oder abgelaufen",
+        "description": "Das Netzwerk stürzte ab, schwankte oder der Versuch dauerte zu lange, um zu reagieren.",
+        "action": "Ich werde versuchen, die Verbindung automatisch wiederherzustellen."
+      },
+      "multideviceMismatch": {
+        "title": "Inkompatibilität mit mehreren Geräten",
+        "description": "Die Sitzung entspricht nicht dem von WhatsApp erwarteten Multi-Geräte-Protokoll.",
+        "action": "Aktualisieren Sie Baileys/Abhängigkeiten und generieren Sie bei Bedarf eine neue Sitzung."
+      },
+      "connectionClosed": {
+        "title": "Verbindung geschlossen",
+        "description": "Die Verbindung wurde von WhatsApp oder dem Netzwerk geschlossen.",
+        "action": "Ich werde versuchen, die Verbindung automatisch wiederherzustellen."
+      },
+      "connectionReplaced": {
+        "title": "Anschluss ersetzt",
+        "description": "Eine andere Instanz hat über dieselbe Sitzung eine Verbindung hergestellt.",
+        "action": "Schließen Sie die andere Instanz, bevor Sie diese erneut starten."
+      },
+      "badSession": {
+        "title": "Ungültige Sitzung",
+        "description": "Authentifizierungsdateien scheinen beschädigt oder ungültig zu sein.",
+        "action": "Löschen Sie {{authPath}} und scannen Sie einen neuen QR-Code."
+      },
+      "unavailableService": {
+        "title": "Dienst nicht verfügbar",
+        "description": "Der WhatsApp oder die Verbindungsroute ist vorübergehend nicht verfügbar.",
+        "action": "Ich werde versuchen, die Verbindung automatisch wiederherzustellen."
+      },
+      "restartRequired": {
+        "title": "Neustart erforderlich",
+        "description": "Der Server forderte den Client zum Neustart auf.",
+        "action": "Ich werde die Verbindung automatisch neu starten."
+      },
+      "default": {
+        "title": "Verbindung geschlossen",
+        "description": "Die Verbindung wurde aus einem nicht zugeordneten Grund geschlossen.",
+        "action": "Ich werde versuchen, die Verbindung automatisch wiederherzustellen."
+      }
+    }
+  },
+  "update": {
+    "checking": "Suche nach Updates...",
+    "downloading": "Update wird heruntergeladen...",
+    "extracting": "Extrahieren...",
+    "installingDeps": "Abhängigkeiten werden installiert...",
+    "done": "Update abgeschlossen! Neustart...",
+    "failed": "Update fehlgeschlagen. Fortsetzung mit der aktuellen Version."
+  },
+  "commands": {
+    "ping": {
+      "latency": "Latenz",
+      "unavailable": "nicht verfügbar",
+      "uptime": "Aktivieren Sie ha",
+      "memory": "Erinnerung",
+      "ownerStatus": "Status: Eigentümer",
+      "footer": "Unterstützt von Misa."
+    },
+    "sticker": {
+      "usage": "╭─「 *AUFKLEBER* 」\n│\n│ ✦ Anwendung:\n│ Senden oder antworten Sie auf ein Foto mit:\n│s\n│\n│ Senden oder antworten Sie auf ein Video mit:\n│ sticker\n│\n╰─ Ergebnis: quadratischer Aufkleber",
+      "creating": "🪄 Sticker erstellen...",
+      "videoTooLong": "❌ Das Video darf maximal {{max}} Sekunden lang sein.",
+      "error": "❌ Fehler beim Erstellen des Aufklebers: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "sticker2": {
+      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ Anwendung:\n│ Senden oder antworten Sie auf ein Foto mit:\n│ s2\n│\n│ Senden oder antworten Sie auf ein Video mit:\n│ sticker2\n│\n╰─ Ergebnis: Behält das Originalformat bei"
+    },
+    "brat": {
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Anwendung:\n│ brat <texto>\n│\n╰─ Beispiel:\n   brat Ich habe es dir gesagt",
+      "creating": "🖼️ Aufkleber wird generiert brat...",
+      "error": "❌ Fehler beim Erstellen von brat: {{message}}",
+      "empty": "API hat ein leeres Bild zurückgegeben.",
+      "unknown": "Unbekannter Fehler"
+    },
+    "brat2": {
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Anwendung:\n│ brat2 <texto>\n│\n╰─ Beispiel:\n   brat2 heute verschwinde ich"
+    },
+    "menu": {
+      "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
+      "categories": {
+        "geral": "allgemein",
+        "fig": "Aufkleber",
+        "downloads": "Downloads",
+        "grupo": "Gruppe",
+        "owner": "Eigentümer",
+        "activations": "Aktivierungen",
+        "welcome": "Willkommen"
+      },
+      "cmds": {
+        "ping": "ping",
+        "menugeral": "menugeral",
+        "menufig": "menufig",
+        "brat": "brat",
+        "brat2": "brat2",
+        "menudl": "menudl",
+        "menugrupo": "menugrupo",
+        "menuadm": "menuadm",
+        "menudono": "menudono",
+        "sticker": "sticker",
+        "sticker2": "sticker2",
+        "play": "play",
+        "ytmp3": "ytmp3",
+        "playvid": "playvid",
+        "ytmp4": "ytmp4",
+        "tiktok": "tiktok",
+        "instagram": "instagram",
+        "pinterest": "pinterest",
+        "admins": "admins",
+        "hidetag": "hidetag",
+        "del": "del",
+        "gp": "gp",
+        "kick": "kick",
+        "promote": "promote",
+        "demote": "demote",
+        "nomegp": "nomegp",
+        "descgp": "descgp",
+        "antilink": "antilink",
+        "antilinkgp": "antilinkgp",
+        "antilinkch": "antilinkch",
+        "bemvindo": "bemvindo",
+        "legendabv": "legendabv",
+        "midiabv": "midiabv",
+        "eval": "eval",
+        "cmdnf": "cmdnf",
+        "idioma": "idioma",
+        "nomebot": "nomebot",
+        "nomedono": "nomedono",
+        "numerodono": "numerodono",
+        "prefixo": "prefixo",
+        "apikey": "apikey",
+        "autoupdate": "autoupdate",
+        "antipv": "antipv",
+        "statusbot": "statusbot",
+        "restart": "restart",
+        "join": "join",
+        "leavegp": "leavegp",
+        "idiomagp": "idiomagp",
+        "soadmin": "soadmin",
+        "modobn": "modobn",
+        "setprefixgp": "setprefixgp",
+        "bangp": "bangp",
+        "unbangp": "unbangp",
+        "listbangp": "listbangp",
+        "blockuser": "blockuser",
+        "unblockuser": "unblockuser",
+        "listblock": "listblock",
+        "blockcmd": "blockcmd",
+        "unblockcmd": "unblockcmd",
+        "listblockcmd": "listblockcmd",
+        "antiloc": "antiloc",
+        "antiaudio": "antiaudio",
+        "antifoto": "antifoto",
+        "antivideo": "antivideo",
+        "antidoc": "antidoc",
+        "antilista": "antilista"
+      }
+    },
+    "play": {
+      "usage": "╭─「 *SPIELEN* 」\n│\n│ ✦ Suche:\n│ play <Songname>\n│ p <Liedname>\n│\n╰─ Beispiel:\n   play Michael Jackson Billie Jean",
+      "searching": "🔍 Suche nach Musik...",
+      "notFound": "❌ Keine Ergebnisse gefunden.",
+      "channel": "Kanal",
+      "duration": "Dauer",
+      "views": "Ansichten",
+      "downloading": "⬇️ Audio wird heruntergeladen...",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler",
+      "author": "Unbekannt"
+    },
+    "ytmp3": {
+      "usage": "╭─「 *YTMP3* 」\n│\n│ ✦ Herunterladen:\n│ ytmp3 <YouTube-Link>\n\n╰─ Beispiele:\n   ytmp3 https://youtube.com/watch?v=...\n   ytmp3 https://youtu.be/...\n   ytmp3 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ Ungültige URL. Verwenden Sie einen YouTube-Link.",
+      "downloading": "⬇️ Audio von YouTube herunterladen...",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "playvid": {
+      "usage": "╭─「 *PLAYVID* 」\n│\n│ ✦ Suche:\n│ playvid <Videoname>\n│ pv <Videoname>\n\n╰─ Beispiel:\n   playvid Michael Jackson-Thriller",
+      "searching": "🔍 Video wird gesucht...",
+      "notFound": "❌ Keine Ergebnisse gefunden.",
+      "channel": "Kanal",
+      "duration": "Dauer",
+      "views": "Ansichten",
+      "downloading": "⬇️ Video wird heruntergeladen...",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "ytmp4": {
+      "usage": "╭─「 *YTMP4* 」\n│\n│ ✦ Herunterladen:\n│ ytmp4 <YouTube-Link>\n\n╰─ Beispiele:\n   ytmp4 https://youtube.com/watch?v=...\n   ytmp4 https://youtu.be/...\n   ytmp4 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ Ungültige URL. Verwenden Sie einen YouTube-Link.",
+      "downloading": "⬇️ Video von YouTube herunterladen...",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "tiktok": {
+      "usage": "╭─「 *TIKTOK* 」\n│\n│ ✦ Herunterladen:\n│ tiktok <URL>\n│\n│ ✦ Suche:\n│ tiktok <Begriff>\n│\n╰─ Beispiele:\n   tiktok https://vm.tiktok.com/...\n   tiktok viraler Tanz",
+      "downloading": "⬇️ Herunterladen von TikTok...",
+      "downloadFailed": "❌ Video konnte nicht heruntergeladen werden.",
+      "downloadDone": "✅ Download abgeschlossen!",
+      "searching": "🔍 Suche auf TikTok...",
+      "notFound": "❌ Keine Ergebnisse gefunden.",
+      "found": "📹 *{{title}}*\n\n⬇️ Herunterladen...",
+      "searchCaption": "🔍 Suche: {{query}}",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "instagram": {
+      "usage": "╭─「 *INSTAGRAM* 」\n│\n│ ✦ Herunterladen:\n│ instagram <URL>\n│\n╰─ Beispiel:\n   instagram https://instagram.com/p/...",
+      "invalidUrl": "❌ Ungültige URL. Verwenden Sie eine Instagram-URL.",
+      "downloading": "⬇️ Herunterladen von Instagram...",
+      "downloadFailed": "❌ Inhalte können nicht heruntergeladen werden.",
+      "sending": "📥 Senden von {{count}} {{fileWord}}...",
+      "done": "✅ Instagram-Download abgeschlossen!",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "pinterest": {
+      "usage": "╭─「 *PINTEREST* 」\n│\n│ ✦ Herunterladen:\n│ pinterest <URL>\n│\n│ ✦ Suche:\n│ pinterest <Begriff>\n│\n╰─ Beispiele:\n   pinterest https://pin.it/...\n   pinterest Hintergrundbild 4k",
+      "downloading": "⬇️ Von Pinterest herunterladen...",
+      "downloadFailed": "❌ Inhalte können nicht heruntergeladen werden.",
+      "done": "✅ Pinterest-Download abgeschlossen!",
+      "searching": "🔍 Suche auf Pinterest...",
+      "notFound": "❌ Keine Ergebnisse gefunden.",
+      "found": "📸 Ich habe {{count}} Bilder gefunden!\n\n⬇️ Senden...",
+      "searchCaption": "🔍 Suche: {{query}}",
+      "limited": "ℹ️ {{total}} Bilder wurden gefunden, aber ich habe nur {{sent}} gesendet.",
+      "error": "❌ Fehler: {{message}}",
+      "unknown": "Unbekannter Fehler"
+    },
+    "admins": {
+      "groupInfoFailed": "❌ Gruppeninformationen können nicht abgerufen werden.",
+      "noAdmins": "❌ Kein Administrator gefunden.",
+      "defaultMessage": "Die Admins wurden gerufen!"
+    },
+    "hidetag": {
+      "fetchError": "❌ Gruppeninformationen können nicht abgerufen werden.",
+      "noMembers": "❌ Keine Mitglieder in der Gruppe gefunden.",
+      "defaultMessage": "Jeder wurde markiert!"
+    },
+    "del": {
+      "noQuoted": "❌ Antworten Sie auf die Nachricht, die Sie löschen möchten.\n\nVerwendung: del (auf eine Nachricht antworten)",
+      "success": "✅ Nachricht erfolgreich gelöscht!",
+      "error": "❌ Fehler beim Löschen der Nachricht: {{error}}"
+    },
+    "antilink": {
+      "enabled": "✅ Anti-Link *aktiviert* in dieser Gruppe!",
+      "disabled": "❌ Anti-Link *deaktiviert* in dieser Gruppe.",
+      "settingsHint": "⚙️ Einstellungen:\n• antilink Bestrafung löschen\n• antilink Bestrafungsverbot\n• antilink texto <Nachricht>",
+      "punishmentUpdated": "✅ Anti-Link-Strafe auf *{{value}}* aktualisiert.",
+      "invalidPunishment": "❌ Verwenden Sie: antilink Bestrafung löschen | Verbot",
+      "textUpdated": "✅ Aktualisierter Anti-Link-Text!\n\n{{text}}",
+      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *Verfügbare Parameter:*\n│ {{params}}\n│\n│ *Aktueller Text:*\n│ {{current}}\n│\n╰─ Verwenden Sie: antilink texto <Nachricht>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink Bestrafung löschen\n│ antilink Strafverbot\n│ antilink texto <Nachricht>",
+      "params": "@user → erwähnt den Benutzer\n│ @name → Benutzername\n│ @group → Gruppenname\n│ @type → Typ des erkannten Links"
+    },
+    "antilinkgp": {
+      "enabled": "✅ Anti-Gruppen-Link *aktiviert* in dieser Gruppe!",
+      "disabled": "❌ Anti-Gruppen-Link *deaktiviert* in dieser Gruppe.",
+      "settingsHint": "⚙️ Einstellungen:\n• antilinkgp Bestrafung löschen\n• antilinkgp Bestrafungsverbot\n• antilinkgp texto <Nachricht>",
+      "punishmentUpdated": "✅ Anti-Gruppen-Link-Strafe auf *{{value}}* aktualisiert.",
+      "invalidPunishment": "❌ Verwenden Sie: antilinkgp Bestrafung löschen | Verbot",
+      "textUpdated": "✅ Anti-Gruppen-Linktext aktualisiert!\n\n{{text}}",
+      "textHeader": "╭─「 *ANTILINKGP TEXT* 」\n│\n│ *Verfügbare Parameter:*\n│ {{params}}\n│\n│ *Aktueller Text:*\n│ {{current}}\n│\n╰─ Verwenden Sie: antilinkgp texto <Nachricht>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp Bestrafung löschen\n│ antilinkgp Strafverbot\n│ antilinkgp texto <Nachricht>",
+      "params": "@user → erwähnt den Benutzer\n│ @name → Benutzername\n│ @group → Gruppenname\n│ @type → Typ des erkannten Links"
+    },
+    "antilinkch": {
+      "enabled": "✅ Anti-Channel-Link *aktiviert* in dieser Gruppe!",
+      "disabled": "❌ Anti-Channel-Link *deaktiviert* in dieser Gruppe.",
+      "settingsHint": "⚙️ Einstellungen:\n• antilinkch Bestrafung löschen\n• antilinkch Bestrafungsverbot\n• antilinkch texto <Nachricht>",
+      "punishmentUpdated": "✅ Anti-Channel-Link-Strafe aktualisiert auf *{{value}}*.",
+      "invalidPunishment": "❌ Verwenden Sie: antilinkch Bestrafung löschen | Verbot",
+      "textUpdated": "✅ Anti-Channel-Linktext aktualisiert!\n\n{{text}}",
+      "textHeader": "╭─「 *ANTILINKCH TEXT* 」\n│\n│ *Verfügbare Parameter:*\n│ {{params}}\n│\n│ *Aktueller Text:*\n│ {{current}}\n│\n╰─ Verwenden Sie: antilinkch texto <Nachricht>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch Bestrafung löschen\n│ antilinkch Strafverbot\n│ antilinkch texto <Nachricht>",
+      "params": "@user → erwähnt den Benutzer\n│ @name → Benutzername\n│ @group → Gruppenname\n│ @type → Typ des erkannten Links"
+    },
+    "bemvindo": {
+      "enabled": "✅ Willkommen *aktiviert* in dieser Gruppe!",
+      "disabled": "❌ Willkommen *behindert* in dieser Gruppe."
+    },
+    "gp": {
+      "usage": "╭─「 *GRUPPE* 」\n│\n│ ✦ gp a → öffnet die Gruppe\n│ ✦ gp f → schließt die Gruppe\n│\n╰─",
+      "closed": "🔒Gruppe geschlossen! Nur Administratoren können Nachrichten senden.",
+      "opened": "🔓 Offene Gruppe! Jeder kann Nachrichten senden."
+    },
+    "kick": {
+      "noMention": "❌ Erwähnen Sie den Benutzer, den Sie entfernen möchten.\n\nVerwendung: @user kicken",
+      "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
+      "success": "✅ Benutzer erfolgreich entfernt!",
+      "error": "❌ Fehler beim Entfernen des Benutzers: {{error}}"
+    },
+    "promote": {
+      "noMention": "❌ Erwähnen Sie den Benutzer, den Sie fördern möchten.\n\nVerwendung: @user fördern",
+      "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
+      "success": "✅ Benutzer zum Administrator befördert!",
+      "error": "❌ Fehler beim Hochstufen des Benutzers: {{error}}"
+    },
+    "demote": {
+      "noMention": "❌ Erwähnen Sie den Administrator, den Sie herabstufen möchten.\n\nVerwendung: @user herabstufen",
+      "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
+      "success": "✅ Administrator zum regulären Mitglied herabgestuft!",
+      "error": "❌ Fehler beim Herabstufen des Administrators: {{error}}"
+    },
+    "nomegp": {
+      "noArgs": "❌ Geben Sie den neuen Namen ein.\n\nVerwendung: GP-Name <Name>",
+      "success": "✅ Gruppenname in *{{name}}* geändert!"
+    },
+    "descgp": {
+      "noArgs": "❌ Geben Sie die neue Beschreibung ein.\n\nVerwendung: descgp <Beschreibung>",
+      "success": "✅ Aktualisierte Gruppenbeschreibung!"
+    },
+    "legendabv": {
+      "params": "@user → erwähnt den Benutzer\n│ @name → Benutzername\n│ @group → Gruppenname\n│ @total → Gesamtzahl der Mitglieder\n│ @desc → Gruppenbeschreibung",
+      "header": "╭─「 *BV CAPTION* 」\n│\n│ *Verfügbare Parameter:*\n│ {{params}}\n│\n│ *Aktueller Untertitel:*\n│ {{current}}\n│\n╰─ Verwenden Sie: captionbv <texto>",
+      "updated": "✅ Aktualisierte Begrüßungsüberschrift!\n\n{{text}}"
+    },
+    "midiabv": {
+      "removed": "✅ Begrüßungsmedien entfernt.",
+      "noMedia": "╭─「 *MEDIA BV* 」\n│\n│ ✦ Status: {{status}}\n│\n│ Senden oder antworten Sie auf ein Bild oder Video.\n│ Videos: maximal 15 Sekunden (als GIF gesendet).\n│ Zum Entfernen: Midiabv aus\n│\n╰─",
+      "statusVideo": "Video 🎥 ✅",
+      "statusImage": "Bild 🖼️ ✅",
+      "statusNone": "Keine Medien ❌",
+      "videoTooLong": "❌ Das Video hat {{seconds}}s. Maximal zulässig: {{max}}s.",
+      "successVideo": "✅ Willkommensvideo eingerichtet!",
+      "successImage": "✅ Begrüßungsfoto eingerichtet!"
+    },
+    "cmdnf": {
+      "params": "@user → erwähnt den Benutzer\n│ @name → Benutzername\n│ @comando → digitado-Befehl\n│ @similar → ähnlichster Befehl\n│ @similarity → Ähnlichkeitsprozentsatz\n│ @prefixo → prefixo aktuell\n│ @bot → Bot-Name",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *Aktueller Modus:* {{mode}}\n│ *Aktueller Text:* {{text}}\n│\n│ *Verfügbare Parameter:*\n│{{params}}\n│\n│ *Verwendung:*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <Nachricht>",
+      "invalidMode": "❌ Verwenden Sie: cmdnf modo texto | mencao",
+      "modeUpdated": "✅ Modus „Befehl nicht gefunden“ auf *{{mode}}* aktualisiert.",
+      "textHeader": "╭─「 *CMDNF TEXT* 」\n│\n│ *Verfügbare Parameter:*\n│ {{params}}\n│\n│ *Aktueller Text:*\n│ {{current}}\n│\n╰─ Verwenden Sie: cmdnf texto <Nachricht>",
+      "textUpdated": "✅ Befehlstext nicht gefunden, aktualisiert!\n\n{{text}}",
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <Nachricht>"
+    },
+    "eval": {
+      "noArgs": "❌ Verwendung: eval <Code>",
+      "success": "╭─「 *BEWERTUNGSERGEBNIS* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *AUSGABE* 」\n│\n{{output}}\n│\n╰─ Erfolgreich ausgeführt.",
+      "error": "╭─「 *EVAL-FEHLER* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *FEHLER* 」\n│\n│ {{error}}\n│\n╰─ Ausführungsfehler."
+    },
+    "idioma": {
+      "current": "🌐 Aktuelle globale Sprache: *{{language}}*\n\nVerwendung: idioma <{{options}}>",
+      "updated": "✅ Globale Sprache aktualisiert auf *{{language}}*.",
+      "invalid": "❌ Ungültige Sprache. Verwendung: {{optionsList}}",
+      "i18nAliases": {
+        "pt": [
+          "idioma",
+          "setidioma"
+        ],
+        "es": [
+          "idioma",
+          "lenguaje",
+          "setlenguaje"
+        ],
+        "en": [
+          "language",
+          "setlanguage",
+          "lang",
+          "setlang"
+        ],
+        "id": [
+          "bahasa",
+          "setbahasa",
+          "lang",
+          "setlang"
+        ],
+        "fr": [
+          "langue",
+          "setlangue"
+        ],
+        "hi": [
+          "bhasha",
+          "setbhasha"
+        ],
+        "ur": [
+          "zaban",
+          "setzaban"
+        ]
+      }
+    },
+    "nomebot": {
+      "current": "🤖 Aktueller Bot-Name: *{{value}}*\n\nVerwendung: nomebot <neuer Name>",
+      "invalid": "❌ Geben Sie einen gültigen Namen für den Bot ein.",
+      "updated": "✅ Bot-Name aktualisiert auf *{{value}}*."
+    },
+    "nomedono": {
+      "current": "👑 Aktueller Name des Besitzers: *{{value}}*\n\nVerwendung: nomedono <neuer Name>",
+      "invalid": "❌ Geben Sie einen gültigen Namen für den Besitzer ein.",
+      "updated": "✅ Besitzername aktualisiert auf *{{value}}*."
+    },
+    "numerodono": {
+      "current": "📱 Aktuelle Besitzernummer: *{{value}}*\n\nVerwendung: numerodono <5511999999999>",
+      "invalid": "❌ Geben Sie mit DDI eine gültige Nummer ein.",
+      "updated": "✅ Besitzernummer aktualisiert auf *{{value}}*.\nLID gespeichert: {{lid}}",
+      "updatedNoLid": "✅ Besitzernummer aktualisiert auf *{{value}}*.\n⚠️ Ich konnte das neue LID jetzt nicht lösen; Der vorherige LID wurde beibehalten, bis er aktualisiert werden konnte."
+    },
+    "prefixo": {
+      "current": "⌨️ Aktuelles Präfix: *{{value}}*\n\nVerwendung: prefixo <neues prefixo>",
+      "invalid": "❌ Verwenden Sie prefixo ohne Leerzeichen und bis zu 5 Zeichen.",
+      "updated": "✅ Präfix aktualisiert auf *{{value}}*."
+    },
+    "apikey": {
+      "current": "🔑 API Schlüssel konfiguriert: *{{value}}*\n\nVerwendung: apikey <Wert>\nZum Löschen: apikey aus",
+      "updated": "✅ API Schlüssel erfolgreich aktualisiert.",
+      "cleared": "✅ API Schlüssel erfolgreich entfernt."
+    },
+    "autoupdate": {
+      "current": "♻️ Aktuelles automatisches Update: *{{value}}*\n\nVerwendung: autoupdate <on|off>",
+      "invalid": "❌ Verwenden Sie: autoupdate auf | aus",
+      "updated": "✅ Automatische Aktualisierung auf *{{value}}* aktualisiert."
+    },
+    "antipv": {
+      "enabled": "✅ Anti-PV aktiviert. Der Bot ignoriert private Nachrichten von Nichteigentümern.",
+      "disabled": "✅ Anti-PV deaktiviert. Der Bot antwortete erneut privat."
+    },
+    "statusbot": {
+      "text": "╭─「 *STATUS BOT* 」\n│\n│ Bot: {{bot}}\n│ Besitzer: {{owner}}\n│ Nummer: {{ownerNumber}}\n│ jid: {{user}}\n│ prefixo global: {{prefix}}\n│ idioma: {{language}}\n│ Automatische Aktualisierung: {{autoUpdate}}\n│ Anti-PV: {{antiPrivate}}\n│ gespeicherte Gruppen: {{groups}}\n│ Gruppen bangp: {{bannedGroups}}\n│ blockierte Benutzer: {{blockedUsers}}\n│ blockierte Befehle: {{blockedCommands}}\n│ Betriebszeit: {{uptime}}\n│\n╰─"
+    },
+    "restart": {
+      "restarting": "♻️ Neustart des Bots..."
+    },
+    "join": {
+      "invalid": "❌ Senden Sie einen gültigen WhatsApp-Einladungslink.\n\nVerwendung: join https://chat.whatsapp.com/...",
+      "success": "✅ Einladung angenommen. Der Gruppe beitreten...",
+      "error": "❌ Fehler beim Beitritt zur Gruppe: {{error}}"
+    },
+    "leavegp": {
+      "confirm": "👋 Diese Gruppe verlassen..."
+    },
+    "idiomagp": {
+      "current": "🌐 Gruppensprache: *{{language}}*\n(Global: {{global}})\n\nVerwendung: idiomagp <{{options}}|reset>",
+      "updated": "✅ Gruppensprache aktualisiert auf *{{language}}*.",
+      "reset": "✅ Gruppensprache auf global zurückgesetzt (*{{language}}*).",
+      "invalid": "❌ Ungültige Sprache. Verwenden Sie: {{optionsList}} (oder „zurücksetzen“, um global zu verwenden)",
+      "i18nAliases": {
+        "pt": [
+          "idiomagp",
+          "idiomagrupo"
+        ],
+        "es": [
+          "idiomgp",
+          "lenguajegrupo"
+        ],
+        "en": [
+          "langgroup",
+          "languagegroup",
+          "setlanggroup"
+        ],
+        "id": [
+          "bahasagrup",
+          "setbahasagrup",
+          "langgroup"
+        ],
+        "fr": [
+          "languegroupe",
+          "setlanguegroupe"
+        ],
+        "hi": [
+          "bhashagroup",
+          "setbhashagroup"
+        ],
+        "ur": [
+          "zabangroup",
+          "setzabangroup"
+        ]
+      }
+    },
+    "soadmin": {
+      "enabled": "✅ Nur Administratoren können jetzt Befehle in dieser Gruppe verwenden.",
+      "disabled": "✅ Reguläre Mitglieder können in dieser Gruppe wieder Befehle verwenden."
+    },
+    "modobn": {
+      "enabled": "✅ Spielmodus in dieser Gruppe aktiviert!",
+      "disabled": "❌ Der Streichmodus ist in dieser Gruppe deaktiviert."
+    },
+    "setprefixgp": {
+      "current": "⌨️ Gruppenpräfix: *{{value}}*\nGlobales Präfix: *{{global}}*\n\nVerwendung: setprefixgp <neues prefixo>\nZum Zurücksetzen: setprefixgp zurücksetzen",
+      "invalid": "❌ Verwenden Sie prefixo ohne Leerzeichen und bis zu 5 Zeichen.",
+      "updated": "✅ Das Präfix dieser Gruppe wurde auf *{{value}}* aktualisiert.",
+      "reset": "✅ Präfix dieser Gruppe auf global zurückgesetzt (*{{value}}*)."
+    },
+    "bangp": {
+      "alreadyActive": "❌ Diese Gruppe ist bereits in bangp.",
+      "enabled": "✅ Bangp in dieser Gruppe aktiviert.\nGrund: {{reason}}"
+    },
+    "unbangp": {
+      "notActive": "❌ Diese Gruppe ist nicht in bangp.",
+      "disabled": "✅ Bangp entfernt. Der Bot begann in dieser Gruppe wieder normal zu arbeiten."
+    },
+    "listbangp": {
+      "empty": "❌ Keine Gruppen sind in bangp.",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockuser": {
+      "noMention": "❌ Erwähnen Sie den Benutzer.\n\nVerwendung: blockuser @user [30m|12h|7d] [Grund]",
+      "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
+      "ownerBypass": "❌ Besitzer kann nicht blockiert werden.",
+      "alreadyBlocked": "❌ Dieser Benutzer ist bereits blockiert.",
+      "permanent": "dauerhaft",
+      "success": "✅ Benutzer {{user}} blockiert.\nLäuft ab: {{expires}}\nGrund: {{reason}}"
+    },
+    "unblockuser": {
+      "noMention": "❌ Erwähnen Sie den Benutzer.\n\nVerwendung: entsperren Sie den Benutzer @Benutzer",
+      "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
+      "notBlocked": "❌ Dieser Benutzer ist nicht blockiert.",
+      "success": "✅ Benutzer {{user}} entsperrt."
+    },
+    "listblock": {
+      "empty": "❌ Es werden keine Benutzer blockiert.",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockcmd": {
+      "noArgs": "❌ Verwendung: blockcmd <Befehl>",
+      "notFound": "❌ Der Befehl „{{command}}“ existiert nicht.",
+      "alreadyBlocked": "❌ Der Befehl „{{command}}“ ist bereits blockiert.",
+      "success": "✅ Der Befehl „{{command}}“ wurde blockiert."
+    },
+    "unblockcmd": {
+      "noArgs": "❌ Verwendung: unblockcmd <Befehl>",
+      "notFound": "❌ Der Befehl „{{command}}“ existiert nicht.",
+      "notBlocked": "❌ Der Befehl „{{command}}“ ist nicht blockiert.",
+      "success": "✅ Der Befehl „{{command}}“ wurde entsperrt."
+    },
+    "listblockcmd": {
+      "empty": "❌ Es sind keine Befehle blockiert.",
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "antimidia": {
+      "blocked": "🚫 {{user}}, Nachrichten wie *{{type}}* sind in dieser Gruppe nicht erlaubt.",
+      "types": {
+        "loc": "Standort",
+        "audio": "Audio-",
+        "foto": "Foto",
+        "video": "Video",
+        "doc": "dokumentieren",
+        "lista": "Liste"
+      }
+    },
+    "antiloc": {
+      "enabled": "✅ Anti-Standort in dieser Gruppe aktiviert!",
+      "disabled": "❌ Anti-Location in dieser Gruppe deaktiviert."
+    },
+    "antiaudio": {
+      "enabled": "✅ Anti-Audio in dieser Gruppe aktiviert!",
+      "disabled": "❌ Anti-Audio in dieser Gruppe deaktiviert."
+    },
+    "antifoto": {
+      "enabled": "✅ Anti-Foto in dieser Gruppe aktiviert!",
+      "disabled": "❌ Anti-Foto in dieser Gruppe deaktiviert."
+    },
+    "antivideo": {
+      "enabled": "✅ Anti-Video in dieser Gruppe aktiviert!",
+      "disabled": "❌ Anti-Video in dieser Gruppe deaktiviert."
+    },
+    "antidoc": {
+      "enabled": "✅ Anti-Dokument in dieser Gruppe aktiviert!",
+      "disabled": "❌ Anti-Dokument in dieser Gruppe deaktiviert."
+    },
+    "antilista": {
+      "enabled": "✅ Anti-Liste in dieser Gruppe aktiviert!",
+      "disabled": "❌ Anti-Liste in dieser Gruppe deaktiviert."
+    }
+  },
+  "group": {
+    "welcome": {
+      "defaultLegend": "Willkommen, @user! 👋\nSie sind das @gesamtzahlige Mitglied der Gruppe *@group*."
+    },
+    "antilink": {
+      "defaultText": "🚫 @user, Links sind in dieser Gruppe nicht erlaubt.",
+      "defaultGroupText": "🚫 @user, Gruppenlinks sind in dieser Gruppe nicht erlaubt.",
+      "defaultChannelText": "🚫 @user, Kanallinks sind in dieser Gruppe nicht erlaubt.",
+      "typeLink": "Link",
+      "typeGroupLink": "Gruppenlink",
+      "typeChannelLink": "Kanallink"
+    }
+  },
+  "owner": {
+    "cmdnf": {
+      "defaultText": "❌ @user, der Befehl @comando existiert nicht.\n\nVielleicht meintest du: @parecido (@similaridade)\nVerwenden Sie @prefixomenu, um die Befehle anzuzeigen."
+    }
+  }
+}

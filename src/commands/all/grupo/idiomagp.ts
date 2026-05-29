@@ -6,11 +6,18 @@ import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
 import { getGroup, saveGroup } from "../../../database/groupDB.js";
-import { createTranslator } from "../../../i18n/index.js";
+import {
+  createTranslator,
+  getGroupLanguageAliases,
+  getLocaleCommandOptions,
+  getLocaleLabel,
+  isValidLocale,
+} from "../../../i18n/index.js";
 
 const idiomagpCommand: Command = {
   name: "idiomagp",
-  aliases: ["idiomagrupo", "idiomgp", "lenguajegrupo", "langgroup", "languagegroup", "setlanggroup", "languegroupe", "setlanguegroupe", "bhashagroup", "setbhashagroup", "zabangroup", "setzabangroup"],
+  aliases: ["idiomagrupo"],
+  i18nAliases: getGroupLanguageAliases(),
   description: "Muda o idioma do grupo",
   category: "grupo",
   groupOnly: true,
@@ -22,10 +29,11 @@ const idiomagpCommand: Command = {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
-        { text: t("commands.idiomagp.current", { 
-            language: groupConfig.language || globalConfig.language,
-            global: globalConfig.language 
-          }) 
+        { text: t("commands.idiomagp.current", {
+            language: getLocaleLabel(groupConfig.language || globalConfig.language),
+            global: getLocaleLabel(globalConfig.language),
+            options: getLocaleCommandOptions(),
+          })
         },
         { quoted: message as WAMessage },
       );
@@ -38,27 +46,26 @@ const idiomagpCommand: Command = {
       await saveGroup(from, { language: undefined });
       await misa.sendMessage(
         from,
-        { text: t("commands.idiomagp.reset", { language: globalConfig.language }) },
+        { text: t("commands.idiomagp.reset", { language: getLocaleLabel(globalConfig.language) }) },
         { quoted: message as WAMessage },
       );
       return;
     }
 
-    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id" && newLang !== "ar" && newLang !== "fr" && newLang !== "hi" && newLang !== "ur") {
+    if (!isValidLocale(newLang)) {
       await misa.sendMessage(
         from,
-        { text: t("commands.idiomagp.invalid") },
+        { text: t("commands.idiomagp.invalid", { options: getLocaleCommandOptions() }) },
         { quoted: message as WAMessage },
       );
       return;
     }
 
-    await saveGroup(from, { language: newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur" });
+    await saveGroup(from, { language: newLang });
 
     await misa.sendMessage(
       from,
-      // Create translator for the new language
-      { text: createTranslator(newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur")("commands.idiomagp.updated", { language: newLang }) },
+      { text: createTranslator(newLang)("commands.idiomagp.updated", { language: getLocaleLabel(newLang) }) },
       { quoted: message as WAMessage },
     );
   },

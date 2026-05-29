@@ -42,7 +42,7 @@
       "apiKeyHint": "[CONFIG] A API key pode ser obtida em https://misaka.com.br",
       "autoUpdate": "Atualização automática",
       "language": "Idioma do bot",
-      "languageHint": "(pt, es, en, id, ar, fr, hi, ur)",
+      "languageHint": "({{options}})",
       "notConfigured": "não configurado",
       "configured": "configurada",
       "boolPrompt": "(s/y/N)",
@@ -467,17 +467,43 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Código: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Erro na execução."
     },
     "idioma": {
-      "current": "🌐 Idioma global atual: *{{language}}*\n\nUso: idioma <pt|es|en|id|ar|fr|hi|ur>",
+      "current": "🌐 Idioma global atual: *{{language}}*\n\nUso: idioma <{{options}}>",
       "updated": "✅ Idioma global atualizado para *{{language}}*.",
-      "invalid": "❌ Idioma inválido. Use: pt, es, en, id, ar, fr, hi ou ur",
+      "invalid": "❌ Idioma inválido. Use: {{optionsList}}",
       "i18nAliases": {
-        "pt": ["idioma", "setidioma"],
-        "es": ["idioma", "lenguaje", "setlenguaje"],
-        "en": ["language", "setlanguage", "lang", "setlang"],
-        "id": ["bahasa", "setbahasa", "lang", "setlang"],
-        "fr": ["langue", "setlangue"],
-        "hi": ["bhasha", "setbhasha"],
-        "ur": ["zaban", "setzaban"]
+        "pt": [
+          "idioma",
+          "setidioma"
+        ],
+        "es": [
+          "idioma",
+          "lenguaje",
+          "setlenguaje"
+        ],
+        "en": [
+          "language",
+          "setlanguage",
+          "lang",
+          "setlang"
+        ],
+        "id": [
+          "bahasa",
+          "setbahasa",
+          "lang",
+          "setlang"
+        ],
+        "fr": [
+          "langue",
+          "setlangue"
+        ],
+        "hi": [
+          "bhasha",
+          "setbhasha"
+        ],
+        "ur": [
+          "zaban",
+          "setzaban"
+        ]
       }
     },
     "nomebot": {
@@ -530,18 +556,41 @@
       "confirm": "👋 Saindo deste grupo..."
     },
     "idiomagp": {
-      "current": "🌐 Idioma do grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|ar|fr|hi|ur|reset>",
+      "current": "🌐 Idioma do grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <{{options}}|reset>",
       "updated": "✅ Idioma do grupo atualizado para *{{language}}*.",
       "reset": "✅ Idioma do grupo resetado para o global (*{{language}}*).",
-      "invalid": "❌ Idioma inválido. Use: pt, es, en, id, ar, fr, hi ou ur (ou 'reset' para usar o global)",
+      "invalid": "❌ Idioma inválido. Use: {{optionsList}} (ou 'reset' para usar o global)",
       "i18nAliases": {
-        "pt": ["idiomagp", "idiomagrupo"],
-        "es": ["idiomgp", "lenguajegrupo"],
-        "en": ["langgroup", "languagegroup", "setlanggroup"],
-        "id": ["bahasagrup", "setbahasagrup", "langgroup"],
-        "fr": ["languegroupe", "setlanguegroupe"],
-        "hi": ["bhashagroup", "setbhashagroup"],
-        "ur": ["zabangroup", "setzabangroup"]
+        "pt": [
+          "idiomagp",
+          "idiomagrupo"
+        ],
+        "es": [
+          "idiomgp",
+          "lenguajegrupo"
+        ],
+        "en": [
+          "langgroup",
+          "languagegroup",
+          "setlanggroup"
+        ],
+        "id": [
+          "bahasagrup",
+          "setbahasagrup",
+          "langgroup"
+        ],
+        "fr": [
+          "languegroupe",
+          "setlanguegroupe"
+        ],
+        "hi": [
+          "bhashagroup",
+          "setbhashagroup"
+        ],
+        "ur": [
+          "zabangroup",
+          "setzabangroup"
+        ]
       }
     },
     "soadmin": {

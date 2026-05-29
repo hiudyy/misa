@@ -5,11 +5,18 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig, saveBotConfig } from "../../../config.js";
-import { createTranslator } from "../../../i18n/index.js";
+import {
+  createTranslator,
+  getGlobalLanguageAliases,
+  getLocaleCommandOptions,
+  getLocaleLabel,
+  isValidLocale,
+} from "../../../i18n/index.js";
 
 const idiomaCommand: Command = {
   name: "idioma",
-  aliases: ["setidioma", "lenguaje", "setlenguaje", "language", "setlanguage", "lang", "setlang", "langue", "setlangue", "bhasha", "setbhasha", "zaban", "setzaban"],
+  aliases: ["setidioma"],
+  i18nAliases: getGlobalLanguageAliases(),
   description: "Muda o idioma global do bot",
   category: "all",
   ownerOnly: true,
@@ -19,33 +26,29 @@ const idiomaCommand: Command = {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
-        { text: t("commands.idioma.current", { language: config.language }) },
+        { text: t("commands.idioma.current", { language: getLocaleLabel(config.language), options: getLocaleCommandOptions() }) },
         { quoted: message as WAMessage },
       );
       return;
     }
 
     const newLang = args[0].toLowerCase();
-    
-    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id" && newLang !== "ar" && newLang !== "fr" && newLang !== "hi" && newLang !== "ur") {
+
+    if (!isValidLocale(newLang)) {
       await misa.sendMessage(
         from,
-        { text: t("commands.idioma.invalid") },
+        { text: t("commands.idioma.invalid", { options: getLocaleCommandOptions() }) },
         { quoted: message as WAMessage },
       );
       return;
     }
 
-    config.language = newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur";
+    config.language = newLang;
     await saveBotConfig(config);
-
-    // Update global translator if needed (though t is injected contextually, 
-    // the next command will use the new language automatically)
 
     await misa.sendMessage(
       from,
-      // We manually create a translator for the new language to reply in the new language
-      { text: createTranslator(newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur")("commands.idioma.updated", { language: newLang }) },
+      { text: createTranslator(newLang)("commands.idioma.updated", { language: getLocaleLabel(newLang) }) },
       { quoted: message as WAMessage },
     );
   },

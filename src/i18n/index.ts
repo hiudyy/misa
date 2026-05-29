@@ -5,10 +5,19 @@
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-
-export type Locale = "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur";
-
-export const SUPPORTED_LOCALES: Locale[] = ["pt", "es", "en", "id", "ar", "fr", "hi", "ur"];
+import {
+  DEFAULT_LOCALE,
+  type Locale,
+  SUPPORTED_LOCALES,
+  getLocaleCodes,
+  getLocaleCommandOptions,
+  getLocaleDisplayList,
+  getLocaleLabel,
+  getLocaleMetadata,
+  getGlobalLanguageAliases,
+  getGroupLanguageAliases,
+  isValidLocale,
+} from "./locales.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,7 +41,7 @@ function loadLocale(locale: Locale): LocaleData {
   } catch {
     // Se falhar ao carregar o locale, tenta pt como fallback
     if (locale !== "pt") {
-      return loadLocale("pt");
+      return loadLocale(DEFAULT_LOCALE);
     }
     return {};
   }
@@ -63,8 +72,8 @@ export function t(key: string, locale: Locale, vars?: Record<string, string>): s
   text = getNestedValue(localeData, key);
 
   // Fallback para pt
-  if (text === undefined && locale !== "pt") {
-    const ptData = loadLocale("pt");
+  if (text === undefined && locale !== DEFAULT_LOCALE) {
+    const ptData = loadLocale(DEFAULT_LOCALE);
     text = getNestedValue(ptData, key);
   }
 
@@ -94,17 +103,13 @@ export function createTranslator(locale: Locale): (key: string, vars?: Record<st
 /**
  * Verifica se um locale é válido.
  */
-export function isValidLocale(value: string): value is Locale {
-  return SUPPORTED_LOCALES.includes(value as Locale);
-}
-
 /**
  * Retorna o idioma global configurado.
  */
 export async function getGlobalLocale(): Promise<Locale> {
   const { getBotConfig } = await import("../config.js");
   const config = await getBotConfig();
-  return config.language || "pt";
+  return isValidLocale(config.language) ? config.language : DEFAULT_LOCALE;
 }
 
 /**
@@ -127,3 +132,17 @@ export async function resolveLocale(groupId?: string): Promise<Locale> {
 export function clearLocaleCache(): void {
   cache.clear();
 }
+
+export {
+  DEFAULT_LOCALE,
+  getGlobalLanguageAliases,
+  getGroupLanguageAliases,
+  getLocaleCodes,
+  getLocaleCommandOptions,
+  getLocaleDisplayList,
+  getLocaleLabel,
+  getLocaleMetadata,
+  isValidLocale,
+  type Locale,
+  SUPPORTED_LOCALES,
+};

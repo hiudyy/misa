@@ -42,7 +42,7 @@
       "apiKeyHint": "[CONFIG] API key https://misaka.com.br سے لی جا سکتی ہے",
       "autoUpdate": "خودکار اپڈیٹ",
       "language": "بوٹ کی زبان",
-      "languageHint": "(pt, es, en, id, ar, fr, hi, ur)",
+      "languageHint": "({{options}})",
       "notConfigured": "ترتیب نہیں دی گئی",
       "configured": "ترتیب دی گئی",
       "boolPrompt": "(ہ/y/N)",
@@ -467,17 +467,49 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ چلانے میں خرابی۔"
     },
     "idioma": {
-      "current": "🌐 موجودہ عالمی زبان: *{{language}}*\n\nاستعمال: zaban <pt|es|en|id|ar|fr|hi|ur>",
+      "current": "🌐 موجودہ عالمی زبان: *{{language}}*\n\nاستعمال: zaban <{{options}}>",
       "updated": "✅ عالمی زبان کو *{{language}}* پر اپڈیٹ کر دیا گیا۔",
-      "invalid": "❌ غلط زبان۔ استعمال کریں: pt, es, en, id, ar, fr, hi یا ur",
+      "invalid": "❌ غلط زبان۔ استعمال کریں: {{optionsList}}",
       "i18nAliases": {
-        "pt": ["idioma", "setidioma"],
-        "es": ["idioma", "lenguaje", "setlenguaje"],
-        "en": ["language", "setlanguage", "lang", "setlang"],
-        "id": ["bahasa", "setbahasa", "lang", "setlang"],
-        "fr": ["langue", "setlangue", "lang", "setlang"],
-        "hi": ["bhasha", "setbhasha", "lang", "setlang"],
-        "ur": ["zaban", "setzaban", "lang", "setlang"]
+        "pt": [
+          "idioma",
+          "setidioma"
+        ],
+        "es": [
+          "idioma",
+          "lenguaje",
+          "setlenguaje"
+        ],
+        "en": [
+          "language",
+          "setlanguage",
+          "lang",
+          "setlang"
+        ],
+        "id": [
+          "bahasa",
+          "setbahasa",
+          "lang",
+          "setlang"
+        ],
+        "fr": [
+          "langue",
+          "setlangue",
+          "lang",
+          "setlang"
+        ],
+        "hi": [
+          "bhasha",
+          "setbhasha",
+          "lang",
+          "setlang"
+        ],
+        "ur": [
+          "zaban",
+          "setzaban",
+          "lang",
+          "setlang"
+        ]
       }
     },
     "nomebot": {
@@ -530,18 +562,44 @@
       "confirm": "👋 اس گروپ سے نکل رہا ہوں..."
     },
     "idiomagp": {
-      "current": "🌐 گروپ کی زبان: *{{language}}*\n(عالمی: {{global}})\n\nاستعمال: zabangroup <pt|es|en|id|ar|fr|hi|ur|reset>",
+      "current": "🌐 گروپ کی زبان: *{{language}}*\n(عالمی: {{global}})\n\nاستعمال: zabangroup <{{options}}|reset>",
       "updated": "✅ گروپ کی زبان کو *{{language}}* پر اپڈیٹ کر دیا گیا۔",
       "reset": "✅ گروپ کی زبان کو عالمی (*{{language}}*) پر ری سیٹ کر دیا گیا۔",
-      "invalid": "❌ غلط زبان۔ استعمال کریں: pt, es, en, id, ar, fr, hi یا ur (یا عالمی زبان کے لیے 'reset')",
+      "invalid": "❌ غلط زبان۔ استعمال کریں: {{optionsList}} (یا عالمی زبان کے لیے 'reset')",
       "i18nAliases": {
-        "pt": ["idiomagp", "idiomagrupo"],
-        "es": ["idiomgp", "lenguajegrupo"],
-        "en": ["langgroup", "languagegroup", "setlanggroup"],
-        "id": ["bahasagrup", "setbahasagrup", "langgroup"],
-        "fr": ["languegroupe", "setlanguegroupe", "langgroup"],
-        "hi": ["bhashagroup", "setbhashagroup", "langgroup"],
-        "ur": ["zabangroup", "setzabangroup", "langgroup"]
+        "pt": [
+          "idiomagp",
+          "idiomagrupo"
+        ],
+        "es": [
+          "idiomgp",
+          "lenguajegrupo"
+        ],
+        "en": [
+          "langgroup",
+          "languagegroup",
+          "setlanggroup"
+        ],
+        "id": [
+          "bahasagrup",
+          "setbahasagrup",
+          "langgroup"
+        ],
+        "fr": [
+          "languegroupe",
+          "setlanguegroupe",
+          "langgroup"
+        ],
+        "hi": [
+          "bhashagroup",
+          "setbhashagroup",
+          "langgroup"
+        ],
+        "ur": [
+          "zabangroup",
+          "setzabangroup",
+          "langgroup"
+        ]
       }
     },
     "soadmin": {
