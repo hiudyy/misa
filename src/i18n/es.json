@@ -249,6 +249,12 @@
         "eval": "eval",
         "cmdnf": "cmdnf",
         "idioma": "lenguaje",
+        "nomebot": "nombrebot",
+        "nomedono": "nombredueño",
+        "numerodono": "numerodueño",
+        "prefixo": "prefijo",
+        "apikey": "apikey",
+        "autoupdate": "autoupdate",
         "idiomagp": "lenguajegrupo",
         "bangp": "bangp",
         "unbangp": "unbangp",
@@ -455,6 +461,37 @@
         "en": ["language", "setlanguage", "lang", "setlang"],
         "id": ["bahasa", "setbahasa", "lang", "setlang"]
       }
+    },
+    "nomebot": {
+      "current": "🤖 Nombre actual del bot: *{{value}}*\n\nUso: nomebot <nuevo nombre>",
+      "invalid": "❌ Informa un nombre válido para el bot.",
+      "updated": "✅ Nombre del bot actualizado a *{{value}}*."
+    },
+    "nomedono": {
+      "current": "👑 Nombre actual del dueño: *{{value}}*\n\nUso: nomedono <nuevo nombre>",
+      "invalid": "❌ Informa un nombre válido para el dueño.",
+      "updated": "✅ Nombre del dueño actualizado a *{{value}}*."
+    },
+    "numerodono": {
+      "current": "📱 Número actual del dueño: *{{value}}*\n\nUso: numerodono <5511999999999>",
+      "invalid": "❌ Informa un número válido con prefijo internacional.",
+      "updated": "✅ Número del dueño actualizado a *{{value}}*.\nLID guardado: {{lid}}",
+      "updatedNoLid": "✅ Número del dueño actualizado a *{{value}}*.\n⚠️ No pude resolver el nuevo LID ahora; se mantuvo el LID anterior hasta poder actualizarlo."
+    },
+    "prefixo": {
+      "current": "⌨️ Prefijo actual: *{{value}}*\n\nUso: prefixo <nuevo prefijo>",
+      "invalid": "❌ Usa un prefijo sin espacios y de hasta 5 caracteres.",
+      "updated": "✅ Prefijo actualizado a *{{value}}*."
+    },
+    "apikey": {
+      "current": "🔑 API key configurada: *{{value}}*\n\nUso: apikey <valor>\nPara limpiar: apikey off",
+      "updated": "✅ API key actualizada con éxito.",
+      "cleared": "✅ API key eliminada con éxito."
+    },
+    "autoupdate": {
+      "current": "♻️ Auto update actual: *{{value}}*\n\nUso: autoupdate <on|off>",
+      "invalid": "❌ Usa: autoupdate on | off",
+      "updated": "✅ Auto update actualizado a *{{value}}*."
     },
     "idiomagp": {
       "current": "🌐 Idioma del grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|reset>",
