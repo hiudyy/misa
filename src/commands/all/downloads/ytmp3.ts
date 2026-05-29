@@ -63,7 +63,7 @@ function isValidYouTubeUrl(url: string): boolean {
 
 const ytmp3Command: Command = {
   name: "ytmp3",
-  aliases: ["ytaudio", "ytmp4"],
+  aliases: ["ytaudio"],
   description: "Baixa áudio do YouTube via link direto",
   category: "all",
   async execute({ misa, message, from, args, t }) {

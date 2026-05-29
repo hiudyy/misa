@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const restartCommand: Command = {
   name: "restart",
   aliases: ["reiniciar", "rebootbot"],
+  i18nAliases: {
+    en: ["restart", "rebootbot"],
+    es: ["reiniciar", "reiniciabot"],
+    id: ["mulaiulang", "restartbot"],
+  },
   description: "Reinicia o processo do bot",
   category: "geral",
   ownerOnly: true,

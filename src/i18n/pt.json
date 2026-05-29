@@ -263,6 +263,7 @@
         "leavegp": "leavegp",
         "idiomagp": "idiomagp",
         "soadmin": "soadmin",
+        "modobn": "modobn",
         "setprefixgp": "setprefixgp",
         "bangp": "bangp",
         "unbangp": "unbangp",
@@ -540,6 +541,10 @@
     "soadmin": {
       "enabled": "✅ Só admins agora podem usar comandos neste grupo.",
       "disabled": "✅ Membros comuns voltaram a poder usar comandos neste grupo."
+    },
+    "modobn": {
+      "enabled": "✅ Modo brincadeira ativado neste grupo!",
+      "disabled": "❌ Modo brincadeira desativado neste grupo."
     },
     "setprefixgp": {
       "current": "⌨️ Prefixo do grupo: *{{value}}*\nPrefixo global: *{{global}}*\n\nUso: setprefixgp <novo prefixo>\nPara resetar: setprefixgp reset",

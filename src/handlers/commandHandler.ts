@@ -26,11 +26,11 @@ export class CommandHandler {
 
       const fallbackName = path.basename(file, path.extname(file));
       const commandName = (command.name || fallbackName).toLowerCase();
+      const normalizedCommand = { ...command, name: commandName };
+      this.commands.set(commandName, normalizedCommand);
 
-      this.commands.set(commandName, { ...command, name: commandName });
-
-      for (const alias of command.aliases ?? []) {
-        this.commands.set(alias.toLowerCase(), { ...command, name: commandName });
+      for (const alias of this.collectAliases(command)) {
+        this.commands.set(alias, normalizedCommand);
       }
 
     }
@@ -54,6 +54,25 @@ export class CommandHandler {
 
   listNames(): string[] {
     return [...this.commands.keys()];
+  }
+
+  private collectAliases(command: Command): string[] {
+    const aliases = new Set<string>();
+
+    for (const alias of command.aliases ?? []) {
+      const normalized = alias.trim().toLowerCase();
+      if (normalized) aliases.add(normalized);
+    }
+
+    for (const localeAliases of Object.values(command.i18nAliases ?? {})) {
+      for (const alias of localeAliases ?? []) {
+        const normalized = alias.trim().toLowerCase();
+        if (normalized) aliases.add(normalized);
+      }
+    }
+
+    aliases.delete(command.name.toLowerCase());
+    return [...aliases];
   }
 
   private async walkDir(dir: string): Promise<string[]> {

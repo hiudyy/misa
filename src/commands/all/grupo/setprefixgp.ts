@@ -6,6 +6,11 @@ import { Command } from "../../../types/Command.js";
 const setprefixgpCommand: Command = {
   name: "setprefixgp",
   aliases: ["prefixogp", "groupprefix"],
+  i18nAliases: {
+    en: ["setgroupprefix", "groupprefix"],
+    es: ["prefijogrupo", "setprefijogrupo"],
+    id: ["prefiksgrup", "setprefiksgrup"],
+  },
   description: "Define um prefixo exclusivo para o grupo",
   category: "grupo",
   groupOnly: true,

@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const antidocCommand: Command = {
   name: "antidoc",
   aliases: ["antidocumento", "antidocument"],
+  i18nAliases: {
+    en: ["antidoc", "antidocument"],
+    es: ["antidoc", "antidocumento"],
+    id: ["antidoc", "antidokumen"],
+  },
   description: "Ativa ou desativa o bloqueio de documentos",
   category: "grupo",
   groupOnly: true,

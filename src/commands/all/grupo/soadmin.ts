@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const soadminCommand: Command = {
   name: "soadmin",
   aliases: ["somenteadmin", "adminonlygp"],
+  i18nAliases: {
+    en: ["adminonlygroup", "groupadminonly"],
+    es: ["soloadmin", "adminsologrupo"],
+    id: ["hanyaadmin", "adminsajagrup"],
+  },
   description: "Permite que apenas admins usem comandos no grupo",
   category: "grupo",
   groupOnly: true,

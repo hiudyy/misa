@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const antilocCommand: Command = {
   name: "antiloc",
   aliases: ["antilocalizacao", "antilocation"],
+  i18nAliases: {
+    en: ["antilocation"],
+    es: ["antiubicacion"],
+    id: ["antilokasi"],
+  },
   description: "Ativa ou desativa o bloqueio de localização",
   category: "grupo",
   groupOnly: true,

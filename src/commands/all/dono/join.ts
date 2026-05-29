@@ -6,6 +6,11 @@ const INVITE_RE = /chat\.whatsapp\.com\/([A-Za-z0-9]+)/i;
 const joinCommand: Command = {
   name: "join",
   aliases: ["entrargp", "joingp"],
+  i18nAliases: {
+    en: ["join", "joingroup"],
+    es: ["entrargrupo", "unirsegrupo"],
+    id: ["masukgrup", "gabunggrup"],
+  },
   description: "Faz o bot entrar em um grupo por link",
   category: "geral",
   ownerOnly: true,
