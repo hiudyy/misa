@@ -10,12 +10,15 @@ import { getBotConfig, saveBotConfig } from "./config.js";
 import { createConnection } from "./connection.js";
 import { paths } from "./config/paths.js";
 import { groupCache } from "./cache/groupCache.js";
+import { getGroup } from "./database/groupDB.js";
 import { toLID } from "./helpers/toLID.js";
 import { isOwner } from "./helpers/isOwner.js";
 import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
 import { applyAntiLink } from "./helpers/antiLink.js";
 import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknownCommand.js";
 import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBanned } from "./helpers/ownerRestrictions.js";
+import { applyMediaRestriction } from "./helpers/messageRestrictions.js";
+import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
 import { log } from "./logger.js";
@@ -70,10 +73,11 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     const from = message.key.remoteJid;
     if (!from) return;
     const runtimeConfig = await getBotConfig();
-    const prefix = runtimeConfig.prefix;
 
     const isGroup = from.endsWith("@g.us");
     if (isGroup) await groupCache.ensure(from, misa);
+    const groupConfig = isGroup ? await getGroup(from) : null;
+    const prefix = groupConfig?.prefix || runtimeConfig.prefix;
 
     const rawSender = (isGroup ? message.key.participant : message.key.remoteJid) || "";
     const senderLID = rawSender ? await toLID(rawSender, misa) : null;
@@ -95,6 +99,13 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       return;
     }
 
+    if (!isGroup && !userIsOwner) {
+      const ownerConfig = await getOwnerConfig();
+      if (ownerConfig.antiPrivate) {
+        return;
+      }
+    }
+
     if (isGroup && !userIsOwner && await isGroupBanned(from)) {
       return;
     }
@@ -107,11 +118,17 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       "";
 
     const isCommandMessage = body.startsWith(prefix);
-    if (isGroup && !isCommandMessage) {
+    if (isGroup) {
       const userIsAdmin = userIsOwner ? true : await isAdmin(from, sender, misa);
       const botIsAdmin = await isBotAdmin(from, misa);
 
       if (!userIsOwner && !userIsAdmin && botIsAdmin) {
+        const locale = await resolveLocale(from);
+        const blockedMedia = await applyMediaRestriction(misa, message as proto.IWebMessageInfo, from, sender, locale);
+        if (blockedMedia) return;
+      }
+
+      if (!isCommandMessage && !userIsOwner && !userIsAdmin && botIsAdmin) {
         const locale = await resolveLocale(from);
         const handled = await applyAntiLink(misa, message as proto.IWebMessageInfo, from, sender, locale);
         if (handled) return;
@@ -168,6 +185,14 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       const userIsAdmin = await isAdmin(from, sender, misa);
       if (!userIsAdmin && !userIsOwner) {
         await misa.sendMessage(from, { text: cmdTranslator("errors.adminOnly") });
+        return;
+      }
+    }
+
+    if (isGroup && groupConfig?.soadmin && !userIsOwner) {
+      const userIsAdmin = await isAdmin(from, sender, misa);
+      if (!userIsAdmin) {
+        await misa.sendMessage(from, { text: cmdTranslator("errors.groupCommandsAdminOnly") });
         return;
       }
     }
