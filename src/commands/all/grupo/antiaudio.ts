@@ -4,7 +4,12 @@ import { Command } from "../../../types/Command.js";
 
 const antiaudioCommand: Command = {
   name: "antiaudio",
-  aliases: ["antiaud", "antiaudioo"],
+  aliases: ["antiaud"],
+  i18nAliases: {
+    en: ["antiaudio"],
+    es: ["antiaudio"],
+    id: ["antiaudio"],
+  },
   description: "Ativa ou desativa o bloqueio de áudio",
   category: "grupo",
   groupOnly: true,

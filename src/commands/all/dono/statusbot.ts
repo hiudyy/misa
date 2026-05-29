@@ -19,6 +19,11 @@ function formatUptime(totalSeconds: number): string {
 const statusbotCommand: Command = {
   name: "statusbot",
   aliases: ["botstatus", "statusmisa"],
+  i18nAliases: {
+    en: ["botstatus", "statusbot"],
+    es: ["estadobot", "statusbot"],
+    id: ["statusbot", "statusmesin"],
+  },
   description: "Mostra o status geral do bot",
   category: "geral",
   ownerOnly: true,

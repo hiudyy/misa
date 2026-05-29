@@ -4,6 +4,11 @@ import { Command } from "../../../types/Command.js";
 const leavegpCommand: Command = {
   name: "leavegp",
   aliases: ["sairgp", "leavegroup"],
+  i18nAliases: {
+    en: ["leavegroup", "leavegp"],
+    es: ["salirgrupo", "dejargrupo"],
+    id: ["keluargrup", "tinggalkangrup"],
+  },
   description: "Faz o bot sair do grupo atual",
   category: "geral",
   ownerOnly: true,

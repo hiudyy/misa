@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const antifotoCommand: Command = {
   name: "antifoto",
   aliases: ["antiimg", "antiimagem"],
+  i18nAliases: {
+    en: ["antiimage", "antiphoto"],
+    es: ["antifoto"],
+    id: ["antifoto"],
+  },
   description: "Ativa ou desativa o bloqueio de fotos",
   category: "grupo",
   groupOnly: true,

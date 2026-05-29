@@ -28,7 +28,7 @@ function formatMemory(bytes: number): string {
 
 const pingCommand: Command = {
   name: "ping",
-  aliases: ["p"],
+  aliases: [],
   description: "Mostra se a bot esta respondendo",
   category: "all",
   async execute({ misa, message, from, isOwner, t }) {

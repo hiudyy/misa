@@ -33,6 +33,7 @@ const menuAdmCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.hidetag")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.del")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.soadmin")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.modobn")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.setprefixgp")}`,
         "│",
         `├ 〔 ${t("commands.menu.categories.activations")} 〕`,

@@ -17,6 +17,7 @@ export type GroupData = {
     createdBy: string | null;
   };
   soadmin: boolean;
+  modobn: boolean;
   antimidia: {
     loc: boolean;
     audio: boolean;
@@ -51,6 +52,7 @@ const DEFAULT: GroupData = {
     createdBy: null,
   },
   soadmin: false,
+  modobn: false,
   antimidia: {
     loc: false,
     audio: false,

@@ -77,6 +77,7 @@
     "adminOnly": "❌ Perintah ini hanya untuk administrator grup.",
     "botAdminRequired": "❌ Saya harus menjadi administrator grup untuk menjalankan perintah ini.",
     "commandBlocked": "❌ Perintah ini diblokir oleh pemilik bot.",
+    "groupCommandsAdminOnly": "❌ Di grup ini, hanya admin yang dapat menggunakan perintah.",
     "commandExecution": "❌ Terjadi kesalahan saat menjalankan perintah."
   },
   "api": {
@@ -255,7 +256,15 @@
         "prefixo": "prefiks",
         "apikey": "apikey",
         "autoupdate": "autoupdate",
+        "antipv": "antipv",
+        "statusbot": "statusbot",
+        "restart": "restart",
+        "join": "join",
+        "leavegp": "leavegp",
         "idiomagp": "bahasagrup",
+        "soadmin": "hanyaadmin",
+        "modobn": "modobn",
+        "setprefixgp": "setprefixgp",
         "bangp": "bangp",
         "unbangp": "unbangp",
         "listbangp": "listbangp",
@@ -264,7 +273,13 @@
         "listblock": "listblock",
         "blockcmd": "blockcmd",
         "unblockcmd": "unblockcmd",
-        "listblockcmd": "listblockcmd"
+        "listblockcmd": "listblockcmd",
+        "antiloc": "antilokasi",
+        "antiaudio": "antiaudio",
+        "antifoto": "antifoto",
+        "antivideo": "antivideo",
+        "antidoc": "antidoc",
+        "antilista": "antilista"
       }
     },
     "play": {
@@ -493,6 +508,24 @@
       "invalid": "❌ Gunakan: autoupdate on | off",
       "updated": "✅ Auto update diperbarui menjadi *{{value}}*."
     },
+    "antipv": {
+      "enabled": "✅ Anti-private diaktifkan. Bot akan mengabaikan pesan pribadi dari non-pemilik.",
+      "disabled": "✅ Anti-private dinonaktifkan. Bot akan merespons pesan pribadi lagi."
+    },
+    "statusbot": {
+      "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ pemilik: {{owner}}\n│ nomor: {{ownerNumber}}\n│ jid: {{user}}\n│ prefiks global: {{prefix}}\n│ bahasa: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-private: {{antiPrivate}}\n│ grup tersimpan: {{groups}}\n│ grup bangp: {{bannedGroups}}\n│ pengguna diblokir: {{blockedUsers}}\n│ perintah diblokir: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "restart": {
+      "restarting": "♻️ Memulai ulang bot..."
+    },
+    "join": {
+      "invalid": "❌ Kirim tautan undangan WhatsApp yang valid.\n\nPenggunaan: join https://chat.whatsapp.com/...",
+      "success": "✅ Undangan diterima. Bergabung ke grup...",
+      "error": "❌ Kesalahan saat bergabung ke grup: {{error}}"
+    },
+    "leavegp": {
+      "confirm": "👋 Keluar dari grup ini..."
+    },
     "idiomagp": {
       "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nPenggunaan: bahasagrup <pt|es|en|id|reset>",
       "updated": "✅ Bahasa grup diperbarui menjadi *{{language}}*.",
@@ -504,6 +537,20 @@
         "en": ["langgroup", "languagegroup", "setlanggroup"],
         "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
+    },
+    "soadmin": {
+      "enabled": "✅ Sekarang hanya admin yang dapat menggunakan perintah di grup ini.",
+      "disabled": "✅ Anggota biasa dapat menggunakan perintah di grup ini lagi."
+    },
+    "modobn": {
+      "enabled": "✅ Mode seru diaktifkan di grup ini!",
+      "disabled": "❌ Mode seru dinonaktifkan di grup ini."
+    },
+    "setprefixgp": {
+      "current": "⌨️ Prefiks grup: *{{value}}*\nPrefiks global: *{{global}}*\n\nPenggunaan: setprefixgp <prefiks baru>\nUntuk reset: setprefixgp reset",
+      "invalid": "❌ Gunakan prefiks tanpa spasi dan maksimal 5 karakter.",
+      "updated": "✅ Prefiks grup ini diperbarui menjadi *{{value}}*.",
+      "reset": "✅ Prefiks grup ini direset ke prefiks global (*{{value}}*)."
     },
     "bangp": {
       "alreadyActive": "❌ Grup ini sudah dalam mode bangp.",
@@ -550,6 +597,41 @@
     "listblockcmd": {
       "empty": "❌ Tidak ada perintah yang diblokir.",
       "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "antimidia": {
+      "blocked": "🚫 {{user}}, pesan dengan tipe *{{type}}* tidak diizinkan di grup ini.",
+      "types": {
+        "loc": "lokasi",
+        "audio": "audio",
+        "foto": "foto",
+        "video": "video",
+        "doc": "dokumen",
+        "lista": "daftar"
+      }
+    },
+    "antiloc": {
+      "enabled": "✅ Anti-lokasi diaktifkan di grup ini!",
+      "disabled": "❌ Anti-lokasi dinonaktifkan di grup ini."
+    },
+    "antiaudio": {
+      "enabled": "✅ Anti-audio diaktifkan di grup ini!",
+      "disabled": "❌ Anti-audio dinonaktifkan di grup ini."
+    },
+    "antifoto": {
+      "enabled": "✅ Anti-foto diaktifkan di grup ini!",
+      "disabled": "❌ Anti-foto dinonaktifkan di grup ini."
+    },
+    "antivideo": {
+      "enabled": "✅ Anti-video diaktifkan di grup ini!",
+      "disabled": "❌ Anti-video dinonaktifkan di grup ini."
+    },
+    "antidoc": {
+      "enabled": "✅ Anti-dokumen diaktifkan di grup ini!",
+      "disabled": "❌ Anti-dokumen dinonaktifkan di grup ini."
+    },
+    "antilista": {
+      "enabled": "✅ Anti-daftar diaktifkan di grup ini!",
+      "disabled": "❌ Anti-daftar dinonaktifkan di grup ini."
     }
   },
   "group": {

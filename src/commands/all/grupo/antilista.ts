@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const antilistaCommand: Command = {
   name: "antilista",
   aliases: ["antilist", "antilistas"],
+  i18nAliases: {
+    en: ["antilist"],
+    es: ["antilista"],
+    id: ["antilista"],
+  },
   description: "Ativa ou desativa o bloqueio de listas/interativos",
   category: "grupo",
   groupOnly: true,

@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const antipvCommand: Command = {
   name: "antipv",
   aliases: ["antiprivado", "privateoff"],
+  i18nAliases: {
+    en: ["antiprivate", "privateoff"],
+    es: ["antiprivado"],
+    id: ["antipribadi"],
+  },
   description: "Ativa ou desativa o bot no privado para não-donos",
   category: "geral",
   ownerOnly: true,

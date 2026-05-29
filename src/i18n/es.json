@@ -77,6 +77,7 @@
     "adminOnly": "❌ Este comando es solo para administradores del grupo.",
     "botAdminRequired": "❌ Necesito ser administrador del grupo para ejecutar este comando.",
     "commandBlocked": "❌ Este comando fue bloqueado por el dueño del bot.",
+    "groupCommandsAdminOnly": "❌ En este grupo, solo los admins pueden usar comandos.",
     "commandExecution": "❌ Ocurrió un error al ejecutar el comando."
   },
   "api": {
@@ -255,7 +256,15 @@
         "prefixo": "prefijo",
         "apikey": "apikey",
         "autoupdate": "autoupdate",
+        "antipv": "antipv",
+        "statusbot": "statusbot",
+        "restart": "restart",
+        "join": "join",
+        "leavegp": "leavegp",
         "idiomagp": "lenguajegrupo",
+        "soadmin": "soloadmin",
+        "modobn": "modobn",
+        "setprefixgp": "setprefixgp",
         "bangp": "bangp",
         "unbangp": "unbangp",
         "listbangp": "listbangp",
@@ -264,7 +273,13 @@
         "listblock": "listblock",
         "blockcmd": "blockcmd",
         "unblockcmd": "unblockcmd",
-        "listblockcmd": "listblockcmd"
+        "listblockcmd": "listblockcmd",
+        "antiloc": "antiloc",
+        "antiaudio": "antiaudio",
+        "antifoto": "antifoto",
+        "antivideo": "antivideo",
+        "antidoc": "antidoc",
+        "antilista": "antilista"
       }
     },
     "play": {
@@ -493,6 +508,24 @@
       "invalid": "❌ Usa: autoupdate on | off",
       "updated": "✅ Auto update actualizado a *{{value}}*."
     },
+    "antipv": {
+      "enabled": "✅ Anti-privado activado. El bot ignorará mensajes privados de no dueños.",
+      "disabled": "✅ Anti-privado desactivado. El bot volverá a responder en privado."
+    },
+    "statusbot": {
+      "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ dueño: {{owner}}\n│ número: {{ownerNumber}}\n│ jid: {{user}}\n│ prefijo global: {{prefix}}\n│ idioma: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-privado: {{antiPrivate}}\n│ grupos guardados: {{groups}}\n│ grupos bangp: {{bannedGroups}}\n│ usuarios bloqueados: {{blockedUsers}}\n│ comandos bloqueados: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "restart": {
+      "restarting": "♻️ Reiniciando el bot..."
+    },
+    "join": {
+      "invalid": "❌ Envía un enlace válido de invitación de WhatsApp.\n\nUso: join https://chat.whatsapp.com/...",
+      "success": "✅ Invitación aceptada. Entrando al grupo...",
+      "error": "❌ Error al entrar al grupo: {{error}}"
+    },
+    "leavegp": {
+      "confirm": "👋 Saliendo de este grupo..."
+    },
     "idiomagp": {
       "current": "🌐 Idioma del grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|reset>",
       "updated": "✅ Idioma del grupo actualizado a *{{language}}*.",
@@ -504,6 +537,20 @@
         "en": ["langgroup", "languagegroup", "setlanggroup"],
         "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
+    },
+    "soadmin": {
+      "enabled": "✅ Ahora solo los admins pueden usar comandos en este grupo.",
+      "disabled": "✅ Los miembros normales pueden volver a usar comandos en este grupo."
+    },
+    "modobn": {
+      "enabled": "✅ Modo diversión activado en este grupo!",
+      "disabled": "❌ Modo diversión desactivado en este grupo."
+    },
+    "setprefixgp": {
+      "current": "⌨️ Prefijo del grupo: *{{value}}*\nPrefijo global: *{{global}}*\n\nUso: setprefixgp <nuevo prefijo>\nPara resetear: setprefixgp reset",
+      "invalid": "❌ Usa un prefijo sin espacios y de hasta 5 caracteres.",
+      "updated": "✅ El prefijo de este grupo fue actualizado a *{{value}}*.",
+      "reset": "✅ El prefijo de este grupo fue restablecido al global (*{{value}}*)."
     },
     "bangp": {
       "alreadyActive": "❌ Este grupo ya está en bangp.",
@@ -550,6 +597,41 @@
     "listblockcmd": {
       "empty": "❌ Ningún comando está bloqueado.",
       "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "antimidia": {
+      "blocked": "🚫 {{user}}, los mensajes del tipo *{{type}}* no están permitidos en este grupo.",
+      "types": {
+        "loc": "ubicación",
+        "audio": "audio",
+        "foto": "foto",
+        "video": "video",
+        "doc": "documento",
+        "lista": "lista"
+      }
+    },
+    "antiloc": {
+      "enabled": "✅ Anti-ubicación activado en este grupo!",
+      "disabled": "❌ Anti-ubicación desactivado en este grupo."
+    },
+    "antiaudio": {
+      "enabled": "✅ Anti-audio activado en este grupo!",
+      "disabled": "❌ Anti-audio desactivado en este grupo."
+    },
+    "antifoto": {
+      "enabled": "✅ Anti-foto activado en este grupo!",
+      "disabled": "❌ Anti-foto desactivado en este grupo."
+    },
+    "antivideo": {
+      "enabled": "✅ Anti-video activado en este grupo!",
+      "disabled": "❌ Anti-video desactivado en este grupo."
+    },
+    "antidoc": {
+      "enabled": "✅ Anti-documento activado en este grupo!",
+      "disabled": "❌ Anti-documento desactivado en este grupo."
+    },
+    "antilista": {
+      "enabled": "✅ Anti-lista activado en este grupo!",
+      "disabled": "❌ Anti-lista desactivado en este grupo."
     }
   },
   "group": {

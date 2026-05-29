@@ -5,6 +5,11 @@ import { Command } from "../../../types/Command.js";
 const antivideoCommand: Command = {
   name: "antivideo",
   aliases: ["antivid", "antivd"],
+  i18nAliases: {
+    en: ["antivideo"],
+    es: ["antivideo"],
+    id: ["antivideo"],
+  },
   description: "Ativa ou desativa o bloqueio de vídeos",
   category: "grupo",
   groupOnly: true,
