@@ -15,6 +15,7 @@ import { isOwner } from "./helpers/isOwner.js";
 import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
 import { applyAntiLink } from "./helpers/antiLink.js";
 import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknownCommand.js";
+import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBanned } from "./helpers/ownerRestrictions.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
 import { log } from "./logger.js";
@@ -85,6 +86,16 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (message.participant) message.participant = senderLID;
 
     const sender = senderLID;
+    const userIsOwner = await isOwner(sender);
+
+    await cleanupExpiredBlockedUsers();
+    if (!userIsOwner && await isBlockedUser(sender)) {
+      return;
+    }
+
+    if (isGroup && !userIsOwner && await isGroupBanned(from)) {
+      return;
+    }
 
     const body =
       message.message.conversation ||
@@ -95,7 +106,6 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
 
     const isCommandMessage = body.startsWith(prefix);
     if (isGroup && !isCommandMessage) {
-      const userIsOwner = await isOwner(sender);
       const userIsAdmin = userIsOwner ? true : await isAdmin(from, sender, misa);
       const botIsAdmin = await isBotAdmin(from, misa);
 
@@ -133,8 +143,6 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     }
 
     // Verificar permissões
-    const userIsOwner = await isOwner(sender);
-
     // 1. Verificar se o comando é apenas para o dono
     if (command.ownerOnly && !userIsOwner) {
       await misa.sendMessage(from, { text: cmdTranslator("errors.ownerOnly") });
@@ -171,6 +179,11 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       }
     }
 
+    if (!userIsOwner && await isBlockedCommand(command.name)) {
+      await misa.sendMessage(from, { text: cmdTranslator("errors.commandBlocked") });
+      return;
+    }
+
     try {
       await command.execute({
         misa,
@@ -185,6 +198,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
         isGroup,
         isAdmin: () => isAdmin(from, sender, misa),
         isBotAdmin: () => isBotAdmin(from, misa),
+        commandDirectory: commandHandler,
         locale,
         t: cmdTranslator,
       });

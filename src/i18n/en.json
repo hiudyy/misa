@@ -76,6 +76,7 @@
     "privateOnly": "❌ This command can only be used in private chats.",
     "adminOnly": "❌ This command is only for group administrators.",
     "botAdminRequired": "❌ I need to be a group administrator to execute this command.",
+    "commandBlocked": "❌ This command has been blocked by the bot owner.",
     "commandExecution": "❌ An error occurred while executing the command."
   },
   "api": {
@@ -248,7 +249,16 @@
         "eval": "eval",
         "cmdnf": "cmdnf",
         "idioma": "language",
-        "idiomagp": "languagegroup"
+        "idiomagp": "languagegroup",
+        "bangp": "bangp",
+        "unbangp": "unbangp",
+        "listbangp": "listbangp",
+        "blockuser": "blockuser",
+        "unblockuser": "unblockuser",
+        "listblock": "listblock",
+        "blockcmd": "blockcmd",
+        "unblockcmd": "unblockcmd",
+        "listblockcmd": "listblockcmd"
       }
     },
     "play": {
@@ -457,6 +467,52 @@
         "en": ["langgroup", "languagegroup", "setlanggroup"],
         "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
+    },
+    "bangp": {
+      "alreadyActive": "❌ This group is already in bangp mode.",
+      "enabled": "✅ Bangp enabled in this group.\nReason: {{reason}}"
+    },
+    "unbangp": {
+      "notActive": "❌ This group is not in bangp mode.",
+      "disabled": "✅ Bangp removed. The bot is active again in this group."
+    },
+    "listbangp": {
+      "empty": "❌ No groups are in bangp mode.",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockuser": {
+      "noMention": "❌ Mention a user.\n\nUsage: blockuser @user [30m|12h|7d] [reason]",
+      "lidFailed": "❌ Could not resolve the mentioned user's LID.",
+      "ownerBypass": "❌ The owner cannot be blocked.",
+      "alreadyBlocked": "❌ This user is already blocked.",
+      "permanent": "permanent",
+      "success": "✅ User {{user}} blocked.\nExpires: {{expires}}\nReason: {{reason}}"
+    },
+    "unblockuser": {
+      "noMention": "❌ Mention a user.\n\nUsage: unblockuser @user",
+      "lidFailed": "❌ Could not resolve the mentioned user's LID.",
+      "notBlocked": "❌ This user is not blocked.",
+      "success": "✅ User {{user}} unblocked."
+    },
+    "listblock": {
+      "empty": "❌ No users are blocked.",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockcmd": {
+      "noArgs": "❌ Usage: blockcmd <command>",
+      "notFound": "❌ Command '{{command}}' does not exist.",
+      "alreadyBlocked": "❌ Command '{{command}}' is already blocked.",
+      "success": "✅ Command '{{command}}' was blocked."
+    },
+    "unblockcmd": {
+      "noArgs": "❌ Usage: unblockcmd <command>",
+      "notFound": "❌ Command '{{command}}' does not exist.",
+      "notBlocked": "❌ Command '{{command}}' is not blocked.",
+      "success": "✅ Command '{{command}}' was unblocked."
+    },
+    "listblockcmd": {
+      "empty": "❌ No commands are blocked.",
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     }
   },
   "group": {

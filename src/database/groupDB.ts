@@ -9,6 +9,12 @@ import type { Locale } from "../i18n/index.js";
 
 export type GroupData = {
   language?: Locale;
+  botBan: {
+    ativo: boolean;
+    motivo: string | null;
+    createdAt: string | null;
+    createdBy: string | null;
+  };
   bemvindo: {
     ativo: boolean;
     legenda: string;
@@ -28,6 +34,12 @@ export type AntiLinkData = {
 };
 
 const DEFAULT: GroupData = {
+  botBan: {
+    ativo: false,
+    motivo: null,
+    createdAt: null,
+    createdBy: null,
+  },
   bemvindo: {
     ativo: false,
     legenda: "Seja bem-vindo(a), @usuario! 👋\nVocê é o membro de número @total do grupo *@grupo*.",
@@ -62,6 +74,7 @@ export async function getGroup(groupId: string): Promise<GroupData> {
     return {
       ...DEFAULT,
       ...saved,
+      botBan: { ...DEFAULT.botBan, ...saved.botBan },
       bemvindo: { ...DEFAULT.bemvindo, ...saved.bemvindo },
       antilink: { ...DEFAULT.antilink, ...saved.antilink },
       antilinkgp: { ...DEFAULT.antilinkgp, ...saved.antilinkgp },
@@ -78,6 +91,7 @@ export async function saveGroup(groupId: string, data: Partial<GroupData>): Prom
   const updated: GroupData = {
     ...current,
     ...data,
+    botBan: { ...current.botBan, ...data.botBan },
     bemvindo: { ...current.bemvindo, ...data.bemvindo },
     antilink: { ...current.antilink, ...data.antilink },
     antilinkgp: { ...current.antilinkgp, ...data.antilinkgp },
@@ -85,4 +99,23 @@ export async function saveGroup(groupId: string, data: Partial<GroupData>): Prom
   };
   await fs.writeFile(groupPath(groupId), JSON.stringify(updated, null, 2), "utf8");
   return updated;
+}
+
+export async function listBannedGroups(): Promise<Array<{ groupId: string; data: GroupData }>> {
+  try {
+    const files = await fs.readdir(paths.grupos);
+    const entries = await Promise.all(
+      files
+        .filter((file) => file.endsWith(".json"))
+        .map(async (file) => {
+          const groupId = `${path.basename(file, ".json")}@g.us`;
+          const data = await getGroup(groupId);
+          return { groupId, data };
+        }),
+    );
+
+    return entries.filter((entry) => entry.data.botBan.ativo);
+  } catch {
+    return [];
+  }
 }

@@ -76,6 +76,7 @@
     "privateOnly": "❌ Perintah ini hanya dapat digunakan di chat pribadi.",
     "adminOnly": "❌ Perintah ini hanya untuk administrator grup.",
     "botAdminRequired": "❌ Saya harus menjadi administrator grup untuk menjalankan perintah ini.",
+    "commandBlocked": "❌ Perintah ini diblokir oleh pemilik bot.",
     "commandExecution": "❌ Terjadi kesalahan saat menjalankan perintah."
   },
   "api": {
@@ -248,7 +249,16 @@
         "eval": "eval",
         "cmdnf": "cmdtidakditemukan",
         "idioma": "bahasa",
-        "idiomagp": "bahasagrup"
+        "idiomagp": "bahasagrup",
+        "bangp": "bangp",
+        "unbangp": "unbangp",
+        "listbangp": "listbangp",
+        "blockuser": "blockuser",
+        "unblockuser": "unblockuser",
+        "listblock": "listblock",
+        "blockcmd": "blockcmd",
+        "unblockcmd": "unblockcmd",
+        "listblockcmd": "listblockcmd"
       }
     },
     "play": {
@@ -457,6 +467,52 @@
         "en": ["langgroup", "languagegroup", "setlanggroup"],
         "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
+    },
+    "bangp": {
+      "alreadyActive": "❌ Grup ini sudah dalam mode bangp.",
+      "enabled": "✅ Bangp diaktifkan di grup ini.\nAlasan: {{reason}}"
+    },
+    "unbangp": {
+      "notActive": "❌ Grup ini tidak dalam mode bangp.",
+      "disabled": "✅ Bangp dihapus. Bot aktif kembali di grup ini."
+    },
+    "listbangp": {
+      "empty": "❌ Tidak ada grup dalam mode bangp.",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockuser": {
+      "noMention": "❌ Sebutkan pengguna.\n\nPenggunaan: blockuser @pengguna [30m|12h|7d] [alasan]",
+      "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebut.",
+      "ownerBypass": "❌ Pemilik tidak dapat diblokir.",
+      "alreadyBlocked": "❌ Pengguna ini sudah diblokir.",
+      "permanent": "permanen",
+      "success": "✅ Pengguna {{user}} diblokir.\nKedaluwarsa: {{expires}}\nAlasan: {{reason}}"
+    },
+    "unblockuser": {
+      "noMention": "❌ Sebutkan pengguna.\n\nPenggunaan: unblockuser @pengguna",
+      "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebut.",
+      "notBlocked": "❌ Pengguna ini tidak diblokir.",
+      "success": "✅ Pengguna {{user}} dibuka blokirnya."
+    },
+    "listblock": {
+      "empty": "❌ Tidak ada pengguna yang diblokir.",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockcmd": {
+      "noArgs": "❌ Penggunaan: blockcmd <perintah>",
+      "notFound": "❌ Perintah '{{command}}' tidak ada.",
+      "alreadyBlocked": "❌ Perintah '{{command}}' sudah diblokir.",
+      "success": "✅ Perintah '{{command}}' diblokir."
+    },
+    "unblockcmd": {
+      "noArgs": "❌ Penggunaan: unblockcmd <perintah>",
+      "notFound": "❌ Perintah '{{command}}' tidak ada.",
+      "notBlocked": "❌ Perintah '{{command}}' tidak diblokir.",
+      "success": "✅ Perintah '{{command}}' dibuka blokirnya."
+    },
+    "listblockcmd": {
+      "empty": "❌ Tidak ada perintah yang diblokir.",
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     }
   },
   "group": {
