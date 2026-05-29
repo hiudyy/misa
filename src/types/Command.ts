@@ -6,6 +6,12 @@ import { proto, WASocket } from "baileys";
 import { GroupCache } from "../cache/groupCache.js";
 import type { Locale } from "../i18n/index.js";
 
+export interface CommandDirectory {
+  get(commandName: string): Command | undefined;
+  listUnique(): Command[];
+  listNames(): string[];
+}
+
 export interface CommandContext {
   misa: WASocket;
   message: proto.IWebMessageInfo;
@@ -19,6 +25,7 @@ export interface CommandContext {
   isGroup: boolean;
   isAdmin: () => Promise<boolean>;
   isBotAdmin: () => Promise<boolean>;
+  commandDirectory: CommandDirectory;
   locale: Locale;
   t: (key: string, vars?: Record<string, string>) => string;
 }

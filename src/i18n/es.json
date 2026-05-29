@@ -76,6 +76,7 @@
     "privateOnly": "❌ Este comando solo puede usarse en privado.",
     "adminOnly": "❌ Este comando es solo para administradores del grupo.",
     "botAdminRequired": "❌ Necesito ser administrador del grupo para ejecutar este comando.",
+    "commandBlocked": "❌ Este comando fue bloqueado por el dueño del bot.",
     "commandExecution": "❌ Ocurrió un error al ejecutar el comando."
   },
   "api": {
@@ -248,7 +249,16 @@
         "eval": "eval",
         "cmdnf": "cmdnf",
         "idioma": "lenguaje",
-        "idiomagp": "lenguajegrupo"
+        "idiomagp": "lenguajegrupo",
+        "bangp": "bangp",
+        "unbangp": "unbangp",
+        "listbangp": "listbangp",
+        "blockuser": "blockuser",
+        "unblockuser": "unblockuser",
+        "listblock": "listblock",
+        "blockcmd": "blockcmd",
+        "unblockcmd": "unblockcmd",
+        "listblockcmd": "listblockcmd"
       }
     },
     "play": {
@@ -457,6 +467,52 @@
         "en": ["langgroup", "languagegroup", "setlanggroup"],
         "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
+    },
+    "bangp": {
+      "alreadyActive": "❌ Este grupo ya está en bangp.",
+      "enabled": "✅ Bangp activado en este grupo.\nMotivo: {{reason}}"
+    },
+    "unbangp": {
+      "notActive": "❌ Este grupo no está en bangp.",
+      "disabled": "✅ Bangp eliminado. El bot volvió a funcionar normalmente en este grupo."
+    },
+    "listbangp": {
+      "empty": "❌ Ningún grupo está en bangp.",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockuser": {
+      "noMention": "❌ Menciona al usuario.\n\nUso: blockuser @usuario [30m|12h|7d] [motivo]",
+      "lidFailed": "❌ No se pudo resolver el LID del usuario mencionado.",
+      "ownerBypass": "❌ El dueño no puede ser bloqueado.",
+      "alreadyBlocked": "❌ Este usuario ya está bloqueado.",
+      "permanent": "permanente",
+      "success": "✅ Usuario {{user}} bloqueado.\nExpira: {{expires}}\nMotivo: {{reason}}"
+    },
+    "unblockuser": {
+      "noMention": "❌ Menciona al usuario.\n\nUso: unblockuser @usuario",
+      "lidFailed": "❌ No se pudo resolver el LID del usuario mencionado.",
+      "notBlocked": "❌ Este usuario no está bloqueado.",
+      "success": "✅ Usuario {{user}} desbloqueado."
+    },
+    "listblock": {
+      "empty": "❌ Ningún usuario está bloqueado.",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockcmd": {
+      "noArgs": "❌ Uso: blockcmd <comando>",
+      "notFound": "❌ El comando '{{command}}' no existe.",
+      "alreadyBlocked": "❌ El comando '{{command}}' ya está bloqueado.",
+      "success": "✅ El comando '{{command}}' fue bloqueado."
+    },
+    "unblockcmd": {
+      "noArgs": "❌ Uso: unblockcmd <comando>",
+      "notFound": "❌ El comando '{{command}}' no existe.",
+      "notBlocked": "❌ El comando '{{command}}' no está bloqueado.",
+      "success": "✅ El comando '{{command}}' fue desbloqueado."
+    },
+    "listblockcmd": {
+      "empty": "❌ Ningún comando está bloqueado.",
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     }
   },
   "group": {

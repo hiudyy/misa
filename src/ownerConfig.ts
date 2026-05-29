@@ -12,6 +12,18 @@ export type OwnerConfig = {
     modo: "texto" | "mencao";
     texto: string;
   };
+  blockedUsers: BlockedUserEntry[];
+  blockedCommands: string[];
+};
+
+export type BlockedUserEntry = {
+  lid: string;
+  number?: string;
+  name?: string;
+  expiresAt?: string | null;
+  reason?: string | null;
+  createdAt: string;
+  createdBy: string;
 };
 
 const defaultOwnerConfig: OwnerConfig = {
@@ -19,6 +31,8 @@ const defaultOwnerConfig: OwnerConfig = {
     modo: "texto",
     texto: "❌ @usuario, o comando @comando não existe.\n\nTalvez você quis dizer: @parecido (@similaridade)\nUse @prefixomenu para ver os comandos.",
   },
+  blockedUsers: [],
+  blockedCommands: [],
 };
 
 async function readOwnerConfigFile(): Promise<Partial<OwnerConfig> | null> {
@@ -69,10 +83,38 @@ export async function getOwnerConfig(): Promise<OwnerConfig> {
       ...defaultOwnerConfig.comandoNaoEncontrado,
       ...config.comandoNaoEncontrado,
     },
+    blockedUsers: normalizeBlockedUsers(config.blockedUsers),
+    blockedCommands: normalizeBlockedCommands(config.blockedCommands),
   };
 }
 
 export async function saveOwnerConfig(config: OwnerConfig): Promise<void> {
   await fs.mkdir(paths.owner, { recursive: true });
   await fs.writeFile(paths.ownerConfig, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+}
+
+function normalizeBlockedUsers(entries: unknown): BlockedUserEntry[] {
+  if (!Array.isArray(entries)) return [];
+
+  return entries
+    .filter((entry): entry is Partial<BlockedUserEntry> & { lid: string; createdAt: string; createdBy: string } => {
+      return typeof entry === "object" && entry !== null
+        && typeof entry.lid === "string"
+        && typeof entry.createdAt === "string"
+        && typeof entry.createdBy === "string";
+    })
+    .map((entry) => ({
+      lid: entry.lid,
+      number: typeof entry.number === "string" ? entry.number : undefined,
+      name: typeof entry.name === "string" ? entry.name : undefined,
+      expiresAt: typeof entry.expiresAt === "string" ? entry.expiresAt : null,
+      reason: typeof entry.reason === "string" ? entry.reason : null,
+      createdAt: entry.createdAt,
+      createdBy: entry.createdBy,
+    }));
+}
+
+function normalizeBlockedCommands(entries: unknown): string[] {
+  if (!Array.isArray(entries)) return [];
+  return entries.filter((entry): entry is string => typeof entry === "string").map((entry) => entry.toLowerCase());
 }
