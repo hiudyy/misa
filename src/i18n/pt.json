@@ -77,6 +77,7 @@
     "adminOnly": "❌ Este comando é apenas para administradores do grupo.",
     "botAdminRequired": "❌ Preciso ser administrador do grupo para executar este comando.",
     "commandBlocked": "❌ Este comando foi bloqueado pelo dono do bot.",
+    "groupCommandsAdminOnly": "❌ Neste grupo, apenas admins podem usar comandos.",
     "commandExecution": "❌ Ocorreu um erro ao executar o comando."
   },
   "api": {
@@ -255,7 +256,14 @@
         "prefixo": "prefixo",
         "apikey": "apikey",
         "autoupdate": "autoupdate",
+        "antipv": "antipv",
+        "statusbot": "statusbot",
+        "restart": "restart",
+        "join": "join",
+        "leavegp": "leavegp",
         "idiomagp": "idiomagp",
+        "soadmin": "soadmin",
+        "setprefixgp": "setprefixgp",
         "bangp": "bangp",
         "unbangp": "unbangp",
         "listbangp": "listbangp",
@@ -264,7 +272,13 @@
         "listblock": "listblock",
         "blockcmd": "blockcmd",
         "unblockcmd": "unblockcmd",
-        "listblockcmd": "listblockcmd"
+        "listblockcmd": "listblockcmd",
+        "antiloc": "antiloc",
+        "antiaudio": "antiaudio",
+        "antifoto": "antifoto",
+        "antivideo": "antivideo",
+        "antidoc": "antidoc",
+        "antilista": "antilista"
       }
     },
     "play": {
@@ -493,6 +507,24 @@
       "invalid": "❌ Use: autoupdate on | off",
       "updated": "✅ Auto update atualizado para *{{value}}*."
     },
+    "antipv": {
+      "enabled": "✅ Anti-PV ativado. O bot vai ignorar mensagens no privado para não-donos.",
+      "disabled": "✅ Anti-PV desativado. O bot voltou a responder no privado."
+    },
+    "statusbot": {
+      "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ dono: {{owner}}\n│ número: {{ownerNumber}}\n│ jid: {{user}}\n│ prefixo global: {{prefix}}\n│ idioma: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ grupos salvos: {{groups}}\n│ grupos bangp: {{bannedGroups}}\n│ usuários bloqueados: {{blockedUsers}}\n│ comandos bloqueados: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "restart": {
+      "restarting": "♻️ Reiniciando o bot..."
+    },
+    "join": {
+      "invalid": "❌ Envie um link válido de convite do WhatsApp.\n\nUso: join https://chat.whatsapp.com/...",
+      "success": "✅ Convite aceito. Entrando no grupo...",
+      "error": "❌ Erro ao entrar no grupo: {{error}}"
+    },
+    "leavegp": {
+      "confirm": "👋 Saindo deste grupo..."
+    },
     "idiomagp": {
       "current": "🌐 Idioma do grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|reset>",
       "updated": "✅ Idioma do grupo atualizado para *{{language}}*.",
@@ -504,6 +536,16 @@
         "en": ["langgroup", "languagegroup", "setlanggroup"],
         "id": ["bahasagrup", "setbahasagrup", "langgroup"]
       }
+    },
+    "soadmin": {
+      "enabled": "✅ Só admins agora podem usar comandos neste grupo.",
+      "disabled": "✅ Membros comuns voltaram a poder usar comandos neste grupo."
+    },
+    "setprefixgp": {
+      "current": "⌨️ Prefixo do grupo: *{{value}}*\nPrefixo global: *{{global}}*\n\nUso: setprefixgp <novo prefixo>\nPara resetar: setprefixgp reset",
+      "invalid": "❌ Use um prefixo sem espaços e com até 5 caracteres.",
+      "updated": "✅ Prefixo deste grupo atualizado para *{{value}}*.",
+      "reset": "✅ Prefixo deste grupo resetado para o global (*{{value}}*)."
     },
     "bangp": {
       "alreadyActive": "❌ Este grupo já está em bangp.",
@@ -550,6 +592,41 @@
     "listblockcmd": {
       "empty": "❌ Nenhum comando está bloqueado.",
       "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "antimidia": {
+      "blocked": "🚫 {{user}}, mensagens do tipo *{{type}}* não são permitidas neste grupo.",
+      "types": {
+        "loc": "localização",
+        "audio": "áudio",
+        "foto": "foto",
+        "video": "vídeo",
+        "doc": "documento",
+        "lista": "lista"
+      }
+    },
+    "antiloc": {
+      "enabled": "✅ Anti-localização ativado neste grupo!",
+      "disabled": "❌ Anti-localização desativado neste grupo."
+    },
+    "antiaudio": {
+      "enabled": "✅ Anti-áudio ativado neste grupo!",
+      "disabled": "❌ Anti-áudio desativado neste grupo."
+    },
+    "antifoto": {
+      "enabled": "✅ Anti-foto ativado neste grupo!",
+      "disabled": "❌ Anti-foto desativado neste grupo."
+    },
+    "antivideo": {
+      "enabled": "✅ Anti-vídeo ativado neste grupo!",
+      "disabled": "❌ Anti-vídeo desativado neste grupo."
+    },
+    "antidoc": {
+      "enabled": "✅ Anti-documento ativado neste grupo!",
+      "disabled": "❌ Anti-documento desativado neste grupo."
+    },
+    "antilista": {
+      "enabled": "✅ Anti-lista ativado neste grupo!",
+      "disabled": "❌ Anti-lista desativado neste grupo."
     }
   },
   "group": {

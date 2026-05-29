@@ -12,6 +12,7 @@ export type OwnerConfig = {
     modo: "texto" | "mencao";
     texto: string;
   };
+  antiPrivate: boolean;
   blockedUsers: BlockedUserEntry[];
   blockedCommands: string[];
 };
@@ -31,6 +32,7 @@ const defaultOwnerConfig: OwnerConfig = {
     modo: "texto",
     texto: "❌ @usuario, o comando @comando não existe.\n\nTalvez você quis dizer: @parecido (@similaridade)\nUse @prefixomenu para ver os comandos.",
   },
+  antiPrivate: false,
   blockedUsers: [],
   blockedCommands: [],
 };

@@ -9,11 +9,21 @@ import type { Locale } from "../i18n/index.js";
 
 export type GroupData = {
   language?: Locale;
+  prefix?: string;
   botBan: {
     ativo: boolean;
     motivo: string | null;
     createdAt: string | null;
     createdBy: string | null;
+  };
+  soadmin: boolean;
+  antimidia: {
+    loc: boolean;
+    audio: boolean;
+    foto: boolean;
+    video: boolean;
+    doc: boolean;
+    lista: boolean;
   };
   bemvindo: {
     ativo: boolean;
@@ -39,6 +49,15 @@ const DEFAULT: GroupData = {
     motivo: null,
     createdAt: null,
     createdBy: null,
+  },
+  soadmin: false,
+  antimidia: {
+    loc: false,
+    audio: false,
+    foto: false,
+    video: false,
+    doc: false,
+    lista: false,
   },
   bemvindo: {
     ativo: false,
@@ -75,6 +94,7 @@ export async function getGroup(groupId: string): Promise<GroupData> {
       ...DEFAULT,
       ...saved,
       botBan: { ...DEFAULT.botBan, ...saved.botBan },
+      antimidia: { ...DEFAULT.antimidia, ...saved.antimidia },
       bemvindo: { ...DEFAULT.bemvindo, ...saved.bemvindo },
       antilink: { ...DEFAULT.antilink, ...saved.antilink },
       antilinkgp: { ...DEFAULT.antilinkgp, ...saved.antilinkgp },
@@ -92,6 +112,7 @@ export async function saveGroup(groupId: string, data: Partial<GroupData>): Prom
     ...current,
     ...data,
     botBan: { ...current.botBan, ...data.botBan },
+    antimidia: { ...current.antimidia, ...data.antimidia },
     bemvindo: { ...current.bemvindo, ...data.bemvindo },
     antilink: { ...current.antilink, ...data.antilink },
     antilinkgp: { ...current.antilinkgp, ...data.antilinkgp },
