@@ -1,3 +1,7 @@
+/**
+ * @author Hiudy · github.com/hiudyy
+ * @project Misa Bot
+ */
 import process from "node:process";
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";

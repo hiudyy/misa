@@ -1,3 +1,7 @@
+/**
+ * @author Hiudy · github.com/hiudyy
+ * @project Misa Bot
+ */
 import { WAMessage } from "baileys";
 import { getGroup, saveGroup } from "../../../database/groupDB.js";
 import { Command } from "../../../types/Command.js";

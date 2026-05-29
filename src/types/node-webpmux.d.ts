@@ -1,3 +1,7 @@
+/**
+ * @author Hiudy · github.com/hiudyy
+ * @project Misa Bot
+ */
 declare module "node-webpmux" {
   const webp: {
     Image: new () => {

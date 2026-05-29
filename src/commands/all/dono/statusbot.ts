@@ -1,3 +1,7 @@
+/**
+ * @author Hiudy · github.com/hiudyy
+ * @project Misa Bot
+ */
 import { WAMessage } from "baileys";
 import { getBotConfig } from "../../../config.js";
 import { getOwnerConfig } from "../../../ownerConfig.js";
