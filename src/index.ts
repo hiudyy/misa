@@ -27,7 +27,6 @@ const __dirname = path.dirname(__filename);
 
 export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<void> {
   const config = await getBotConfig();
-  const prefix = config.prefix;
   const misa = await createConnection(authMode, phoneNumber);
 
   const commandHandler = new CommandHandler();
@@ -38,14 +37,15 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
 
   misa.ev.on("connection.update", async (update) => {
     if (update.connection === "open") {
+      const latestConfig = await getBotConfig();
       // Buscar e salvar o LID do dono quando conectar
-      if (config.ownerNumber && !config.ownerLID) {
-        const tGlobal = createTranslator(config.language || "pt");
+      if (latestConfig.ownerNumber && !latestConfig.ownerLID) {
+        const tGlobal = createTranslator(latestConfig.language || "pt");
         log.info("OWNER", tGlobal("logs.ownerLidFetching"));
-        const ownerLID = await toLID(config.ownerNumber, misa);
+        const ownerLID = await toLID(latestConfig.ownerNumber, misa);
         if (ownerLID) {
-          config.ownerLID = ownerLID;
-          await saveBotConfig(config);
+          latestConfig.ownerLID = ownerLID;
+          await saveBotConfig(latestConfig);
           log.success("OWNER", tGlobal("logs.ownerLidSaved", { lid: ownerLID }));
         } else {
           log.warn("OWNER", tGlobal("logs.ownerLidFailed"));
@@ -69,6 +69,8 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
 
     const from = message.key.remoteJid;
     if (!from) return;
+    const runtimeConfig = await getBotConfig();
+    const prefix = runtimeConfig.prefix;
 
     const isGroup = from.endsWith("@g.us");
     if (isGroup) await groupCache.ensure(from, misa);

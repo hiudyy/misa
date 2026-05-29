@@ -249,6 +249,12 @@
         "eval": "eval",
         "cmdnf": "cmdtidakditemukan",
         "idioma": "bahasa",
+        "nomebot": "namabot",
+        "nomedono": "namapemilik",
+        "numerodono": "nomorpemilik",
+        "prefixo": "prefiks",
+        "apikey": "apikey",
+        "autoupdate": "autoupdate",
         "idiomagp": "bahasagrup",
         "bangp": "bangp",
         "unbangp": "unbangp",
@@ -455,6 +461,37 @@
         "en": ["language", "setlanguage", "lang", "setlang"],
         "id": ["bahasa", "setbahasa", "lang", "setlang"]
       }
+    },
+    "nomebot": {
+      "current": "🤖 Nama bot saat ini: *{{value}}*\n\nPenggunaan: nomebot <nama baru>",
+      "invalid": "❌ Masukkan nama bot yang valid.",
+      "updated": "✅ Nama bot diperbarui menjadi *{{value}}*."
+    },
+    "nomedono": {
+      "current": "👑 Nama pemilik saat ini: *{{value}}*\n\nPenggunaan: nomedono <nama baru>",
+      "invalid": "❌ Masukkan nama pemilik yang valid.",
+      "updated": "✅ Nama pemilik diperbarui menjadi *{{value}}*."
+    },
+    "numerodono": {
+      "current": "📱 Nomor pemilik saat ini: *{{value}}*\n\nPenggunaan: numerodono <5511999999999>",
+      "invalid": "❌ Masukkan nomor yang valid dengan kode negara.",
+      "updated": "✅ Nomor pemilik diperbarui menjadi *{{value}}*.\nLID tersimpan: {{lid}}",
+      "updatedNoLid": "✅ Nomor pemilik diperbarui menjadi *{{value}}*.\n⚠️ Saya belum bisa menyelesaikan LID baru sekarang; LID lama dipertahankan sampai bisa diperbarui."
+    },
+    "prefixo": {
+      "current": "⌨️ Prefiks saat ini: *{{value}}*\n\nPenggunaan: prefixo <prefiks baru>",
+      "invalid": "❌ Gunakan prefiks tanpa spasi dan maksimal 5 karakter.",
+      "updated": "✅ Prefiks diperbarui menjadi *{{value}}*."
+    },
+    "apikey": {
+      "current": "🔑 API key dikonfigurasi: *{{value}}*\n\nPenggunaan: apikey <nilai>\nUntuk menghapus: apikey off",
+      "updated": "✅ API key berhasil diperbarui.",
+      "cleared": "✅ API key berhasil dihapus."
+    },
+    "autoupdate": {
+      "current": "♻️ Auto update saat ini: *{{value}}*\n\nPenggunaan: autoupdate <on|off>",
+      "invalid": "❌ Gunakan: autoupdate on | off",
+      "updated": "✅ Auto update diperbarui menjadi *{{value}}*."
     },
     "idiomagp": {
       "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nPenggunaan: bahasagrup <pt|es|en|id|reset>",
