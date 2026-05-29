@@ -42,7 +42,7 @@
       "apiKeyHint": "[CONFIG] Kunci API dapat diperoleh di https://misaka.com.br",
       "autoUpdate": "Pembaruan otomatis",
       "language": "Bahasa bot",
-      "languageHint": "(pt, es, en)",
+      "languageHint": "(pt, es, en, id, ar, fr, hi, ur)",
       "notConfigured": "belum dikonfigurasi",
       "configured": "sudah dikonfigurasi",
       "boolPrompt": "(y/T)",
@@ -467,14 +467,17 @@
       "error": "╭─「 *KESALAHAN EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *KESALAHAN* 」\n│\n│ {{error}}\n│\n╰─ Kesalahan eksekusi."
     },
     "idioma": {
-      "current": "🌐 Bahasa global saat ini: *{{language}}*\n\nPenggunaan: bahasa <pt|es|en|id>",
+      "current": "🌐 Bahasa global saat ini: *{{language}}*\n\nPenggunaan: bahasa <pt|es|en|id|ar|fr|hi|ur>",
       "updated": "✅ Bahasa global diperbarui menjadi *{{language}}*.",
-      "invalid": "❌ Bahasa tidak valid. Gunakan: pt, es, en atau id",
+      "invalid": "❌ Bahasa tidak valid. Gunakan: pt, es, en, id, ar, fr, hi atau ur",
       "i18nAliases": {
         "pt": ["idioma", "setidioma"],
         "es": ["idioma", "lenguaje", "setlenguaje"],
         "en": ["language", "setlanguage", "lang", "setlang"],
-        "id": ["bahasa", "setbahasa", "lang", "setlang"]
+        "id": ["bahasa", "setbahasa", "lang", "setlang"],
+        "fr": ["langue", "setlangue"],
+        "hi": ["bhasha", "setbhasha"],
+        "ur": ["zaban", "setzaban"]
       }
     },
     "nomebot": {
@@ -527,15 +530,18 @@
       "confirm": "👋 Keluar dari grup ini..."
     },
     "idiomagp": {
-      "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nPenggunaan: bahasagrup <pt|es|en|id|reset>",
+      "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nPenggunaan: bahasagrup <pt|es|en|id|ar|fr|hi|ur|reset>",
       "updated": "✅ Bahasa grup diperbarui menjadi *{{language}}*.",
       "reset": "✅ Bahasa grup direset ke global (*{{language}}*).",
-      "invalid": "❌ Bahasa tidak valid. Gunakan: pt, es, en atau id (atau 'reset' untuk menggunakan global)",
+      "invalid": "❌ Bahasa tidak valid. Gunakan: pt, es, en, id, ar, fr, hi atau ur (atau 'reset' untuk menggunakan global)",
       "i18nAliases": {
         "pt": ["idiomagp", "idiomagrupo"],
         "es": ["idiomgp", "lenguajegrupo"],
         "en": ["langgroup", "languagegroup", "setlanggroup"],
-        "id": ["bahasagrup", "setbahasagrup", "langgroup"]
+        "id": ["bahasagrup", "setbahasagrup", "langgroup"],
+        "fr": ["languegroupe", "setlanguegroupe"],
+        "hi": ["bhashagroup", "setbhashagroup"],
+        "ur": ["zabangroup", "setzabangroup"]
       }
     },
     "soadmin": {

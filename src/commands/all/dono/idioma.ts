@@ -9,7 +9,7 @@ import { createTranslator } from "../../../i18n/index.js";
 
 const idiomaCommand: Command = {
   name: "idioma",
-  aliases: ["setidioma", "lenguaje", "setlenguaje", "language", "setlanguage", "lang", "setlang"],
+  aliases: ["setidioma", "lenguaje", "setlenguaje", "language", "setlanguage", "lang", "setlang", "langue", "setlangue", "bhasha", "setbhasha", "zaban", "setzaban"],
   description: "Muda o idioma global do bot",
   category: "all",
   ownerOnly: true,
@@ -27,7 +27,7 @@ const idiomaCommand: Command = {
 
     const newLang = args[0].toLowerCase();
     
-    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id") {
+    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id" && newLang !== "ar" && newLang !== "fr" && newLang !== "hi" && newLang !== "ur") {
       await misa.sendMessage(
         from,
         { text: t("commands.idioma.invalid") },
@@ -36,7 +36,7 @@ const idiomaCommand: Command = {
       return;
     }
 
-    config.language = newLang as "pt" | "es" | "en" | "id";
+    config.language = newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur";
     await saveBotConfig(config);
 
     // Update global translator if needed (though t is injected contextually, 
@@ -45,7 +45,7 @@ const idiomaCommand: Command = {
     await misa.sendMessage(
       from,
       // We manually create a translator for the new language to reply in the new language
-      { text: createTranslator(newLang as "pt" | "es" | "en" | "id")("commands.idioma.updated", { language: newLang }) },
+      { text: createTranslator(newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur")("commands.idioma.updated", { language: newLang }) },
       { quoted: message as WAMessage },
     );
   },

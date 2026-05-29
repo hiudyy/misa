@@ -1,6 +1,6 @@
 {
   "name": "misa-bot",
-  "version": "beta-0.0.4",
+  "version": "beta-0.0.5",
   "description": "Misa - Bot de WhatsApp modular com Baileys",
   "main": "dist/index.js",
   "scripts": {

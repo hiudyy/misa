@@ -165,7 +165,7 @@ async function askBotConfig(rl: readline.Interface, t: any): Promise<void> {
   );
   const autoUpdate = await askBoolean(rl, t("terminal.config.autoUpdate"), currentConfig.autoUpdate, t);
   const rawLang = keepOrUpdate(await askInput(rl, `${t("terminal.config.language")} ${t("terminal.config.languageHint")} [${currentConfig.language || "pt"}]`), currentConfig.language || "pt");
-  const language = ["pt", "es", "en", "id"].includes(rawLang.toLowerCase()) ? rawLang.toLowerCase() as "pt" | "es" | "en" | "id" : currentConfig.language || "pt";
+  const language = ["pt", "es", "en", "id", "ar", "fr", "hi", "ur"].includes(rawLang.toLowerCase()) ? rawLang.toLowerCase() as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur" : currentConfig.language || "pt";
 
   const nextConfig: BotConfig = {
     ...currentConfig,
