@@ -18,43 +18,43 @@
     "startFailed": "Error al iniciar.",
     "boolYes": "s|si|sí|y|yes",
     "boolNo": "n|no",
-    "invalidOption": "Opcion invalida. Intentelo de nuevo.",
-    "invalidPhone": "Numero invalido.",
-    "sessionDetected": "Sesion existente detectada. Conectando automaticamente...",
+    "invalidOption": "Opción inválida. Inténtalo de nuevo.",
+    "invalidPhone": "Número inválido.",
+    "sessionDetected": "Sesión existente detectada. Conectando automáticamente...",
     "menu": {
       "title": "MISA",
       "version": "version",
       "configure": "Configurar bot",
       "start": "Iniciar bot",
       "exit": "Salir",
-      "chooseOption": "  › Elige una opcion: "
+      "chooseOption": "  › Elige una opción: "
     },
     "config": {
       "header": "CONFIGURAR BOT",
       "pressEnter": "   Presiona Enter para mantener el valor actual  ",
-      "saved": "CONFIGURACION GUARDADA",
+      "saved": "CONFIGURACIÓN GUARDADA",
       "fileUpdated": "   Archivo actualizado: src/config.json           ",
       "botName": "Nombre del bot",
       "ownerName": "Nombre del dueño",
       "prefix": "Prefijo del bot",
-      "ownerNumber": "Numero del dueño",
+      "ownerNumber": "Número del dueño",
       "apiKey": "API key",
       "apiKeyHint": "[CONFIG] La API key se puede obtener en https://misaka.com.br",
-      "autoUpdate": "Actualizacion automatica",
+      "autoUpdate": "Actualización automática",
       "language": "Idioma del bot",
-      "languageHint": "(pt, es, en)",
+      "languageHint": "(pt, es, en, id, ar, fr, hi, ur)",
       "notConfigured": "no configurado",
       "configured": "configurada",
       "boolPrompt": "(s/y/N)",
-      "boolInvalid": "Responde con s/y para si, n para no, o Enter para mantener."
+      "boolInvalid": "Responde con s/y para sí, n para no, o Enter para mantener."
     },
     "connection": {
-      "title": "METODO DE CONEXION",
+      "title": "MÉTODO DE CONEXIÓN",
       "qr": "QR Code",
       "pairing": "Pairing Code",
-      "pairingHint": "(numero de telefono)",
+      "pairingHint": "(número de teléfono)",
       "back": "Volver",
-      "phonePrompt": "  › Numero con DDI (ej: 5511999999999): "
+      "phonePrompt": "  › Número con DDI (ej: 5511999999999): "
     }
   },
   "logs": {
@@ -93,85 +93,85 @@
     }
   },
   "connection": {
-    "sessionDetected": "Sesion existente detectada. Conectando automaticamente...",
+    "sessionDetected": "Sesión existente detectada. Conectando automáticamente...",
     "connecting": "Conectando a WhatsApp...",
-    "connected": "Conectado con exito.",
-    "disconnected": "Conexion cerrada",
+    "connected": "Conectado con éxito.",
+    "disconnected": "Conexión cerrada",
     "reconnecting": "Intentando reconectar...",
-    "sessionCleared": "Sesion local eliminada. Inicia de nuevo para generar un nuevo QR.",
+    "sessionCleared": "Sesión local eliminada. Inicia de nuevo para generar un nuevo QR.",
     "sessionClearFailed": "No fue posible eliminar {{path}}.",
     "qrReceived": "QR code recibido",
-    "qrScan": "Escanea con WhatsApp para conectar esta sesion.",
-    "pairingCode": "Codigo de vinculacion",
-    "pairingNewCode": "Nuevo codigo de vinculacion",
-    "pairingCodeValue": "Codigo: {{code}}",
-    "pairingInstruction": "Ingresa en WhatsApp: Dispositivos conectados > Vincular dispositivo > Vincular con numero de telefono.",
-    "pairingExpired": "Codigo de vinculacion expirado. Solicitando nuevo codigo...",
-    "pairingError": "Error al solicitar codigo de vinculacion.",
-    "disconnectCode": "Codigo: {{code}}",
+    "qrScan": "Escanea con WhatsApp para conectar esta sesión.",
+    "pairingCode": "Código de vinculación",
+    "pairingNewCode": "Nuevo código de vinculación",
+    "pairingCodeValue": "Código: {{code}}",
+    "pairingInstruction": "Ingresa en WhatsApp: Dispositivos conectados > Vincular dispositivo > Vincular con número de teléfono.",
+    "pairingExpired": "Código de vinculación expirado. Solicitando nuevo código...",
+    "pairingError": "Error al solicitar código de vinculación.",
+    "disconnectCode": "Código: {{code}}",
     "disconnectReason": "Motivo: {{reason}}",
     "disconnectDetail": "Detalle: {{detail}}",
-    "disconnectAction": "Accion: {{action}}",
+    "disconnectAction": "Acción: {{action}}",
     "disconnect": {
       "loggedOut": {
-        "title": "Sesion desconectada",
-        "description": "WhatsApp cerro esta sesion o fue eliminada de los dispositivos conectados.",
-        "action": "Voy a limpiar la sesion local. Inicia de nuevo para generar un nuevo QR."
+        "title": "Sesión desconectada",
+        "description": "WhatsApp cerró esta sesión o fue eliminada de los dispositivos conectados.",
+        "action": "Voy a limpiar la sesión local. Inicia de nuevo para generar un nuevo QR."
       },
       "forbidden": {
         "title": "Acceso denegado",
-        "description": "WhatsApp rechazo la conexion de esta sesion.",
-        "action": "Verifica las credenciales, espera unos minutos y genera una nueva sesion si sigue fallando."
+        "description": "WhatsApp rechazó la conexión de esta sesión.",
+        "action": "Verifica las credenciales, espera unos minutos y genera una nueva sesión si sigue fallando."
       },
       "connectionLost": {
-        "title": "Conexion perdida o expirada",
-        "description": "La red cayo, oscilo o el intento tardo demasiado en responder.",
-        "action": "Voy a intentar reconectar automaticamente."
+        "title": "Conexión perdida o expirada",
+        "description": "La red cayó, osciló o el intento tardó demasiado en responder.",
+        "action": "Voy a intentar reconectar automáticamente."
       },
       "multideviceMismatch": {
         "title": "Incompatibilidad multi-device",
-        "description": "La sesion no coincide con el protocolo multi-device esperado por WhatsApp.",
-        "action": "Actualiza Baileys/dependencias y genera una nueva sesion si es necesario."
+        "description": "La sesión no coincide con el protocolo multi-device esperado por WhatsApp.",
+        "action": "Actualiza Baileys/dependencias y genera una nueva sesión si es necesario."
       },
       "connectionClosed": {
-        "title": "Conexion cerrada",
-        "description": "La conexion fue cerrada por WhatsApp o la red.",
-        "action": "Voy a intentar reconectar automaticamente."
+        "title": "Conexión cerrada",
+        "description": "La conexión fue cerrada por WhatsApp o la red.",
+        "action": "Voy a intentar reconectar automáticamente."
       },
       "connectionReplaced": {
-        "title": "Conexion reemplazada",
-        "description": "Otra instancia se conecto usando la misma sesion.",
+        "title": "Conexión reemplazada",
+        "description": "Otra instancia se conectó usando la misma sesión.",
         "action": "Cierra la otra instancia antes de iniciar esta nuevamente."
       },
       "badSession": {
-        "title": "Sesion invalida",
-        "description": "Los archivos de autenticacion parecen corruptos o invalidos.",
+        "title": "Sesión inválida",
+        "description": "Los archivos de autenticación parecen corruptos o inválidos.",
         "action": "Elimina {{authPath}} y escanea un nuevo QR code."
       },
       "unavailableService": {
         "title": "Servicio no disponible",
-        "description": "WhatsApp o la ruta de conexion esta temporalmente no disponible.",
-        "action": "Voy a intentar reconectar automaticamente."
+        "description": "WhatsApp o la ruta de conexión está temporalmente no disponible.",
+        "action": "Voy a intentar reconectar automáticamente."
       },
       "restartRequired": {
         "title": "Reinicio necesario",
-        "description": "El servidor solicito que el cliente se reiniciara.",
-        "action": "Voy a reiniciar la conexion automaticamente."
+        "description": "El servidor solicitó que el cliente se reiniciara.",
+        "action": "Voy a reiniciar la conexión automáticamente."
       },
       "default": {
-        "title": "Conexion cerrada",
-        "description": "La conexion fue cerrada por un motivo no mapeado.",
-        "action": "Voy a intentar reconectar automaticamente."
+        "title": "Conexión cerrada",
+        "description": "La conexión fue cerrada por un motivo no mapeado.",
+        "action": "Voy a intentar reconectar automáticamente."
       }
     }
   },
   "update": {
     "checking": "Verificando actualizaciones...",
-    "downloading": "Descargando actualizacion...",
+    "downloading": "Descargando actualización...",
     "extracting": "Extrayendo...",
     "installingDeps": "Instalando dependencias...",
-    "done": "Actualizacion completada! Reiniciando...",
-    "failed": "Error en la actualizacion. Continuando con la version actual."
+    "done": "¡Actualización completada! Reiniciando...",
+    "failed": "Error en la actualización. Continuando con la versión actual."
   },
   "commands": {
     "ping": {
@@ -467,14 +467,17 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Código: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Error en la ejecución."
     },
     "idioma": {
-      "current": "🌐 Idioma global actual: *{{language}}*\n\nUso: idioma <pt|es|en>",
+      "current": "🌐 Idioma global actual: *{{language}}*\n\nUso: idioma <pt|es|en|id|ar|fr|hi|ur>",
       "updated": "✅ Idioma global actualizado a *{{language}}*.",
-      "invalid": "❌ Idioma inválido. Usa: pt, es, en o id",
+      "invalid": "❌ Idioma inválido. Usa: pt, es, en, id, ar, fr, hi o ur",
       "i18nAliases": {
         "pt": ["idioma", "setidioma"],
         "es": ["idioma", "lenguaje", "setlenguaje"],
         "en": ["language", "setlanguage", "lang", "setlang"],
-        "id": ["bahasa", "setbahasa", "lang", "setlang"]
+        "id": ["bahasa", "setbahasa", "lang", "setlang"],
+        "fr": ["langue", "setlangue"],
+        "hi": ["bhasha", "setbhasha"],
+        "ur": ["zaban", "setzaban"]
       }
     },
     "nomebot": {
@@ -527,15 +530,18 @@
       "confirm": "👋 Saliendo de este grupo..."
     },
     "idiomagp": {
-      "current": "🌐 Idioma del grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|reset>",
+      "current": "🌐 Idioma del grupo: *{{language}}*\n(Global: {{global}})\n\nUso: idiomagp <pt|es|en|id|ar|fr|hi|ur|reset>",
       "updated": "✅ Idioma del grupo actualizado a *{{language}}*.",
       "reset": "✅ Idioma del grupo restablecido al global (*{{language}}*).",
-      "invalid": "❌ Idioma inválido. Usa: pt, es, en o id (o 'reset' para usar el global)",
+      "invalid": "❌ Idioma inválido. Usa: pt, es, en, id, ar, fr, hi o ur (o 'reset' para usar el global)",
       "i18nAliases": {
         "pt": ["idiomagp", "idiomagrupo"],
         "es": ["idiomgp", "lenguajegrupo"],
         "en": ["langgroup", "languagegroup", "setlanggroup"],
-        "id": ["bahasagrup", "setbahasagrup", "langgroup"]
+        "id": ["bahasagrup", "setbahasagrup", "langgroup"],
+        "fr": ["languegroupe", "setlanguegroupe"],
+        "hi": ["bhashagroup", "setbhashagroup"],
+        "ur": ["zabangroup", "setzabangroup"]
       }
     },
     "soadmin": {

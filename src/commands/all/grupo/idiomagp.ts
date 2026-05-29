@@ -10,7 +10,7 @@ import { createTranslator } from "../../../i18n/index.js";
 
 const idiomagpCommand: Command = {
   name: "idiomagp",
-  aliases: ["idiomagrupo", "idiomgp", "lenguajegrupo", "langgroup", "languagegroup", "setlanggroup"],
+  aliases: ["idiomagrupo", "idiomgp", "lenguajegrupo", "langgroup", "languagegroup", "setlanggroup", "languegroupe", "setlanguegroupe", "bhashagroup", "setbhashagroup", "zabangroup", "setzabangroup"],
   description: "Muda o idioma do grupo",
   category: "grupo",
   groupOnly: true,
@@ -44,7 +44,7 @@ const idiomagpCommand: Command = {
       return;
     }
 
-    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id") {
+    if (newLang !== "pt" && newLang !== "es" && newLang !== "en" && newLang !== "id" && newLang !== "ar" && newLang !== "fr" && newLang !== "hi" && newLang !== "ur") {
       await misa.sendMessage(
         from,
         { text: t("commands.idiomagp.invalid") },
@@ -53,12 +53,12 @@ const idiomagpCommand: Command = {
       return;
     }
 
-    await saveGroup(from, { language: newLang as "pt" | "es" | "en" | "id" });
+    await saveGroup(from, { language: newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur" });
 
     await misa.sendMessage(
       from,
       // Create translator for the new language
-      { text: createTranslator(newLang as "pt" | "es" | "en" | "id")("commands.idiomagp.updated", { language: newLang }) },
+      { text: createTranslator(newLang as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur")("commands.idiomagp.updated", { language: newLang }) },
       { quoted: message as WAMessage },
     );
   },

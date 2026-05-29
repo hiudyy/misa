@@ -1,0 +1,661 @@
+{
+  "common": {
+    "yes": "نعم",
+    "no": "لا",
+    "enabled": "مفعّل",
+    "disabled": "معطّل",
+    "error": "خطأ",
+    "success": "نجاح",
+    "unknown": "غير معروف",
+    "none": "لا يوجد",
+    "file": "ملف",
+    "files": "ملفات"
+  },
+  "terminal": {
+    "initializing": "  جارٍ التهيئة...",
+    "goodbye": "إلى اللقاء.",
+    "startCancelled": "تم إلغاء التشغيل.",
+    "startFailed": "فشل في التشغيل.",
+    "boolYes": "ن|نعم|y|yes",
+    "boolNo": "ل|لا|n|no",
+    "invalidOption": "خيار غير صالح. حاول مرة أخرى.",
+    "invalidPhone": "رقم غير صالح.",
+    "sessionDetected": "تم اكتشاف جلسة موجودة. جارٍ الاتصال تلقائيا...",
+    "menu": {
+      "title": "MISA",
+      "version": "الإصدار",
+      "configure": "إعداد البوت",
+      "start": "تشغيل البوت",
+      "exit": "خروج",
+      "chooseOption": "  › اختر خيارا: "
+    },
+    "config": {
+      "header": "إعداد البوت",
+      "pressEnter": "   اضغط Enter للاحتفاظ بالقيمة الحالية     ",
+      "saved": "تم حفظ الإعدادات",
+      "fileUpdated": "   تم تحديث الملف: src/config.json             ",
+      "botName": "اسم البوت",
+      "ownerName": "اسم المالك",
+      "prefix": "بادئة البوت",
+      "ownerNumber": "رقم المالك",
+      "apiKey": "مفتاح API",
+      "apiKeyHint": "[CONFIG] يمكن الحصول على مفتاح API من https://misaka.com.br",
+      "autoUpdate": "تحديث تلقائي",
+      "language": "لغة البوت",
+      "languageHint": "(pt, es, en, id, ar, fr, hi, ur)",
+      "notConfigured": "غير مضبوط",
+      "configured": "مضبوط",
+      "boolPrompt": "(ن/y/N)",
+      "boolInvalid": "أجب بـ ن/نعم للموافقة، ل/لا للرفض، أو اضغط Enter للاحتفاظ."
+    },
+    "connection": {
+      "title": "طريقة الاتصال",
+      "qr": "QR Code",
+      "pairing": "Pairing Code",
+      "pairingHint": "(رقم الهاتف)",
+      "back": "رجوع",
+      "phonePrompt": "  › رقم مع كود الدولة (مثال: 5511999999999): "
+    }
+  },
+  "logs": {
+    "ownerLidFetching": "جارٍ جلب LID الخاص بالمالك...",
+    "ownerLidSaved": "تم حفظ LID الخاص بالمالك: {{lid}}",
+    "ownerLidFailed": "تعذر الحصول على LID الخاص بالمالك.",
+    "commandIgnoredNoLid": "تم التجاهل لأن تعيين LID لم يكن ممكنا: {{sender}}",
+    "commandError": "حدث خطأ أثناء تنفيذ {{commandName}}.",
+    "commandInvalid": "تم التجاهل لأنه غير صالح: {{file}}",
+    "eventInvalid": "تم التجاهل لأنه غير صالح: {{file}}",
+    "eventError": "خطأ في {{name}}.",
+    "configReadFailed": "تعذر قراءة {{path}}.",
+    "configMigrated": "تم ترحيل الإعدادات إلى {{path}}.",
+    "botStarted": "تم تشغيل {{botName}} وأصبح جاهزا لاستقبال الرسائل."
+  },
+  "errors": {
+    "ownerOnly": "❌ هذا الأمر مخصص لمالك البوت فقط.",
+    "groupOnly": "❌ لا يمكن استخدام هذا الأمر إلا في المجموعات.",
+    "privateOnly": "❌ لا يمكن استخدام هذا الأمر إلا في الخاص.",
+    "adminOnly": "❌ هذا الأمر مخصص لمشرفي المجموعة فقط.",
+    "botAdminRequired": "❌ يجب أن أكون مشرفا في المجموعة لتنفيذ هذا الأمر.",
+    "commandBlocked": "❌ تم حظر هذا الأمر من قِبل مالك البوت.",
+    "groupCommandsAdminOnly": "❌ في هذه المجموعة، المشرفون فقط يمكنهم استخدام الأوامر.",
+    "commandExecution": "❌ حدث خطأ أثناء تنفيذ الأمر."
+  },
+  "api": {
+    "errors": {
+      "missingKey": "مفتاح API غير مضبوط. قم بضبطه في src/config.json",
+      "invalidKey": "مفتاح API غير صالح",
+      "forbidden": "لا توجد صلاحية لهذا المسار",
+      "rateLimit": "تم تجاوز حد الطلبات. حاول مرة أخرى لاحقا",
+      "invalidParam": "معامل غير صالح أو مفقود",
+      "serverError": "خطأ في API: {{status}}",
+      "failure": "استجابة API تشير إلى فشل",
+      "connection": "حدث خطأ أثناء الاتصال بـ API"
+    }
+  },
+  "connection": {
+    "sessionDetected": "تم اكتشاف جلسة موجودة. جارٍ الاتصال تلقائيا...",
+    "connecting": "جارٍ الاتصال بواتساب...",
+    "connected": "تم الاتصال بنجاح.",
+    "disconnected": "تم إنهاء الاتصال",
+    "reconnecting": "جارٍ محاولة إعادة الاتصال...",
+    "sessionCleared": "تمت إزالة الجلسة المحلية. ابدأ من جديد لإنشاء QR جديد.",
+    "sessionClearFailed": "تعذر إزالة {{path}}.",
+    "qrReceived": "تم استلام QR code",
+    "qrScan": "امسحه باستخدام واتساب لربط هذه الجلسة.",
+    "pairingCode": "رمز الربط",
+    "pairingNewCode": "رمز ربط جديد",
+    "pairingCodeValue": "الرمز: {{code}}",
+    "pairingInstruction": "في واتساب: الأجهزة المرتبطة > ربط جهاز > الربط عبر رقم الهاتف.",
+    "pairingExpired": "انتهت صلاحية رمز الربط. جارٍ طلب رمز جديد...",
+    "pairingError": "حدث خطأ أثناء طلب pairing code.",
+    "disconnectCode": "الرمز: {{code}}",
+    "disconnectReason": "السبب: {{reason}}",
+    "disconnectDetail": "التفاصيل: {{detail}}",
+    "disconnectAction": "الإجراء: {{action}}",
+    "disconnect": {
+      "loggedOut": {
+        "title": "تم فصل الجلسة",
+        "description": "أنهى واتساب هذه الجلسة أو تمت إزالتها من الأجهزة المرتبطة.",
+        "action": "سأقوم بمسح الجلسة المحلية. ابدأ من جديد لإنشاء QR جديد."
+      },
+      "forbidden": {
+        "title": "تم رفض الوصول",
+        "description": "رفض واتساب اتصال هذه الجلسة.",
+        "action": "تحقق من بيانات الاعتماد، وانتظر بضع دقائق، ثم أنشئ جلسة جديدة إذا استمرت المشكلة."
+      },
+      "connectionLost": {
+        "title": "انقطع الاتصال أو انتهت صلاحيته",
+        "description": "انقطعت الشبكة أو تذبذبت أو استغرق الاتصال وقتا طويلا للرد.",
+        "action": "سأحاول إعادة الاتصال تلقائيا."
+      },
+      "multideviceMismatch": {
+        "title": "عدم توافق multi-device",
+        "description": "هذه الجلسة لا تتوافق مع بروتوكول multi-device المتوقع من واتساب.",
+        "action": "حدّث Baileys والاعتماديات، وأنشئ جلسة جديدة إذا لزم الأمر."
+      },
+      "connectionClosed": {
+        "title": "تم إغلاق الاتصال",
+        "description": "تم إغلاق الاتصال من واتساب أو من الشبكة.",
+        "action": "سأحاول إعادة الاتصال تلقائيا."
+      },
+      "connectionReplaced": {
+        "title": "تم استبدال الاتصال",
+        "description": "قام مثيل آخر بالاتصال باستخدام الجلسة نفسها.",
+        "action": "أغلق المثيل الآخر قبل تشغيل هذا المثيل مرة أخرى."
+      },
+      "badSession": {
+        "title": "جلسة غير صالحة",
+        "description": "يبدو أن ملفات المصادقة تالفة أو غير صالحة.",
+        "action": "احذف {{authPath}} وامسح QR code جديدا."
+      },
+      "unavailableService": {
+        "title": "الخدمة غير متاحة",
+        "description": "واتساب أو مسار الاتصال غير متاح مؤقتا.",
+        "action": "سأحاول إعادة الاتصال تلقائيا."
+      },
+      "restartRequired": {
+        "title": "إعادة التشغيل مطلوبة",
+        "description": "طلب الخادم إعادة تشغيل العميل.",
+        "action": "سأعيد تشغيل الاتصال تلقائيا."
+      },
+      "default": {
+        "title": "تم إنهاء الاتصال",
+        "description": "تم إغلاق الاتصال لسبب غير معروف في النظام.",
+        "action": "سأحاول إعادة الاتصال تلقائيا."
+      }
+    }
+  },
+  "update": {
+    "checking": "جارٍ التحقق من التحديثات...",
+    "downloading": "جارٍ تنزيل التحديث...",
+    "extracting": "جارٍ الاستخراج...",
+    "installingDeps": "جارٍ تثبيت الاعتماديات...",
+    "done": "اكتمل التحديث! جارٍ إعادة التشغيل...",
+    "failed": "فشل التحديث. سيتم المتابعة بالإصدار الحالي."
+  },
+  "commands": {
+    "ping": {
+      "latency": "زمن الاستجابة",
+      "unavailable": "غير متاح",
+      "uptime": "مفعّل منذ",
+      "memory": "الذاكرة",
+      "ownerStatus": "الحالة: المالك",
+      "footer": "Powered By Misa."
+    },
+    "sticker": {
+      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ طريقة الاستخدام:\n│   أرسل أو رد على صورة باستخدام:\n│   s\n│\n│   أرسل أو رد على فيديو باستخدام:\n│   sticker\n│\n╰─ النتيجة: ملصق مربع",
+      "creating": "🪄 جارٍ إنشاء الملصق...",
+      "videoTooLong": "❌ يجب ألا يتجاوز الفيديو {{max}} ثانية.",
+      "error": "❌ خطأ أثناء إنشاء الملصق: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "sticker2": {
+      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ طريقة الاستخدام:\n│   أرسل أو رد على صورة باستخدام:\n│   s2\n│\n│   أرسل أو رد على فيديو باستخدام:\n│   sticker2\n│\n╰─ النتيجة: يحتفظ بالتنسيق الأصلي"
+    },
+    "brat": {
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ طريقة الاستخدام:\n│   brat <texto>\n│\n╰─ مثال:\n   brat eu te disse",
+      "creating": "🖼️ جارٍ إنشاء ملصق brat...",
+      "error": "❌ خطأ أثناء إنشاء brat: {{message}}",
+      "empty": "أعادت الـ API صورة فارغة.",
+      "unknown": "خطأ غير معروف"
+    },
+    "brat2": {
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ طريقة الاستخدام:\n│   brat2 <texto>\n│\n╰─ مثال:\n   brat2 hoje eu sumo"
+    },
+    "menu": {
+      "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
+      "categories": {
+        "geral": "عام",
+        "fig": "ملصقات",
+        "downloads": "تنزيلات",
+        "grupo": "مجموعة",
+        "owner": "المالك",
+        "activations": "تفعيلات",
+        "welcome": "الترحيب"
+      },
+      "cmds": {
+        "ping": "ping",
+        "menugeral": "menugeral",
+        "menufig": "menufig",
+        "brat": "brat",
+        "brat2": "brat2",
+        "menudl": "menudl",
+        "menugrupo": "menugrupo",
+        "menuadm": "menuadm",
+        "menudono": "menudono",
+        "sticker": "sticker",
+        "sticker2": "sticker2",
+        "play": "play",
+        "ytmp3": "ytmp3",
+        "playvid": "playvid",
+        "ytmp4": "ytmp4",
+        "tiktok": "tiktok",
+        "instagram": "instagram",
+        "pinterest": "pinterest",
+        "admins": "admins",
+        "hidetag": "hidetag",
+        "del": "del",
+        "gp": "gp",
+        "kick": "kick",
+        "promote": "promote",
+        "demote": "demote",
+        "nomegp": "nomegp",
+        "descgp": "descgp",
+        "antilink": "antilink",
+        "antilinkgp": "antilinkgp",
+        "antilinkch": "antilinkch",
+        "bemvindo": "bemvindo",
+        "legendabv": "legendabv",
+        "midiabv": "midiabv",
+        "eval": "eval",
+        "cmdnf": "cmdnf",
+        "idioma": "idioma",
+        "nomebot": "nomebot",
+        "nomedono": "nomedono",
+        "numerodono": "numerodono",
+        "prefixo": "prefixo",
+        "apikey": "apikey",
+        "autoupdate": "autoupdate",
+        "antipv": "antipv",
+        "statusbot": "statusbot",
+        "restart": "restart",
+        "join": "join",
+        "leavegp": "leavegp",
+        "idiomagp": "idiomagp",
+        "soadmin": "soadmin",
+        "modobn": "modobn",
+        "setprefixgp": "setprefixgp",
+        "bangp": "bangp",
+        "unbangp": "unbangp",
+        "listbangp": "listbangp",
+        "blockuser": "blockuser",
+        "unblockuser": "unblockuser",
+        "listblock": "listblock",
+        "blockcmd": "blockcmd",
+        "unblockcmd": "unblockcmd",
+        "listblockcmd": "listblockcmd",
+        "antiloc": "antiloc",
+        "antiaudio": "antiaudio",
+        "antifoto": "antifoto",
+        "antivideo": "antivideo",
+        "antidoc": "antidoc",
+        "antilista": "antilista"
+      }
+    },
+    "play": {
+      "usage": "╭─「 *PLAY* 」\n│\n│ ✦ بحث:\n│   play <nome da música>\n│   p <nome da música>\n│\n╰─ مثال:\n   play michael jackson billie jean",
+      "searching": "🔍 جارٍ البحث عن الموسيقى...",
+      "notFound": "❌ لم يتم العثور على أي نتائج.",
+      "channel": "القناة",
+      "duration": "المدة",
+      "views": "المشاهدات",
+      "downloading": "⬇️ جارٍ تنزيل الصوت...",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف",
+      "author": "غير معروف"
+    },
+    "ytmp3": {
+      "usage": "╭─「 *YTMP3* 」\n│\n│ ✦ تنزيل:\n│   ytmp3 <link do YouTube>\n\n╰─ أمثلة:\n   ytmp3 https://youtube.com/watch?v=...\n   ytmp3 https://youtu.be/...\n   ytmp3 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ رابط غير صالح. استخدم رابط YouTube.",
+      "downloading": "⬇️ جارٍ تنزيل صوت YouTube...",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "playvid": {
+      "usage": "╭─「 *PLAYVID* 」\n│\n│ ✦ بحث:\n│   playvid <nome do vídeo>\n│   pv <nome do vídeo>\n\n╰─ مثال:\n   playvid michael jackson thriller",
+      "searching": "🔍 جارٍ البحث عن الفيديو...",
+      "notFound": "❌ لم يتم العثور على أي نتائج.",
+      "channel": "القناة",
+      "duration": "المدة",
+      "views": "المشاهدات",
+      "downloading": "⬇️ جارٍ تنزيل الفيديو...",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "ytmp4": {
+      "usage": "╭─「 *YTMP4* 」\n│\n│ ✦ تنزيل:\n│   ytmp4 <link do YouTube>\n\n╰─ أمثلة:\n   ytmp4 https://youtube.com/watch?v=...\n   ytmp4 https://youtu.be/...\n   ytmp4 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ رابط غير صالح. استخدم رابط YouTube.",
+      "downloading": "⬇️ جارٍ تنزيل فيديو YouTube...",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "tiktok": {
+      "usage": "╭─「 *TIKTOK* 」\n│\n│ ✦ تنزيل:\n│   tiktok <url>\n│\n│ ✦ بحث:\n│   tiktok <termo>\n│\n╰─ أمثلة:\n   tiktok https://vm.tiktok.com/...\n   tiktok dança viral",
+      "downloading": "⬇️ جارٍ التنزيل من TikTok...",
+      "downloadFailed": "❌ تعذر تنزيل الفيديو.",
+      "downloadDone": "✅ اكتمل التنزيل!",
+      "searching": "🔍 جارٍ البحث في TikTok...",
+      "notFound": "❌ لم يتم العثور على أي نتائج.",
+      "found": "📹 *{{title}}*\n\n⬇️ جارٍ التنزيل...",
+      "searchCaption": "🔍 البحث: {{query}}",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "instagram": {
+      "usage": "╭─「 *INSTAGRAM* 」\n│\n│ ✦ تنزيل:\n│   instagram <url>\n│\n╰─ مثال:\n   instagram https://instagram.com/p/...",
+      "invalidUrl": "❌ رابط غير صالح. استخدم رابط Instagram.",
+      "downloading": "⬇️ جارٍ التنزيل من Instagram...",
+      "downloadFailed": "❌ تعذر تنزيل المحتوى.",
+      "sending": "📥 جارٍ إرسال {{count}} {{fileWord}}...",
+      "done": "✅ اكتمل تنزيل Instagram!",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "pinterest": {
+      "usage": "╭─「 *PINTEREST* 」\n│\n│ ✦ تنزيل:\n│   pinterest <url>\n│\n│ ✦ بحث:\n│   pinterest <termo>\n│\n╰─ أمثلة:\n   pinterest https://pin.it/...\n   pinterest wallpaper 4k",
+      "downloading": "⬇️ جارٍ التنزيل من Pinterest...",
+      "downloadFailed": "❌ تعذر تنزيل المحتوى.",
+      "done": "✅ اكتمل تنزيل Pinterest!",
+      "searching": "🔍 جارٍ البحث في Pinterest...",
+      "notFound": "❌ لم يتم العثور على أي نتائج.",
+      "found": "📸 عثرت على {{count}} صورة!\n\n⬇️ جارٍ الإرسال...",
+      "searchCaption": "🔍 البحث: {{query}}",
+      "limited": "ℹ️ تم العثور على {{total}} صورة، لكنني أرسلت فقط {{sent}}.",
+      "error": "❌ خطأ: {{message}}",
+      "unknown": "خطأ غير معروف"
+    },
+    "admins": {
+      "groupInfoFailed": "❌ تعذر الحصول على معلومات المجموعة.",
+      "noAdmins": "❌ لم يتم العثور على أي مشرف.",
+      "defaultMessage": "تم استدعاء المشرفين!"
+    },
+    "hidetag": {
+      "fetchError": "❌ تعذر الحصول على معلومات المجموعة.",
+      "noMembers": "❌ لم يتم العثور على أي عضو في المجموعة.",
+      "defaultMessage": "تمت الإشارة إلى الجميع!"
+    },
+    "del": {
+      "noQuoted": "❌ قم بالرد على الرسالة التي تريد حذفها.\n\nالاستخدام: del (قم بالرد على رسالة)",
+      "success": "✅ تم حذف الرسالة بنجاح!",
+      "error": "❌ خطأ أثناء حذف الرسالة: {{error}}"
+    },
+    "antilink": {
+      "enabled": "✅ تم تفعيل Anti-link في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-link في هذه المجموعة.",
+      "settingsHint": "⚙️ الإعدادات:\n• antilink punicao apagar\n• antilink punicao banir\n• antilink texto <mensagem>",
+      "punishmentUpdated": "✅ تم تحديث عقوبة Anti-link إلى *{{value}}*.",
+      "invalidPunishment": "❌ استخدم: antilink punicao apagar | banir",
+      "textUpdated": "✅ تم تحديث نص Anti-link!\n\n{{text}}",
+      "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilink texto <mensagem>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink punicao apagar\n│ antilink punicao banir\n│ antilink texto <mensagem>",
+      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+    },
+    "antilinkgp": {
+      "enabled": "✅ تم تفعيل Anti-link للمجموعة في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-link للمجموعة في هذه المجموعة.",
+      "settingsHint": "⚙️ الإعدادات:\n• antilinkgp punicao apagar\n• antilinkgp punicao banir\n• antilinkgp texto <mensagem>",
+      "punishmentUpdated": "✅ تم تحديث عقوبة Anti-link للمجموعة إلى *{{value}}*.",
+      "invalidPunishment": "❌ استخدم: antilinkgp punicao apagar | banir",
+      "textUpdated": "✅ تم تحديث نص Anti-link للمجموعة!\n\n{{text}}",
+      "textHeader": "╭─「 *TEXTO ANTILINKGP* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilinkgp texto <mensagem>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp punicao apagar\n│ antilinkgp punicao banir\n│ antilinkgp texto <mensagem>",
+      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+    },
+    "antilinkch": {
+      "enabled": "✅ تم تفعيل Anti-link للقناة في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-link للقناة في هذه المجموعة.",
+      "settingsHint": "⚙️ الإعدادات:\n• antilinkch punicao apagar\n• antilinkch punicao banir\n• antilinkch texto <mensagem>",
+      "punishmentUpdated": "✅ تم تحديث عقوبة Anti-link للقناة إلى *{{value}}*.",
+      "invalidPunishment": "❌ استخدم: antilinkch punicao apagar | banir",
+      "textUpdated": "✅ تم تحديث نص Anti-link للقناة!\n\n{{text}}",
+      "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilinkch texto <mensagem>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensagem>",
+      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+    },
+    "bemvindo": {
+      "enabled": "✅ تم تفعيل الترحيب في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل الترحيب في هذه المجموعة."
+    },
+    "gp": {
+      "usage": "╭─「 *GRUPO* 」\n│\n│ ✦ gp a → فتح المجموعة\n│ ✦ gp f → إغلاق المجموعة\n│\n╰─",
+      "closed": "🔒 تم إغلاق المجموعة! يمكن للمشرفين فقط إرسال الرسائل.",
+      "opened": "🔓 تم فتح المجموعة! يمكن للجميع إرسال الرسائل."
+    },
+    "kick": {
+      "noMention": "❌ قم بذكر المستخدم الذي تريد إزالته.\n\nالاستخدام: kick @usuario",
+      "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
+      "success": "✅ تمت إزالة المستخدم بنجاح!",
+      "error": "❌ خطأ أثناء إزالة المستخدم: {{error}}"
+    },
+    "promote": {
+      "noMention": "❌ قم بذكر المستخدم الذي تريد ترقيته.\n\nالاستخدام: promote @usuario",
+      "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
+      "success": "✅ تمت ترقية المستخدم إلى مشرف!",
+      "error": "❌ خطأ أثناء ترقية المستخدم: {{error}}"
+    },
+    "demote": {
+      "noMention": "❌ قم بذكر المشرف الذي تريد خفضه.\n\nالاستخدام: demote @usuario",
+      "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
+      "success": "✅ تمت إعادة المشرف إلى عضو عادي!",
+      "error": "❌ خطأ أثناء خفض المشرف: {{error}}"
+    },
+    "nomegp": {
+      "noArgs": "❌ أدخل الاسم الجديد.\n\nالاستخدام: nomegp <nome>",
+      "success": "✅ تم تغيير اسم المجموعة إلى *{{name}}*!"
+    },
+    "descgp": {
+      "noArgs": "❌ أدخل الوصف الجديد.\n\nالاستخدام: descgp <descrição>",
+      "success": "✅ تم تحديث وصف المجموعة!"
+    },
+    "legendabv": {
+      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @total     → إجمالي الأعضاء\n│ @desc      → وصف المجموعة",
+      "header": "╭─「 *LEGENDA BV* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *الوصف الحالي:*\n│ {{current}}\n│\n╰─ استخدم: legendabv <texto>",
+      "updated": "✅ تم تحديث رسالة الترحيب!\n\n{{text}}"
+    },
+    "midiabv": {
+      "removed": "✅ تمت إزالة وسائط الترحيب.",
+      "noMedia": "╭─「 *MÍDIA BV* 」\n│\n│ ✦ الحالة: {{status}}\n│\n│ أرسل أو رد على صورة أو فيديو.\n│ الفيديوهات: بحد أقصى 15 ثانية (سيتم إرسالها كـ gif).\n│ للإزالة: midiabv off\n│\n╰─",
+      "statusVideo": "فيديو 🎥 ✅",
+      "statusImage": "صورة 🖼️ ✅",
+      "statusNone": "بدون وسائط ❌",
+      "videoTooLong": "❌ مدة الفيديو {{seconds}}ث. الحد الأقصى المسموح: {{max}}ث.",
+      "successVideo": "✅ تم ضبط فيديو الترحيب!",
+      "successImage": "✅ تم ضبط صورة الترحيب!"
+    },
+    "cmdnf": {
+      "params": "@usuario      → يذكر المستخدم\n│ @nome         → اسم المستخدم\n│ @comando      → الأمر المكتوب\n│ @parecido     → الأمر الأقرب\n│ @similaridade → نسبة التشابه\n│ @prefixo      → البادئة الحالية\n│ @bot          → اسم البوت",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *الوضع الحالي:* {{mode}}\n│ *النص الحالي:* {{text}}\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *الاستخدامات:*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>",
+      "invalidMode": "❌ استخدم: cmdnf modo texto | mencao",
+      "modeUpdated": "✅ تم تحديث وضع الأمر غير الموجود إلى *{{mode}}*.",
+      "textHeader": "╭─「 *TEXTO CMDNF* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: cmdnf texto <mensagem>",
+      "textUpdated": "✅ تم تحديث نص الأمر غير الموجود!\n\n{{text}}",
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>"
+    },
+    "eval": {
+      "noArgs": "❌ الاستخدام: eval <código>",
+      "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ الكود: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ تم التنفيذ بنجاح.",
+      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ الكود: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ خطأ أثناء التنفيذ."
+    },
+    "idioma": {
+      "current": "🌐 اللغة العالمية الحالية: *{{language}}*\n\nالاستخدام: language <pt|es|en|id|ar|fr|hi|ur>",
+      "updated": "✅ تم تحديث اللغة العالمية إلى *{{language}}*.",
+      "invalid": "❌ لغة غير صالحة. استخدم: pt, es, en, id, ar, fr, hi أو ur",
+      "i18nAliases": {
+        "pt": ["idioma", "setidioma"],
+        "es": ["idioma", "lenguaje", "setlenguaje"],
+        "en": ["language", "setlanguage", "lang", "setlang"],
+        "id": ["bahasa", "setbahasa", "lang", "setlang"],
+        "fr": ["langue", "setlangue"],
+        "hi": ["bhasha", "setbhasha"],
+        "ur": ["zaban", "setzaban"]
+      }
+    },
+    "nomebot": {
+      "current": "🤖 الاسم الحالي للبوت: *{{value}}*\n\nالاستخدام: nomebot <novo nome>",
+      "invalid": "❌ أدخل اسما صالحا للبوت.",
+      "updated": "✅ تم تحديث اسم البوت إلى *{{value}}*."
+    },
+    "nomedono": {
+      "current": "👑 الاسم الحالي للمالك: *{{value}}*\n\nالاستخدام: nomedono <novo nome>",
+      "invalid": "❌ أدخل اسما صالحا للمالك.",
+      "updated": "✅ تم تحديث اسم المالك إلى *{{value}}*."
+    },
+    "numerodono": {
+      "current": "📱 الرقم الحالي للمالك: *{{value}}*\n\nالاستخدام: numerodono <5511999999999>",
+      "invalid": "❌ أدخل رقما صالحا مع كود الدولة.",
+      "updated": "✅ تم تحديث رقم المالك إلى *{{value}}*.\nتم حفظ LID: {{lid}}",
+      "updatedNoLid": "✅ تم تحديث رقم المالك إلى *{{value}}*.\n⚠️ لم أتمكن من تحديد LID الجديد الآن؛ تم الإبقاء على LID السابق حتى يمكن تحديثه."
+    },
+    "prefixo": {
+      "current": "⌨️ البادئة الحالية: *{{value}}*\n\nالاستخدام: prefixo <novo prefixo>",
+      "invalid": "❌ استخدم بادئة بدون مسافات وبحد أقصى 5 أحرف.",
+      "updated": "✅ تم تحديث البادئة إلى *{{value}}*."
+    },
+    "apikey": {
+      "current": "🔑 مفتاح API المضبوط: *{{value}}*\n\nالاستخدام: apikey <valor>\nللمسح: apikey off",
+      "updated": "✅ تم تحديث مفتاح API بنجاح.",
+      "cleared": "✅ تمت إزالة مفتاح API بنجاح."
+    },
+    "autoupdate": {
+      "current": "♻️ التحديث التلقائي الحالي: *{{value}}*\n\nالاستخدام: autoupdate <on|off>",
+      "invalid": "❌ استخدم: autoupdate on | off",
+      "updated": "✅ تم تحديث التحديث التلقائي إلى *{{value}}*."
+    },
+    "antipv": {
+      "enabled": "✅ تم تفعيل Anti-PV. سيتجاهل البوت الرسائل الخاصة من غير المالك.",
+      "disabled": "✅ تم تعطيل Anti-PV. عاد البوت للرد في الخاص."
+    },
+    "statusbot": {
+      "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ owner: {{owner}}\n│ number: {{ownerNumber}}\n│ jid: {{user}}\n│ global prefix: {{prefix}}\n│ language: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ saved groups: {{groups}}\n│ bangp groups: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "restart": {
+      "restarting": "♻️ جارٍ إعادة تشغيل البوت..."
+    },
+    "join": {
+      "invalid": "❌ أرسل رابط دعوة واتساب صالحا.\n\nالاستخدام: join https://chat.whatsapp.com/...",
+      "success": "✅ تمت الموافقة على الدعوة. جارٍ دخول المجموعة...",
+      "error": "❌ خطأ أثناء دخول المجموعة: {{error}}"
+    },
+    "leavegp": {
+      "confirm": "👋 جارٍ مغادرة هذه المجموعة..."
+    },
+    "idiomagp": {
+      "current": "🌐 لغة المجموعة: *{{language}}*\n(العالمي: {{global}})\n\nالاستخدام: idiomagp <pt|es|en|id|ar|fr|hi|ur|reset>",
+      "updated": "✅ تم تحديث لغة المجموعة إلى *{{language}}*.",
+      "reset": "✅ تمت إعادة ضبط لغة المجموعة إلى اللغة العالمية (*{{language}}*).",
+      "invalid": "❌ لغة غير صالحة. استخدم: pt, es, en, id, ar, fr, hi أو ur (أو 'reset' لاستخدام اللغة العالمية)",
+      "i18nAliases": {
+        "pt": ["idiomagp", "idiomagrupo"],
+        "es": ["idiomgp", "lenguajegrupo"],
+        "en": ["langgroup", "languagegroup", "setlanggroup"],
+        "id": ["bahasagrup", "setbahasagrup", "langgroup"],
+        "fr": ["languegroupe", "setlanguegroupe"],
+        "hi": ["bhashagroup", "setbhashagroup"],
+        "ur": ["zabangroup", "setzabangroup"]
+      }
+    },
+    "soadmin": {
+      "enabled": "✅ الآن يمكن للمشرفين فقط استخدام الأوامر في هذه المجموعة.",
+      "disabled": "✅ عاد الأعضاء العاديون لاستخدام الأوامر في هذه المجموعة."
+    },
+    "modobn": {
+      "enabled": "✅ تم تفعيل وضع المزاح في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل وضع المزاح في هذه المجموعة."
+    },
+    "setprefixgp": {
+      "current": "⌨️ بادئة المجموعة: *{{value}}*\nالبادئة العالمية: *{{global}}*\n\nالاستخدام: setprefixgp <novo prefixo>\nلإعادة الضبط: setprefixgp reset",
+      "invalid": "❌ استخدم بادئة بدون مسافات وبحد أقصى 5 أحرف.",
+      "updated": "✅ تم تحديث بادئة هذه المجموعة إلى *{{value}}*.",
+      "reset": "✅ تمت إعادة ضبط بادئة هذه المجموعة إلى العالمية (*{{value}}*)."
+    },
+    "bangp": {
+      "alreadyActive": "❌ هذه المجموعة مفعّل عليها bangp بالفعل.",
+      "enabled": "✅ تم تفعيل bangp في هذه المجموعة.\nالسبب: {{reason}}"
+    },
+    "unbangp": {
+      "notActive": "❌ هذه المجموعة ليست في bangp.",
+      "disabled": "✅ تمت إزالة bangp. عاد البوت للعمل بشكل طبيعي في هذه المجموعة."
+    },
+    "listbangp": {
+      "empty": "❌ لا توجد أي مجموعة في bangp.",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockuser": {
+      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: blockuser @usuario [30m|12h|7d] [motivo]",
+      "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
+      "ownerBypass": "❌ لا يمكن حظر المالك.",
+      "alreadyBlocked": "❌ هذا المستخدم محظور بالفعل.",
+      "permanent": "دائم",
+      "success": "✅ تم حظر المستخدم {{user}}.\nينتهي: {{expires}}\nالسبب: {{reason}}"
+    },
+    "unblockuser": {
+      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: unblockuser @usuario",
+      "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
+      "notBlocked": "❌ هذا المستخدم غير محظور.",
+      "success": "✅ تم إلغاء حظر المستخدم {{user}}."
+    },
+    "listblock": {
+      "empty": "❌ لا يوجد أي مستخدم محظور.",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "blockcmd": {
+      "noArgs": "❌ الاستخدام: blockcmd <comando>",
+      "notFound": "❌ الأمر '{{command}}' غير موجود.",
+      "alreadyBlocked": "❌ الأمر '{{command}}' محظور بالفعل.",
+      "success": "✅ تم حظر الأمر '{{command}}'."
+    },
+    "unblockcmd": {
+      "noArgs": "❌ الاستخدام: unblockcmd <comando>",
+      "notFound": "❌ الأمر '{{command}}' غير موجود.",
+      "notBlocked": "❌ الأمر '{{command}}' غير محظور.",
+      "success": "✅ تم إلغاء حظر الأمر '{{command}}'."
+    },
+    "listblockcmd": {
+      "empty": "❌ لا يوجد أي أمر محظور.",
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+    },
+    "antimidia": {
+      "blocked": "🚫 {{user}}، الرسائل من نوع *{{type}}* غير مسموح بها في هذه المجموعة.",
+      "types": {
+        "loc": "موقع",
+        "audio": "صوت",
+        "foto": "صورة",
+        "video": "فيديو",
+        "doc": "مستند",
+        "lista": "قائمة"
+      }
+    },
+    "antiloc": {
+      "enabled": "✅ تم تفعيل Anti-location في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-location في هذه المجموعة."
+    },
+    "antiaudio": {
+      "enabled": "✅ تم تفعيل Anti-audio في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-audio في هذه المجموعة."
+    },
+    "antifoto": {
+      "enabled": "✅ تم تفعيل Anti-photo في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-photo في هذه المجموعة."
+    },
+    "antivideo": {
+      "enabled": "✅ تم تفعيل Anti-video في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-video في هذه المجموعة."
+    },
+    "antidoc": {
+      "enabled": "✅ تم تفعيل Anti-document في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-document في هذه المجموعة."
+    },
+    "antilista": {
+      "enabled": "✅ تم تفعيل Anti-list في هذه المجموعة!",
+      "disabled": "❌ تم تعطيل Anti-list في هذه المجموعة."
+    }
+  },
+  "group": {
+    "welcome": {
+      "defaultLegend": "أهلا بك، @usuario! 👋\nأنت العضو رقم @total في المجموعة *@grupo*."
+    },
+    "antilink": {
+      "defaultText": "🚫 @usuario، الروابط غير مسموح بها في هذه المجموعة.",
+      "defaultGroupText": "🚫 @usuario، روابط المجموعات غير مسموح بها في هذه المجموعة.",
+      "defaultChannelText": "🚫 @usuario، روابط القنوات غير مسموح بها في هذه المجموعة.",
+      "typeLink": "رابط",
+      "typeGroupLink": "رابط مجموعة",
+      "typeChannelLink": "رابط قناة"
+    }
+  },
+  "owner": {
+    "cmdnf": {
+      "defaultText": "❌ @usuario، الأمر @comando غير موجود.\n\nربما كنت تقصد: @parecido (@similaridade)\nاستخدم @prefixomenu لرؤية الأوامر."
+    }
+  }
+}

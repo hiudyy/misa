@@ -6,9 +6,9 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-export type Locale = "pt" | "es" | "en" | "id";
+export type Locale = "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur";
 
-export const SUPPORTED_LOCALES: Locale[] = ["pt", "es", "en", "id"];
+export const SUPPORTED_LOCALES: Locale[] = ["pt", "es", "en", "id", "ar", "fr", "hi", "ur"];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -127,4 +127,3 @@ export async function resolveLocale(groupId?: string): Promise<Locale> {
 export function clearLocaleCache(): void {
   cache.clear();
 }
-

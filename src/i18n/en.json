@@ -42,7 +42,7 @@
       "apiKeyHint": "[CONFIG] The API key can be obtained at https://misaka.com.br",
       "autoUpdate": "Auto update",
       "language": "Bot language",
-      "languageHint": "(pt, es, en)",
+      "languageHint": "(pt, es, en, id, ar, fr, hi, ur)",
       "notConfigured": "not configured",
       "configured": "configured",
       "boolPrompt": "(y/N)",
@@ -467,14 +467,17 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Execution error."
     },
     "idioma": {
-      "current": "🌐 Current global language: *{{language}}*\n\nUsage: idioma <pt|es|en>",
+      "current": "🌐 Current global language: *{{language}}*\n\nUsage: language <pt|es|en|id|ar|fr|hi|ur>",
       "updated": "✅ Global language updated to *{{language}}*.",
-      "invalid": "❌ Invalid language. Use: pt, es, en or id",
+      "invalid": "❌ Invalid language. Use: pt, es, en, id, ar, fr, hi or ur",
       "i18nAliases": {
         "pt": ["idioma", "setidioma"],
         "es": ["idioma", "lenguaje", "setlenguaje"],
         "en": ["language", "setlanguage", "lang", "setlang"],
-       "id": ["bahasa", "setbahasa", "lang", "setlang"]
+        "id": ["bahasa", "setbahasa", "lang", "setlang"],
+        "fr": ["langue", "setlangue"],
+        "hi": ["bhasha", "setbhasha"],
+        "ur": ["zaban", "setzaban"]
       }
     },
     "nomebot": {
@@ -527,15 +530,18 @@
       "confirm": "👋 Leaving this group..."
     },
     "idiomagp": {
-      "current": "🌐 Group language: *{{language}}*\n(Global: {{global}})\n\nUsage: idiomagp <pt|es|en|id|reset>",
+      "current": "🌐 Group language: *{{language}}*\n(Global: {{global}})\n\nUsage: idiomagp <pt|es|en|id|ar|fr|hi|ur|reset>",
       "updated": "✅ Group language updated to *{{language}}*.",
       "reset": "✅ Group language reset to global (*{{language}}*).",
-      "invalid": "❌ Invalid language. Use: pt, es, en or id (or 'reset' to use the global)",
+      "invalid": "❌ Invalid language. Use: pt, es, en, id, ar, fr, hi or ur (or 'reset' to use the global)",
       "i18nAliases": {
         "pt": ["idiomagp", "idiomagrupo"],
         "es": ["idiomgp", "lenguajegrupo"],
         "en": ["langgroup", "languagegroup", "setlanggroup"],
-        "id": ["bahasagrup", "setbahasagrup", "langgroup"]
+        "id": ["bahasagrup", "setbahasagrup", "langgroup"],
+        "fr": ["languegroupe", "setlanguegroupe"],
+        "hi": ["bhashagroup", "setbhashagroup"],
+        "ur": ["zabangroup", "setzabangroup"]
       }
     },
     "soadmin": {
