@@ -8,6 +8,7 @@ import { getOwnerConfig } from "../../../ownerConfig.js";
 import { listBannedGroups } from "../../../database/groupDB.js";
 import { cleanupExpiredBlockedUsers } from "../../../helpers/ownerRestrictions.js";
 import { listStoredGroupIds } from "../../../helpers/listGroups.js";
+import { getLocaleLabel } from "../../../i18n/index.js";
 import { Command } from "../../../types/Command.js";
 
 function formatUptime(totalSeconds: number): string {
@@ -48,7 +49,7 @@ const statusbotCommand: Command = {
           owner: botConfig.ownerName,
           ownerNumber: botConfig.ownerNumber || t("common.none"),
           prefix: botConfig.prefix,
-          language: botConfig.language,
+          language: getLocaleLabel(botConfig.language),
           autoUpdate: botConfig.autoUpdate ? t("common.enabled") : t("common.disabled"),
           antiPrivate: ownerConfig.antiPrivate ? t("common.enabled") : t("common.disabled"),
           blockedUsers: String(blockedUsers.length),

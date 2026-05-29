@@ -10,7 +10,14 @@ import { startBot } from "./index.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
 import { runAutoUpdate } from "./helpers/autoUpdate.js";
-import { getGlobalLocale, createTranslator } from "./i18n/index.js";
+import {
+  createTranslator,
+  DEFAULT_LOCALE,
+  getGlobalLocale,
+  getLocaleCodes,
+  getLocaleLabel,
+  isValidLocale,
+} from "./i18n/index.js";
 
 const shouldAnimate = output.isTTY;
 const version = packageInfo.version;
@@ -164,8 +171,16 @@ async function askBotConfig(rl: readline.Interface, t: any): Promise<void> {
     currentConfig.apiKey,
   );
   const autoUpdate = await askBoolean(rl, t("terminal.config.autoUpdate"), currentConfig.autoUpdate, t);
-  const rawLang = keepOrUpdate(await askInput(rl, `${t("terminal.config.language")} ${t("terminal.config.languageHint")} [${currentConfig.language || "pt"}]`), currentConfig.language || "pt");
-  const language = ["pt", "es", "en", "id", "ar", "fr", "hi", "ur"].includes(rawLang.toLowerCase()) ? rawLang.toLowerCase() as "pt" | "es" | "en" | "id" | "ar" | "fr" | "hi" | "ur" : currentConfig.language || "pt";
+  const currentLanguage = isValidLocale(currentConfig.language) ? currentConfig.language : DEFAULT_LOCALE;
+  const rawLang = keepOrUpdate(
+    await askInput(
+      rl,
+      `${t("terminal.config.language")} ${t("terminal.config.languageHint", { options: getLocaleCodes() })} [${getLocaleLabel(currentLanguage)}]`,
+    ),
+    currentLanguage,
+  );
+  const nextLanguage = rawLang.toLowerCase();
+  const language = isValidLocale(nextLanguage) ? nextLanguage : currentLanguage;
 
   const nextConfig: BotConfig = {
     ...currentConfig,
