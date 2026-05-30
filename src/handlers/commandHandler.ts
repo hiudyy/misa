@@ -5,6 +5,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { SUPPORTED_LOCALES, t } from "../i18n/index.js";
 import { log } from "../logger.js";
 import { Command } from "../types/Command.js";
 
@@ -68,6 +69,13 @@ export class CommandHandler {
       for (const alias of localeAliases ?? []) {
         const normalized = alias.trim().toLowerCase();
         if (normalized) aliases.add(normalized);
+      }
+    }
+
+    for (const locale of SUPPORTED_LOCALES) {
+      const translatedName = t(`commands.menu.cmds.${command.name}`, locale).trim().toLowerCase();
+      if (translatedName && translatedName !== `commands.menu.cmds.${command.name}`) {
+        aliases.add(translatedName);
       }
     }
 
