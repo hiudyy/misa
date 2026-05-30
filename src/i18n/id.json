@@ -215,6 +215,7 @@
       },
       "cmds": {
         "ping": "ping",
+        "menu": "menu",
         "menugeral": "menuumum",
         "menufig": "menustiker",
         "brat": "brat",
@@ -225,6 +226,7 @@
         "menudono": "menupemilik",
         "sticker": "stiker",
         "sticker2": "stiker2",
+        "shorturl": "pendekurl",
         "play": "putar",
         "ytmp3": "ytmp3",
         "playvid": "putarvid",

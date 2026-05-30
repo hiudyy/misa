@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const i18nDir = path.resolve("src/i18n");
+const commandsDir = path.resolve("src/commands");
 
 function flattenKeys(value, prefix = "") {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
@@ -13,6 +14,22 @@ function flattenKeys(value, prefix = "") {
     return flattenKeys(nested, nextPrefix);
   });
 }
+
+async function walk(dir) {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const nested = await Promise.all(
+    entries.map(async (entry) => {
+      const entryPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) return walk(entryPath);
+      return [entryPath];
+    }),
+  );
+
+  return nested.flat();
+}
+
+const commandFiles = (await walk(commandsDir)).filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
+const commandNames = commandFiles.map((file) => path.basename(file, path.extname(file))).sort();
 
 const files = (await readdir(i18nDir))
   .filter((file) => file.endsWith(".json"))
@@ -45,6 +62,28 @@ for (const locale of rest) {
     if (missing.length) console.error(`Faltando (${missing.length}): ${missing.join(", ")}`);
     if (extra.length) console.error(`Extras (${extra.length}): ${extra.join(", ")}`);
   }
+
+  const missingCommandAliases = commandNames.filter(
+    (commandName) => !locale.keys.has(`commands.menu.cmds.${commandName}`),
+  );
+
+  if (missingCommandAliases.length) {
+    hasMismatch = true;
+    console.error(
+      `\n${locale.file} está sem aliases traduzidos em commands.menu.cmds para: ${missingCommandAliases.join(", ")}`,
+    );
+  }
+}
+
+const missingBaseCommandAliases = commandNames.filter(
+  (commandName) => !base.keys.has(`commands.menu.cmds.${commandName}`),
+);
+
+if (missingBaseCommandAliases.length) {
+  hasMismatch = true;
+  console.error(
+    `\n${base.file} está sem aliases traduzidos em commands.menu.cmds para: ${missingBaseCommandAliases.join(", ")}`,
+  );
 }
 
 if (hasMismatch) {
