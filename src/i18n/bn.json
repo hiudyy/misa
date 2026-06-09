@@ -260,6 +260,7 @@
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
+        "debug": "debug",
         "restart": "restart",
         "join": "join",
         "leavegp": "leavegp",
@@ -545,6 +546,10 @@
     },
     "statusbot": {
       "text": "╭─「 *BOT STATUS* 」\n│\n│ bot: {{bot}}\n│ owner: {{owner}}\n│ number: {{ownerNumber}}\n│ jid: {{user}}\n│ global prefix: {{prefix}}\n│ language: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-private: {{antiPrivate}}\n│ saved groups: {{groups}}\n│ bangp groups: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "debug": {
+      "enabled": "✅ মেসেজ debug চালু হয়েছে। সব message event টার্মিনালে log হবে।",
+      "disabled": "✅ মেসেজ debug বন্ধ হয়েছে।"
     },
     "restart": {
       "restarting": "♻️ Restarting the bot..."

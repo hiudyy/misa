@@ -143,10 +143,19 @@ async function extractZip(zipPath: string, destination: string): Promise<void> {
 export async function runAutoUpdate(): Promise<void> {
   const globalLocale = await getGlobalLocale();
   const t = createTranslator(globalLocale);
+  const packagePath = path.join(paths.root, "package.json");
+  const packageTmpPath = path.join(paths.root, "package.json.tmp");
+  let packageBackup: string | null = null;
 
   log.info("UPDATE", t("update.checking"));
 
   try {
+    try {
+      packageBackup = await fs.readFile(packagePath, "utf8");
+    } catch {
+      packageBackup = null;
+    }
+
     await cleanup();
     await fs.mkdir(EXTRACT_PATH, { recursive: true });
 
@@ -175,7 +184,9 @@ export async function runAutoUpdate(): Promise<void> {
       await fs.writeFile(configPath, configBackup, "utf8");
     }
 
-    await fs.copyFile(path.join(extracted, "package.json"), path.join(paths.root, "package.json"));
+    const nextPackage = await fs.readFile(path.join(extracted, "package.json"), "utf8");
+    await fs.writeFile(packageTmpPath, nextPackage, "utf8");
+    await fs.rename(packageTmpPath, packagePath);
 
     log.info("UPDATE", t("update.installingDeps"));
     execSync("npm install --prefer-offline", { cwd: paths.root, stdio: "inherit" });
@@ -191,6 +202,14 @@ export async function runAutoUpdate(): Promise<void> {
     process.exit(0);
   } catch (error) {
     log.error("UPDATE", t("update.failed"), error);
+    await fs.rm(packageTmpPath, { force: true });
+    if (packageBackup !== null) {
+      try {
+        await fs.writeFile(packagePath, packageBackup, "utf8");
+      } catch (restoreError) {
+        log.error("UPDATE", "Falha ao restaurar package.json.", restoreError);
+      }
+    }
     await cleanup();
   }
 }

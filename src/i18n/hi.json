@@ -260,6 +260,7 @@
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
+        "debug": "debug",
         "restart": "restart",
         "join": "join",
         "leavegp": "leavegp",
@@ -551,6 +552,10 @@
     },
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ मालिक: {{owner}}\n│ नंबर: {{ownerNumber}}\n│ jid: {{user}}\n│ वैश्विक प्रीफ़िक्स: {{prefix}}\n│ भाषा: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ सहेजे गए समूह: {{groups}}\n│ bangp समूह: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "debug": {
+      "enabled": "✅ संदेश debug चालू है। सभी message events terminal में log होंगे।",
+      "disabled": "✅ संदेश debug बंद है।"
     },
     "restart": {
       "restarting": "♻️ बॉट पुनः आरंभ किया जा रहा है..."

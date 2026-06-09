@@ -260,6 +260,7 @@
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
+        "debug": "debug",
         "restart": "restart",
         "join": "join",
         "leavegp": "leavegp",
@@ -545,6 +546,10 @@
     },
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ dueño: {{owner}}\n│ número: {{ownerNumber}}\n│ jid: {{user}}\n│ prefijo global: {{prefix}}\n│ idioma: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-privado: {{antiPrivate}}\n│ grupos guardados: {{groups}}\n│ grupos bangp: {{bannedGroups}}\n│ usuarios bloqueados: {{blockedUsers}}\n│ comandos bloqueados: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "debug": {
+      "enabled": "✅ Debug de mensajes activado. Todos los eventos de mensaje se registrarán en la terminal.",
+      "disabled": "✅ Debug de mensajes desactivado."
     },
     "restart": {
       "restarting": "♻️ Reiniciando el bot..."

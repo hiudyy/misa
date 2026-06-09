@@ -33,6 +33,7 @@ const menuDonoCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.autoupdate")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antipv")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.statusbot")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.debug")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.restart")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.join")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.leavegp")}`,

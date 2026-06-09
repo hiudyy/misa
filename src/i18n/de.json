@@ -260,6 +260,7 @@
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
+        "debug": "debug",
         "restart": "restart",
         "join": "join",
         "leavegp": "leavegp",
@@ -545,6 +546,10 @@
     },
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ Bot: {{bot}}\n│ Besitzer: {{owner}}\n│ Nummer: {{ownerNumber}}\n│ jid: {{user}}\n│ prefixo global: {{prefix}}\n│ idioma: {{language}}\n│ Automatische Aktualisierung: {{autoUpdate}}\n│ Anti-PV: {{antiPrivate}}\n│ gespeicherte Gruppen: {{groups}}\n│ Gruppen bangp: {{bannedGroups}}\n│ blockierte Benutzer: {{blockedUsers}}\n│ blockierte Befehle: {{blockedCommands}}\n│ Betriebszeit: {{uptime}}\n│\n╰─"
+    },
+    "debug": {
+      "enabled": "✅ Nachrichten-Debug aktiviert. Alle Nachrichtenereignisse werden im Terminal geloggt.",
+      "disabled": "✅ Nachrichten-Debug deaktiviert."
     },
     "restart": {
       "restarting": "♻️ Neustart des Bots..."
