@@ -18,6 +18,7 @@ import { applyAntiLink } from "./helpers/antiLink.js";
 import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknownCommand.js";
 import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBanned } from "./helpers/ownerRestrictions.js";
 import { applyMediaRestriction } from "./helpers/messageRestrictions.js";
+import { isMessageDebugEnabled, logMessageDebug } from "./helpers/messageDebug.js";
 import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
@@ -64,7 +65,10 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     }
   });
 
-  misa.ev.on("messages.upsert", async ({ messages, type }) => {
+  misa.ev.on("messages.upsert", async (event) => {
+    if (isMessageDebugEnabled()) logMessageDebug(event);
+
+    const { messages, type } = event;
     if (type !== "notify") return;
 
     const message = messages[0];

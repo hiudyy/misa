@@ -260,6 +260,7 @@
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
+        "debug": "debug",
         "restart": "restart",
         "join": "join",
         "leavegp": "leavegp",
@@ -545,6 +546,10 @@
     },
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ pemilik: {{owner}}\n│ nomor: {{ownerNumber}}\n│ jid: {{user}}\n│ prefiks global: {{prefix}}\n│ bahasa: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-private: {{antiPrivate}}\n│ grup tersimpan: {{groups}}\n│ grup bangp: {{bannedGroups}}\n│ pengguna diblokir: {{blockedUsers}}\n│ perintah diblokir: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+    },
+    "debug": {
+      "enabled": "✅ Debug pesan aktif. Semua event pesan akan dicatat di terminal.",
+      "disabled": "✅ Debug pesan nonaktif."
     },
     "restart": {
       "restarting": "♻️ Memulai ulang bot..."

@@ -5,8 +5,8 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = path.resolve(process.cwd());
 const SRC = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(SRC, "..", "..");
 
 export const paths = {
   root:     ROOT,

@@ -260,6 +260,7 @@
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
+        "debug": "debug",
         "restart": "restart",
         "join": "join",
         "leavegp": "leavegp",
@@ -545,6 +546,10 @@
     },
     "statusbot": {
       "text": "╭─「 *DURUM BOT* 」\n│\n│ bot: {{bot}}\n│ sahip: {{owner}}\n│ sayı: {{ownerNumber}}\n│ gün: {{user}}\n│ prefixo genel: {{prefix}}\n│ idioma: {{language}}\n│ otomatik güncelleme: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ kayıtlı gruplar: {{groups}}\n│ gruplar bangp: {{bannedGroups}}\n│ engellenen kullanıcılar: {{blockedUsers}}\n│ engellenen komutlar: {{blockedCommands}}\n│ çalışma süresi: {{uptime}}\n│\n╰─"
+    },
+    "debug": {
+      "enabled": "✅ Mesaj debug aktif. Tüm mesaj olayları terminale yazdırılacak.",
+      "disabled": "✅ Mesaj debug kapalı."
     },
     "restart": {
       "restarting": "♻️ Bot yeniden başlatılıyor..."
