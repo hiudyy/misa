@@ -246,6 +246,7 @@
         "antilink": "antilink",
         "antilinkgp": "antilinkgp",
         "antilinkch": "antilinkch",
+        "antistealth": "antistealth",
         "bemvindo": "bemvindo",
         "legendabv": "legendabv",
         "midiabv": "midiabv",
@@ -404,6 +405,11 @@
       "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilinkch texto <mensagem>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensagem>",
       "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+    },
+    "antistealth": {
+      "enabled": "✅ تم تفعيل anti-stealth في هذه المجموعة.",
+      "disabled": "❌ تم تعطيل anti-stealth في هذه المجموعة.",
+      "punished": "🚫 تمت إزالة @{{user}} لإرسال {{count}} رسائل stealth خلال {{seconds}} ثوانٍ."
     },
     "bemvindo": {
       "enabled": "✅ تم تفعيل الترحيب في هذه المجموعة!",

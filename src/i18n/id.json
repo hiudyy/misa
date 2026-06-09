@@ -246,6 +246,7 @@
         "antilink": "antilink",
         "antilinkgp": "antilinkgp",
         "antilinkch": "antilinksaluran",
+        "antistealth": "antistealth",
         "bemvindo": "sambutan",
         "legendabv": "tekssambutan",
         "midiabv": "mediasambutan",
@@ -404,6 +405,11 @@
       "textHeader": "╭─「 *TEKS ANTILINKSALURAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilinksaluran teks <pesan>",
       "usage": "╭─「 *ANTILINKSALURAN* 」\n│\n│ antilinksaluran\n│ antilinksaluran hukuman hapus\n│ antilinksaluran hukuman ban\n│ antilinksaluran teks <pesan>",
       "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+    },
+    "antistealth": {
+      "enabled": "✅ Anti-stealth *aktif* di grup ini.",
+      "disabled": "❌ Anti-stealth *nonaktif* di grup ini.",
+      "punished": "🚫 @{{user}} dikeluarkan karena mengirim {{count}} pesan stealth dalam {{seconds}}s."
     },
     "bemvindo": {
       "enabled": "✅ Sambutan *diaktifkan* di grup ini!",

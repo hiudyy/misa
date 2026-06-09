@@ -15,6 +15,7 @@ import { toLID } from "./helpers/toLID.js";
 import { isOwner } from "./helpers/isOwner.js";
 import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
 import { applyAntiLink } from "./helpers/antiLink.js";
+import { applyAntiStealth, countNormalGroupMessage } from "./helpers/antiStealth.js";
 import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknownCommand.js";
 import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBanned } from "./helpers/ownerRestrictions.js";
 import { applyMediaRestriction } from "./helpers/messageRestrictions.js";
@@ -72,7 +73,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     if (type !== "notify") return;
 
     const message = messages[0];
-    if (!message?.message || message.key.fromMe) return;
+    if (!message || message.key.fromMe) return;
 
     const from = message.key.remoteJid;
     if (!from) return;
@@ -97,6 +98,18 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
 
     const sender = senderLID;
     const userIsOwner = await isOwner(sender);
+
+    if (!message.message) {
+      if (isGroup && !userIsOwner) {
+        const locale = await resolveLocale(from);
+        const userIsAdmin = await isAdmin(from, sender, misa);
+        const botIsAdmin = await isBotAdmin(from, misa);
+        if (!userIsAdmin && botIsAdmin) await applyAntiStealth(misa, message as proto.IWebMessageInfo, from, sender, locale);
+      }
+      return;
+    }
+
+    if (isGroup) countNormalGroupMessage(from, sender);
 
     await cleanupExpiredBlockedUsers();
     if (!userIsOwner && await isBlockedUser(sender)) {
