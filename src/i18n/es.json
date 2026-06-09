@@ -246,6 +246,7 @@
         "antilink": "antilink",
         "antilinkgp": "antilinkgp",
         "antilinkch": "antilinkch",
+        "antistealth": "antistealth",
         "bemvindo": "bienvenida",
         "legendabv": "textobv",
         "midiabv": "mediabv",
@@ -404,6 +405,11 @@
       "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *Parámetros disponibles:*\n│ {{params}}\n│\n│ *Texto actual:*\n│ {{current}}\n│\n╰─ Usa: antilinkch texto <mensaje>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensaje>",
       "params": "@usuario   → menciona al usuario\n│ @nome      → nombre del usuario\n│ @grupo     → nombre del grupo\n│ @tipo      → tipo de enlace detectado"
+    },
+    "antistealth": {
+      "enabled": "✅ Anti-stealth *activado* en este grupo.",
+      "disabled": "❌ Anti-stealth *desactivado* en este grupo.",
+      "punished": "🚫 @{{user}} fue eliminado por enviar {{count}} mensajes stealth en {{seconds}}s."
     },
     "bemvindo": {
       "enabled": "✅ Bienvenida *activada* en este grupo!",

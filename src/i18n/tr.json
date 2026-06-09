@@ -246,6 +246,7 @@
         "antilink": "antilink",
         "antilinkgp": "antilinkgp",
         "antilinkch": "antilinkch",
+        "antistealth": "antistealth",
         "bemvindo": "bemvindo",
         "legendabv": "legendabv",
         "midiabv": "midiabv",
@@ -404,6 +405,11 @@
       "textHeader": "╭─「 *BAĞLANTI ÖNLEYİCİ METİN* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilinkch texto <mesaj>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch ceza silme\n│ antilinkch ceza yasağı\n│ antilinkch texto <mesaj>",
       "params": "@user → kullanıcıdan bahseder\n│ @isim → kullanıcı adı\n│ @grup → grup adı\n│ @type → algılanan bağlantının türü"
+    },
+    "antistealth": {
+      "enabled": "✅ Anti-stealth bu grupta *aktif*.",
+      "disabled": "❌ Anti-stealth bu grupta *kapalı*.",
+      "punished": "🚫 @{{user}}, {{seconds}}s içinde {{count}} stealth mesaj gönderdiği için çıkarıldı."
     },
     "bemvindo": {
       "enabled": "✅ Bu gruba hoş geldiniz *etkinleştirildi*!",

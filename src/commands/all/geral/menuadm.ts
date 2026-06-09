@@ -40,6 +40,7 @@ const menuAdmCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.antilink")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antilinkgp")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antilinkch")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.antistealth")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antiloc")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antiaudio")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antifoto")}`,

@@ -34,6 +34,7 @@ export type GroupData = {
   antilink: AntiLinkData;
   antilinkgp: AntiLinkData;
   antilinkch: AntiLinkData;
+  antistealth: boolean;
 };
 
 export type AntiLinkPunicao = "apagar" | "banir";
@@ -81,6 +82,7 @@ const DEFAULT: GroupData = {
     punicao: "apagar",
     texto: "🚫 @usuario, links de canal não são permitidos neste grupo.",
   },
+  antistealth: false,
 };
 
 function groupPath(groupId: string): string {

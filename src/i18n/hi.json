@@ -246,6 +246,7 @@
         "antilink": "antilink",
         "antilinkgp": "antilinkgp",
         "antilinkch": "antilinkch",
+        "antistealth": "antistealth",
         "bemvindo": "bemvindo",
         "legendabv": "legendabv",
         "midiabv": "midiabv",
@@ -404,6 +405,11 @@
       "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग करें: antilinkch texto <mensagem>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensagem>",
       "params": "@usuario   → उपयोगकर्ता को mention करता है\n│ @nome      → उपयोगकर्ता का नाम\n│ @grupo     → समूह का नाम\n│ @tipo      → लिंक का प्रकार"
+    },
+    "antistealth": {
+      "enabled": "✅ इस ग्रुप में anti-stealth *चालू* है।",
+      "disabled": "❌ इस ग्रुप में anti-stealth *बंद* है।",
+      "punished": "🚫 @{{user}} को {{seconds}}s में {{count}} stealth messages भेजने पर हटाया गया।"
     },
     "bemvindo": {
       "enabled": "✅ इस समूह में Welcome *सक्रिय* है!",
