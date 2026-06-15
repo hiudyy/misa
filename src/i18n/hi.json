@@ -39,7 +39,7 @@
       "prefix": "बॉट प्रीफ़िक्स",
       "ownerNumber": "मालिक का नंबर",
       "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] API key https://api.cognima.com.br से ली जा सकती है",
+      "apiKeyHint": "[CONFIG] API key https://api.misaka.com.br से ली जा सकती है",
       "autoUpdate": "स्वचालित अपडेट",
       "language": "बॉट की भाषा",
       "languageHint": "({{options}})",

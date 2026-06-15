@@ -39,7 +39,7 @@
       "prefix": "Bot öneki",
       "ownerNumber": "Sahip numarası",
       "apiKey": "APIanahtar",
-      "apiKeyHint": "[CONFIG] API anahtarı https://api.cognima.com.br adresinden edinilebilir",
+      "apiKeyHint": "[CONFIG] API anahtarı https://api.misaka.com.br adresinden edinilebilir",
       "autoUpdate": "Otomatik güncelleme",
       "language": "Bot dili",
       "languageHint": "({{options}})",
