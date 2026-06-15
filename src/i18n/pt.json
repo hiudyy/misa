@@ -182,6 +182,12 @@
       "ownerStatus": "Status: Dono",
       "footer": "Powered By Misa."
     },
+    "dono": {
+      "text": "╭─「 *DONO* 」\n│\n│ nome: {{owner}}\n│ número: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+    },
+    "infobot": {
+      "text": "╭─「 *INFO BOT* 」\n│\n│ nome: {{bot}}\n│ dono: {{owner}}\n│ prefixo: {{prefix}}\n│ idioma: {{language}}\n│ ativo ha: {{uptime}}\n│ memoria: {{memory}}\n│ node: {{node}}\n│\n╰─"
+    },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ Como usar:\n│   envie ou responda uma foto com:\n│   s\n│\n│   envie ou responda um vídeo com:\n│   sticker\n│\n╰─ Resultado: figurinha quadrada",
       "creating": "🪄 Criando figurinha...",
@@ -215,6 +221,8 @@
       },
       "cmds": {
         "ping": "ping",
+        "dono": "dono",
+        "infobot": "infobot",
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
