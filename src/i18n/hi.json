@@ -182,6 +182,12 @@
       "ownerStatus": "स्थिति: मालिक",
       "footer": "Powered By Misa."
     },
+    "dono": {
+      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+    },
+    "infobot": {
+      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+    },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ उपयोग:\n│   फोटो भेजें या उस पर reply करें:\n│   s\n│\n│   वीडियो भेजें या उस पर reply करें:\n│   sticker\n│\n╰─ परिणाम: चौकोर स्टिकर",
       "creating": "🪄 स्टिकर बनाया जा रहा है...",
@@ -215,6 +221,8 @@
       },
       "cmds": {
         "ping": "ping",
+        "dono": "owner",
+        "infobot": "botinfo",
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",

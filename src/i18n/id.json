@@ -182,6 +182,12 @@
       "ownerStatus": "Status: Pemilik",
       "footer": "Powered By Misa."
     },
+    "dono": {
+      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+    },
+    "infobot": {
+      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+    },
     "sticker": {
       "usage": "╭─「 *STIKER* 」\n│\n│ ✦ Cara penggunaan:\n│   kirim atau balas foto dengan:\n│   s\n│\n│   kirim atau balas video dengan:\n│   stiker\n│\n╰─ Hasil: stiker persegi",
       "creating": "🪄 Membuat stiker...",
@@ -215,6 +221,8 @@
       },
       "cmds": {
         "ping": "ping",
+        "dono": "owner",
+        "infobot": "botinfo",
         "menu": "menu",
         "menugeral": "menuumum",
         "menufig": "menustiker",
