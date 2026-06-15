@@ -20,6 +20,7 @@ import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknown
 import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBanned } from "./helpers/ownerRestrictions.js";
 import { applyMediaRestriction } from "./helpers/messageRestrictions.js";
 import { isMessageDebugEnabled, logMessageDebug } from "./helpers/messageDebug.js";
+import { recordGroupActivity } from "./helpers/groupActivity.js";
 import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
@@ -135,6 +136,12 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       "";
 
     const isCommandMessage = body.startsWith(prefix);
+    if (isGroup) {
+      const isStickerMessage = Boolean(message.message.stickerMessage);
+      await recordGroupActivity(from, sender, isCommandMessage ? "command" : isStickerMessage ? "sticker" : "message")
+        .catch((error) => log.warn("ATIVIDADE", String(error)));
+    }
+
     if (isGroup) {
       const userIsAdmin = userIsOwner ? true : await isAdmin(from, sender, misa);
       const botIsAdmin = await isBotAdmin(from, misa);
