@@ -243,6 +243,9 @@
         "instagram": "instagram",
         "pinterest": "pinterest",
         "admins": "admins",
+        "rankativo": "rankativo",
+        "rankinativo": "rankinativo",
+        "checkativo": "checkativo",
         "hidetag": "hidetag",
         "del": "del",
         "gp": "gp",
@@ -370,6 +373,22 @@
       "groupInfoFailed": "❌ Não foi possível obter informações do grupo.",
       "noAdmins": "❌ Nenhum admin encontrado.",
       "defaultMessage": "os admins foram chamados!"
+    },
+    "rankativo": {
+      "groupInfoFailed": "❌ Não foi possível obter informações do grupo.",
+      "empty": "❌ Ainda não há atividade registrada neste grupo.",
+      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | fig: {{stickers}}",
+      "text": "╭─「 *RANK ATIVO* 」\n│\n{{items}}\n│\n╰─"
+    },
+    "rankinativo": {
+      "groupInfoFailed": "❌ Não foi possível obter informações do grupo.",
+      "empty": "❌ Nenhum membro encontrado no grupo.",
+      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | fig: {{stickers}}",
+      "text": "╭─「 *RANK INATIVO* 」\n│\n{{items}}\n│\n╰─"
+    },
+    "checkativo": {
+      "lidFailed": "❌ Não foi possível resolver o usuário mencionado.",
+      "text": "╭─「 *CHECK ATIVO* 」\n│\n│ usuário: {{user}}\n│ posição: {{position}}\n│ total: {{total}}\n│ mensagens: {{messages}}\n│ comandos: {{commands}}\n│ figurinhas: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ Não foi possível obter informações do grupo.",
