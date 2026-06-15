@@ -130,6 +130,42 @@ async function clearAuthSession(t: any): Promise<void> {
   }
 }
 
+function trimQrMargin(qrOutput: string): string {
+  const lines = qrOutput.split(/\r?\n/);
+  const top = lines.findIndex((line) => line.trim().length > 0);
+
+  if (top === -1) return qrOutput;
+
+  let bottom = lines.length - 1;
+  while (bottom > top && lines[bottom].trim().length === 0) {
+    bottom -= 1;
+  }
+
+  const content = lines.slice(top, bottom + 1);
+  const bounds = content.reduce(
+    (acc, line) => {
+      const first = line.search(/\S/);
+      if (first === -1) return acc;
+
+      return {
+        left: Math.min(acc.left, Math.max(0, first - 1)),
+        right: Math.max(acc.right, line.length),
+      };
+    },
+    { left: Number.POSITIVE_INFINITY, right: 0 },
+  );
+
+  if (!Number.isFinite(bounds.left)) return qrOutput;
+
+  return content.map((line) => line.slice(bounds.left, bounds.right)).join("\n");
+}
+
+function printCompactQr(qr: string): void {
+  qrcode.generate(qr, { small: true }, (output) => {
+    console.log(trimQrMargin(output));
+  });
+}
+
 export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<WASocket> {
   const globalLocale = await getGlobalLocale();
   const t = createTranslator(globalLocale);
@@ -177,7 +213,7 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
       // Só exibe QR se o modo for QR
       if (authMode === "qr") {
         log.box("QR", t("connection.qrReceived"), [t("connection.qrScan")], "magenta");
-        qrcode.generate(qr, { small: true });
+        printCompactQr(qr);
       } else if (authMode === "pairing") {
         // Se já solicitou pairing, apenas informa que o código expirou
         if (pairingRequested) {
