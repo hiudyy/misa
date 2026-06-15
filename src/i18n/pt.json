@@ -39,7 +39,7 @@
       "prefix": "Prefixo do bot",
       "ownerNumber": "Número do dono",
       "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] A API key pode ser obtida em https://api.cognima.com.br",
+      "apiKeyHint": "[CONFIG] A API key pode ser obtida em https://api.misaka.com.br",
       "autoUpdate": "Atualização automática",
       "language": "Idioma do bot",
       "languageHint": "({{options}})",

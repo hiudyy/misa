@@ -39,7 +39,7 @@
       "prefix": "Bot-Präfix",
       "ownerNumber": "Besitzernummer",
       "apiKey": "APITaste",
-      "apiKeyHint": "[CONFIG] Der Schlüssel API kann von https://api.cognima.com.br abgerufen werden.",
+      "apiKeyHint": "[CONFIG] Der Schlüssel API kann von https://api.misaka.com.br abgerufen werden.",
       "autoUpdate": "Automatisches Update",
       "language": "Bot-Sprache",
       "languageHint": "({{options}})",

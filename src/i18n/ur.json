@@ -39,7 +39,7 @@
       "prefix": "بوٹ پریفکس",
       "ownerNumber": "مالک کا نمبر",
       "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] API key https://api.cognima.com.br سے لی جا سکتی ہے",
+      "apiKeyHint": "[CONFIG] API key https://api.misaka.com.br سے لی جا سکتی ہے",
       "autoUpdate": "خودکار اپڈیٹ",
       "language": "بوٹ کی زبان",
       "languageHint": "({{options}})",
