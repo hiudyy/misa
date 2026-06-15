@@ -54,7 +54,7 @@ async function downloadYouTubeVideo(url: string): Promise<{
     throw new Error("API key não configurada. Configure em src/config.json");
   }
 
-  const requestUrl = new URL("https://misaka.com.br/api/v1/youtube/download");
+  const requestUrl = new URL("https://api.cognima.com.br/api/v1/youtube/download");
   requestUrl.searchParams.set("url", url);
   requestUrl.searchParams.set("format", "mp4");
 

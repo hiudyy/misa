@@ -4,7 +4,7 @@
  */
 import { getBotConfig } from "../config.js";
 
-const API_BASE_URL = "https://misaka.com.br/api/v1";
+const API_BASE_URL = "https://api.cognima.com.br/api/v1";
 
 export async function misakaAPI<T>(endpoint: string, params: Record<string, string> = {}, t?: any): Promise<T | null> {
   const config = await getBotConfig();
