@@ -39,7 +39,7 @@
       "prefix": "بادئة البوت",
       "ownerNumber": "رقم المالك",
       "apiKey": "مفتاح API",
-      "apiKeyHint": "[CONFIG] يمكن الحصول على مفتاح API من https://misaka.com.br",
+      "apiKeyHint": "[CONFIG] يمكن الحصول على مفتاح API من https://api.cognima.com.br",
       "autoUpdate": "تحديث تلقائي",
       "language": "لغة البوت",
       "languageHint": "({{options}})",

@@ -14,7 +14,7 @@ async function generateBratImage(text: string, style: "white" | "green", t: (key
     throw new Error(t("api.errors.missingKey"));
   }
 
-  const url = new URL("https://misaka.com.br/api/v1/image/brat");
+  const url = new URL("https://api.cognima.com.br/api/v1/image/brat");
   url.searchParams.set("text", text);
   url.searchParams.set("style", style);
   url.searchParams.set("blur", "7");

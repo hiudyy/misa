@@ -39,7 +39,7 @@
       "prefix": "Prefiks bot",
       "ownerNumber": "Nomor pemilik",
       "apiKey": "Kunci API",
-      "apiKeyHint": "[CONFIG] Kunci API dapat diperoleh di https://misaka.com.br",
+      "apiKeyHint": "[CONFIG] Kunci API dapat diperoleh di https://api.cognima.com.br",
       "autoUpdate": "Pembaruan otomatis",
       "language": "Bahasa bot",
       "languageHint": "({{options}})",
