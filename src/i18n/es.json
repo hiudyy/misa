@@ -181,7 +181,7 @@
       "uptime": "Activa hace",
       "memory": "Memoria",
       "ownerStatus": "Estado: Dueño",
-      "footer": "Powered By Misa."
+      "footer": "Powered By {{botName}}."
     },
     "dono": {
       "text": "╭─「 *DUEÑO* 」\n│\n│ nombre: {{owner}}\n│ número: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"

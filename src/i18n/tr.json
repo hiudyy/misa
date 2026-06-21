@@ -181,7 +181,7 @@
       "uptime": "Ha'yı etkinleştir",
       "memory": "Hafıza",
       "ownerStatus": "Durum: Sahip",
-      "footer": "Misa tarafından desteklenmektedir."
+      "footer": "{{botName}} tarafından desteklenmektedir."
     },
     "dono": {
       "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"

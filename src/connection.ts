@@ -12,6 +12,7 @@ import makeWASocket, {
 } from "baileys";
 import pino from "pino";
 import qrcode from "qrcode-terminal";
+import { getBotConfig } from "./config.js";
 import { paths } from "./config/paths.js";
 import { groupCache } from "./cache/groupCache.js";
 import { log } from "./logger.js";
@@ -169,6 +170,7 @@ function printCompactQr(qr: string): void {
 export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<WASocket> {
   const globalLocale = await getGlobalLocale();
   const t = createTranslator(globalLocale);
+  const config = await getBotConfig();
 
   const { state, saveCreds } = await useMultiFileAuthState(paths.auth);
   const { version } = await fetchLatestBaileysVersion();
@@ -183,7 +185,7 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
     version,
     auth: state,
     logger,
-    browser: Browsers.ubuntu("Misa"),
+    browser: Browsers.ubuntu(config.botName || "Misa"),
   });
 
   misa.ev.on("creds.update", saveCreds);

@@ -181,7 +181,7 @@
       "uptime": "सक्रिय है",
       "memory": "मेमोरी",
       "ownerStatus": "स्थिति: मालिक",
-      "footer": "Powered By Misa."
+      "footer": "Powered By {{botName}}."
     },
     "dono": {
       "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"

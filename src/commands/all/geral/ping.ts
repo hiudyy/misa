@@ -51,7 +51,7 @@ const pingCommand: Command = {
           `│ ✦ ${t("commands.ping.memory")}: ${ramUsage}`,
           userIsOwner ? `│ ✦ ${t("commands.ping.ownerStatus")}` : "",
           "│",
-          `╰─ ${t("commands.ping.footer")}`,
+          `╰─ ${t("commands.ping.footer", { botName: config.botName })}`,
         ].filter(Boolean).join("\n"),
       },
       { quoted: message as WAMessage },

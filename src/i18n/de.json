@@ -181,7 +181,7 @@
       "uptime": "Aktivieren Sie ha",
       "memory": "Erinnerung",
       "ownerStatus": "Status: Eigentümer",
-      "footer": "Unterstützt von Misa."
+      "footer": "Unterstützt von {{botName}}."
     },
     "dono": {
       "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
