@@ -119,11 +119,11 @@ async function showIntro(t: any): Promise<void> {
   clearTerminal();
 }
 
-function showMenu(t: any): void {
+function showMenu(t: any, botName: string): void {
   console.log([
     "",
     paint("  ╭─────────────────────────────────────────────╮", "magenta"),
-    paint("  │", "magenta") + paint("                     " + t("terminal.menu.title").padEnd(25) + " ", "white", "bold") + paint("│", "magenta"),
+    paint("  │", "magenta") + paint("                     " + t("terminal.menu.title", { botName }).padEnd(25) + " ", "white", "bold") + paint("│", "magenta"),
     paint("  │", "magenta") + paint(`             ${t("terminal.menu.version")} ${version.padEnd(18)}`, "gray") + paint("│", "magenta"),
     paint("  ├─────────────────────────────────────────────┤", "magenta"),
     paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
@@ -212,29 +212,30 @@ async function main(): Promise<void> {
   const rl = readline.createInterface({ input, output });
 
   try {
-    const globalLocale = await getGlobalLocale();
+    let currentConfig = await getBotConfig();
+    const globalLocale = isValidLocale(currentConfig.language) ? currentConfig.language : DEFAULT_LOCALE;
     let t = createTranslator(globalLocale);
 
     await showIntro(t);
 
-    const config = await getBotConfig();
-    if (config.autoUpdate) await runAutoUpdate();
+    if (currentConfig.autoUpdate) await runAutoUpdate();
 
     while (true) {
-      showMenu(t);
+      showMenu(t, currentConfig.botName);
 
       const option = (await rl.question(paint(t("terminal.menu.chooseOption"), "magenta", "bold"))).trim();
 
       if (option === "0") {
         clearTerminal();
-        log.info("MISA", t("terminal.goodbye"));
+        log.info(currentConfig.botName, t("terminal.goodbye"));
         rl.close();
         process.exit(0);
       }
 
       if (option === "1") {
         await askBotConfig(rl, t);
-        const newLocale = await getGlobalLocale();
+        currentConfig = await getBotConfig();
+        const newLocale = isValidLocale(currentConfig.language) ? currentConfig.language : DEFAULT_LOCALE;
         t = createTranslator(newLocale);
         continue;
       }
@@ -245,7 +246,7 @@ async function main(): Promise<void> {
         
         if (hasSession) {
           clearTerminal();
-          log.info("MISA", t("terminal.sessionDetected"));
+          log.info(currentConfig.botName, t("terminal.sessionDetected"));
           await startBot("qr");
           return;
         }
@@ -281,7 +282,7 @@ async function main(): Promise<void> {
         if (connOption === "2") {
           const phone = (await rl.question(paint(t("terminal.connection.phonePrompt"), "cyan", "bold"))).trim().replace(/\D/g, "");
           if (!phone) {
-            log.warn("MISA", t("terminal.invalidPhone"));
+            log.warn(currentConfig.botName, t("terminal.invalidPhone"));
             await sleep(1000);
             clearTerminal();
             continue;
@@ -291,13 +292,13 @@ async function main(): Promise<void> {
           return;
         }
 
-        log.warn("MISA", t("terminal.invalidOption"));
+        log.warn(currentConfig.botName, t("terminal.invalidOption"));
         await sleep(1000);
         clearTerminal();
         continue;
       }
 
-      log.warn("MISA", t("terminal.invalidOption"));
+      log.warn(currentConfig.botName, t("terminal.invalidOption"));
       await sleep(1000);
       clearTerminal();
     }
@@ -311,9 +312,11 @@ main().catch(async (error) => {
   const t = createTranslator(globalLocale);
 
   if ((error as NodeJS.ErrnoException).code === "ABORT_ERR") {
-    log.warn("MISA", t("terminal.startCancelled"));
+    const config = await getBotConfig();
+    log.warn(config.botName, t("terminal.startCancelled"));
     return;
   }
 
-  log.error("MISA", t("terminal.startFailed"), error);
+  const config = await getBotConfig();
+  log.error(config.botName, t("terminal.startFailed"), error);
 });

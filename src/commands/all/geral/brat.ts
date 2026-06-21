@@ -41,6 +41,24 @@ async function generateBratImage(text: string, style: "white" | "green", t: (key
   return buffer;
 }
 
+function getBratErrorMessage(error: unknown, t: (key: string, vars?: Record<string, string>) => string): string {
+  if (!(error instanceof Error)) return t("commands.brat.unknown");
+
+  const internalMessages = [
+    "Falha ao baixar mídia",
+    "Download vazio",
+    "Entrada de sticker inválida",
+    "Conversão falhou",
+    "Buffer inválido/vazio",
+  ];
+
+  if (internalMessages.some((message) => error.message.startsWith(message))) {
+    return t("commands.brat.unknown");
+  }
+
+  return error.message;
+}
+
 export function createBratCommand(
   name: "brat" | "brat2",
   style: "white" | "green",
@@ -84,7 +102,7 @@ export function createBratCommand(
           from,
           {
             text: t("commands.brat.error", {
-              message: error instanceof Error ? error.message : t("commands.brat.unknown"),
+              message: getBratErrorMessage(error, t),
             }),
           },
           { quoted: message as WAMessage },

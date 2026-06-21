@@ -22,7 +22,7 @@
     "invalidPhone": "Geçersiz numara.",
     "sessionDetected": "Mevcut oturum algılandı. Otomatik olarak bağlanılıyor...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "versiyon",
       "configure": "Botu yapılandır",
       "start": "Botu başlat",
@@ -178,16 +178,16 @@
     "ping": {
       "latency": "Gecikme",
       "unavailable": "müsait değil",
-      "uptime": "Ha'yı etkinleştir",
+      "uptime": "Çalışma süresi",
       "memory": "Hafıza",
       "ownerStatus": "Durum: Sahip",
       "footer": "{{botName}} tarafından desteklenmektedir."
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *SAHİP* 」\n│\n│ ad: {{owner}}\n│ numara: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *BOT BİLGİSİ* 」\n│\n│ ad: {{bot}}\n│ sahip: {{owner}}\n│ önek: {{prefix}}\n│ dil: {{language}}\n│ çalışma süresi: {{uptime}}\n│ bellek: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *ÇIKARTMA* 」\n│\n│ ✦ Nasıl kullanılır:\n│ bir fotoğrafı şununla gönderin veya yanıtlayın:\n│'ler\n│\n│ bir videoyu aşağıdakilerle gönderin veya yanıtlayın:\n│ sticker\n│\n╰─ Sonuç: kare çıkartma",
@@ -200,14 +200,14 @@
       "usage": "╭─「 *ÇIKARTMA2* 」\n│\n│ ✦ Nasıl kullanılır:\n│ bir fotoğrafı şununla gönderin veya yanıtlayın:\n│ s2\n│\n│ bir videoyu aşağıdakilerle gönderin veya yanıtlayın:\n│ sticker2\n│\n╰─ Sonuç: orijinal formatı korur"
     },
     "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Nasıl kullanılır:\n│ brat <texto>\n│\n╰─ Örnek:\n   brat sana söylemiştim",
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Nasıl kullanılır:\n│ brat <metin>\n│\n╰─ Örnek:\n   brat sana söylemiştim",
       "creating": "🖼️ Çıkartma oluşturuluyor brat...",
       "error": "❌ brat oluşturulurken hata oluştu: {{message}}",
       "empty": "API boş bir resim döndürdü.",
       "unknown": "Bilinmeyen hata"
     },
     "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Nasıl kullanılır:\n│ brat2 <texto>\n│\n╰─ Örnek:\n   brat2 bugün ortadan kayboluyorum"
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Nasıl kullanılır:\n│ brat2 <metin>\n│\n╰─ Örnek:\n   brat2 bugün ortadan kayboluyorum"
     },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
@@ -222,8 +222,8 @@
       },
       "cmds": {
         "ping": "ping",
-        "dono": "owner",
-        "infobot": "botinfo",
+        "dono": "sahip",
+        "infobot": "botbilgisi",
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
@@ -244,9 +244,9 @@
         "instagram": "instagram",
         "pinterest": "pinterest",
         "admins": "admins",
-        "rankativo": "rankactive",
-        "rankinativo": "rankinactive",
-        "checkativo": "checkactive",
+        "rankativo": "aktifsiralama",
+        "rankinativo": "pasifsiralama",
+        "checkativo": "aktiflikkontrolu",
         "hidetag": "hidetag",
         "del": "del",
         "gp": "gp",
@@ -265,10 +265,10 @@
         "eval": "eval",
         "cmdnf": "cmdnf",
         "idioma": "idioma",
-        "nomebot": "nomebot",
-        "nomedono": "nomedono",
+        "nomebot": "botname",
+        "nomedono": "ownername",
         "numerodono": "numerodono",
-        "prefixo": "prefixo",
+        "prefixo": "onek",
         "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
@@ -376,19 +376,19 @@
       "defaultMessage": "Adminler çağrıldı!"
     },
     "rankativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ There is no activity registered in this group yet.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ Grup bilgisi alınamadı.",
+      "empty": "❌ Bu grupta henüz etkinlik kaydı yok.",
+      "item": "{{pos}}. {{user}} - toplam: {{total}} | mesaj: {{messages}} | komut: {{commands}} | çıkartma: {{stickers}}",
       "text": "╭─「 *AKTİF SIRALAMA* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ No members found in the group.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ Grup bilgisi alınamadı.",
+      "empty": "❌ Grupta üye bulunamadı.",
+      "item": "{{pos}}. {{user}} - toplam: {{total}} | mesaj: {{messages}} | komut: {{commands}} | çıkartma: {{stickers}}",
       "text": "╭─「 *AKTİF OLMAYAN SIRALAMA* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
-      "lidFailed": "❌ Could not resolve the mentioned user.",
+      "lidFailed": "❌ Etiketlenen kullanıcının LID bilgisi çözümlenemedi.",
       "text": "╭─「 *AKTİFLİK KONTROLÜ* 」\n│\n│ kullanıcı: {{user}}\n│ konum: {{position}}\n│ toplam: {{total}}\n│ mesaj: {{messages}}\n│ komut: {{commands}}\n│ çıkartma: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
@@ -449,25 +449,25 @@
       "opened": "🔓 Grubu açın! Herkes mesaj gönderebilir."
     },
     "kick": {
-      "noMention": "❌ Kaldırmak istediğiniz kullanıcıyı belirtin.\n\nKullanım: @kullanıcıyı tekmele",
+      "noMention": "❌ Kaldırmak istediğiniz kullanıcıyı etiketleyin.\n\nKullanım: kick @kullanici",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "success": "✅ Kullanıcı başarıyla kaldırıldı!",
       "error": "❌ Kullanıcı kaldırılırken hata oluştu: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Tanıtmak istediğiniz kullanıcıdan bahsedin.\n\nKullanım: @kullanıcıyı tanıtın",
+      "noMention": "❌ Yönetici yapmak istediğiniz kullanıcıyı etiketleyin.\n\nKullanım: promote @kullanici",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "success": "✅ Kullanıcı yöneticiliğe yükseltildi!",
       "error": "❌ Kullanıcı tanıtılırken hata oluştu: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Düşürmek istediğiniz yöneticiden bahsedin.\n\nKullanım: @kullanıcının rütbesini düşürmek",
+      "noMention": "❌ Yetkisini almak istediğiniz yöneticiyi etiketleyin.\n\nKullanım: demote @kullanici",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "success": "✅ Yönetici normal üyeliğe indirildi!",
       "error": "❌ Yöneticinin rütbesi düşürülürken hata oluştu: {{error}}"
     },
     "nomegp": {
-      "noArgs": "❌ Yeni adı girin.\n\nKullanım: gpname <isim>",
+      "noArgs": "❌ Yeni adı girin.\n\nKullanım: groupname <isim>",
       "success": "✅ Grup adı *{{name}}* olarak değiştirildi!"
     },
     "descgp": {
@@ -476,7 +476,7 @@
     },
     "legendabv": {
       "params": "@kullanici → kullanıcıyı etiketler\n│ @isim → kullanıcının adı\n│ @grup → grubun adı\n│ @toplam → toplam üye sayısı\n│ @aciklama → grup açıklaması",
-      "header": "╭─「 *BV BAŞLIĞI* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Mevcut altyazı:*\n│ {{current}}\n│\n╰─ Kullanım: captionbv <texto>",
+      "header": "╭─「 *HOŞ GELDİN MESAJI* 」\n│\n│ *Kullanılabilir yer tutucular:*\n│ {{params}}\n│\n│ *Geçerli mesaj:*\n│ {{current}}\n│\n╰─ Kullanım: legendabv <mesaj>",
       "updated": "✅ Hoş geldiniz başlığı güncellendi!\n\n{{text}}"
     },
     "midiabv": {
@@ -504,7 +504,7 @@
       "error": "╭─「 *DEĞERLENDİRME HATASI* 」\n│\n│ ✦ Kod: {{code}}\n│\n├─「 *HATA* 」\n│\n│ {{error}}\n│\n╰─ Yürütme hatası."
     },
     "idioma": {
-      "current": "🌐 Geçerli küresel dil: *{{language}}*\n\nKullanım: idioma <{{options}}>",
+      "current": "🌐 Geçerli küresel dil: *{{language}}*\n\nKullanım: language <{{options}}>",
       "updated": "✅ Küresel dil *{{language}}* olarak güncellendi.",
       "invalid": "❌ Geçersiz dil. Kullanım: {{optionsList}}",
       "i18nAliases": {
@@ -544,12 +544,12 @@
       }
     },
     "nomebot": {
-      "current": "🤖 Mevcut bot adı: *{{value}}*\n\nKullanım: nomebot <yeni ad>",
+      "current": "🤖 Geçerli bot adı: *{{value}}*\n\nKullanım: botname <yeni ad>",
       "invalid": "❌ Bot için geçerli bir ad girin.",
       "updated": "✅ Bot adı *{{value}}* olarak güncellendi."
     },
     "nomedono": {
-      "current": "👑 Sahibinin şu anki adı: *{{value}}*\n\nKullanım: nomedono <yeni ad>",
+      "current": "👑 Geçerli sahip adı: *{{value}}*\n\nKullanım: ownername <yeni ad>",
       "invalid": "❌ Sahip için geçerli bir ad girin.",
       "updated": "✅ Sahip adı *{{value}}* olarak güncellendi."
     },
@@ -560,8 +560,8 @@
       "updatedNoLid": "✅ Sahip numarası *{{value}}* olarak güncellendi.\n⚠️ Yeni LID'i şimdi çözemedim; önceki LID güncellenene kadar tutuldu."
     },
     "prefixo": {
-      "current": "⌨️ Geçerli önek: *{{value}}*\n\nKullanım: önek <yeni önek>",
-      "invalid": "❌ prefixo boşluksuz ve en fazla 5 karakter kullanın.",
+      "current": "⌨️ Geçerli önek: *{{value}}*\n\nKullanım: prefix <yeni önek>",
+      "invalid": "❌ Boşluk içermeyen ve en fazla 5 karakterden oluşan bir önek kullanın.",
       "updated": "✅ Önek *{{value}}* olarak güncellendi."
     },
     "apikey": {
@@ -579,7 +579,7 @@
       "disabled": "✅ Anti-PV devre dışı bırakıldı. Bot yine özel olarak yanıt verdi."
     },
     "statusbot": {
-      "text": "╭─「 *DURUM BOT* 」\n│\n│ bot: {{bot}}\n│ sahip: {{owner}}\n│ sayı: {{ownerNumber}}\n│ gün: {{user}}\n│ prefixo genel: {{prefix}}\n│ idioma: {{language}}\n│ otomatik güncelleme: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ kayıtlı gruplar: {{groups}}\n│ gruplar bangp: {{bannedGroups}}\n│ engellenen kullanıcılar: {{blockedUsers}}\n│ engellenen komutlar: {{blockedCommands}}\n│ çalışma süresi: {{uptime}}\n│\n╰─"
+      "text": "╭─「 *BOT DURUMU* 」\n│\n│ bot: {{bot}}\n│ sahip: {{owner}}\n│ numara: {{ownerNumber}}\n│ jid: {{user}}\n│ genel önek: {{prefix}}\n│ dil: {{language}}\n│ otomatik güncelleme: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ kayıtlı gruplar: {{groups}}\n│ bangp grupları: {{bannedGroups}}\n│ engellenen kullanıcılar: {{blockedUsers}}\n│ engellenen komutlar: {{blockedCommands}}\n│ çalışma süresi: {{uptime}}\n│\n╰─"
     },
     "debug": {
       "enabled": "✅ Mesaj debug aktif. Tüm mesaj olayları terminale yazdırılacak.",
@@ -597,7 +597,7 @@
       "confirm": "👋 Bu gruptan ayrılıyorum..."
     },
     "idiomagp": {
-      "current": "🌐 Grup dili: *{{language}}*\n(Küresel: {{global}})\n\nKullanım: groupbhasha <{{options}}|{{reset}}>",
+      "current": "🌐 Grup dili: *{{language}}*\n(Küresel: {{global}})\n\nKullanım: languagegroup <{{options}}|{{reset}}>",
       "updated": "✅ Grup dili *{{language}}* olarak güncellendi.",
       "reset": "✅ Grup dili global olarak sıfırlandı (*{{language}}*).",
       "invalid": "❌ Geçersiz dil. Kullanın: {{optionsList}} (veya küresel dil için \"{{reset}}\")",
@@ -644,7 +644,7 @@
     },
     "setprefixgp": {
       "current": "⌨️ Geçerli önek: *{{value}}*\nEvrensel önek: *{{global}}*\n\nKullanım: setprefixgp <yeni önek>\nSıfırlamak için: setprefixgp {{reset}}",
-      "invalid": "❌ prefixo boşluksuz ve en fazla 5 karakter kullanın.",
+      "invalid": "❌ Boşluk içermeyen ve en fazla 5 karakterden oluşan bir önek kullanın.",
       "updated": "✅ Bu grubun öneki *{{value}}* olarak güncellendi.",
       "reset": "✅ Bu grubun öneki global (*{{value}}*) olarak sıfırlandı."
     },
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ bangp'da hiçbir grup yok.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ toplam: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ toplam: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "neden",
+      "sinceLabel": "başlangıç"
     },
     "blockuser": {
       "noMention": "❌ Kullanıcıdan bahsedin.\n\nKullanım: kullanıcıyı engelle @kullanıcı [30 dk|12 saat|7 gün] [sebep]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌Hiçbir kullanıcı engellenmez.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ toplam: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ toplam: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "sona erme",
+      "reasonLabel": "neden"
     },
     "blockcmd": {
       "noArgs": "❌ Kullanım: Blockcmd <komut>",

@@ -22,7 +22,7 @@
     "invalidPhone": "Número inválido.",
     "sessionDetected": "Sesión existente detectada. Conectando automáticamente...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "version",
       "configure": "Configurar bot",
       "start": "Iniciar bot",
@@ -184,10 +184,10 @@
       "footer": "Powered By {{botName}}."
     },
     "dono": {
-      "text": "╭─「 *DUEÑO* 」\n│\n│ nombre: {{owner}}\n│ número: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *PROPIETARIO* 」\n│\n│ nombre: {{owner}}\n│ número: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *INFO BOT* 」\n│\n│ nombre: {{bot}}\n│ dueño: {{owner}}\n│ prefijo: {{prefix}}\n│ idioma: {{language}}\n│ activo hace: {{uptime}}\n│ memoria: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *INFO DEL BOT* 」\n│\n│ nombre: {{bot}}\n│ propietario: {{owner}}\n│ prefijo: {{prefix}}\n│ idioma: {{language}}\n│ tiempo activo: {{uptime}}\n│ memoria: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ Cómo usar:\n│   envía o responde una foto con:\n│   s\n│\n│   envía o responde un video con:\n│   sticker\n│\n╰─ Resultado: sticker cuadrado",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ Ningún grupo está en bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "motivo",
+      "sinceLabel": "desde"
     },
     "blockuser": {
       "noMention": "❌ Menciona al usuario.\n\nUso: blockuser @usuario [30m|12h|7d] [motivo]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ Ningún usuario está bloqueado.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "expira",
+      "reasonLabel": "motivo"
     },
     "blockcmd": {
       "noArgs": "❌ Uso: blockcmd <comando>",

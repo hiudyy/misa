@@ -22,7 +22,7 @@
     "invalidPhone": "Invalid number.",
     "sessionDetected": "Existing session detected. Connecting automatically...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "version",
       "configure": "Configure bot",
       "start": "Start bot",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ No groups are in bangp mode.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "reason",
+      "sinceLabel": "since"
     },
     "blockuser": {
       "noMention": "❌ Mention a user.\n\nUsage: blockuser @user [30m|12h|7d] [reason]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ No users are blocked.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "expires",
+      "reasonLabel": "reason"
     },
     "blockcmd": {
       "noArgs": "❌ Usage: blockcmd <command>",

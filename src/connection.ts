@@ -185,7 +185,7 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
     version,
     auth: state,
     logger,
-    browser: Browsers.ubuntu(config.botName || "Misa"),
+    browser: Browsers.ubuntu(config.botName),
   });
 
   misa.ev.on("creds.update", saveCreds);

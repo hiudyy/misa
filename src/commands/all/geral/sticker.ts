@@ -9,6 +9,24 @@ import { sendSticker } from "../../../helpers/sticker.js";
 
 const MAX_VIDEO_SECONDS = 15;
 
+function getStickerErrorMessage(error: unknown, t: (key: string, vars?: Record<string, string>) => string): string {
+  if (!(error instanceof Error)) return t("commands.sticker.unknown");
+
+  const internalMessages = [
+    "Falha ao baixar mídia",
+    "Download vazio",
+    "Entrada de sticker inválida",
+    "Conversão falhou",
+    "Buffer inválido/vazio",
+  ];
+
+  if (internalMessages.some((message) => error.message.startsWith(message))) {
+    return t("commands.sticker.unknown");
+  }
+
+  return error.message;
+}
+
 export function createStickerCommand(
   name: "sticker" | "sticker2",
   aliases: string[],
@@ -68,7 +86,7 @@ export function createStickerCommand(
           from,
           {
             text: t("commands.sticker.error", {
-              message: error instanceof Error ? error.message : t("commands.sticker.unknown"),
+              message: getStickerErrorMessage(error, t),
             }),
           },
           { quoted: message as WAMessage },

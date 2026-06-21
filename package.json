@@ -1,11 +1,12 @@
 {
   "name": "misa-bot",
-  "version": "beta-0.0.6",
+  "version": "beta-0.0.7",
   "description": "Misa - Bot de WhatsApp modular com Baileys",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "check:i18n": "node scripts/check-i18n.mjs",
+    "test:i18n": "tsx scripts/test-localized-tokens.ts",
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/start.ts",
     "start:fast": "tsx src/index.ts"

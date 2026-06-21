@@ -30,13 +30,13 @@ export function parseDurationMs(value: string): number | null {
   }
 }
 
-export function formatExpiresAt(expiresAt: string | null | undefined, fallback: string): string {
+export function formatExpiresAt(expiresAt: string | null | undefined, fallback: string, locale = "pt-BR"): string {
   if (!expiresAt) return fallback;
 
   const date = new Date(expiresAt);
   if (Number.isNaN(date.getTime())) return fallback;
 
-  return date.toLocaleString("pt-BR", {
+  return date.toLocaleString(locale, {
     dateStyle: "short",
     timeStyle: "short",
   });

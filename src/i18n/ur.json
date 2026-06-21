@@ -22,7 +22,7 @@
     "invalidPhone": "غلط نمبر۔",
     "sessionDetected": "موجودہ سیشن مل گیا۔ خودکار طور پر کنیکٹ کیا جا رہا ہے...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "ورژن",
       "configure": "بوٹ سیٹ کریں",
       "start": "بوٹ شروع کریں",
@@ -181,33 +181,33 @@
       "uptime": "فعال ہے",
       "memory": "میموری",
       "ownerStatus": "حیثیت: مالک",
-      "footer": "Powered By {{botName}}."
+      "footer": "{{botName}} کے ذریعے چلایا جا رہا ہے۔"
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *مالک* 」\n│\n│ نام: {{owner}}\n│ نمبر: {{ownerNumber}}\n│ بوٹ: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *بوٹ معلومات* 」\n│\n│ نام: {{bot}}\n│ مالک: {{owner}}\n│ پریفکس: {{prefix}}\n│ زبان: {{language}}\n│ چلنے کا وقت: {{uptime}}\n│ میموری: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
-      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ استعمال:\n│   تصویر بھیجیں یا reply کریں:\n│   s\n│\n│   ویڈیو بھیجیں یا reply کریں:\n│   sticker\n│\n╰─ نتیجہ: مربع اسٹیکر",
+      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ استعمال:\n│   تصویر بھیجیں یا اس کا جواب دیں:\n│   s\n│\n│   ویڈیو بھیجیں یا اس کا جواب دیں:\n│   sticker\n│\n╰─ نتیجہ: مربع اسٹیکر",
       "creating": "🪄 اسٹیکر بنایا جا رہا ہے...",
       "videoTooLong": "❌ ویڈیو زیادہ سے زیادہ {{max}} سیکنڈ کی ہو سکتی ہے۔",
       "error": "❌ اسٹیکر بناتے وقت خرابی: {{message}}",
       "unknown": "نامعلوم خرابی"
     },
     "sticker2": {
-      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ استعمال:\n│   تصویر بھیجیں یا reply کریں:\n│   s2\n│\n│   ویڈیو بھیجیں یا reply کریں:\n│   sticker2\n│\n╰─ نتیجہ: اصل format برقرار رکھتا ہے"
+      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ استعمال:\n│   تصویر بھیجیں یا اس کا جواب دیں:\n│   s2\n│\n│   ویڈیو بھیجیں یا اس کا جواب دیں:\n│   sticker2\n│\n╰─ نتیجہ: اصل فارمیٹ برقرار رہتا ہے"
     },
     "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ استعمال:\n│   brat <text>\n│\n╰─ مثال:\n   brat maine kaha tha",
+      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ استعمال:\n│   brat <متن>\n│\n╰─ مثال:\n   brat maine kaha tha",
       "creating": "🖼️ brat اسٹیکر بنایا جا رہا ہے...",
       "error": "❌ brat بناتے وقت خرابی: {{message}}",
       "empty": "API نے خالی تصویر واپس کی۔",
       "unknown": "نامعلوم خرابی"
     },
     "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ استعمال:\n│   brat2 <text>\n│\n╰─ مثال:\n   brat2 aaj main ghaib ho jaunga"
+      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ استعمال:\n│   brat2 <متن>\n│\n╰─ مثال:\n   brat2 aaj main ghaib ho jaunga"
     },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
@@ -222,8 +222,8 @@
       },
       "cmds": {
         "ping": "ping",
-        "dono": "owner",
-        "infobot": "botinfo",
+        "dono": "malik",
+        "infobot": "botmaloomat",
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
@@ -244,9 +244,9 @@
         "instagram": "instagram",
         "pinterest": "pinterest",
         "admins": "admins",
-        "rankativo": "rankactive",
-        "rankinativo": "rankinactive",
-        "checkativo": "checkactive",
+        "rankativo": "faalrank",
+        "rankinativo": "ghairfaalrank",
+        "checkativo": "faalcheck",
         "hidetag": "hidetag",
         "del": "del",
         "gp": "gp",
@@ -264,11 +264,11 @@
         "midiabv": "midiabv",
         "eval": "eval",
         "cmdnf": "cmdnf",
-        "idioma": "idioma",
-        "nomebot": "nomebot",
-        "nomedono": "nomedono",
+        "idioma": "zaban",
+        "nomebot": "botname",
+        "nomedono": "ownername",
         "numerodono": "numerodono",
-        "prefixo": "prefixo",
+        "prefixo": "prefix",
         "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
@@ -376,28 +376,28 @@
       "defaultMessage": "admins کو بلایا گیا!"
     },
     "rankativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ There is no activity registered in this group yet.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ گروپ کی معلومات حاصل نہ ہو سکیں۔",
+      "empty": "❌ اس گروپ میں ابھی تک کوئی سرگرمی درج نہیں ہوئی۔",
+      "item": "{{pos}}. {{user}} - کل: {{total}} | پیغامات: {{messages}} | کمانڈز: {{commands}} | اسٹیکرز: {{stickers}}",
       "text": "╭─「 *فعال رینک* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ No members found in the group.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ گروپ کی معلومات حاصل نہ ہو سکیں۔",
+      "empty": "❌ گروپ میں کوئی رکن نہیں ملا۔",
+      "item": "{{pos}}. {{user}} - کل: {{total}} | پیغامات: {{messages}} | کمانڈز: {{commands}} | اسٹیکرز: {{stickers}}",
       "text": "╭─「 *غیر فعال رینک* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
-      "lidFailed": "❌ Could not resolve the mentioned user.",
+      "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "text": "╭─「 *فعال چیک* 」\n│\n│ صارف: {{user}}\n│ پوزیشن: {{position}}\n│ کل: {{total}}\n│ پیغامات: {{messages}}\n│ کمانڈز: {{commands}}\n│ اسٹیکرز: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ گروپ کی معلومات حاصل نہ ہو سکیں۔",
       "noMembers": "❌ گروپ میں کوئی رکن نہیں ملا۔",
-      "defaultMessage": "سب کو mention کیا گیا!"
+      "defaultMessage": "سب کو مینشن کیا گیا!"
     },
     "del": {
-      "noQuoted": "❌ جس پیغام کو حذف کرنا ہے اس پر reply کریں.\n\nاستعمال: del (کسی پیغام کا reply کریں)",
+      "noQuoted": "❌ جس پیغام کو حذف کرنا ہے اس کا جواب دیں.\n\nاستعمال: del (کسی پیغام کا جواب دیں)",
       "success": "✅ پیغام کامیابی سے حذف ہو گیا!",
       "error": "❌ پیغام حذف کرتے وقت خرابی: {{error}}"
     },
@@ -408,7 +408,7 @@
       "punishmentUpdated": "✅ Anti-link کی سزا *{{value}}* پر اپڈیٹ کر دی گئی۔",
       "invalidPunishment": "❌ استعمال کریں: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Anti-link متن اپڈیٹ کر دیا گیا!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n│\n╰─ استعمال: antilink {{text}} <پیغام>",
+      "textHeader": "╭─「 *اینٹی لنک پیغام* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n│\n╰─ استعمال: antilink {{text}} <پیغام>",
       "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <پیغام>",
       "params": "@قسم → پتہ لگائے گئے link کی قسم"
     },
@@ -419,7 +419,7 @@
       "punishmentUpdated": "✅ گروپ anti-link کی سزا *{{value}}* پر اپڈیٹ کر دی گئی۔",
       "invalidPunishment": "❌ استعمال کریں: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ گروپ anti-link متن اپڈیٹ کر دیا گیا!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n│\n╰─ استعمال: antilinkgp {{text}} <پیغام>",
+      "textHeader": "╭─「 *گروپ اینٹی لنک پیغام* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n│\n╰─ استعمال: antilinkgp {{text}} <پیغام>",
       "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <پیغام>",
       "params": "@قسم → پتہ لگائے گئے link کی قسم"
     },
@@ -430,7 +430,7 @@
       "punishmentUpdated": "✅ چینل anti-link کی سزا *{{value}}* پر اپڈیٹ کر دی گئی۔",
       "invalidPunishment": "❌ استعمال کریں: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ چینل anti-link متن اپڈیٹ کر دیا گیا!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n│\n╰─ استعمال: antilinkch {{text}} <پیغام>",
+      "textHeader": "╭─「 *چینل اینٹی لنک پیغام* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n│\n╰─ استعمال: antilinkch {{text}} <پیغام>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <پیغام>",
       "params": "@قسم → پتہ لگائے گئے link کی قسم"
     },
@@ -440,8 +440,8 @@
       "punished": "🚫 @{{user}} کو {{seconds}}s میں {{count}} stealth messages بھیجنے پر نکال دیا گیا۔"
     },
     "bemvindo": {
-      "enabled": "✅ اس گروپ میں Welcome *فعال* ہے!",
-      "disabled": "❌ اس گروپ میں Welcome *غیرفعال* ہے۔"
+      "enabled": "✅ اس گروپ میں خوش آمدید پیغام *فعال* ہے!",
+      "disabled": "❌ اس گروپ میں خوش آمدید پیغام *غیرفعال* ہے۔"
     },
     "gp": {
       "usage": "╭─「 *GROUP* 」\n│\n│ ✦ gp {{open}} → گروپ کھولیں\n│ ✦ gp {{close}} → گروپ بند کریں\n\n╰─",
@@ -449,53 +449,53 @@
       "opened": "🔓 گروپ کھلا ہے! سب لوگ پیغامات بھیج سکتے ہیں۔"
     },
     "kick": {
-      "noMention": "❌ جس صارف کو ہٹانا ہے اسے mention کریں.\n\nاستعمال: kick @صارف",
-      "lidFailed": "❌ mention کیے گئے صارف کا LID حل نہ ہو سکا۔",
+      "noMention": "❌ جس صارف کو ہٹانا ہے اسے ٹیگ کریں.\n\nاستعمال: kick @صارف",
+      "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "success": "✅ صارف کامیابی سے ہٹا دیا گیا!",
       "error": "❌ صارف کو ہٹاتے وقت خرابی: {{error}}"
     },
     "promote": {
-      "noMention": "❌ جس صارف کو promote کرنا ہے اسے mention کریں.\n\nاستعمال: promote @صارف",
-      "lidFailed": "❌ mention کیے گئے صارف کا LID حل نہ ہو سکا۔",
+      "noMention": "❌ جس صارف کو ایڈمن بنانا ہے اسے ٹیگ کریں.\n\nاستعمال: promote @صارف",
+      "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "success": "✅ صارف کو ایڈمن بنا دیا گیا!",
-      "error": "❌ صارف کو promote کرتے وقت خرابی: {{error}}"
+      "error": "❌ صارف کو ایڈمن بناتے وقت خرابی: {{error}}"
     },
     "demote": {
-      "noMention": "❌ جس ایڈمن کو demote کرنا ہے اسے mention کریں.\n\nاستعمال: demote @صارف",
-      "lidFailed": "❌ mention کیے گئے صارف کا LID حل نہ ہو سکا۔",
+      "noMention": "❌ جس ایڈمن کو عہدے سے ہٹانا ہے اسے ٹیگ کریں.\n\nاستعمال: demote @صارف",
+      "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "success": "✅ ایڈمن کو عام رکن بنا دیا گیا!",
-      "error": "❌ ایڈمن کو demote کرتے وقت خرابی: {{error}}"
+      "error": "❌ ایڈمن کو عہدے سے ہٹاتے وقت خرابی: {{error}}"
     },
     "nomegp": {
-      "noArgs": "❌ نیا نام درج کریں.\n\nاستعمال: nomegp <nome>",
+      "noArgs": "❌ نیا نام درج کریں.\n\nاستعمال: groupname <نام>",
       "success": "✅ گروپ کا نام *{{name}}* کر دیا گیا!"
     },
     "descgp": {
-      "noArgs": "❌ نئی تفصیل درج کریں.\n\nاستعمال: descgp <descrição>",
+      "noArgs": "❌ نئی تفصیل درج کریں.\n\nاستعمال: groupdesc <تفصیل>",
       "success": "✅ گروپ کی تفصیل اپڈیٹ کر دی گئی!"
     },
     "legendabv": {
-      "params": "@صارف → صارف کو mention کرتا ہے\n│ @نام → صارف کا نام\n│ @گروپ → گروپ کا نام\n│ @کل → اراکین کی کل تعداد\n│ @تفصیل → گروپ کی تفصیل",
-      "header": "╭─「 *LEGENDA BV* 」\n│\n│ *دستیاب parameters:*\n│ {{params}}\n│\n│ *موجودہ caption:*\n│ {{current}}\n│\n╰─ استعمال کریں: legendabv <texto>",
-      "updated": "✅ Welcome caption اپڈیٹ کر دی گئی!\n\n{{text}}"
+      "params": "@صارف → صارف کو مینشن کرتا ہے\n│ @نام → صارف کا نام\n│ @گروپ → گروپ کا نام\n│ @کل → اراکین کی کل تعداد\n│ @تفصیل → گروپ کی تفصیل",
+      "header": "╭─「 *خوش آمدید پیغام* 」\n│\n│ *دستیاب پیرامیٹرز:*\n│ {{params}}\n│\n│ *موجودہ پیغام:*\n│ {{current}}\n│\n╰─ استعمال: legendabv <پیغام>",
+      "updated": "✅ خوش آمدید پیغام اپڈیٹ کر دیا گیا!\n\n{{text}}"
     },
     "midiabv": {
-      "removed": "✅ Welcome media حذف کر دی گئی۔",
-      "noMedia": "╭─「 *WELCOME MEDIA* 」\n│\n│ ✦ حیثیت: {{status}}\n\n│ کوئی تصویر یا ویڈیو بھیجیں، یا اس کا reply کریں۔\n│ ویڈیوز: زیادہ سے زیادہ 15 سیکنڈ (gif کے طور پر بھیجی جائیں گی)。\nہٹانے کے لیے: midiabv {{off}}\n\n╰─",
+      "removed": "✅ خوش آمدید میڈیا حذف کر دی گئی۔",
+      "noMedia": "╭─「 *خوش آمدید میڈیا* 」\n│\n│ ✦ حیثیت: {{status}}\n\n│ کوئی تصویر یا ویڈیو بھیجیں، یا اس کا جواب دیں۔\n│ ویڈیوز: زیادہ سے زیادہ 15 سیکنڈ (gif کے طور پر بھیجی جائیں گی)۔\n│ ہٹانے کے لیے: midiabv {{off}}\n\n╰─",
       "statusVideo": "ویڈیو 🎥 ✅",
       "statusImage": "تصویر 🖼️ ✅",
       "statusNone": "کوئی میڈیا نہیں ❌",
       "videoTooLong": "❌ ویڈیو {{seconds}}s کی ہے۔ زیادہ سے زیادہ اجازت: {{max}}s۔",
-      "successVideo": "✅ Welcome video سیٹ کر دی گئی!",
-      "successImage": "✅ Welcome image سیٹ کر دی گئی!"
+      "successVideo": "✅ خوش آمدید ویڈیو سیٹ کر دی گئی!",
+      "successImage": "✅ خوش آمدید تصویر سیٹ کر دی گئی!"
     },
     "cmdnf": {
-      "params": "@صارف → صارف کو mention کرتا ہے\n│ @نام → صارف کا نام\n│ @کمانڈ → لکھا گیا کمانڈ\n│ @مشابہ → سب سے ملتا جلتا کمانڈ\n│ @مماثلت → مماثلت کا فیصد\n│ @پریفکس → موجودہ پریفکس\n│ @بوٹ → بوٹ کا نام",
-      "header": "╭─「 *CMDNF* 」\n│\n│ *موجودہ mode:* {{mode}}\n│ *موجودہ متن:* {{text}}\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *استعمال:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <پیغام>\n\n╰─",
-      "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
-      "modeUpdated": "✅ Command-not-found mode کو *{{mode}}* پر اپڈیٹ کر دیا گیا۔",
-      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *دستیاب placeholders:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <پیغام>",
-      "textUpdated": "✅ Command-not-found متن اپڈیٹ کر دیا گیا!\n\n{{text}}",
+      "params": "@صارف → صارف کو مینشن کرتا ہے\n│ @نام → صارف کا نام\n│ @کمانڈ → لکھا گیا کمانڈ\n│ @مشابہ → سب سے ملتا جلتا کمانڈ\n│ @مماثلت → مماثلت کا فیصد\n│ @پریفکس → موجودہ پریفکس\n│ @بوٹ → بوٹ کا نام",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *موجودہ موڈ:* {{mode}}\n│ *موجودہ متن:* {{text}}\n│\n│ *دستیاب پلیس ہولڈرز:*\n│ {{params}}\n│\n│ *استعمال:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <پیغام>\n\n╰─",
+      "invalidMode": "❌ استعمال کریں: cmdnf {{mode}} {{text}} | {{mention}}",
+      "modeUpdated": "✅ کمانڈ نہ ملنے والا mode *{{mode}}* پر اپڈیٹ کر دیا گیا۔",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *دستیاب پلیس ہولڈرز:*\n│ {{params}}\n│\n│ *موجودہ متن:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <پیغام>",
+      "textUpdated": "✅ کمانڈ نہ ملنے والا متن اپڈیٹ کر دیا گیا!\n\n{{text}}",
       "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <پیغام>"
     },
     "eval": {
@@ -504,7 +504,7 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ چلانے میں خرابی۔"
     },
     "idioma": {
-      "current": "🌐 موجودہ عالمی زبان: *{{language}}*\n\nاستعمال: language <{{options}}>",
+      "current": "🌐 موجودہ عالمی زبان: *{{language}}*\n\nاستعمال: zaban <{{options}}>",
       "updated": "✅ عالمی زبان کو *{{language}}* پر اپڈیٹ کر دیا گیا۔",
       "invalid": "❌ غلط زبان۔ استعمال کریں: {{optionsList}}",
       "i18nAliases": {
@@ -550,17 +550,17 @@
       }
     },
     "nomebot": {
-      "current": "🤖 موجودہ بوٹ نام: *{{value}}*\n\nاستعمال: nomebot <novo nome>",
+      "current": "🤖 موجودہ بوٹ نام: *{{value}}*\n\nاستعمال: botname <نیا نام>",
       "invalid": "❌ بوٹ کے لیے درست نام درج کریں۔",
       "updated": "✅ بوٹ کا نام *{{value}}* پر اپڈیٹ کر دیا گیا۔"
     },
     "nomedono": {
-      "current": "👑 موجودہ مالک کا نام: *{{value}}*\n\nاستعمال: nomedono <novo nome>",
+      "current": "👑 موجودہ مالک کا نام: *{{value}}*\n\nاستعمال: ownername <نیا نام>",
       "invalid": "❌ مالک کے لیے درست نام درج کریں۔",
       "updated": "✅ مالک کا نام *{{value}}* پر اپڈیٹ کر دیا گیا۔"
     },
     "numerodono": {
-      "current": "📱 موجودہ مالک کا نمبر: *{{value}}*\n\nاستعمال: numerodono <5511999999999>",
+      "current": "📱 موجودہ مالک کا نمبر: *{{value}}*\n\nاستعمال: ownernumber <5511999999999>",
       "invalid": "❌ ملک کے کوڈ کے ساتھ درست نمبر درج کریں۔",
       "updated": "✅ مالک کا نمبر *{{value}}* پر اپڈیٹ کر دیا گیا۔\nLID محفوظ ہو گیا: {{lid}}",
       "updatedNoLid": "✅ مالک کا نمبر *{{value}}* پر اپڈیٹ کر دیا گیا۔\n⚠️ فی الحال نیا LID حل نہ ہو سکا؛ پرانا LID تب تک برقرار رکھا گیا ہے جب تک اپڈیٹ ممکن نہ ہو۔"
@@ -576,16 +576,16 @@
       "cleared": "✅ API key کامیابی سے ہٹا دی گئی۔"
     },
     "autoupdate": {
-      "current": "♻️ موجودہ auto update: *{{value}}*\n\nاستعمال: autoupdate <{{on}}|{{off}}>",
+      "current": "♻️ موجودہ خودکار اپ ڈیٹ: *{{value}}*\n\nاستعمال: autoupdate <{{on}}|{{off}}>",
       "invalid": "❌ استعمال کریں: autoupdate {{on}} | {{off}}",
-      "updated": "✅ Auto update کو *{{value}}* پر اپڈیٹ کر دیا گیا۔"
+      "updated": "✅ خودکار اپ ڈیٹ کو *{{value}}* پر اپڈیٹ کر دیا گیا۔"
     },
     "antipv": {
-      "enabled": "✅ Anti-PV فعال کر دیا گیا۔ بوٹ non-owners کے پرائیویٹ پیغامات کو نظر انداز کرے گا۔",
-      "disabled": "✅ Anti-PV غیرفعال کر دیا گیا۔ بوٹ دوبارہ پرائیویٹ میں جواب دے گا۔"
+      "enabled": "✅ اینٹی پرائیویٹ فعال کر دیا گیا۔ بوٹ غیر مالکوں کے نجی پیغامات نظر انداز کرے گا۔",
+      "disabled": "✅ اینٹی پرائیویٹ غیرفعال کر دیا گیا۔ بوٹ دوبارہ نجی چیٹ میں جواب دے گا۔"
     },
     "statusbot": {
-      "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ مالک: {{owner}}\n│ نمبر: {{ownerNumber}}\n│ jid: {{user}}\n│ عالمی پریفکس: {{prefix}}\n│ زبان: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ محفوظ گروپس: {{groups}}\n│ bangp گروپس: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+      "text": "╭─「 *بوٹ کی حالت* 」\n│\n│ بوٹ: {{bot}}\n│ مالک: {{owner}}\n│ نمبر: {{ownerNumber}}\n│ jid: {{user}}\n│ عالمی پریفکس: {{prefix}}\n│ زبان: {{language}}\n│ خودکار اپ ڈیٹ: {{autoUpdate}}\n│ اینٹی پرائیویٹ: {{antiPrivate}}\n│ محفوظ گروپس: {{groups}}\n│ bangp گروپس: {{bannedGroups}}\n│ بلاک کیے گئے صارفین: {{blockedUsers}}\n│ بلاک کیے گئے کمانڈز: {{blockedCommands}}\n│ چلنے کا وقت: {{uptime}}\n│\n╰─"
     },
     "debug": {
       "enabled": "✅ میسج debug فعال ہے۔ تمام message events ٹرمینل میں log ہوں گے۔",
@@ -667,25 +667,29 @@
     },
     "listbangp": {
       "empty": "❌ کوئی گروپ bangp میں نہیں ہے۔",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "وجہ",
+      "sinceLabel": "سے"
     },
     "blockuser": {
-      "noMention": "❌ صارف کو mention کریں.\n\nاستعمال: blockuser @صارف [30m|12h|7d] [reason]",
-      "lidFailed": "❌ mention کیے گئے صارف کا LID حل نہ ہو سکا۔",
+      "noMention": "❌ صارف کو ٹیگ کریں.\n\nاستعمال: blockuser @صارف [30m|12h|7d] [وجہ]",
+      "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "ownerBypass": "❌ مالک کو block نہیں کیا جا سکتا۔",
       "alreadyBlocked": "❌ یہ صارف پہلے سے block ہے۔",
       "permanent": "مستقل",
       "success": "✅ صارف {{user}} block کر دیا گیا۔\nاختتام: {{expires}}\nوجہ: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ صارف کو mention کریں.\n\nاستعمال: unblockuser @صارف",
-      "lidFailed": "❌ mention کیے گئے صارف کا LID حل نہ ہو سکا۔",
+      "noMention": "❌ صارف کو ٹیگ کریں.\n\nاستعمال: unblockuser @صارف",
+      "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "notBlocked": "❌ یہ صارف block نہیں ہے۔",
       "success": "✅ صارف {{user}} unblock کر دیا گیا۔"
     },
     "listblock": {
       "empty": "❌ کوئی صارف block نہیں ہے۔",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "اختتام",
+      "reasonLabel": "وجہ"
     },
     "blockcmd": {
       "noArgs": "❌ استعمال: blockcmd <comando>",

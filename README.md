@@ -99,7 +99,7 @@ Ainda no menu:
 2. Iniciar bot
 ```
 
-Depois escolha QR Code ou pairing code.
+Depois escolha QR Code ou código de pareamento.
 
 ### 6. Rodar direto
 
@@ -162,7 +162,7 @@ Preencha os dados solicitados, como idioma e nome. Depois volte e escolha:
 2. Iniciar bot
 ```
 
-Use QR Code ou pairing code.
+Use QR Code ou código de pareamento.
 
 ### 5. Iniciar nas próximas vezes
 
@@ -229,7 +229,7 @@ npm start
 
 Escolha `Configurar bot`, preencha os dados (incluindo o idioma) e depois use `Iniciar bot`.
 
-Para pairing code, informe o número com DDI, por exemplo:
+Para código de pareamento, informe o número com DDI, por exemplo:
 
 ```text
 5511999999999
@@ -289,7 +289,7 @@ Use:
 npm run start:fast
 ```
 
-Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code ou pairing code.
+Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code ou código de pareamento.
 
 ### 6. Arquivos importantes
 
@@ -384,7 +384,7 @@ npm start
 2. बॉट शुरू करें
 ```
 
-उसके बाद QR Code या pairing code चुनें।
+उसके बाद QR Code या पेयरिंग कोड चुनें।
 
 ### 6. अगली बार सीधे चलाएँ
 
@@ -445,7 +445,7 @@ npm start
 2. बॉट शुरू करें
 ```
 
-QR Code या pairing code का उपयोग करें।
+QR Code या पेयरिंग कोड का उपयोग करें।
 
 ### 5. अगली बार शुरू करना
 
@@ -572,7 +572,7 @@ npm start
 npm run start:fast
 ```
 
-अगर अभी तक सत्र नहीं है, तो पहले `npm start` चलाकर QR Code या pairing code सेट करें।
+अगर अभी तक सत्र नहीं है, तो पहले `npm start` चलाकर QR Code या पेयरिंग कोड सेट करें।
 
 ### 6. महत्वपूर्ण फ़ाइलें
 
@@ -667,7 +667,7 @@ npm start
 2. بوٹ شروع کریں
 ```
 
-اس کے بعد QR Code یا pairing code منتخب کریں۔
+اس کے بعد QR Code یا پیئرنگ کوڈ منتخب کریں۔
 
 ### 6. اگلی بار براہ راست چلائیں
 
@@ -728,7 +728,7 @@ npm start
 2. بوٹ شروع کریں
 ```
 
-QR Code یا pairing code استعمال کریں۔
+QR Code یا پیئرنگ کوڈ استعمال کریں۔
 
 ### 5. اگلی بار شروع کرنا
 
@@ -855,7 +855,7 @@ npm start
 npm run start:fast
 ```
 
-اگر ابھی تک سیشن نہیں ہے تو پہلے `npm start` چلا کر QR Code یا pairing code سیٹ کریں۔
+اگر ابھی تک سیشن نہیں ہے تو پہلے `npm start` چلا کر QR Code یا پیئرنگ کوڈ سیٹ کریں۔
 
 ### 6. اہم فائلیں
 
@@ -2947,7 +2947,7 @@ npm start
 2. বট চালু করুন
 ```
 
-তারপর QR Code বা pairing code বেছে নিন।
+তারপর QR Code বা পেয়ারিং কোড বেছে নিন।
 
 ### 6. সরাসরি চালান
 
@@ -3010,7 +3010,7 @@ npm start
 2. বট চালু করুন
 ```
 
-QR Code বা pairing code ব্যবহার করুন।
+QR Code বা পেয়ারিং কোড ব্যবহার করুন।
 
 ### 5. পরের বার চালু করুন
 
@@ -3077,7 +3077,7 @@ npm start
 
 `বট কনফিগার করুন` নির্বাচন করুন, তথ্য পূরণ করুন, তারপর `বট চালু করুন` ব্যবহার করুন।
 
-pairing code-এর জন্য দেশের কোড-সহ নম্বর দিন, উদাহরণ:
+পেয়ারিং কোডের জন্য দেশের কোড-সহ নম্বর দিন, উদাহরণ:
 
 ```text
 1234567890
@@ -3137,7 +3137,7 @@ npm start
 npm run start:fast
 ```
 
-যদি এখনো সেশন না থাকে, আগে `npm start` চালিয়ে QR Code বা pairing code সেট করুন।
+যদি এখনো সেশন না থাকে, আগে `npm start` চালিয়ে QR Code বা পেয়ারিং কোড সেট করুন।
 
 ### 6. গুরুত্বপূর্ণ ফাইল
 
