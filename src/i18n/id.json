@@ -181,7 +181,7 @@
       "uptime": "Online selama",
       "memory": "Memori",
       "ownerStatus": "Status: Pemilik",
-      "footer": "Powered By Misa."
+      "footer": "Powered By {{botName}}."
     },
     "dono": {
       "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
