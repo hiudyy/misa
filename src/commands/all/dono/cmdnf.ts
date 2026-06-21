@@ -3,18 +3,9 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
+import { getLocalizedCommandWordVars, getLocalizedToken, resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
-
-const PARAMS = [
-  "@usuario      → menciona o usuário",
-  "@nome         → nome do usuário",
-  "@comando      → comando digitado",
-  "@parecido     → comando mais parecido",
-  "@similaridade → porcentagem de similaridade",
-  "@prefixo      → prefixo atual",
-  "@bot          → nome do bot",
-].join("\n│ ");
 
 const cmdnfCommand: Command = {
   name: "cmdnf",
@@ -22,17 +13,25 @@ const cmdnfCommand: Command = {
   description: "Configura a mensagem de comando não encontrado",
   category: "all",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, t, locale }) {
     const config = await getOwnerConfig();
+    const words = getLocalizedCommandWordVars(locale);
+    const currentMode = config.comandoNaoEncontrado.modo === "mencao"
+      ? getLocalizedToken(locale, "mention")
+      : getLocalizedToken(locale, "text");
 
     if (args.length === 0) {
       await misa.sendMessage(
         from,
         {
           text: t("commands.cmdnf.header", {
-            mode: config.comandoNaoEncontrado.modo,
+            ...words,
+            modeWord: words.mode,
+            textWord: words.text,
+            mentionWord: words.mention,
+            mode: currentMode,
             text: config.comandoNaoEncontrado.texto,
-            params: t("commands.cmdnf.params"),
+            params: t("commands.cmdnf.params", words),
           }),
         },
         { quoted: message as WAMessage },
@@ -40,14 +39,14 @@ const cmdnfCommand: Command = {
       return;
     }
 
-    const action = args[0].toLowerCase();
+    const action = resolveLocalizedToken(locale, args[0], ["mode", "text"]);
 
     if (action === "modo") {
-      const modo = args[1]?.toLowerCase();
+      const modo = resolveLocalizedToken(locale, args[1], ["text", "mention"]);
       if (modo !== "texto" && modo !== "mencao") {
         await misa.sendMessage(
           from,
-          { text: t("commands.cmdnf.invalidMode") },
+          { text: t("commands.cmdnf.invalidMode", words) },
           { quoted: message as WAMessage },
         );
         return;
@@ -58,7 +57,7 @@ const cmdnfCommand: Command = {
 
       await misa.sendMessage(
         from,
-        { text: t("commands.cmdnf.modeUpdated", { mode: modo }) },
+        { text: t("commands.cmdnf.modeUpdated", { mode: getLocalizedToken(locale, modo === "mencao" ? "mention" : "text") }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -70,8 +69,12 @@ const cmdnfCommand: Command = {
           from,
           {
             text: t("commands.cmdnf.textHeader", {
+              ...words,
+              modeWord: words.mode,
+              textWord: words.text,
+              mentionWord: words.mention,
               current: config.comandoNaoEncontrado.texto,
-              params: t("commands.cmdnf.params"),
+              params: t("commands.cmdnf.params", words),
             }),
           },
           { quoted: message as WAMessage },
@@ -93,7 +96,7 @@ const cmdnfCommand: Command = {
     await misa.sendMessage(
       from,
       {
-        text: t("commands.cmdnf.usage"),
+        text: t("commands.cmdnf.usage", words),
       },
       { quoted: message as WAMessage },
     );

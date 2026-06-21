@@ -68,13 +68,13 @@ export async function applyAntiStealth(
   try {
     if (message.key) await misa.sendMessage(groupId, { delete: message.key });
   } catch (error) {
-    log.warn("ANTISTEALTH", `Nao foi possivel apagar a mensagem stealth em ${groupId}: ${String(error)}`);
+    log.warn("ANTISTEALTH", t("logs.antistealthDeleteFailed", locale, { groupId, error: String(error) }));
   }
 
   try {
     await misa.groupParticipantsUpdate(groupId, [sender], "remove");
   } catch (error) {
-    log.warn("ANTISTEALTH", `Nao foi possivel remover ${sender} em ${groupId}: ${String(error)}`);
+    log.warn("ANTISTEALTH", t("logs.antistealthRemoveFailed", locale, { sender, groupId, error: String(error) }));
   }
 
   await misa.sendMessage(groupId, {

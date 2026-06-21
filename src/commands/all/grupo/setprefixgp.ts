@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { getGroup, saveGroup } from "../../../database/groupDB.js";
 import { getBotConfig } from "../../../config.js";
+import { getLocalizedCommandWordVars, matchesLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { Command } from "../../../types/Command.js";
 
 const setprefixgpCommand: Command = {
@@ -19,15 +20,17 @@ const setprefixgpCommand: Command = {
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, t, locale }) {
     const groupConfig = await getGroup(from);
     const globalConfig = await getBotConfig();
+    const words = getLocalizedCommandWordVars(locale);
 
     if (args.length === 0) {
       await misa.sendMessage(
         from,
         {
           text: t("commands.setprefixgp.current", {
+            ...words,
             value: groupConfig.prefix || globalConfig.prefix,
             global: globalConfig.prefix,
           }),
@@ -38,11 +41,11 @@ const setprefixgpCommand: Command = {
     }
 
     const value = args[0]?.trim() || "";
-    if (value === "reset" || value === "off") {
+    if (matchesLocalizedToken(locale, value, "reset") || matchesLocalizedToken(locale, value, "off")) {
       await saveGroup(from, { prefix: undefined });
       await misa.sendMessage(
         from,
-        { text: t("commands.setprefixgp.reset", { value: globalConfig.prefix }) },
+        { text: t("commands.setprefixgp.reset", { ...words, value: globalConfig.prefix }) },
         { quoted: message as WAMessage },
       );
       return;

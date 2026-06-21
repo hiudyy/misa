@@ -4,6 +4,7 @@
  */
 import { proto, WAMessage, WASocket } from "baileys";
 import { getBotConfig } from "../config.js";
+import { replaceLocalizedPlaceholders } from "./localizedTokens.js";
 import { getOwnerConfig } from "../ownerConfig.js";
 import type { Locale } from "../i18n/index.js";
 
@@ -97,14 +98,15 @@ export async function sendUnknownCommandMessage(
     template = t("owner.cmdnf.defaultText", locale);
   }
 
-  const texto = template
-    .replace(/@usuario/g, `@${sender.split("@")[0]}`)
-    .replace(/@nome/g, nome)
-    .replace(/@comando/g, `${prefix}${commandName}`)
-    .replace(/@parecido/g, parecido)
-    .replace(/@similaridade/g, similaridade)
-    .replace(/@prefixo/g, prefix)
-    .replace(/@bot/g, config.botName);
+  const texto = replaceLocalizedPlaceholders(template, locale, {
+    user: `@${sender.split("@")[0]}`,
+    name: nome,
+    command: `${prefix}${commandName}`,
+    similar: parecido,
+    similarity: similaridade,
+    prefix,
+    bot: config.botName,
+  });
 
   await misa.sendMessage(
     from,

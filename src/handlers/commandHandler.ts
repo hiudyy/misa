@@ -5,7 +5,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { SUPPORTED_LOCALES, t } from "../i18n/index.js";
+import { SUPPORTED_LOCALES, createTranslator, getGlobalLocale, t } from "../i18n/index.js";
 import { log } from "../logger.js";
 import { Command } from "../types/Command.js";
 
@@ -13,6 +13,8 @@ export class CommandHandler {
   private readonly commands = new Map<string, Command>();
 
   async loadCommands(commandsDir: string): Promise<void> {
+    const globalLocale = await getGlobalLocale();
+    const globalT = createTranslator(globalLocale);
     const files = await this.walkDir(commandsDir);
     const commandFiles = files.filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
 
@@ -21,7 +23,7 @@ export class CommandHandler {
       const command: Command | undefined = imported.default ?? imported.command;
 
       if (!command?.execute) {
-        log.warn("COMMAND", `Ignorado porque esta invalido: ${file}`);
+        log.warn("COMMAND", globalT("logs.commandInvalid", { file }));
         continue;
       }
 

@@ -3,6 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
+import { resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { setMessageDebugEnabled, toggleMessageDebug } from "../../../helpers/messageDebug.js";
 import { Command } from "../../../types/Command.js";
 
@@ -12,11 +13,11 @@ const debugCommand: Command = {
   description: "Liga ou desliga logs completos dos eventos de mensagem",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
-    const option = args[0]?.toLowerCase();
-    const enabled = option === "on" || option === "ligar" || option === "ativar"
+  async execute({ misa, message, from, args, t, locale }) {
+    const option = resolveLocalizedToken(locale, args[0], ["on", "off"]);
+    const enabled = option === "on"
       ? setMessageDebugEnabled(true)
-      : option === "off" || option === "desligar" || option === "desativar"
+      : option === "off"
         ? setMessageDebugEnabled(false)
         : toggleMessageDebug();
 

@@ -207,7 +207,7 @@ export async function runAutoUpdate(): Promise<void> {
       try {
         await fs.writeFile(packagePath, packageBackup, "utf8");
       } catch (restoreError) {
-        log.error("UPDATE", "Falha ao restaurar package.json.", restoreError);
+        log.error("UPDATE", t("update.restoreFailed"), restoreError);
       }
     }
     await cleanup();

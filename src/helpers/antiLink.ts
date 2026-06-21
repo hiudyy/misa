@@ -4,6 +4,7 @@
  */
 import { proto, WASocket } from "baileys";
 import { getGroup, GroupData } from "../database/groupDB.js";
+import { replaceLocalizedPlaceholders } from "./localizedTokens.js";
 import { log } from "../logger.js";
 import type { Locale } from "../i18n/index.js";
 
@@ -26,12 +27,13 @@ function getDisplayName(message: proto.IWebMessageInfo): string {
   return participant.split("@")[0];
 }
 
-function buildPunishmentText(template: string, sender: string, nome: string, grupo: string, tipo: string): string {
-  return template
-    .replace(/@usuario/g, `@${sender.split("@")[0]}`)
-    .replace(/@nome/g, nome)
-    .replace(/@grupo/g, grupo)
-    .replace(/@tipo/g, tipo);
+function buildPunishmentText(locale: Locale, template: string, sender: string, nome: string, grupo: string, tipo: string): string {
+  return replaceLocalizedPlaceholders(template, locale, {
+    user: `@${sender.split("@")[0]}`,
+    name: nome,
+    group: grupo,
+    type: tipo,
+  });
 }
 
 function detectAntiLink(body: string, config: GroupData): AntiLinkMatch | null {
@@ -93,13 +95,13 @@ export async function applyAntiLink(
     template = t("group.antilink.defaultChannelText", locale);
   }
 
-  const texto = buildPunishmentText(template, sender, nome, grupo, tipoTraduzido);
+  const texto = buildPunishmentText(locale, template, sender, nome, grupo, tipoTraduzido);
 
   if (message.key) {
     try {
       await misa.sendMessage(groupId, { delete: message.key });
     } catch (error) {
-      log.warn("ANTILINK", `Nao foi possivel apagar a mensagem em ${groupId}: ${String(error)}`);
+      log.warn("ANTILINK", t("logs.antilinkDeleteFailed", locale, { groupId, error: String(error) }));
     }
   }
 
@@ -107,7 +109,7 @@ export async function applyAntiLink(
     try {
       await misa.groupParticipantsUpdate(groupId, [sender], "remove");
     } catch (error) {
-      log.warn("ANTILINK", `Nao foi possivel banir ${sender} em ${groupId}: ${String(error)}`);
+      log.warn("ANTILINK", t("logs.antilinkBanFailed", locale, { sender, groupId, error: String(error) }));
     }
   }
 

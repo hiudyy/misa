@@ -68,7 +68,8 @@
     "eventError": "{{name}} में त्रुटि।",
     "configReadFailed": "{{path}} पढ़ा नहीं जा सका।",
     "configMigrated": "कॉन्फ़िगरेशन {{path}} पर माइग्रेट की गई।",
-    "botStarted": "{{botName}} शुरू हो गया है और संदेश प्राप्त करने के लिए तैयार है।"
+    "botStarted": "{{botName}} शुरू हो गया है और संदेश प्राप्त करने के लिए तैयार है।",
+    "updateRestoreFailed": "package.json पुनर्स्थापित नहीं हुआ."
   },
   "errors": {
     "ownerOnly": "❌ यह कमांड केवल बॉट के मालिक के लिए है।",
@@ -378,17 +379,17 @@
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ There is no activity registered in this group yet.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *ACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *सक्रिय रैंक* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ No members found in the group.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *INACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *निष्क्रिय रैंक* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
       "lidFailed": "❌ Could not resolve the mentioned user.",
-      "text": "╭─「 *ACTIVE CHECK* 」\n│\n│ user: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commands: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
+      "text": "╭─「 *सक्रियता जाँच* 」\n│\n│ उपयोगकर्ता: {{user}}\n│ स्थान: {{position}}\n│ कुल: {{total}}\n│ संदेश: {{messages}}\n│ कमांड: {{commands}}\n│ स्टिकर: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ समूह की जानकारी प्राप्त नहीं हो सकी।",
@@ -403,35 +404,35 @@
     "antilink": {
       "enabled": "✅ इस समूह में Anti-link *सक्रिय* है!",
       "disabled": "❌ इस समूह में Anti-link *निष्क्रिय* है।",
-      "settingsHint": "⚙️ सेटिंग्स:\n• antilink punicao apagar\n• antilink punicao banir\n• antilink texto <mensagem>",
+      "settingsHint": "⚙️ सेटिंग्स:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <संदेश>",
       "punishmentUpdated": "✅ Anti-link की सज़ा *{{value}}* पर अपडेट की गई।",
-      "invalidPunishment": "❌ उपयोग करें: antilink punicao apagar | banir",
+      "invalidPunishment": "❌ उपयोग करें: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Anti-link टेक्स्ट अपडेट किया गया!\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग करें: antilink texto <mensagem>",
-      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink punicao apagar\n│ antilink punicao banir\n│ antilink texto <mensagem>",
-      "params": "@usuario   → उपयोगकर्ता को mention करता है\n│ @nome      → उपयोगकर्ता का नाम\n│ @grupo     → समूह का नाम\n│ @tipo      → लिंक का प्रकार"
+      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *उपलब्ध प्लेसहोल्डर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग: antilink {{text}} <संदेश>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <संदेश>",
+      "params": "@प्रकार → पता लगाए गए link का प्रकार"
     },
     "antilinkgp": {
       "enabled": "✅ इस समूह में समूह anti-link *सक्रिय* है!",
       "disabled": "❌ इस समूह में समूह anti-link *निष्क्रिय* है।",
-      "settingsHint": "⚙️ सेटिंग्स:\n• antilinkgp punicao apagar\n• antilinkgp punicao banir\n• antilinkgp texto <mensagem>",
+      "settingsHint": "⚙️ सेटिंग्स:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <संदेश>",
       "punishmentUpdated": "✅ समूह anti-link की सज़ा *{{value}}* पर अपडेट की गई।",
-      "invalidPunishment": "❌ उपयोग करें: antilinkgp punicao apagar | banir",
+      "invalidPunishment": "❌ उपयोग करें: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ समूह anti-link टेक्स्ट अपडेट किया गया!\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINKGP* 」\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग करें: antilinkgp texto <mensagem>",
-      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp punicao apagar\n│ antilinkgp punicao banir\n│ antilinkgp texto <mensagem>",
-      "params": "@usuario   → उपयोगकर्ता को mention करता है\n│ @nome      → उपयोगकर्ता का नाम\n│ @grupo     → समूह का नाम\n│ @tipo      → लिंक का प्रकार"
+      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *उपलब्ध प्लेसहोल्डर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग: antilinkgp {{text}} <संदेश>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <संदेश>",
+      "params": "@प्रकार → पता लगाए गए link का प्रकार"
     },
     "antilinkch": {
       "enabled": "✅ इस समूह में चैनल anti-link *सक्रिय* है!",
       "disabled": "❌ इस समूह में चैनल anti-link *निष्क्रिय* है।",
-      "settingsHint": "⚙️ सेटिंग्स:\n• antilinkch punicao apagar\n• antilinkch punicao banir\n• antilinkch texto <mensagem>",
+      "settingsHint": "⚙️ सेटिंग्स:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <संदेश>",
       "punishmentUpdated": "✅ चैनल anti-link की सज़ा *{{value}}* पर अपडेट की गई।",
-      "invalidPunishment": "❌ उपयोग करें: antilinkch punicao apagar | banir",
+      "invalidPunishment": "❌ उपयोग करें: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ चैनल anti-link टेक्स्ट अपडेट किया गया!\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग करें: antilinkch texto <mensagem>",
-      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensagem>",
-      "params": "@usuario   → उपयोगकर्ता को mention करता है\n│ @nome      → उपयोगकर्ता का नाम\n│ @grupo     → समूह का नाम\n│ @tipo      → लिंक का प्रकार"
+      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *उपलब्ध प्लेसहोल्डर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग: antilinkch {{text}} <संदेश>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <संदेश>",
+      "params": "@प्रकार → पता लगाए गए link का प्रकार"
     },
     "antistealth": {
       "enabled": "✅ इस ग्रुप में anti-stealth *चालू* है।",
@@ -443,24 +444,24 @@
       "disabled": "❌ इस समूह में Welcome *निष्क्रिय* है।"
     },
     "gp": {
-      "usage": "╭─「 *GRUPO* 」\n│\n│ ✦ gp a → समूह खोलता है\n│ ✦ gp f → समूह बंद करता है\n│\n╰─",
+      "usage": "╭─「 *GROUP* 」\n│\n│ ✦ gp {{open}} → ग्रुप खोलें\n│ ✦ gp {{close}} → ग्रुप बंद करें\n\n╰─",
       "closed": "🔒 समूह बंद है! केवल एडमिन संदेश भेज सकते हैं।",
       "opened": "🔓 समूह खुला है! सभी संदेश भेज सकते हैं।"
     },
     "kick": {
-      "noMention": "❌ जिस उपयोगकर्ता को हटाना है उसे mention करें.\n\nउपयोग: kick @usuario",
+      "noMention": "❌ जिस उपयोगकर्ता को हटाना है उसे mention करें.\n\nउपयोग: kick @उपयोगकर्ता",
       "lidFailed": "❌ mention किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "success": "✅ उपयोगकर्ता सफलतापूर्वक हटाया गया!",
       "error": "❌ उपयोगकर्ता हटाते समय त्रुटि: {{error}}"
     },
     "promote": {
-      "noMention": "❌ जिस उपयोगकर्ता को promote करना है उसे mention करें.\n\nउपयोग: promote @usuario",
+      "noMention": "❌ जिस उपयोगकर्ता को promote करना है उसे mention करें.\n\nउपयोग: promote @उपयोगकर्ता",
       "lidFailed": "❌ mention किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "success": "✅ उपयोगकर्ता को एडमिन बनाया गया!",
       "error": "❌ उपयोगकर्ता को promote करते समय त्रुटि: {{error}}"
     },
     "demote": {
-      "noMention": "❌ जिस एडमिन को demote करना है उसे mention करें.\n\nउपयोग: demote @usuario",
+      "noMention": "❌ जिस एडमिन को demote करना है उसे mention करें.\n\nउपयोग: demote @उपयोगकर्ता",
       "lidFailed": "❌ mention किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "success": "✅ एडमिन को सामान्य सदस्य बना दिया गया!",
       "error": "❌ एडमिन को demote करते समय त्रुटि: {{error}}"
@@ -474,13 +475,13 @@
       "success": "✅ समूह का विवरण अपडेट किया गया!"
     },
     "legendabv": {
-      "params": "@usuario   → उपयोगकर्ता को mention करता है\n│ @nome      → उपयोगकर्ता का नाम\n│ @grupo     → समूह का नाम\n│ @total     → सदस्यों की कुल संख्या\n│ @desc      → समूह का विवरण",
+      "params": "@उपयोगकर्ता → उपयोगकर्ता को mention करता है\n│ @नाम → उपयोगकर्ता का नाम\n│ @समूह → समूह का नाम\n│ @कुल → सदस्यों की कुल संख्या\n│ @विवरण → समूह का विवरण",
       "header": "╭─「 *LEGENDA BV* 」\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *वर्तमान caption:*\n│ {{current}}\n│\n╰─ उपयोग करें: legendabv <texto>",
       "updated": "✅ Welcome caption अपडेट की गई!\n\n{{text}}"
     },
     "midiabv": {
       "removed": "✅ Welcome media हटा दी गई।",
-      "noMedia": "╭─「 *MÍDIA BV* 」\n│\n│ ✦ स्थिति: {{status}}\n│\n│ कोई इमेज या वीडियो भेजें या reply करें।\n│ वीडियो: अधिकतम 15 सेकंड (gif के रूप में भेजा जाएगा)।\n│ हटाने के लिए: midiabv off\n│\n╰─",
+      "noMedia": "╭─「 *WELCOME MEDIA* 」\n│\n│ ✦ स्थिति: {{status}}\n\n│ कोई छवि या वीडियो भेजें, या उसका reply करें।\n│ वीडियो: अधिकतम 15 सेकंड (gif के रूप में भेजा जाएगा)।\n│ हटाने के लिए: midiabv {{off}}\n\n╰─",
       "statusVideo": "वीडियो 🎥 ✅",
       "statusImage": "इमेज 🖼️ ✅",
       "statusNone": "कोई मीडिया नहीं ❌",
@@ -489,13 +490,13 @@
       "successImage": "✅ Welcome image सेट कर दी गई!"
     },
     "cmdnf": {
-      "params": "@usuario      → उपयोगकर्ता को mention करता है\n│ @nome         → उपयोगकर्ता का नाम\n│ @comando      → टाइप किया गया कमांड\n│ @parecido     → सबसे मिलता-जुलता कमांड\n│ @similaridade → समानता प्रतिशत\n│ @prefixo      → वर्तमान प्रीफ़िक्स\n│ @bot          → बॉट का नाम",
-      "header": "╭─「 *CMDNF* 」\n│\n│ *वर्तमान मोड:* {{mode}}\n│ *वर्तमान टेक्स्ट:* {{text}}\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *उपयोग:*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>",
-      "invalidMode": "❌ उपयोग करें: cmdnf modo texto | mencao",
+      "params": "@उपयोगकर्ता → उपयोगकर्ता को mention करता है\n│ @नाम → उपयोगकर्ता का नाम\n│ @कमांड → टाइप किया गया कमांड\n│ @मिलता → सबसे मिलता-जुलता कमांड\n│ @समानता → समानता प्रतिशत\n│ @प्रीफ़िक्स → वर्तमान प्रीफ़िक्स\n│ @बॉट → बॉट का नाम",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *वर्तमान मोड:* {{mode}}\n│ *वर्तमान टेक्स्ट:* {{text}}\n│\n│ *उपलब्ध प्लेसहोल्डर:*\n│ {{params}}\n│\n│ *उपयोग:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <संदेश>\n\n╰─",
+      "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
       "modeUpdated": "✅ Command-not-found मोड *{{mode}}* पर अपडेट किया गया।",
-      "textHeader": "╭─「 *TEXTO CMDNF* 」\n│\n│ *उपलब्ध पैरामीटर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n│\n╰─ उपयोग करें: cmdnf texto <mensagem>",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *उपलब्ध प्लेसहोल्डर:*\n│ {{params}}\n│\n│ *वर्तमान टेक्स्ट:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <संदेश>",
       "textUpdated": "✅ Command-not-found टेक्स्ट अपडेट किया गया!\n\n{{text}}",
-      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>"
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <संदेश>"
     },
     "eval": {
       "noArgs": "❌ उपयोग: eval <code>",
@@ -503,7 +504,7 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ चलाने में त्रुटि।"
     },
     "idioma": {
-      "current": "🌐 वर्तमान वैश्विक भाषा: *{{language}}*\n\nउपयोग: bhasha <{{options}}>",
+      "current": "🌐 वर्तमान वैश्विक भाषा: *{{language}}*\n\nउपयोग: language <{{options}}>",
       "updated": "✅ वैश्विक भाषा *{{language}}* पर अपडेट की गई।",
       "invalid": "❌ अमान्य भाषा। उपयोग करें: {{optionsList}}",
       "i18nAliases": {
@@ -565,18 +566,18 @@
       "updatedNoLid": "✅ मालिक का नंबर *{{value}}* पर अपडेट किया गया।\n⚠️ अभी नया LID हल नहीं हो सका; पुराना LID तब तक रखा गया है जब तक अपडेट संभव न हो।"
     },
     "prefixo": {
-      "current": "⌨️ वर्तमान प्रीफ़िक्स: *{{value}}*\n\nउपयोग: prefixo <novo prefixo>",
+      "current": "⌨️ वर्तमान प्रीफ़िक्स: *{{value}}*\n\nउपयोग: prefix <नया प्रीफ़िक्स>",
       "invalid": "❌ ऐसा प्रीफ़िक्स उपयोग करें जिसमें स्पेस न हों और अधिकतम 5 अक्षर हों।",
       "updated": "✅ प्रीफ़िक्स *{{value}}* पर अपडेट किया गया।"
     },
     "apikey": {
-      "current": "🔑 कॉन्फ़िगर की गई API key: *{{value}}*\n\nउपयोग: apikey <valor>\nहटाने के लिए: apikey off",
+      "current": "🔑 API key सेट है: *{{value}}*\n\nउपयोग: apikey <मान>\nहटाने के लिए: apikey {{off}}",
       "updated": "✅ API key सफलतापूर्वक अपडेट की गई।",
       "cleared": "✅ API key सफलतापूर्वक हटाई गई।"
     },
     "autoupdate": {
-      "current": "♻️ वर्तमान auto update: *{{value}}*\n\nउपयोग: autoupdate <on|off>",
-      "invalid": "❌ उपयोग करें: autoupdate on | off",
+      "current": "♻️ वर्तमान auto update: *{{value}}*\n\nउपयोग: autoupdate <{{on}}|{{off}}>",
+      "invalid": "❌ उपयोग करें: autoupdate {{on}} | {{off}}",
       "updated": "✅ Auto update *{{value}}* पर अपडेट किया गया।"
     },
     "antipv": {
@@ -602,10 +603,10 @@
       "confirm": "👋 इस समूह से बाहर निकला जा रहा है..."
     },
     "idiomagp": {
-      "current": "🌐 समूह की भाषा: *{{language}}*\n(वैश्विक: {{global}})\n\nउपयोग: bhashagroup <{{options}}|reset>",
+      "current": "🌐 समूह की भाषा: *{{language}}*\n(Global: {{global}})\n\nउपयोग: languagegroup <{{options}}|{{reset}}>",
       "updated": "✅ समूह की भाषा *{{language}}* पर अपडेट की गई।",
       "reset": "✅ समूह की भाषा वैश्विक (*{{language}}*) पर रीसेट कर दी गई।",
-      "invalid": "❌ अमान्य भाषा। उपयोग करें: {{optionsList}} (या वैश्विक भाषा के लिए 'reset')",
+      "invalid": "❌ अमान्य भाषा। उपयोग करें: {{optionsList}} (या वैश्विक भाषा के लिए \"{{reset}}\")",
       "i18nAliases": {
         "pt": [
           "idiomagp",
@@ -651,7 +652,7 @@
       "disabled": "❌ इस समूह में मज़ाक मोड निष्क्रिय किया गया।"
     },
     "setprefixgp": {
-      "current": "⌨️ समूह का प्रीफ़िक्स: *{{value}}*\nवैश्विक प्रीफ़िक्स: *{{global}}*\n\nउपयोग: setprefixgp <novo prefixo>\nरीसेट करने के लिए: setprefixgp reset",
+      "current": "⌨️ वर्तमान प्रीफ़िक्स: *{{value}}*\nवैश्विक प्रीफ़िक्स: *{{global}}*\n\nउपयोग: setprefixgp <नया प्रीफ़िक्स>\nरीसेट करने के लिए: setprefixgp {{reset}}",
       "invalid": "❌ ऐसा प्रीफ़िक्स उपयोग करें जिसमें स्पेस न हों और अधिकतम 5 अक्षर हों।",
       "updated": "✅ इस समूह का प्रीफ़िक्स *{{value}}* पर अपडेट किया गया।",
       "reset": "✅ इस समूह का प्रीफ़िक्स वैश्विक (*{{value}}*) पर रीसेट कर दिया गया।"
@@ -669,7 +670,7 @@
       "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "blockuser": {
-      "noMention": "❌ उपयोगकर्ता को mention करें.\n\nउपयोग: blockuser @usuario [30m|12h|7d] [reason]",
+      "noMention": "❌ उपयोगकर्ता को mention करें.\n\nउपयोग: blockuser @उपयोगकर्ता [30m|12h|7d] [reason]",
       "lidFailed": "❌ mention किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "ownerBypass": "❌ मालिक को block नहीं किया जा सकता।",
       "alreadyBlocked": "❌ यह उपयोगकर्ता पहले से block है।",
@@ -677,7 +678,7 @@
       "success": "✅ उपयोगकर्ता {{user}} block किया गया।\nसमाप्ति: {{expires}}\nकारण: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ उपयोगकर्ता को mention करें.\n\nउपयोग: unblockuser @usuario",
+      "noMention": "❌ उपयोगकर्ता को mention करें.\n\nउपयोग: unblockuser @उपयोगकर्ता",
       "lidFailed": "❌ mention किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "notBlocked": "❌ यह उपयोगकर्ता block नहीं है।",
       "success": "✅ उपयोगकर्ता {{user}} unblock किया गया।"
@@ -740,12 +741,12 @@
   },
   "group": {
     "welcome": {
-      "defaultLegend": "स्वागत है, @usuario! 👋\nआप समूह *@grupo* के सदस्य नंबर @total हैं।"
+      "defaultLegend": "स्वागत है, @उपयोगकर्ता! 👋\nआप समूह *@समूह* के सदस्य नंबर @कुल हैं।"
     },
     "antilink": {
-      "defaultText": "🚫 @usuario, इस समूह में लिंक की अनुमति नहीं है।",
-      "defaultGroupText": "🚫 @usuario, इस समूह में group links की अनुमति नहीं है।",
-      "defaultChannelText": "🚫 @usuario, इस समूह में channel links की अनुमति नहीं है।",
+      "defaultText": "🚫 @उपयोगकर्ता, इस ग्रुप में link की अनुमति नहीं है।",
+      "defaultGroupText": "🚫 @उपयोगकर्ता, इस ग्रुप में group link की अनुमति नहीं है।",
+      "defaultChannelText": "🚫 @उपयोगकर्ता, इस ग्रुप में channel link की अनुमति नहीं है।",
       "typeLink": "लिंक",
       "typeGroupLink": "समूह लिंक",
       "typeChannelLink": "चैनल लिंक"
@@ -753,7 +754,9 @@
   },
   "owner": {
     "cmdnf": {
-      "defaultText": "❌ @usuario, कमांड @comando मौजूद नहीं है.\n\nशायद आपका मतलब था: @parecido (@similaridade)\nकमांड्स देखने के लिए @prefixomenu उपयोग करें।"
-    }
+      "defaultText": "❌ @उपयोगकर्ता, @कमांड कमांड मौजूद नहीं है।\n\nशायद आपका मतलब था: @मिलता (@समानता)\nकमांड देखने के लिए @प्रीफ़िक्सmenu का उपयोग करें।"
+    },
+    "text": "╭─「 *मालिक* 」\n│\n│ नाम: {{owner}}\n│ नंबर: {{ownerNumber}}\n│ बॉट: {{bot}}\n│\n╰─",
+    "info": "╭─「 *बॉट जानकारी* 」\n│\n│ नाम: {{bot}}\n│ मालिक: {{owner}}\n│ प्रीफ़िक्स: {{prefix}}\n│ भाषा: {{language}}\n│ चालू समय: {{uptime}}\n│ मेमोरी: {{memory}}\n│ node: {{node}}\n│\n╰─"
   }
 }

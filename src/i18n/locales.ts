@@ -40,8 +40,8 @@ export const LOCALE_METADATA = {
     displayName: "Arabic",
     nativeName: "العربية",
     displayLabel: "العربية (ar)",
-    globalAliases: ["lughah", "setlughah"],
-    groupAliases: ["lughahgroup", "setlughahgroup"],
+    globalAliases: ["lugha", "setlugha", "lughah", "setlughah"],
+    groupAliases: ["lughatgroup", "setlughatgroup", "lughahgroup", "setlughahgroup"],
   },
   fr: {
     code: "fr",
@@ -88,8 +88,8 @@ export const LOCALE_METADATA = {
     displayName: "Bengali",
     nativeName: "বাংলা",
     displayLabel: "বাংলা (bn)",
-    globalAliases: ["bangla", "setbangla"],
-    groupAliases: ["grupbangla", "setgrupbangla"],
+    globalAliases: ["bhasha", "setbhasha", "bangla", "setbangla"],
+    groupAliases: ["groupbhasha", "setgroupbhasha", "grupbangla", "setgrupbangla"],
   },
 } as const;
 

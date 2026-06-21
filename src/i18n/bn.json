@@ -24,8 +24,8 @@
     "menu": {
       "title": "MISA",
       "version": "version",
-      "configure": "Configure bot",
-      "start": "Start bot",
+      "configure": "বট কনফিগার করুন",
+      "start": "বট চালু করুন",
       "exit": "Exit",
       "chooseOption": "  › Choose an option: "
     },
@@ -68,7 +68,8 @@
     "eventError": "Error in {{name}}.",
     "configReadFailed": "Could not read {{path}}.",
     "configMigrated": "Configuration migrated to {{path}}.",
-    "botStarted": "{{botName}} started and ready to receive messages."
+    "botStarted": "{{botName}} started and ready to receive messages.",
+    "updateRestoreFailed": "package.json পুনরুদ্ধার ব্যর্থ হয়েছে।"
   },
   "errors": {
     "ownerOnly": "❌ This command is only for the bot owner.",
@@ -378,17 +379,17 @@
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ There is no activity registered in this group yet.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *ACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *সক্রিয় র‌্যাঙ্ক* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ No members found in the group.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *INACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *নিষ্ক্রিয় র‌্যাঙ্ক* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
       "lidFailed": "❌ Could not resolve the mentioned user.",
-      "text": "╭─「 *ACTIVE CHECK* 」\n│\n│ user: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commands: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
+      "text": "╭─「 *সক্রিয়তা পরীক্ষা* 」\n│\n│ ব্যবহারকারী: {{user}}\n│ অবস্থান: {{position}}\n│ মোট: {{total}}\n│ বার্তা: {{messages}}\n│ কমান্ড: {{commands}}\n│ স্টিকার: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ Could not get group information.",
@@ -403,35 +404,35 @@
     "antilink": {
       "enabled": "✅ Anti-link *enabled* in this group!",
       "disabled": "❌ Anti-link *disabled* in this group.",
-      "settingsHint": "⚙️ Settings:\n• antilink punicao apagar\n• antilink punicao banir\n• antilink texto <message>",
+      "settingsHint": "⚙️ সেটিংস:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <বার্তা>",
       "punishmentUpdated": "✅ Anti-link punishment updated to *{{value}}*.",
-      "invalidPunishment": "❌ Use: antilink punicao apagar | banir",
+      "invalidPunishment": "❌ ব্যবহার করুন: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Anti-link text updated!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINK TEXT* 」\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Current text:*\n│ {{current}}\n│\n╰─ Use: antilink texto <message>",
-      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink punicao apagar\n│ antilink punicao banir\n│ antilink texto <message>",
-      "params": "@usuario   → mentions the user\n│ @nome      → user's name\n│ @grupo     → group name\n│ @tipo      → detected link type"
+      "textHeader": "╭─「 *ANTILINK বার্তা* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n│\n╰─ ব্যবহার: antilink {{text}} <বার্তা>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <বার্তা>",
+      "params": "@ধরন → শনাক্ত হওয়া লিংকের ধরন"
     },
     "antilinkgp": {
       "enabled": "✅ Group anti-link *enabled* in this group!",
       "disabled": "❌ Group anti-link *disabled* in this group.",
-      "settingsHint": "⚙️ Settings:\n• antilinkgp punicao apagar\n• antilinkgp punicao banir\n• antilinkgp texto <message>",
+      "settingsHint": "⚙️ সেটিংস:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <বার্তা>",
       "punishmentUpdated": "✅ Group anti-link punishment updated to *{{value}}*.",
-      "invalidPunishment": "❌ Use: antilinkgp punicao apagar | banir",
+      "invalidPunishment": "❌ ব্যবহার করুন: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Group anti-link text updated!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINKGP TEXT* 」\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Current text:*\n│ {{current}}\n│\n╰─ Use: antilinkgp texto <message>",
-      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp punicao apagar\n│ antilinkgp punicao banir\n│ antilinkgp texto <message>",
-      "params": "@usuario   → mentions the user\n│ @nome      → user's name\n│ @grupo     → group name\n│ @tipo      → detected link type"
+      "textHeader": "╭─「 *ANTILINK বার্তা* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n│\n╰─ ব্যবহার: antilinkgp {{text}} <বার্তা>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <বার্তা>",
+      "params": "@ধরন → শনাক্ত হওয়া লিংকের ধরন"
     },
     "antilinkch": {
       "enabled": "✅ Channel anti-link *enabled* in this group!",
       "disabled": "❌ Channel anti-link *disabled* in this group.",
-      "settingsHint": "⚙️ Settings:\n• antilinkch punicao apagar\n• antilinkch punicao banir\n• antilinkch texto <message>",
+      "settingsHint": "⚙️ সেটিংস:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <বার্তা>",
       "punishmentUpdated": "✅ Channel anti-link punishment updated to *{{value}}*.",
-      "invalidPunishment": "❌ Use: antilinkch punicao apagar | banir",
+      "invalidPunishment": "❌ ব্যবহার করুন: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Channel anti-link text updated!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINKCH TEXT* 」\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Current text:*\n│ {{current}}\n│\n╰─ Use: antilinkch texto <message>",
-      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <message>",
-      "params": "@usuario   → mentions the user\n│ @nome      → user's name\n│ @grupo     → group name\n│ @tipo      → detected link type"
+      "textHeader": "╭─「 *ANTILINK বার্তা* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n│\n╰─ ব্যবহার: antilinkch {{text}} <বার্তা>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <বার্তা>",
+      "params": "@ধরন → শনাক্ত হওয়া লিংকের ধরন"
     },
     "antistealth": {
       "enabled": "✅ এই গ্রুপে anti-stealth *চালু*।",
@@ -443,24 +444,24 @@
       "disabled": "❌ Welcome *disabled* in this group."
     },
     "gp": {
-      "usage": "╭─「 *GROUP* 」\n│\n│ ✦ gp a → open the group\n│ ✦ gp f → close the group\n│\n╰─",
+      "usage": "╭─「 *GROUP* 」\n│\n│ ✦ gp {{open}} → গ্রুপ খুলুন\n│ ✦ gp {{close}} → গ্রুপ বন্ধ করুন\n\n╰─",
       "closed": "🔒 Group closed! Only admins can send messages.",
       "opened": "🔓 Group opened! Everyone can send messages."
     },
     "kick": {
-      "noMention": "❌ Mention the user you want to remove.\n\nUsage: kick @user",
+      "noMention": "❌ Mention the user you want to remove.\n\nUsage: kick @ব্যবহারকারী",
       "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
       "success": "✅ User removed successfully!",
       "error": "❌ Error removing user: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Mention the user you want to promote.\n\nUsage: promote @user",
+      "noMention": "❌ Mention the user you want to promote.\n\nUsage: promote @ব্যবহারকারী",
       "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
       "success": "✅ User promoted to administrator!",
       "error": "❌ Error promoting user: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Mention the administrator you want to demote.\n\nUsage: demote @user",
+      "noMention": "❌ Mention the administrator you want to demote.\n\nUsage: demote @ব্যবহারকারী",
       "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
       "success": "✅ Administrator demoted to regular member!",
       "error": "❌ Error demoting administrator: {{error}}"
@@ -474,13 +475,13 @@
       "success": "✅ Group description updated!"
     },
     "legendabv": {
-      "params": "@usuario   → mentions the user\n│ @nome      → user's name\n│ @grupo     → group name\n│ @total     → total members\n│ @desc      → group description",
+      "params": "@ব্যবহারকারী → ব্যবহারকারীকে মেনশন করে\n│ @নাম → ব্যবহারকারীর নাম\n│ @গ্রুপ → গ্রুপের নাম\n│ @মোট → মোট সদস্য\n│ @বিবরণ → গ্রুপের বর্ণনা",
       "header": "╭─「 *WELCOME CAPTION* 」\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Current caption:*\n│ {{current}}\n│\n╰─ Use: legendabv <text>",
       "updated": "✅ Welcome caption updated!\n\n{{text}}"
     },
     "midiabv": {
       "removed": "✅ Welcome media removed.",
-      "noMedia": "╭─「 *WELCOME MEDIA* 」\n│\n│ ✦ Status: {{status}}\n│\n│ Send or reply with an image or video.\n│ Videos: max 15 seconds (sent as gif).\n│ To remove: midiabv off\n│\n╰─",
+      "noMedia": "╭─「 *WELCOME MEDIA* 」\n│\n│ ✦ স্থিতি: {{status}}\n\n│ একটি ছবি বা ভিডিও পাঠান, অথবা তাতে reply করুন।\n│ ভিডিও: সর্বোচ্চ ১৫ সেকেন্ড (gif হিসেবে পাঠানো হবে)。\nসরাতে: midiabv {{off}}\n\n╰─",
       "statusVideo": "Video 🎥 ✅",
       "statusImage": "Image 🖼️ ✅",
       "statusNone": "No media ❌",
@@ -489,13 +490,13 @@
       "successImage": "✅ Welcome photo configured!"
     },
     "cmdnf": {
-      "params": "@usuario      → mentions the user\n│ @nome         → user's name\n│ @comando      → typed command\n│ @parecido     → most similar command\n│ @similaridade → similarity percentage\n│ @prefixo      → current prefix\n│ @bot          → bot name",
-      "header": "╭─「 *CMDNF* 」\n│\n│ *Current mode:* {{mode}}\n│ *Current text:* {{text}}\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Usage:*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <message>",
-      "invalidMode": "❌ Use: cmdnf modo texto | mencao",
+      "params": "@ব্যবহারকারী → ব্যবহারকারীকে মেনশন করে\n│ @নাম → ব্যবহারকারীর নাম\n│ @কমান্ড → লেখা কমান্ড\n│ @মিল → সবচেয়ে কাছের কমান্ড\n│ @সাদৃশ্য → মিলের শতাংশ\n│ @প্রিফিক্স → বর্তমান প্রিফিক্স\n│ @বট → বটের নাম",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *বর্তমান মোড:* {{mode}}\n│ *বর্তমান বার্তা:* {{text}}\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *ব্যবহার:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <বার্তা>\n\n╰─",
+      "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
       "modeUpdated": "✅ Command not found mode updated to *{{mode}}*.",
-      "textHeader": "╭─「 *CMDNF TEXT* 」\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Current text:*\n│ {{current}}\n│\n╰─ Use: cmdnf texto <message>",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <বার্তা>",
       "textUpdated": "✅ Command not found text updated!\n\n{{text}}",
-      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <message>"
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <বার্তা>"
     },
     "eval": {
       "noArgs": "❌ Usage: eval <code>",
@@ -503,7 +504,7 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Execution error."
     },
     "idioma": {
-      "current": "🌐 Current global language: *{{language}}*\n\nUsage: language <{{options}}>",
+      "current": "🌐 বর্তমান মূল ভাষা: *{{language}}*\n\nব্যবহার: bhasha <{{options}}>",
       "updated": "✅ Global language updated to *{{language}}*.",
       "invalid": "❌ Invalid language. Use: {{optionsList}}",
       "i18nAliases": {
@@ -559,18 +560,18 @@
       "updatedNoLid": "✅ Owner number updated to *{{value}}*.\n⚠️ I could not resolve the new LID right now; the previous LID was kept until it can be updated."
     },
     "prefixo": {
-      "current": "⌨️ Current prefix: *{{value}}*\n\nUsage: prefixo <new prefix>",
+      "current": "⌨️ বর্তমান প্রিফিক্স: *{{value}}*\n\nব্যবহার: prefix <নতুন প্রিফিক্স>",
       "invalid": "❌ Use a prefix without spaces and up to 5 characters.",
       "updated": "✅ Prefix updated to *{{value}}*."
     },
     "apikey": {
-      "current": "🔑 API key configured: *{{value}}*\n\nUsage: apikey <value>\nTo clear: apikey off",
+      "current": "🔑 API key সেট আছে: *{{value}}*\n\nব্যবহার: apikey <মান>\nমুছতে: apikey {{off}}",
       "updated": "✅ API key updated successfully.",
       "cleared": "✅ API key removed successfully."
     },
     "autoupdate": {
-      "current": "♻️ Current auto update: *{{value}}*\n\nUsage: autoupdate <on|off>",
-      "invalid": "❌ Use: autoupdate on | off",
+      "current": "♻️ বর্তমান স্বয়ংক্রিয় আপডেট: *{{value}}*\n\nব্যবহার: autoupdate <{{on}}|{{off}}>",
+      "invalid": "❌ ব্যবহার করুন: autoupdate {{on}} | {{off}}",
       "updated": "✅ Auto update updated to *{{value}}*."
     },
     "antipv": {
@@ -596,10 +597,10 @@
       "confirm": "👋 Leaving this group..."
     },
     "idiomagp": {
-      "current": "🌐 Group language: *{{language}}*\n(Global: {{global}})\n\nUsage: idiomagp <{{options}}|reset>",
+      "current": "🌐 গ্রুপের ভাষা: *{{language}}*\n(মূল: {{global}})\n\nব্যবহার: groupbhasha <{{options}}|{{reset}}>",
       "updated": "✅ Group language updated to *{{language}}*.",
       "reset": "✅ Group language reset to global (*{{language}}*).",
-      "invalid": "❌ Invalid language. Use: {{optionsList}} (or 'reset' to use the global)",
+      "invalid": "❌ অবৈধ ভাষা। ব্যবহার করুন: {{optionsList}} (অথবা মূল ভাষার জন্য \"{{reset}}\")",
       "i18nAliases": {
         "pt": [
           "idiomagp",
@@ -642,7 +643,7 @@
       "disabled": "❌ Fun mode disabled in this group."
     },
     "setprefixgp": {
-      "current": "⌨️ Group prefix: *{{value}}*\nGlobal prefix: *{{global}}*\n\nUsage: setprefixgp <new prefix>\nTo reset: setprefixgp reset",
+      "current": "⌨️ বর্তমান প্রিফিক্স: *{{value}}*\nবিশ্বব্যাপী প্রিফিক্স: *{{global}}*\n\nব্যবহার: setprefixgp <নতুন প্রিফিক্স>\nফিরিয়ে দিতে: setprefixgp {{reset}}",
       "invalid": "❌ Use a prefix without spaces and up to 5 characters.",
       "updated": "✅ This group's prefix was updated to *{{value}}*.",
       "reset": "✅ This group's prefix was reset to the global one (*{{value}}*)."
@@ -660,7 +661,7 @@
       "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "blockuser": {
-      "noMention": "❌ Mention a user.\n\nUsage: blockuser @user [30m|12h|7d] [reason]",
+      "noMention": "❌ Mention a user.\n\nUsage: blockuser @ব্যবহারকারী [30m|12h|7d] [reason]",
       "lidFailed": "❌ Could not resolve the mentioned user's LID.",
       "ownerBypass": "❌ The owner cannot be blocked.",
       "alreadyBlocked": "❌ This user is already blocked.",
@@ -668,7 +669,7 @@
       "success": "✅ User {{user}} blocked.\nExpires: {{expires}}\nReason: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Mention a user.\n\nUsage: unblockuser @user",
+      "noMention": "❌ Mention a user.\n\nUsage: unblockuser @ব্যবহারকারী",
       "lidFailed": "❌ Could not resolve the mentioned user's LID.",
       "notBlocked": "❌ This user is not blocked.",
       "success": "✅ User {{user}} unblocked."
@@ -731,12 +732,12 @@
   },
   "group": {
     "welcome": {
-      "defaultLegend": "Welcome, @usuario! 👋\nYou are member number @total of the group *@grupo*."
+      "defaultLegend": "স্বাগতম, @ব্যবহারকারী! 👋\nআপনি *@গ্রুপ* গ্রুপের @মোট নম্বর সদস্য।"
     },
     "antilink": {
-      "defaultText": "🚫 @usuario, links are not allowed in this group.",
-      "defaultGroupText": "🚫 @usuario, group links are not allowed in this group.",
-      "defaultChannelText": "🚫 @usuario, channel links are not allowed in this group.",
+      "defaultText": "🚫 @ব্যবহারকারী, এই গ্রুপে লিংক অনুমোদিত নয়।",
+      "defaultGroupText": "🚫 @ব্যবহারকারী, এই গ্রুপে গ্রুপ লিংক অনুমোদিত নয়।",
+      "defaultChannelText": "🚫 @ব্যবহারকারী, এই গ্রুপে চ্যানেল লিংক অনুমোদিত নয়।",
       "typeLink": "link",
       "typeGroupLink": "group link",
       "typeChannelLink": "channel link"
@@ -744,7 +745,9 @@
   },
   "owner": {
     "cmdnf": {
-      "defaultText": "❌ @usuario, the command @comando does not exist.\n\nMaybe you meant: @parecido (@similaridade)\nUse @prefixomenu to see the commands."
-    }
+      "defaultText": "❌ @ব্যবহারকারী, @কমান্ড কমান্ডটি নেই।\n\nহয়তো আপনি এটি বলতে চেয়েছেন: @মিল (@সাদৃশ্য)\nকমান্ডগুলো দেখতে @প্রিফিক্সmenu ব্যবহার করুন।"
+    },
+    "text": "╭─「 *মালিক* 」\n│\n│ নাম: {{owner}}\n│ নম্বর: {{ownerNumber}}\n│ বট: {{bot}}\n│\n╰─",
+    "info": "╭─「 *বট তথ্য* 」\n│\n│ নাম: {{bot}}\n│ মালিক: {{owner}}\n│ প্রিফিক্স: {{prefix}}\n│ ভাষা: {{language}}\n│ চালু সময়: {{uptime}}\n│ মেমোরি: {{memory}}\n│ node: {{node}}\n│\n╰─"
   }
 }

@@ -271,16 +271,16 @@ if (entryPointUrl) {
   const authMode = args.includes("--pairing") ? "pairing" : "qr";
   const phone = args.find((a) => /^\d+$/.test(a));
 
+  let tGlobal = createTranslator("pt");
+
   getBotConfig().then(async (config) => {
-    // Definimos tGlobal provisório apenas para start do update/erros fatais fora do fluxo principal
-    const tGlobal = createTranslator(config.language || "pt");
+    tGlobal = createTranslator(config.language || "pt");
     
     if (config.autoUpdate && !args.includes("--no-update")) await runAutoUpdate();
     startBot(authMode, phone).catch((error) => {
       log.error("MISA", tGlobal("terminal.startFailed"), error);
     });
   }).catch((error) => {
-    // Cannot easily access tGlobal here as it failed before getting config, so we log generic or fallback
-    log.error("MISA", "Start failed. / Falha ao iniciar a bot.", error);
+    log.error("MISA", tGlobal("terminal.startFailed"), error);
   });
 }
