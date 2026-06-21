@@ -22,7 +22,7 @@
     "invalidPhone": "رقم غير صالح.",
     "sessionDetected": "تم اكتشاف جلسة موجودة. جارٍ الاتصال تلقائيا...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "الإصدار",
       "configure": "إعداد البوت",
       "start": "تشغيل البوت",
@@ -184,10 +184,10 @@
       "footer": "Powered By {{botName}}."
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *المالك* 」\n│\n│ الاسم: {{owner}}\n│ الرقم: {{ownerNumber}}\n│ البوت: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *معلومات البوت* 」\n│\n│ الاسم: {{bot}}\n│ المالك: {{owner}}\n│ البادئة: {{prefix}}\n│ اللغة: {{language}}\n│ مدة التشغيل: {{uptime}}\n│ الذاكرة: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ طريقة الاستخدام:\n│   أرسل أو رد على صورة باستخدام:\n│   s\n│\n│   أرسل أو رد على فيديو باستخدام:\n│   sticker\n│\n╰─ النتيجة: ملصق مربع",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ لا توجد أي مجموعة في bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "السبب",
+      "sinceLabel": "منذ"
     },
     "blockuser": {
       "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: blockuser @مستخدم [30m|12h|7d] [motivo]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ لا يوجد أي مستخدم محظور.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "ينتهي",
+      "reasonLabel": "السبب"
     },
     "blockcmd": {
       "noArgs": "❌ الاستخدام: blockcmd <comando>",

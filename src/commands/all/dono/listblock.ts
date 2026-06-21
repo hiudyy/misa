@@ -13,7 +13,7 @@ const listblockCommand: Command = {
   description: "Lista os usuários bloqueados no bot",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, t }) {
+  async execute({ misa, message, from, t, locale }) {
     const users = await cleanupExpiredBlockedUsers();
 
     if (users.length === 0) {
@@ -23,7 +23,11 @@ const listblockCommand: Command = {
 
     const lines = users.map((entry, index) => {
       const label = entry.number ? `@${entry.number}` : entry.lid;
-      return `│ ${index + 1}. ${label}\n│ expira: ${formatExpiresAt(entry.expiresAt, t("commands.blockuser.permanent"))}\n│ motivo: ${entry.reason || t("common.none")}`;
+      return [
+        `│ ${index + 1}. ${label}`,
+        `│ ${t("commands.listblock.expiresLabel")}: ${formatExpiresAt(entry.expiresAt, t("commands.blockuser.permanent"), locale)}`,
+        `│ ${t("commands.listblock.reasonLabel")}: ${entry.reason || t("common.none")}`,
+      ].join("\n");
     });
 
     await misa.sendMessage(

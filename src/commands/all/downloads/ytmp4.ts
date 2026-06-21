@@ -14,7 +14,10 @@ function sanitizeFileName(input: string): string {
     .slice(0, 120) || "video";
 }
 
-async function downloadYouTubeVideo(url: string): Promise<{
+async function downloadYouTubeVideo(
+  url: string,
+  t: (key: string, vars?: Record<string, string>) => string,
+): Promise<{
   buffer: Buffer;
   title: string;
   author: string;
@@ -23,7 +26,7 @@ async function downloadYouTubeVideo(url: string): Promise<{
   const config = await getBotConfig();
 
   if (!config.apiKey) {
-    throw new Error("API key não configurada. Configure em src/config.json");
+    throw new Error(t("api.errors.missingKey"));
   }
 
   const requestUrl = new URL("https://api.misaka.com.br/api/v1/youtube/download");
@@ -37,15 +40,15 @@ async function downloadYouTubeVideo(url: string): Promise<{
   });
 
   if (!response.ok) {
-    if (response.status === 401) throw new Error("API key inválida");
-    if (response.status === 403) throw new Error("Sem permissão para este endpoint");
-    if (response.status === 429) throw new Error("Rate limit excedido. Tente novamente mais tarde");
-    if (response.status === 400) throw new Error("Parâmetro inválido ou ausente");
-    throw new Error(`Erro na API: ${response.status}`);
+    if (response.status === 401) throw new Error(t("api.errors.invalidKey"));
+    if (response.status === 403) throw new Error(t("api.errors.forbidden"));
+    if (response.status === 429) throw new Error(t("api.errors.rateLimit"));
+    if (response.status === 400) throw new Error(t("api.errors.invalidParam"));
+    throw new Error(t("api.errors.serverError", { status: String(response.status) }));
   }
 
-  const title = response.headers.get("X-Title") || "Video";
-  const author = response.headers.get("X-Author") || "Desconhecido";
+  const title = response.headers.get("X-Title") || t("common.file");
+  const author = response.headers.get("X-Author") || t("common.unknown");
   const duration = Number(response.headers.get("X-Duration") || "0");
   const buffer = Buffer.from(await response.arrayBuffer());
 
@@ -90,7 +93,7 @@ const ytmp4Command: Command = {
     await misa.sendMessage(from, { text: t("commands.ytmp4.downloading") }, { quoted: message as WAMessage });
 
     try {
-      const video = await downloadYouTubeVideo(url);
+      const video = await downloadYouTubeVideo(url, t);
 
       await misa.sendMessage(
         from,

@@ -22,7 +22,7 @@
     "invalidPhone": "Ungültige Nummer.",
     "sessionDetected": "Vorhandene Sitzung erkannt. Automatische Verbindung...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "Version",
       "configure": "Bot konfigurieren",
       "start": "Bot starten",
@@ -184,10 +184,10 @@
       "footer": "Unterstützt von {{botName}}."
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *BESITZER* 」\n│\n│ Name: {{owner}}\n│ Nummer: {{ownerNumber}}\n│ Bot: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *BOT-INFOS* 」\n│\n│ Name: {{bot}}\n│ Besitzer: {{owner}}\n│ Präfix: {{prefix}}\n│ Sprache: {{language}}\n│ Laufzeit: {{uptime}}\n│ Speicher: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *AUFKLEBER* 」\n│\n│ ✦ Anwendung:\n│ Senden oder antworten Sie auf ein Foto mit:\n│s\n│\n│ Senden oder antworten Sie auf ein Video mit:\n│ sticker\n│\n╰─ Ergebnis: quadratischer Aufkleber",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ Keine Gruppen sind in bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "grund",
+      "sinceLabel": "seit"
     },
     "blockuser": {
       "noMention": "❌ Erwähnen Sie den Benutzer.\n\nVerwendung: blockuser @nutzer [30m|12h|7d] [Grund]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ Es werden keine Benutzer blockiert.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ Gesamt: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "läuft ab",
+      "reasonLabel": "grund"
     },
     "blockcmd": {
       "noArgs": "❌ Verwendung: blockcmd <Befehl>",

@@ -22,7 +22,7 @@
     "invalidPhone": "Nomor tidak valid.",
     "sessionDetected": "Sesi yang ada terdeteksi. Menghubungkan secara otomatis...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "versi",
       "configure": "Konfigurasi bot",
       "start": "Mulai bot",
@@ -184,10 +184,10 @@
       "footer": "Powered By {{botName}}."
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *PEMILIK* 」\n│\n│ nama: {{owner}}\n│ nomor: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *INFO BOT* 」\n│\n│ nama: {{bot}}\n│ pemilik: {{owner}}\n│ prefiks: {{prefix}}\n│ bahasa: {{language}}\n│ waktu aktif: {{uptime}}\n│ memori: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *STIKER* 」\n│\n│ ✦ Cara penggunaan:\n│   kirim atau balas foto dengan:\n│   s\n│\n│   kirim atau balas video dengan:\n│   stiker\n│\n╰─ Hasil: stiker persegi",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ Tidak ada grup dalam mode bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "alasan",
+      "sinceLabel": "sejak"
     },
     "blockuser": {
       "noMention": "❌ Sebutkan pengguna.\n\nPenggunaan: blockuser @pengguna [30m|12h|7d] [alasan]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ Tidak ada pengguna yang diblokir.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "kedaluwarsa",
+      "reasonLabel": "alasan"
     },
     "blockcmd": {
       "noArgs": "❌ Penggunaan: blockcmd <perintah>",

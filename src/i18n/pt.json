@@ -22,7 +22,7 @@
     "invalidPhone": "Número inválido.",
     "sessionDetected": "Sessão existente detectada. Conectando automaticamente...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "versão",
       "configure": "Configurar bot",
       "start": "Iniciar bot",
@@ -187,7 +187,7 @@
       "text": "╭─「 *DONO* 」\n│\n│ nome: {{owner}}\n│ número: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *INFO BOT* 」\n│\n│ nome: {{bot}}\n│ dono: {{owner}}\n│ prefixo: {{prefix}}\n│ idioma: {{language}}\n│ ativo ha: {{uptime}}\n│ memoria: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *INFO DO BOT* 」\n│\n│ nome: {{bot}}\n│ dono: {{owner}}\n│ prefixo: {{prefix}}\n│ idioma: {{language}}\n│ tempo ativo: {{uptime}}\n│ memória: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ Como usar:\n│   envie ou responda uma foto com:\n│   s\n│\n│   envie ou responda um vídeo com:\n│   sticker\n│\n╰─ Resultado: figurinha quadrada",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ Nenhum grupo está em bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "motivo",
+      "sinceLabel": "desde"
     },
     "blockuser": {
       "noMention": "❌ Mencione o usuário.\n\nUso: blockuser @usuario [30m|12h|7d] [motivo]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ Nenhum usuário está bloqueado.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "expira",
+      "reasonLabel": "motivo"
     },
     "blockcmd": {
       "noArgs": "❌ Uso: blockcmd <comando>",

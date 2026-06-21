@@ -261,7 +261,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
 
   const globalLocale = await resolveLocale();
   const tGlobal = createTranslator(globalLocale);
-  log.success("MISA", tGlobal("logs.botStarted", { botName: config.botName }));
+  log.success(config.botName, tGlobal("logs.botStarted", { botName: config.botName }));
 }
 
 const entryPointUrl = process.argv[1] ? fileURLToPath(import.meta.url) === path.resolve(process.argv[1]) : false;
@@ -272,15 +272,17 @@ if (entryPointUrl) {
   const phone = args.find((a) => /^\d+$/.test(a));
 
   let tGlobal = createTranslator("pt");
+  let botScope = "Misa";
 
   getBotConfig().then(async (config) => {
     tGlobal = createTranslator(config.language || "pt");
+    botScope = config.botName;
     
     if (config.autoUpdate && !args.includes("--no-update")) await runAutoUpdate();
     startBot(authMode, phone).catch((error) => {
-      log.error("MISA", tGlobal("terminal.startFailed"), error);
+      log.error(botScope, tGlobal("terminal.startFailed"), error);
     });
   }).catch((error) => {
-    log.error("MISA", tGlobal("terminal.startFailed"), error);
+    log.error(botScope, tGlobal("terminal.startFailed"), error);
   });
 }

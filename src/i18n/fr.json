@@ -22,7 +22,7 @@
     "invalidPhone": "Numéro invalide.",
     "sessionDetected": "Session existante détectée. Connexion automatique...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "version",
       "configure": "Configurer le bot",
       "start": "Démarrer le bot",
@@ -184,10 +184,10 @@
       "footer": "Powered By {{botName}}."
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *PROPRIÉTAIRE* 」\n│\n│ nom: {{owner}}\n│ numéro: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *INFOS DU BOT* 」\n│\n│ nom: {{bot}}\n│ propriétaire: {{owner}}\n│ préfixe: {{prefix}}\n│ langue: {{language}}\n│ durée active: {{uptime}}\n│ mémoire: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ Utilisation :\n│   envoie ou réponds à une photo avec :\n│   s\n│\n│   envoie ou réponds à une vidéo avec :\n│   sticker\n│\n╰─ Résultat : sticker carré",
@@ -661,7 +661,9 @@
     },
     "listbangp": {
       "empty": "❌ Aucun groupe n'est en bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "raison",
+      "sinceLabel": "depuis"
     },
     "blockuser": {
       "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : blockuser @utilisateur [30m|12h|7d] [raison]",
@@ -679,7 +681,9 @@
     },
     "listblock": {
       "empty": "❌ Aucun utilisateur n'est bloqué.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "expire",
+      "reasonLabel": "raison"
     },
     "blockcmd": {
       "noArgs": "❌ Utilisation : blockcmd <commande>",

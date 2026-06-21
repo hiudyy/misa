@@ -22,7 +22,7 @@
     "invalidPhone": "Invalid number.",
     "sessionDetected": "Existing session detected. Connecting automatically...",
     "menu": {
-      "title": "MISA",
+      "title": "{{botName}}",
       "version": "version",
       "configure": "বট কনফিগার করুন",
       "start": "বট চালু করুন",
@@ -184,10 +184,10 @@
       "footer": "Powered By {{botName}}."
     },
     "dono": {
-      "text": "╭─「 *OWNER* 」\n│\n│ name: {{owner}}\n│ number: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
+      "text": "╭─「 *মালিক* 」\n│\n│ নাম: {{owner}}\n│ নম্বর: {{ownerNumber}}\n│ বট: {{bot}}\n│\n╰─"
     },
     "infobot": {
-      "text": "╭─「 *BOT INFO* 」\n│\n│ name: {{bot}}\n│ owner: {{owner}}\n│ prefix: {{prefix}}\n│ language: {{language}}\n│ uptime: {{uptime}}\n│ memory: {{memory}}\n│ node: {{node}}\n│\n╰─"
+      "text": "╭─「 *বট তথ্য* 」\n│\n│ নাম: {{bot}}\n│ মালিক: {{owner}}\n│ প্রিফিক্স: {{prefix}}\n│ ভাষা: {{language}}\n│ চালু সময়: {{uptime}}\n│ মেমোরি: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
       "usage": "╭─「 *STICKER* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s\n│\n│   send or reply to a video with:\n│   sticker\n│\n╰─ Result: square sticker",
@@ -658,7 +658,9 @@
     },
     "listbangp": {
       "empty": "❌ No groups are in bangp mode.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "reasonLabel": "কারণ",
+      "sinceLabel": "থেকে"
     },
     "blockuser": {
       "noMention": "❌ Mention a user.\n\nUsage: blockuser @ব্যবহারকারী [30m|12h|7d] [reason]",
@@ -676,7 +678,9 @@
     },
     "listblock": {
       "empty": "❌ No users are blocked.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "expiresLabel": "মেয়াদ",
+      "reasonLabel": "কারণ"
     },
     "blockcmd": {
       "noArgs": "❌ Usage: blockcmd <command>",

@@ -15,7 +15,7 @@ const blockuserCommand: Command = {
   description: "Bloqueia um usuário globalmente no bot",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, sender, t }) {
+  async execute({ misa, message, from, args, sender, t, locale }) {
     const mentioned = extractMentionedUser(message);
     if (!mentioned) {
       await misa.sendMessage(from, { text: t("commands.blockuser.noMention") }, { quoted: message as WAMessage });
@@ -69,7 +69,7 @@ const blockuserCommand: Command = {
       {
         text: t("commands.blockuser.success", {
           user: `@${mentioned.split("@")[0]}`,
-          expires: formatExpiresAt(expiresAt, t("commands.blockuser.permanent")),
+          expires: formatExpiresAt(expiresAt, t("commands.blockuser.permanent"), locale),
           reason: reason || t("common.none"),
         }),
         mentions: [userLID],
