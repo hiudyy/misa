@@ -6,6 +6,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { log } from "./logger.js";
+import { DEFAULT_LOCALE, t } from "./i18n/index.js";
 import type { Locale } from "./i18n/index.js";
 
 export type BotConfig = {
@@ -34,14 +35,16 @@ const __dirname = path.dirname(__filename);
 const configPath = path.join(__dirname, "config.json");
 
 async function readConfigFile(filePath: string): Promise<Partial<BotConfig> | null> {
+  let config: Partial<BotConfig> | null = null;
   try {
     const rawConfig = await fs.readFile(filePath, "utf8");
-    return JSON.parse(rawConfig) as Partial<BotConfig>;
+    config = JSON.parse(rawConfig) as Partial<BotConfig>;
+    return config;
   } catch (error) {
     const nodeError = error as NodeJS.ErrnoException;
     if (nodeError.code === "ENOENT") return null;
 
-    log.warn("CONFIG", `Nao foi possivel ler ${filePath}.`);
+    log.warn("CONFIG", t("logs.configReadFailed", config?.language ?? DEFAULT_LOCALE, { path: filePath }));
     return null;
   }
 }

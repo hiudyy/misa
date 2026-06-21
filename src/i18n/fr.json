@@ -68,7 +68,8 @@
     "eventError": "Erreur dans {{name}}.",
     "configReadFailed": "Impossible de lire {{path}}.",
     "configMigrated": "Configuration migrée vers {{path}}.",
-    "botStarted": "{{botName}} a démarré et est prêt à recevoir des messages."
+    "botStarted": "{{botName}} a démarré et est prêt à recevoir des messages.",
+    "updateRestoreFailed": "Échec de la restauration de package.json."
   },
   "errors": {
     "ownerOnly": "❌ Cette commande est réservée au propriétaire du bot.",
@@ -378,17 +379,17 @@
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ There is no activity registered in this group yet.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *ACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *CLASSEMENT ACTIF* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ No members found in the group.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *INACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *CLASSEMENT INACTIF* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
       "lidFailed": "❌ Could not resolve the mentioned user.",
-      "text": "╭─「 *ACTIVE CHECK* 」\n│\n│ user: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commands: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
+      "text": "╭─「 *VÉRIFICATION ACTIVE* 」\n│\n│ utilisateur: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commandes: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ Impossible d'obtenir les informations du groupe.",
@@ -403,35 +404,35 @@
     "antilink": {
       "enabled": "✅ Anti-lien *activé* dans ce groupe !",
       "disabled": "❌ Anti-lien *désactivé* dans ce groupe.",
-      "settingsHint": "⚙️ Paramètres :\n• antilink punicao apagar\n• antilink punicao banir\n• antilink texto <mensagem>",
+      "settingsHint": "⚙️ Paramètres:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <message>",
       "punishmentUpdated": "✅ La sanction anti-lien a été mise à jour vers *{{value}}*.",
-      "invalidPunishment": "❌ Utilise : antilink punicao apagar | banir",
+      "invalidPunishment": "❌ Utilisez: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Texte anti-lien mis à jour !\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *Paramètres disponibles :*\n│ {{params}}\n│\n│ *Texte actuel :*\n│ {{current}}\n│\n╰─ Utilise : antilink texto <mensagem>",
-      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink punicao apagar\n│ antilink punicao banir\n│ antilink texto <mensagem>",
-      "params": "@usuario   → mentionne l'utilisateur\n│ @nome      → nom de l'utilisateur\n│ @grupo     → nom du groupe\n│ @tipo      → type de lien détecté"
+      "textHeader": "╭─「 *TEXTE ANTILINK* 」\n│\n│ *Variables disponibles:*\n│ {{params}}\n│\n│ *Texte actuel:*\n│ {{current}}\n│\n╰─ Utilisation: antilink {{text}} <message>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <message>",
+      "params": "@type → type de lien détecté"
     },
     "antilinkgp": {
       "enabled": "✅ Anti-lien de groupe *activé* dans ce groupe !",
       "disabled": "❌ Anti-lien de groupe *désactivé* dans ce groupe.",
-      "settingsHint": "⚙️ Paramètres :\n• antilinkgp punicao apagar\n• antilinkgp punicao banir\n• antilinkgp texto <mensagem>",
+      "settingsHint": "⚙️ Paramètres:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <message>",
       "punishmentUpdated": "✅ La sanction anti-lien de groupe a été mise à jour vers *{{value}}*.",
-      "invalidPunishment": "❌ Utilise : antilinkgp punicao apagar | banir",
+      "invalidPunishment": "❌ Utilisez: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Texte anti-lien de groupe mis à jour !\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINKGP* 」\n│\n│ *Paramètres disponibles :*\n│ {{params}}\n│\n│ *Texte actuel :*\n│ {{current}}\n│\n╰─ Utilise : antilinkgp texto <mensagem>",
-      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp punicao apagar\n│ antilinkgp punicao banir\n│ antilinkgp texto <mensagem>",
-      "params": "@usuario   → mentionne l'utilisateur\n│ @nome      → nom de l'utilisateur\n│ @grupo     → nom du groupe\n│ @tipo      → type de lien détecté"
+      "textHeader": "╭─「 *TEXTE ANTILINK* 」\n│\n│ *Variables disponibles:*\n│ {{params}}\n│\n│ *Texte actuel:*\n│ {{current}}\n│\n╰─ Utilisation: antilinkgp {{text}} <message>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <message>",
+      "params": "@type → type de lien détecté"
     },
     "antilinkch": {
       "enabled": "✅ Anti-lien de canal *activé* dans ce groupe !",
       "disabled": "❌ Anti-lien de canal *désactivé* dans ce groupe.",
-      "settingsHint": "⚙️ Paramètres :\n• antilinkch punicao apagar\n• antilinkch punicao banir\n• antilinkch texto <mensagem>",
+      "settingsHint": "⚙️ Paramètres:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <message>",
       "punishmentUpdated": "✅ La sanction anti-lien de canal a été mise à jour vers *{{value}}*.",
-      "invalidPunishment": "❌ Utilise : antilinkch punicao apagar | banir",
+      "invalidPunishment": "❌ Utilisez: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Texte anti-lien de canal mis à jour !\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *Paramètres disponibles :*\n│ {{params}}\n│\n│ *Texte actuel :*\n│ {{current}}\n│\n╰─ Utilise : antilinkch texto <mensagem>",
-      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensagem>",
-      "params": "@usuario   → mentionne l'utilisateur\n│ @nome      → nom de l'utilisateur\n│ @grupo     → nom du groupe\n│ @tipo      → type de lien détecté"
+      "textHeader": "╭─「 *TEXTE ANTILINK* 」\n│\n│ *Variables disponibles:*\n│ {{params}}\n│\n│ *Texte actuel:*\n│ {{current}}\n│\n╰─ Utilisation: antilinkch {{text}} <message>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <message>",
+      "params": "@type → type de lien détecté"
     },
     "antistealth": {
       "enabled": "✅ Anti-stealth *activé* dans ce groupe.",
@@ -443,24 +444,24 @@
       "disabled": "❌ Message de bienvenue *désactivé* dans ce groupe."
     },
     "gp": {
-      "usage": "╭─「 *GRUPO* 」\n│\n│ ✦ gp a → ouvre le groupe\n│ ✦ gp f → ferme le groupe\n│\n╰─",
+      "usage": "╭─「 *GROUPE* 」\n│\n│ ✦ gp {{open}} → ouvrir le groupe\n│ ✦ gp {{close}} → fermer le groupe\n\n╰─",
       "closed": "🔒 Groupe fermé ! Seuls les admins peuvent envoyer des messages.",
       "opened": "🔓 Groupe ouvert ! Tout le monde peut envoyer des messages."
     },
     "kick": {
-      "noMention": "❌ Mentionne l'utilisateur que tu veux retirer.\n\nUtilisation : kick @usuario",
+      "noMention": "❌ Mentionne l'utilisateur que tu veux retirer.\n\nUtilisation : kick @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "success": "✅ Utilisateur retiré avec succès !",
       "error": "❌ Erreur lors du retrait de l'utilisateur : {{error}}"
     },
     "promote": {
-      "noMention": "❌ Mentionne l'utilisateur que tu veux promouvoir.\n\nUtilisation : promote @usuario",
+      "noMention": "❌ Mentionne l'utilisateur que tu veux promouvoir.\n\nUtilisation : promote @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "success": "✅ Utilisateur promu administrateur !",
       "error": "❌ Erreur lors de la promotion de l'utilisateur : {{error}}"
     },
     "demote": {
-      "noMention": "❌ Mentionne l'administrateur que tu veux rétrograder.\n\nUtilisation : demote @usuario",
+      "noMention": "❌ Mentionne l'administrateur que tu veux rétrograder.\n\nUtilisation : demote @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "success": "✅ Administrateur rétrogradé au rang de membre !",
       "error": "❌ Erreur lors de la rétrogradation de l'administrateur : {{error}}"
@@ -474,13 +475,13 @@
       "success": "✅ Description du groupe mise à jour !"
     },
     "legendabv": {
-      "params": "@usuario   → mentionne l'utilisateur\n│ @nome      → nom de l'utilisateur\n│ @grupo     → nom du groupe\n│ @total     → nombre total de membres\n│ @desc      → description du groupe",
+      "params": "@utilisateur → mentionne l’utilisateur\n│ @nom → nom de l’utilisateur\n│ @groupe → nom du groupe\n│ @total → nombre total de membres\n│ @description → description du groupe",
       "header": "╭─「 *LEGENDA BV* 」\n│\n│ *Paramètres disponibles :*\n│ {{params}}\n│\n│ *Légende actuelle :*\n│ {{current}}\n│\n╰─ Utilise : legendabv <texte>",
       "updated": "✅ Légende de bienvenue mise à jour !\n\n{{text}}"
     },
     "midiabv": {
       "removed": "✅ Média de bienvenue supprimé.",
-      "noMedia": "╭─「 *MÍDIA BV* 」\n│\n│ ✦ Statut : {{status}}\n│\n│ Envoie ou réponds à une image ou une vidéo.\n│ Vidéos : maximum 15 secondes (envoyée comme gif).\n│ Pour supprimer : midiabv off\n│\n╰─",
+      "noMedia": "╭─「 *MÉDIA DE BIENVENUE* 」\n│\n│ ✦ Statut: {{status}}\n\n│ Envoyez une image ou une vidéo, ou répondez à l’une d’elles.\n│ Vidéos: jusqu’à 15 secondes (envoyées en GIF).\n│ Pour supprimer: midiabv {{off}}\n\n╰─",
       "statusVideo": "Vidéo 🎥 ✅",
       "statusImage": "Image 🖼️ ✅",
       "statusNone": "Aucun média ❌",
@@ -489,13 +490,13 @@
       "successImage": "✅ Image de bienvenue configurée !"
     },
     "cmdnf": {
-      "params": "@usuario      → mentionne l'utilisateur\n│ @nome         → nom de l'utilisateur\n│ @comando      → commande saisie\n│ @parecido     → commande la plus proche\n│ @similaridade → pourcentage de similarité\n│ @prefixo      → préfixe actuel\n│ @bot          → nom du bot",
-      "header": "╭─「 *CMDNF* 」\n│\n│ *Mode actuel :* {{mode}}\n│ *Texte actuel :* {{text}}\n│\n│ *Paramètres disponibles :*\n│ {{params}}\n│\n│ *Utilisations :*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>",
-      "invalidMode": "❌ Utilise : cmdnf modo texto | mencao",
+      "params": "@utilisateur → mentionne l’utilisateur\n│ @nom → nom de l’utilisateur\n│ @commande → commande saisie\n│ @similaire → commande la plus proche\n│ @similarite → pourcentage de similarité\n│ @prefixe → préfixe actuel\n│ @bot → nom du bot",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *Mode actuel:* {{mode}}\n│ *Texte actuel:* {{text}}\n│\n│ *Variables disponibles:*\n│ {{params}}\n│\n│ *Utilisation:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <message>\n\n╰─",
+      "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
       "modeUpdated": "✅ Le mode de commande introuvable a été mis à jour vers *{{mode}}*.",
-      "textHeader": "╭─「 *TEXTO CMDNF* 」\n│\n│ *Paramètres disponibles :*\n│ {{params}}\n│\n│ *Texte actuel :*\n│ {{current}}\n│\n╰─ Utilise : cmdnf texto <mensagem>",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *Variables disponibles:*\n│ {{params}}\n│\n│ *Texte actuel:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <message>",
       "textUpdated": "✅ Texte de commande introuvable mis à jour !\n\n{{text}}",
-      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>"
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <message>"
     },
     "eval": {
       "noArgs": "❌ Utilisation : eval <code>",
@@ -503,7 +504,7 @@
       "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code : {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Erreur d'exécution."
     },
     "idioma": {
-      "current": "🌐 Langue globale actuelle : *{{language}}*\n\nUtilisation : langue <{{options}}>",
+      "current": "🌐 Langue globale actuelle: *{{language}}*\n\nUtilisation : language <{{options}}>",
       "updated": "✅ Langue globale mise à jour vers *{{language}}*.",
       "invalid": "❌ Langue invalide. Utilise : {{optionsList}}",
       "i18nAliases": {
@@ -561,18 +562,18 @@
       "updatedNoLid": "✅ Numéro du propriétaire mis à jour vers *{{value}}*.\n⚠️ Je n'ai pas pu résoudre le nouveau LID pour l'instant ; l'ancien LID a été conservé en attendant la mise à jour."
     },
     "prefixo": {
-      "current": "⌨️ Préfixe actuel : *{{value}}*\n\nUtilisation : prefixo <nouveau préfixe>",
+      "current": "⌨️ Préfixe actuel: *{{value}}*\n\nUtilisation : préfixe <nouveau préfixe>",
       "invalid": "❌ Utilise un préfixe sans espaces et de 5 caractères maximum.",
       "updated": "✅ Préfixe mis à jour vers *{{value}}*."
     },
     "apikey": {
-      "current": "🔑 Clé API configurée : *{{value}}*\n\nUtilisation : apikey <valeur>\nPour effacer : apikey off",
+      "current": "🔑 Clé API définie: *{{value}}*\n\nUtilisation : apikey <valeur>\nPour supprimer: apikey {{off}}",
       "updated": "✅ Clé API mise à jour avec succès.",
       "cleared": "✅ Clé API supprimée avec succès."
     },
     "autoupdate": {
-      "current": "♻️ Mise à jour automatique actuelle : *{{value}}*\n\nUtilisation : autoupdate <on|off>",
-      "invalid": "❌ Utilise : autoupdate on | off",
+      "current": "♻️ Mise à jour automatique actuelle: *{{value}}*\n\nUtilisation : autoupdate <{{on}}|{{off}}>",
+      "invalid": "❌ Utilisez: autoupdate {{on}} | {{off}}",
       "updated": "✅ Mise à jour automatique changée en *{{value}}*."
     },
     "antipv": {
@@ -598,10 +599,10 @@
       "confirm": "👋 Je quitte ce groupe..."
     },
     "idiomagp": {
-      "current": "🌐 Langue du groupe : *{{language}}*\n(Globale : {{global}})\n\nUtilisation : idiomagp <{{options}}|reset>",
+      "current": "🌐 Langue du groupe: *{{language}}*\n(Global: {{global}})\n\nUtilisation : languagegroup <{{options}}|{{reset}}>",
       "updated": "✅ Langue du groupe mise à jour vers *{{language}}*.",
       "reset": "✅ Langue du groupe réinitialisée sur la langue globale (*{{language}}*).",
-      "invalid": "❌ Langue invalide. Utilise : {{optionsList}} (ou 'reset' pour utiliser la langue globale)",
+      "invalid": "❌ Langue invalide. Utilisez: {{optionsList}} (ou \"{{reset}}\" pour la langue globale)",
       "i18nAliases": {
         "pt": [
           "idiomagp",
@@ -645,7 +646,7 @@
       "disabled": "❌ Mode fun désactivé dans ce groupe."
     },
     "setprefixgp": {
-      "current": "⌨️ Préfixe du groupe : *{{value}}*\nPréfixe global : *{{global}}*\n\nUtilisation : setprefixgp <nouveau préfixe>\nPour réinitialiser : setprefixgp reset",
+      "current": "⌨️ Préfixe actuel: *{{value}}*\nPréfixe global: *{{global}}*\n\nUtilisation : setgroupprefix <nouveau préfixe>\nPour réinitialiser: setgroupprefix {{reset}}",
       "invalid": "❌ Utilise un préfixe sans espaces et de 5 caractères maximum.",
       "updated": "✅ Préfixe de ce groupe mis à jour vers *{{value}}*.",
       "reset": "✅ Préfixe de ce groupe réinitialisé sur le préfixe global (*{{value}}*)."
@@ -663,7 +664,7 @@
       "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "blockuser": {
-      "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : blockuser @usuario [30m|12h|7d] [raison]",
+      "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : blockuser @utilisateur [30m|12h|7d] [raison]",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "ownerBypass": "❌ Le propriétaire ne peut pas être bloqué.",
       "alreadyBlocked": "❌ Cet utilisateur est déjà bloqué.",
@@ -671,7 +672,7 @@
       "success": "✅ Utilisateur {{user}} bloqué.\nExpire : {{expires}}\nRaison : {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : unblockuser @usuario",
+      "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : unblockuser @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "notBlocked": "❌ Cet utilisateur n'est pas bloqué.",
       "success": "✅ Utilisateur {{user}} débloqué."
@@ -734,12 +735,12 @@
   },
   "group": {
     "welcome": {
-      "defaultLegend": "Bienvenue, @usuario ! 👋\nTu es le membre numéro @total du groupe *@grupo*."
+      "defaultLegend": "Bienvenue, @utilisateur ! 👋\nTu es le membre numéro @total du groupe *@groupe*."
     },
     "antilink": {
-      "defaultText": "🚫 @usuario, les liens ne sont pas autorisés dans ce groupe.",
-      "defaultGroupText": "🚫 @usuario, les liens de groupe ne sont pas autorisés dans ce groupe.",
-      "defaultChannelText": "🚫 @usuario, les liens de chaîne ne sont pas autorisés dans ce groupe.",
+      "defaultText": "🚫 @utilisateur, les liens ne sont pas autorisés dans ce groupe.",
+      "defaultGroupText": "🚫 @utilisateur, les liens de groupe ne sont pas autorisés dans ce groupe.",
+      "defaultChannelText": "🚫 @utilisateur, les liens de canal ne sont pas autorisés dans ce groupe.",
       "typeLink": "lien",
       "typeGroupLink": "lien de groupe",
       "typeChannelLink": "lien de chaîne"
@@ -747,7 +748,9 @@
   },
   "owner": {
     "cmdnf": {
-      "defaultText": "❌ @usuario, la commande @comando n'existe pas.\n\nTu voulais peut-être dire : @parecido (@similaridade)\nUtilise @prefixomenu pour voir les commandes."
-    }
+      "defaultText": "❌ @utilisateur, la commande @commande n’existe pas.\n\nTu voulais peut-être dire: @similaire (@similarite)\nUtilise @prefixemenu pour voir les commandes."
+    },
+    "text": "╭─「 *PROPRIÉTAIRE* 」\n│\n│ nom: {{owner}}\n│ numéro: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─",
+    "info": "╭─「 *INFOS DU BOT* 」\n│\n│ nom: {{bot}}\n│ propriétaire: {{owner}}\n│ préfixe: {{prefix}}\n│ langue: {{language}}\n│ durée active: {{uptime}}\n│ mémoire: {{memory}}\n│ node: {{node}}\n│\n╰─"
   }
 }

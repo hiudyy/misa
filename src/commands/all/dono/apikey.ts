@@ -4,6 +4,7 @@
  */
 import { WAMessage } from "baileys";
 import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getLocalizedCommandWordVars, matchesLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { Command } from "../../../types/Command.js";
 
 const apikeyCommand: Command = {
@@ -12,13 +13,14 @@ const apikeyCommand: Command = {
   description: "Atualiza a API key usada pelo bot",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, t, locale }) {
     const config = await getBotConfig();
+    const words = getLocalizedCommandWordVars(locale);
 
     if (args.length === 0) {
       await misa.sendMessage(
         from,
-        { text: t("commands.apikey.current", { value: config.apiKey ? t("common.yes") : t("common.no") }) },
+        { text: t("commands.apikey.current", { ...words, value: config.apiKey ? t("common.yes") : t("common.no") }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -26,7 +28,7 @@ const apikeyCommand: Command = {
 
     const value = args.join(" ").trim();
 
-    if (value.toLowerCase() === "off" || value.toLowerCase() === "reset") {
+    if (matchesLocalizedToken(locale, value, "off") || matchesLocalizedToken(locale, value, "reset")) {
       config.apiKey = "";
       await saveBotConfig(config);
       await misa.sendMessage(from, { text: t("commands.apikey.cleared") }, { quoted: message as WAMessage });

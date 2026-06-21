@@ -4,14 +4,8 @@
  */
 import { WAMessage } from "baileys";
 import { AntiLinkPunicao, getGroup, saveGroup } from "../../../database/groupDB.js";
+import { getLocalizedCommandWordVars, resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { Command } from "../../../types/Command.js";
-
-const PARAMS = [
-  "@usuario   → menciona o usuário",
-  "@nome      → nome do usuário",
-  "@grupo     → nome do grupo",
-  "@tipo      → tipo do link detectado",
-].join("\n│ ");
 
 const antilinkchCommand: Command = {
   name: "antilinkch",
@@ -21,8 +15,9 @@ const antilinkchCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, t, locale }) {
     const config = await getGroup(from);
+    const words = getLocalizedCommandWordVars(locale);
 
     if (args.length === 0) {
       const novoEstado = !config.antilinkch.ativo;
@@ -30,21 +25,23 @@ const antilinkchCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: novoEstado ? t("commands.antilinkch.enabled") : t("commands.antilinkch.disabled") + "\n\n" + t("commands.antilinkch.settingsHint"),
+          text: novoEstado
+            ? t("commands.antilinkch.enabled")
+            : t("commands.antilinkch.disabled") + "\n\n" + t("commands.antilinkch.settingsHint", words),
         },
         { quoted: message as WAMessage },
       );
       return;
     }
 
-    const action = args[0].toLowerCase();
+    const action = resolveLocalizedToken(locale, args[0], ["punishment", "text"]);
 
     if (action === "punicao") {
-      const punicao = args[1]?.toLowerCase() as AntiLinkPunicao | undefined;
+      const punicao = resolveLocalizedToken(locale, args[1], ["delete", "ban"]) as AntiLinkPunicao | null;
       if (punicao !== "apagar" && punicao !== "banir") {
         await misa.sendMessage(
           from,
-          { text: t("commands.antilinkch.invalidPunishment") },
+          { text: t("commands.antilinkch.invalidPunishment", words) },
           { quoted: message as WAMessage },
         );
         return;
@@ -53,7 +50,7 @@ const antilinkchCommand: Command = {
       await saveGroup(from, { antilinkch: { ...config.antilinkch, punicao } });
       await misa.sendMessage(
         from,
-        { text: t("commands.antilinkch.punishmentUpdated", { value: punicao }) },
+        { text: t("commands.antilinkch.punishmentUpdated", { value: words[punicao === "apagar" ? "delete" : "ban"] }) },
         { quoted: message as WAMessage },
       );
       return;
@@ -65,7 +62,8 @@ const antilinkchCommand: Command = {
           from,
           {
             text: t("commands.antilinkch.textHeader", {
-              params: t("commands.antilinkch.params"),
+              ...words,
+              params: t("commands.antilinkch.params", words),
               current: config.antilinkch.texto,
             }),
           },
@@ -87,7 +85,7 @@ const antilinkchCommand: Command = {
     await misa.sendMessage(
       from,
       {
-        text: t("commands.antilinkch.usage"),
+        text: t("commands.antilinkch.usage", words),
       },
       { quoted: message as WAMessage },
     );

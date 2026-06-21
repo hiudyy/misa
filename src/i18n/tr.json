@@ -68,7 +68,8 @@
     "eventError": "{{name}} hatası.",
     "configReadFailed": "{{path}} okunamadı.",
     "configMigrated": "Yapılandırma {{path}}'ye taşındı.",
-    "botStarted": "{{botName}} başlatıldı ve mesaj almaya hazır."
+    "botStarted": "{{botName}} başlatıldı ve mesaj almaya hazır.",
+    "updateRestoreFailed": "package.json geri yüklenemedi."
   },
   "errors": {
     "ownerOnly": "❌ Bu komut yalnızca bot sahibi içindir.",
@@ -378,17 +379,17 @@
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ There is no activity registered in this group yet.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *ACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *AKTİF SIRALAMA* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ No members found in the group.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *INACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *AKTİF OLMAYAN SIRALAMA* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
       "lidFailed": "❌ Could not resolve the mentioned user.",
-      "text": "╭─「 *ACTIVE CHECK* 」\n│\n│ user: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commands: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
+      "text": "╭─「 *AKTİFLİK KONTROLÜ* 」\n│\n│ kullanıcı: {{user}}\n│ konum: {{position}}\n│ toplam: {{total}}\n│ mesaj: {{messages}}\n│ komut: {{commands}}\n│ çıkartma: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ Grup bilgisi alınamıyor.",
@@ -403,35 +404,35 @@
     "antilink": {
       "enabled": "✅ Bu grupta anti-link *etkinleştirildi*!",
       "disabled": "❌ Bu grupta bağlantı önleme *devre dışı*.",
-      "settingsHint": "⚙️ Ayarlar:\n• antilink cezanın silinmesi\n• antilink ceza yasağı\n• antilink texto <mesaj>",
+      "settingsHint": "⚙️ Ayarlar:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <mesaj>",
       "punishmentUpdated": "✅ Bağlantı önleme cezası *{{value}}* olarak güncellendi.",
-      "invalidPunishment": "❌ Kullanın: antilink ceza silme | yasak",
+      "invalidPunishment": "❌ Kullanın: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Bağlantı önleme metni güncellendi!\n\n{{text}}",
-      "textHeader": "╭─「 *BAĞLANTI ÖNLEYİCİ METİN* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilink texto <mesaj>",
-      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink ceza silme\n│ antilink ceza yasağı\n│ antilink texto <mesaj>",
-      "params": "@user → kullanıcıdan bahseder\n│ @isim → kullanıcı adı\n│ @grup → grup adı\n│ @type → algılanan bağlantının türü"
+      "textHeader": "╭─「 *ANTILINK METNI* 」\n│\n│ *Kullanılabilir yer tutucular:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilink {{text}} <mesaj>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <mesaj>",
+      "params": "@tur → algılanan bağlantı türü"
     },
     "antilinkgp": {
       "enabled": "✅ Bu grupta grup karşıtı bağlantı *etkin*!",
       "disabled": "❌ Bu grupta grup karşıtı bağlantı *devre dışı*.",
-      "settingsHint": "⚙️ Ayarlar:\n• antilinkgp cezanın silinmesi\n• antilinkgp ceza yasağı\n• antilinkgp texto <mesaj>",
+      "settingsHint": "⚙️ Ayarlar:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <mesaj>",
       "punishmentUpdated": "✅ Grup karşıtı bağlantı cezası *{{value}}* olarak güncellendi.",
-      "invalidPunishment": "❌ Kullanın: antilinkgp ceza silme | yasak",
+      "invalidPunishment": "❌ Kullanın: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Grup karşıtı bağlantı metni güncellendi!\n\n{{text}}",
-      "textHeader": "╭─「 *ANTILINKGP METİN* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilinkgp texto <mesaj>",
-      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp ceza silme\n│ antilinkgp ceza yasağı\n│ antilinkgp texto <mesaj>",
-      "params": "@user → kullanıcıdan bahseder\n│ @isim → kullanıcı adı\n│ @grup → grup adı\n│ @type → algılanan bağlantının türü"
+      "textHeader": "╭─「 *ANTILINK METNI* 」\n│\n│ *Kullanılabilir yer tutucular:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilinkgp {{text}} <mesaj>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <mesaj>",
+      "params": "@tur → algılanan bağlantı türü"
     },
     "antilinkch": {
       "enabled": "✅ Bu grupta kanal karşıtı bağlantı *etkin*!",
       "disabled": "❌ Bu grupta kanal karşıtı bağlantı *devre dışı*.",
-      "settingsHint": "⚙️ Ayarlar:\n• antilinkch cezanın silinmesi\n• antilinkch ceza yasağı\n• antilinkch texto <mesaj>",
+      "settingsHint": "⚙️ Ayarlar:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <mesaj>",
       "punishmentUpdated": "✅ Kanal karşıtı bağlantı cezası *{{value}}* olarak güncellendi.",
-      "invalidPunishment": "❌ Kullanın: antilinkch ceza silme | yasak",
+      "invalidPunishment": "❌ Kullanın: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Kanal karşıtı bağlantı metni güncellendi!\n\n{{text}}",
-      "textHeader": "╭─「 *BAĞLANTI ÖNLEYİCİ METİN* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilinkch texto <mesaj>",
-      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch ceza silme\n│ antilinkch ceza yasağı\n│ antilinkch texto <mesaj>",
-      "params": "@user → kullanıcıdan bahseder\n│ @isim → kullanıcı adı\n│ @grup → grup adı\n│ @type → algılanan bağlantının türü"
+      "textHeader": "╭─「 *ANTILINK METNI* 」\n│\n│ *Kullanılabilir yer tutucular:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: antilinkch {{text}} <mesaj>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <mesaj>",
+      "params": "@tur → algılanan bağlantı türü"
     },
     "antistealth": {
       "enabled": "✅ Anti-stealth bu grupta *aktif*.",
@@ -443,7 +444,7 @@
       "disabled": "❌ Bu gruba *engelli* hoş geldiniz."
     },
     "gp": {
-      "usage": "╭─「 *GRUP* 」\n│\n│ ✦ gp a → grubu açar\n│ ✦ gp f → grubu kapatır\n│\n╰─",
+      "usage": "╭─「 *GRUP* 」\n│\n│ ✦ gp {{open}} → grubu açar\n│ ✦ gp {{close}} → grubu kapatır\n\n╰─",
       "closed": "🔒 Grup kapatıldı! Yalnızca yöneticiler mesaj gönderebilir.",
       "opened": "🔓 Grubu açın! Herkes mesaj gönderebilir."
     },
@@ -474,13 +475,13 @@
       "success": "✅ Grup açıklaması güncellendi!"
     },
     "legendabv": {
-      "params": "@user → kullanıcıdan bahseder\n│ @isim → kullanıcı adı\n│ @grup → grup adı\n│ @toplam → toplam üye sayısı\n│ @desc → grup açıklaması",
+      "params": "@kullanici → kullanıcıyı etiketler\n│ @isim → kullanıcının adı\n│ @grup → grubun adı\n│ @toplam → toplam üye sayısı\n│ @aciklama → grup açıklaması",
       "header": "╭─「 *BV BAŞLIĞI* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Mevcut altyazı:*\n│ {{current}}\n│\n╰─ Kullanım: captionbv <texto>",
       "updated": "✅ Hoş geldiniz başlığı güncellendi!\n\n{{text}}"
     },
     "midiabv": {
       "removed": "✅ Hoş geldiniz medyası kaldırıldı.",
-      "noMedia": "╭─「 *MEDIA BV* 」\n│\n│ ✦ Durum: {{status}}\n│\n│ Bir resmi veya videoyu gönderin veya yanıtlayın.\n│ Videolar: maksimum 15 saniye (gif olarak gönderilir).\n│ Kaldırmak için: midiabv kapalı\n│\n╰─",
+      "noMedia": "╭─「 *HOŞ GELDİN MEDYASI* 」\n│\n│ ✦ Durum: {{status}}\n\n│ Bir görsel veya video gönderin ya da ona yanıt verin.\n│ Videolar: en fazla 15 saniye (gif olarak gönderilir).\n│ Kaldırmak için: midiabv {{off}}\n\n╰─",
       "statusVideo": "Video 🎥 ✅",
       "statusImage": "Resim 🖼️ ✅",
       "statusNone": "Medya yok",
@@ -489,13 +490,13 @@
       "successImage": "✅ Hoş geldiniz fotoğraf kurulumu!"
     },
     "cmdnf": {
-      "params": "@user → kullanıcıdan bahseder\n│ @isim → kullanıcı adı\n│ @comando → digitado komutu\n│ @similar → en benzer komut\n│ @benzerlik → benzerlik yüzdesi\n│ @prefixo → prefixo mevcut\n│ @bot → bot adı",
-      "header": "╭─「 *CMDNF* 」\n│\n│ *Mevcut mod:* {{mode}}\n│ *Mevcut metin:* {{text}}\n│\n│ *Mevcut parametreler:*\n│{{params}}\n│\n│ *Kullanım alanları:*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mesaj>",
-      "invalidMode": "❌ Kullanın: cmdnf modo texto | mencao",
+      "params": "@kullanici → kullanıcıyı etiketler\n│ @isim → kullanıcının adı\n│ @komut → yazılan komut\n│ @benzer → en benzer komut\n│ @benzerlik → benzerlik yüzdesi\n│ @onek → geçerli önek\n│ @bot → bot adı",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *Geçerli mod:* {{mode}}\n│ *Geçerli metin:* {{text}}\n│\n│ *Kullanılabilir yer tutucular:*\n│ {{params}}\n│\n│ *Kullanım:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <mesaj>\n\n╰─",
+      "invalidMode": "❌ Kullanın: cmdnf {{mode}} {{text}} | {{mention}}",
       "modeUpdated": "✅ Komut bulunamadı modu *{{mode}}* olarak güncellendi.",
-      "textHeader": "╭─「 *CMDNF METİN* 」\n│\n│ *Mevcut parametreler:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n│\n╰─ Kullanın: cmdnf texto <mesaj>",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *Kullanılabilir yer tutucular:*\n│ {{params}}\n│\n│ *Geçerli metin:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <mesaj>",
       "textUpdated": "✅ Komut metni güncellenmiş olarak bulunamadı!\n\n{{text}}",
-      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mesaj>"
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <mesaj>"
     },
     "eval": {
       "noArgs": "❌ Kullanım: eval <kod>",
@@ -503,7 +504,7 @@
       "error": "╭─「 *DEĞERLENDİRME HATASI* 」\n│\n│ ✦ Kod: {{code}}\n│\n├─「 *HATA* 」\n│\n│ {{error}}\n│\n╰─ Yürütme hatası."
     },
     "idioma": {
-      "current": "🌐 Mevcut küresel dil: *{{language}}*\n\nKullanım: idioma <{{options}}>",
+      "current": "🌐 Geçerli küresel dil: *{{language}}*\n\nKullanım: idioma <{{options}}>",
       "updated": "✅ Küresel dil *{{language}}* olarak güncellendi.",
       "invalid": "❌ Geçersiz dil. Kullanım: {{optionsList}}",
       "i18nAliases": {
@@ -559,18 +560,18 @@
       "updatedNoLid": "✅ Sahip numarası *{{value}}* olarak güncellendi.\n⚠️ Yeni LID'i şimdi çözemedim; önceki LID güncellenene kadar tutuldu."
     },
     "prefixo": {
-      "current": "⌨️ Mevcut önek: *{{value}}*\n\nKullanım: prefixo <yeni prefixo>",
+      "current": "⌨️ Geçerli önek: *{{value}}*\n\nKullanım: önek <yeni önek>",
       "invalid": "❌ prefixo boşluksuz ve en fazla 5 karakter kullanın.",
       "updated": "✅ Önek *{{value}}* olarak güncellendi."
     },
     "apikey": {
-      "current": "🔑 API anahtarı yapılandırıldı: *{{value}}*\n\nKullanım: apikey <değer>\nTemizlemek için: apikey kapalı",
+      "current": "🔑 API anahtarı ayarlandı: *{{value}}*\n\nKullanım: apikey <değer>\nSilmek için: apikey {{off}}",
       "updated": "✅ API anahtarı başarıyla güncellendi.",
       "cleared": "✅ API anahtarı başarıyla kaldırıldı."
     },
     "autoupdate": {
-      "current": "♻️ Mevcut otomatik güncelleme: *{{value}}*\n\nKullanım: autoupdate <açık|kapalı>",
-      "invalid": "❌ Şunu kullanın: autoupdate açık | kapalı",
+      "current": "♻️ Geçerli otomatik güncelleme: *{{value}}*\n\nKullanım: autoupdate <{{on}}|{{off}}>",
+      "invalid": "❌ Kullanın: autoupdate {{on}} | {{off}}",
       "updated": "✅ Otomatik güncelleme *{{value}}* olarak güncellendi."
     },
     "antipv": {
@@ -596,10 +597,10 @@
       "confirm": "👋 Bu gruptan ayrılıyorum..."
     },
     "idiomagp": {
-      "current": "🌐 Grup dili: *{{language}}*\n(Genel: {{global}})\n\nKullanım: idiomagp <{{options}}|sıfırla>",
+      "current": "🌐 Grup dili: *{{language}}*\n(Küresel: {{global}})\n\nKullanım: groupbhasha <{{options}}|{{reset}}>",
       "updated": "✅ Grup dili *{{language}}* olarak güncellendi.",
       "reset": "✅ Grup dili global olarak sıfırlandı (*{{language}}*).",
-      "invalid": "❌ Geçersiz dil. Kullanın: {{optionsList}} (veya global kullanmak için 'sıfırlayın')",
+      "invalid": "❌ Geçersiz dil. Kullanın: {{optionsList}} (veya küresel dil için \"{{reset}}\")",
       "i18nAliases": {
         "pt": [
           "idiomagp",
@@ -642,7 +643,7 @@
       "disabled": "❌ Bu grupta şaka modu devre dışı bırakıldı."
     },
     "setprefixgp": {
-      "current": "⌨️ Grup öneki: *{{value}}*\nGenel önek: *{{global}}*\n\nKullanım: setprefixgp <yeni prefixo>\nSıfırlamak için: setprefixgp sıfırla",
+      "current": "⌨️ Geçerli önek: *{{value}}*\nEvrensel önek: *{{global}}*\n\nKullanım: setprefixgp <yeni önek>\nSıfırlamak için: setprefixgp {{reset}}",
       "invalid": "❌ prefixo boşluksuz ve en fazla 5 karakter kullanın.",
       "updated": "✅ Bu grubun öneki *{{value}}* olarak güncellendi.",
       "reset": "✅ Bu grubun öneki global (*{{value}}*) olarak sıfırlandı."
@@ -731,12 +732,12 @@
   },
   "group": {
     "welcome": {
-      "defaultLegend": "Hoş geldiniz @kullanıcı! 👋\n*@group* grubunun @total number üyesisiniz."
+      "defaultLegend": "Hoş geldin, @kullanici! 👋\n*@grup* grubunun @toplam numaralı üyesisin."
     },
     "antilink": {
-      "defaultText": "🚫 @user, bu grupta bağlantılara izin verilmiyor.",
-      "defaultGroupText": "🚫 @user, bu grupta grup bağlantılarına izin verilmiyor.",
-      "defaultChannelText": "🚫 @user, bu grupta kanal bağlantılarına izin verilmiyor.",
+      "defaultText": "🚫 @kullanici, bu grupta bağlantılara izin verilmiyor.",
+      "defaultGroupText": "🚫 @kullanici, bu grupta grup bağlantılarına izin verilmiyor.",
+      "defaultChannelText": "🚫 @kullanici, bu grupta kanal bağlantılarına izin verilmiyor.",
       "typeLink": "bağlantı",
       "typeGroupLink": "grup bağlantısı",
       "typeChannelLink": "kanal bağlantısı"
@@ -744,7 +745,9 @@
   },
   "owner": {
     "cmdnf": {
-      "defaultText": "❌ @user, @comando komutu mevcut değil.\n\nBelki şunu demek istedin: @parecido (@similaridade)\nKomutları görmek için @prefixomenu'yu kullanın."
-    }
+      "defaultText": "❌ @kullanici, @komut komutu mevcut değil.\n\nBelki şunu demek istedin: @benzer (@benzerlik)\nKomutları görmek için @onekmenu kullanın."
+    },
+    "text": "╭─「 *SAHİP* 」\n│\n│ ad: {{owner}}\n│ numara: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─",
+    "info": "╭─「 *BOT BİLGİSİ* 」\n│\n│ ad: {{bot}}\n│ sahip: {{owner}}\n│ önek: {{prefix}}\n│ dil: {{language}}\n│ çalışma süresi: {{uptime}}\n│ bellek: {{memory}}\n│ node: {{node}}\n│\n╰─"
   }
 }

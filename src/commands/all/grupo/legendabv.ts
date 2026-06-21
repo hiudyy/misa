@@ -5,14 +5,7 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getGroup, saveGroup } from "../../../database/groupDB.js";
-
-const PARAMS = [
-  "@usuario   → menciona o usuário",
-  "@nome      → nome do usuário",
-  "@grupo     → nome do grupo",
-  "@total     → total de membros",
-  "@desc      → descrição do grupo",
-].join("\n│ ");
+import { getLocalizedCommandWordVars } from "../../../helpers/localizedTokens.js";
 
 const legendabvCommand: Command = {
   name: "legendabv",
@@ -22,14 +15,16 @@ const legendabvCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, t, locale }) {
+    const words = getLocalizedCommandWordVars(locale);
     if (args.length === 0) {
       const config = await getGroup(from);
       await misa.sendMessage(
         from,
         {
           text: t("commands.legendabv.header", {
-            params: t("commands.legendabv.params"),
+            ...words,
+            params: t("commands.legendabv.params", words),
             current: config.bemvindo.legenda,
           }),
         },

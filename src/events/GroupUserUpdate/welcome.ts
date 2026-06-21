@@ -5,6 +5,7 @@
 import { GroupParticipant, ParticipantAction } from "baileys";
 import { Event } from "../../types/Event.js";
 import { getGroup } from "../../database/groupDB.js";
+import { replaceLocalizedPlaceholders } from "../../helpers/localizedTokens.js";
 import { promises as fs } from "node:fs";
 import { toLID } from "../../helpers/toLID.js";
 
@@ -49,12 +50,13 @@ const welcomeEvent: Event<GroupParticipantsUpdateEvent> = {
         template = t("group.welcome.defaultLegend");
       }
 
-      const texto = template
-        .replace(/@usuario/g, `@${numero}`)
-        .replace(/@nome/g, numero)
-        .replace(/@grupo/g, nomeGrupo)
-        .replace(/@total/g, total)
-        .replace(/@desc/g, desc);
+      const texto = replaceLocalizedPlaceholders(template, locale, {
+        user: `@${numero}`,
+        name: numero,
+        group: nomeGrupo,
+        total,
+        desc,
+      });
 
       if (config.bemvindo.midia) {
         try {

@@ -68,7 +68,8 @@
     "eventError": "Kesalahan pada {{name}}.",
     "configReadFailed": "Tidak dapat membaca {{path}}.",
     "configMigrated": "Konfigurasi dimigrasikan ke {{path}}.",
-    "botStarted": "{{botName}} dimulai dan siap menerima pesan."
+    "botStarted": "{{botName}} dimulai dan siap menerima pesan.",
+    "updateRestoreFailed": "Gagal memulihkan package.json."
   },
   "errors": {
     "ownerOnly": "❌ Perintah ini hanya untuk pemilik bot.",
@@ -378,17 +379,17 @@
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ There is no activity registered in this group yet.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *ACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *RANK AKTIF* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ No members found in the group.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *INACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *RANK TIDAK AKTIF* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
       "lidFailed": "❌ Could not resolve the mentioned user.",
-      "text": "╭─「 *ACTIVE CHECK* 」\n│\n│ user: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commands: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
+      "text": "╭─「 *CEK AKTIF* 」\n│\n│ pengguna: {{user}}\n│ posisi: {{position}}\n│ total: {{total}}\n│ pesan: {{messages}}\n│ perintah: {{commands}}\n│ stiker: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ Tidak dapat mengambil informasi grup.",
@@ -403,35 +404,35 @@
     "antilink": {
       "enabled": "✅ Anti-link *diaktifkan* di grup ini!",
       "disabled": "❌ Anti-link *dinonaktifkan* di grup ini.",
-      "settingsHint": "⚙️ Pengaturan:\n• antilink hukuman hapus\n• antilink hukuman ban\n• antilink teks <pesan>",
+      "settingsHint": "⚙️ Pengaturan:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <pesan>",
       "punishmentUpdated": "✅ Hukuman anti-link diperbarui menjadi *{{value}}*.",
-      "invalidPunishment": "❌ Gunakan: antilink hukuman hapus | ban",
+      "invalidPunishment": "❌ Gunakan: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Teks anti-link diperbarui!\n\n{{text}}",
-      "textHeader": "╭─「 *TEKS ANTILINK* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilink teks <pesan>",
-      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink hukuman hapus\n│ antilink hukuman ban\n│ antilink teks <pesan>",
-      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+      "textHeader": "╭─「 *TEKS ANTILINK* 」\n│\n│ *Placeholder tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Cara pakai: antilink {{text}} <pesan>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <pesan>",
+      "params": "@jenis → jenis tautan terdeteksi"
     },
     "antilinkgp": {
       "enabled": "✅ Anti-link grup *diaktifkan* di grup ini!",
       "disabled": "❌ Anti-link grup *dinonaktifkan* di grup ini.",
-      "settingsHint": "⚙️ Pengaturan:\n• antilinkgp hukuman hapus\n• antilinkgp hukuman ban\n• antilinkgp teks <pesan>",
+      "settingsHint": "⚙️ Pengaturan:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <pesan>",
       "punishmentUpdated": "✅ Hukuman anti-link grup diperbarui menjadi *{{value}}*.",
-      "invalidPunishment": "❌ Gunakan: antilinkgp hukuman hapus | ban",
+      "invalidPunishment": "❌ Gunakan: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Teks anti-link grup diperbarui!\n\n{{text}}",
-      "textHeader": "╭─「 *TEKS ANTILINKGP* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilinkgp teks <pesan>",
-      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp hukuman hapus\n│ antilinkgp hukuman ban\n│ antilinkgp teks <pesan>",
-      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+      "textHeader": "╭─「 *TEKS ANTILINK* 」\n│\n│ *Placeholder tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Cara pakai: antilinkgp {{text}} <pesan>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <pesan>",
+      "params": "@jenis → jenis tautan terdeteksi"
     },
     "antilinkch": {
       "enabled": "✅ Anti-link saluran *diaktifkan* di grup ini!",
       "disabled": "❌ Anti-link saluran *dinonaktifkan* di grup ini.",
-      "settingsHint": "⚙️ Pengaturan:\n• antilinksaluran hukuman hapus\n• antilinksaluran hukuman ban\n• antilinksaluran teks <pesan>",
+      "settingsHint": "⚙️ Pengaturan:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <pesan>",
       "punishmentUpdated": "✅ Hukuman anti-link saluran diperbarui menjadi *{{value}}*.",
-      "invalidPunishment": "❌ Gunakan: antilinksaluran hukuman hapus | ban",
+      "invalidPunishment": "❌ Gunakan: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Teks anti-link saluran diperbarui!\n\n{{text}}",
-      "textHeader": "╭─「 *TEKS ANTILINKSALURAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: antilinksaluran teks <pesan>",
-      "usage": "╭─「 *ANTILINKSALURAN* 」\n│\n│ antilinksaluran\n│ antilinksaluran hukuman hapus\n│ antilinksaluran hukuman ban\n│ antilinksaluran teks <pesan>",
-      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @jenis     → jenis link yang terdeteksi"
+      "textHeader": "╭─「 *TEKS ANTILINK* 」\n│\n│ *Placeholder tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Cara pakai: antilinkch {{text}} <pesan>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <pesan>",
+      "params": "@jenis → jenis tautan terdeteksi"
     },
     "antistealth": {
       "enabled": "✅ Anti-stealth *aktif* di grup ini.",
@@ -443,7 +444,7 @@
       "disabled": "❌ Sambutan *dinonaktifkan* di grup ini."
     },
     "gp": {
-      "usage": "╭─「 *GRUP* 」\n│\n│ ✦ grup a → buka grup\n│ ✦ grup t → tutup grup\n│\n╰─",
+      "usage": "╭─「 *GRUP* 」\n│\n│ ✦ gp {{open}} → buka grup\n│ ✦ gp {{close}} → tutup grup\n\n╰─",
       "closed": "🔒 Grup ditutup! Hanya admin yang dapat mengirim pesan.",
       "opened": "🔓 Grup dibuka! Semua orang dapat mengirim pesan."
     },
@@ -474,13 +475,13 @@
       "success": "✅ Deskripsi grup berhasil diperbarui!"
     },
     "legendabv": {
-      "params": "@pengguna  → menyebut pengguna\n│ @nama      → nama pengguna\n│ @grup      → nama grup\n│ @total     → total anggota\n│ @deskripsi → deskripsi grup",
+      "params": "@pengguna → menyebut pengguna\n│ @nama → nama pengguna\n│ @grup → nama grup\n│ @total → total anggota\n│ @deskripsi → deskripsi grup",
       "header": "╭─「 *KETERANGAN SAMBUTAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Keterangan saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: tekssambutan <teks>",
       "updated": "✅ Keterangan sambutan diperbarui!\n\n{{text}}"
     },
     "midiabv": {
       "removed": "✅ Media sambutan dihapus.",
-      "noMedia": "╭─「 *MEDIA SAMBUTAN* 」\n│\n│ ✦ Status: {{status}}\n│\n│ Kirim atau balas dengan gambar atau video.\n│ Video: maks 15 detik (dikirim sebagai gif).\n│ Untuk menghapus: mediasambutan mati\n│\n╰─",
+      "noMedia": "╭─「 *MEDIA SELAMAT DATANG* 」\n│\n│ ✦ Status: {{status}}\n\n│ Kirim gambar atau video, atau balas salah satunya.\n│ Video: maksimal 15 detik (dikirim sebagai GIF).\n│ Untuk hapus: midiabv {{off}}\n\n╰─",
       "statusVideo": "Video 🎥 ✅",
       "statusImage": "Gambar 🖼️ ✅",
       "statusNone": "Tidak ada media ❌",
@@ -489,13 +490,13 @@
       "successImage": "✅ Foto sambutan dikonfigurasi!"
     },
     "cmdnf": {
-      "params": "@pengguna     → menyebut pengguna\n│ @nama         → nama pengguna\n│ @perintah     → perintah yang diketik\n│ @mirip        → perintah yang paling mirip\n│ @kemiripan    → persentase kemiripan\n│ @prefiks      → prefiks saat ini\n│ @bot          → nama bot",
-      "header": "╭─「 *CMDTIDAKDITEMUKAN* 」\n│\n│ *Mode saat ini:* {{mode}}\n│ *Teks saat ini:* {{text}}\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Penggunaan:*\n│ cmdtidakditemukan mode teks\n│ cmdtidakditemukan mode sebut\n│ cmdtidakditemukan teks <pesan>",
-      "invalidMode": "❌ Gunakan: cmdtidakditemukan mode teks | sebut",
+      "params": "@pengguna → menyebut pengguna\n│ @nama → nama pengguna\n│ @perintah → perintah yang diketik\n│ @mirip → perintah paling mirip\n│ @kemiripan → persentase kemiripan\n│ @prefiks → prefiks saat ini\n│ @bot → nama bot",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *Mode saat ini:* {{mode}}\n│ *Teks saat ini:* {{text}}\n│\n│ *Placeholder tersedia:*\n│ {{params}}\n│\n│ *Cara pakai:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <pesan>\n\n╰─",
+      "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
       "modeUpdated": "✅ Mode perintah tidak ditemukan diperbarui menjadi *{{mode}}*.",
-      "textHeader": "╭─「 *TEKS CMDTIDAKDITEMUKAN* 」\n│\n│ *Parameter yang tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n│\n╰─ Gunakan: cmdtidakditemukan teks <pesan>",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *Placeholder tersedia:*\n│ {{params}}\n│\n│ *Teks saat ini:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <pesan>",
       "textUpdated": "✅ Teks perintah tidak ditemukan diperbarui!\n\n{{text}}",
-      "usage": "╭─「 *CMDTIDAKDITEMUKAN* 」\n│\n│ cmdtidakditemukan mode teks\n│ cmdtidakditemukan mode sebut\n│ cmdtidakditemukan teks <pesan>"
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <pesan>"
     },
     "eval": {
       "noArgs": "❌ Penggunaan: eval <kode>",
@@ -503,7 +504,7 @@
       "error": "╭─「 *KESALAHAN EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *KESALAHAN* 」\n│\n│ {{error}}\n│\n╰─ Kesalahan eksekusi."
     },
     "idioma": {
-      "current": "🌐 Bahasa global saat ini: *{{language}}*\n\nPenggunaan: bahasa <{{options}}>",
+      "current": "🌐 Bahasa global saat ini: *{{language}}*\n\nCara pakai: bahasa <{{options}}>",
       "updated": "✅ Bahasa global diperbarui menjadi *{{language}}*.",
       "invalid": "❌ Bahasa tidak valid. Gunakan: {{optionsList}}",
       "i18nAliases": {
@@ -559,18 +560,18 @@
       "updatedNoLid": "✅ Nomor pemilik diperbarui menjadi *{{value}}*.\n⚠️ Saya belum bisa menyelesaikan LID baru sekarang; LID lama dipertahankan sampai bisa diperbarui."
     },
     "prefixo": {
-      "current": "⌨️ Prefiks saat ini: *{{value}}*\n\nPenggunaan: prefixo <prefiks baru>",
+      "current": "⌨️ Prefiks saat ini: *{{value}}*\n\nCara pakai: prefiks <prefiks baru>",
       "invalid": "❌ Gunakan prefiks tanpa spasi dan maksimal 5 karakter.",
       "updated": "✅ Prefiks diperbarui menjadi *{{value}}*."
     },
     "apikey": {
-      "current": "🔑 API key dikonfigurasi: *{{value}}*\n\nPenggunaan: apikey <nilai>\nUntuk menghapus: apikey off",
+      "current": "🔑 API key diatur: *{{value}}*\n\nCara pakai: apikey <nilai>\nUntuk hapus: apikey {{off}}",
       "updated": "✅ API key berhasil diperbarui.",
       "cleared": "✅ API key berhasil dihapus."
     },
     "autoupdate": {
-      "current": "♻️ Auto update saat ini: *{{value}}*\n\nPenggunaan: autoupdate <on|off>",
-      "invalid": "❌ Gunakan: autoupdate on | off",
+      "current": "♻️ Auto update saat ini: *{{value}}*\n\nCara pakai: autoupdate <{{on}}|{{off}}>",
+      "invalid": "❌ Gunakan: autoupdate {{on}} | {{off}}",
       "updated": "✅ Auto update diperbarui menjadi *{{value}}*."
     },
     "antipv": {
@@ -596,10 +597,10 @@
       "confirm": "👋 Keluar dari grup ini..."
     },
     "idiomagp": {
-      "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nPenggunaan: bahasagrup <{{options}}|reset>",
+      "current": "🌐 Bahasa grup: *{{language}}*\n(Global: {{global}})\n\nCara pakai: languagegroup <{{options}}|{{reset}}>",
       "updated": "✅ Bahasa grup diperbarui menjadi *{{language}}*.",
       "reset": "✅ Bahasa grup direset ke global (*{{language}}*).",
-      "invalid": "❌ Bahasa tidak valid. Gunakan: {{optionsList}} (atau 'reset' untuk menggunakan global)",
+      "invalid": "❌ Bahasa tidak valid. Gunakan: {{optionsList}} (atau \"{{reset}}\" untuk bahasa global)",
       "i18nAliases": {
         "pt": [
           "idiomagp",
@@ -642,7 +643,7 @@
       "disabled": "❌ Mode seru dinonaktifkan di grup ini."
     },
     "setprefixgp": {
-      "current": "⌨️ Prefiks grup: *{{value}}*\nPrefiks global: *{{global}}*\n\nPenggunaan: setprefixgp <prefiks baru>\nUntuk reset: setprefixgp reset",
+      "current": "⌨️ Prefiks saat ini: *{{value}}*\nPrefiks global: *{{global}}*\n\nCara pakai: setgroupprefix <prefiks baru>\nUntuk reset: setgroupprefix {{reset}}",
       "invalid": "❌ Gunakan prefiks tanpa spasi dan maksimal 5 karakter.",
       "updated": "✅ Prefiks grup ini diperbarui menjadi *{{value}}*.",
       "reset": "✅ Prefiks grup ini direset ke prefiks global (*{{value}}*)."
@@ -731,12 +732,12 @@
   },
   "group": {
     "welcome": {
-      "defaultLegend": "Selamat datang, @pengguna! 👋\nAnda adalah anggota ke-@total di grup *@grup*."
+      "defaultLegend": "Selamat datang, @pengguna! 👋\nAnda adalah anggota nomor @total dari grup *@grup*."
     },
     "antilink": {
       "defaultText": "🚫 @pengguna, tautan tidak diizinkan di grup ini.",
       "defaultGroupText": "🚫 @pengguna, tautan grup tidak diizinkan di grup ini.",
-      "defaultChannelText": "🚫 @pengguna, tautan saluran tidak diizinkan di grup ini.",
+      "defaultChannelText": "🚫 @pengguna, tautan kanal tidak diizinkan di grup ini.",
       "typeLink": "tautan",
       "typeGroupLink": "tautan grup",
       "typeChannelLink": "tautan saluran"
@@ -744,7 +745,9 @@
   },
   "owner": {
     "cmdnf": {
-      "defaultText": "❌ @pengguna, perintah @perintah tidak ada.\n\nMungkin maksud Anda: @mirip (@kemiripan)\nGunakan @prefiksmenu untuk melihat daftar perintah."
-    }
+      "defaultText": "❌ @pengguna, perintah @perintah tidak ada.\n\nMungkin maksud Anda: @mirip (@kemiripan)\nGunakan @prefiksmenu untuk melihat perintah."
+    },
+    "text": "╭─「 *PEMILIK* 」\n│\n│ nama: {{owner}}\n│ nomor: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─",
+    "info": "╭─「 *INFO BOT* 」\n│\n│ nama: {{bot}}\n│ pemilik: {{owner}}\n│ prefiks: {{prefix}}\n│ bahasa: {{language}}\n│ waktu aktif: {{uptime}}\n│ memori: {{memory}}\n│ node: {{node}}\n│\n╰─"
   }
 }

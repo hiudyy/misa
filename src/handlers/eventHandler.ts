@@ -6,11 +6,14 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { WASocket } from "baileys";
+import { createTranslator, getGlobalLocale } from "../i18n/index.js";
 import { log } from "../logger.js";
 import { Event } from "../types/Event.js";
 
 export class EventHandler {
   async loadEvents(eventsDir: string, misa: WASocket): Promise<void> {
+    const globalLocale = await getGlobalLocale();
+    const globalT = createTranslator(globalLocale);
     const files = await this.walkDir(eventsDir);
     const eventFiles = files.filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
 
@@ -19,7 +22,7 @@ export class EventHandler {
       const event: Event | undefined = imported.default ?? imported.event;
 
       if (!event?.event || !event?.execute) {
-        log.warn("EVENT", `Ignorado porque esta invalido: ${file}`);
+        log.warn("EVENT", globalT("logs.eventInvalid", { file }));
         continue;
       }
 
@@ -27,7 +30,7 @@ export class EventHandler {
         try {
           await event.execute({ misa, data });
         } catch (error) {
-          log.error("EVENT", `Erro em ${event.name}.`, error);
+          log.error("EVENT", globalT("logs.eventError", { name: event.name }), error);
         }
       });
     }

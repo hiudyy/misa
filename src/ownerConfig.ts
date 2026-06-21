@@ -5,6 +5,7 @@
 import { promises as fs } from "node:fs";
 import { paths } from "./config/paths.js";
 import { getBotConfig } from "./config.js";
+import { DEFAULT_LOCALE, t } from "./i18n/index.js";
 import { log } from "./logger.js";
 
 export type OwnerConfig = {
@@ -45,7 +46,8 @@ async function readOwnerConfigFile(): Promise<Partial<OwnerConfig> | null> {
     const nodeError = error as NodeJS.ErrnoException;
     if (nodeError.code === "ENOENT") return null;
 
-    log.warn("OWNERCONFIG", `Nao foi possivel ler ${paths.ownerConfig}.`);
+    const config = await getBotConfig();
+    log.warn("OWNERCONFIG", t("logs.configReadFailed", config.language, { path: paths.ownerConfig }));
     return null;
   }
 }
@@ -68,7 +70,8 @@ async function migrateLegacyOwnerConfigIfNeeded(): Promise<Partial<OwnerConfig> 
 
   await fs.mkdir(paths.owner, { recursive: true });
   await fs.writeFile(paths.ownerConfig, `${JSON.stringify(migratedConfig, null, 2)}\n`, "utf8");
-  log.info("OWNERCONFIG", `Configuracao migrada para ${paths.ownerConfig}.`);
+  const config = await getBotConfig();
+  log.info("OWNERCONFIG", t("logs.configMigrated", config.language, { path: paths.ownerConfig }));
 
   return migratedConfig;
 }

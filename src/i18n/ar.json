@@ -68,7 +68,8 @@
     "eventError": "خطأ في {{name}}.",
     "configReadFailed": "تعذر قراءة {{path}}.",
     "configMigrated": "تم ترحيل الإعدادات إلى {{path}}.",
-    "botStarted": "تم تشغيل {{botName}} وأصبح جاهزا لاستقبال الرسائل."
+    "botStarted": "تم تشغيل {{botName}} وأصبح جاهزا لاستقبال الرسائل.",
+    "updateRestoreFailed": "فشل استعادة package.json."
   },
   "errors": {
     "ownerOnly": "❌ هذا الأمر مخصص لمالك البوت فقط.",
@@ -378,17 +379,17 @@
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ There is no activity registered in this group yet.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *ACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *التصنيف النشط* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
       "groupInfoFailed": "❌ Could not get group information.",
       "empty": "❌ No members found in the group.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
-      "text": "╭─「 *INACTIVE RANK* 」\n│\n{{items}}\n│\n╰─"
+      "text": "╭─「 *التصنيف غير النشط* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
       "lidFailed": "❌ Could not resolve the mentioned user.",
-      "text": "╭─「 *ACTIVE CHECK* 」\n│\n│ user: {{user}}\n│ position: {{position}}\n│ total: {{total}}\n│ messages: {{messages}}\n│ commands: {{commands}}\n│ stickers: {{stickers}}\n│\n╰─"
+      "text": "╭─「 *فحص النشاط* 」\n│\n│ المستخدم: {{user}}\n│ الموقع: {{position}}\n│ الإجمالي: {{total}}\n│ الرسائل: {{messages}}\n│ الأوامر: {{commands}}\n│ الملصقات: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
       "fetchError": "❌ تعذر الحصول على معلومات المجموعة.",
@@ -403,35 +404,35 @@
     "antilink": {
       "enabled": "✅ تم تفعيل Anti-link في هذه المجموعة!",
       "disabled": "❌ تم تعطيل Anti-link في هذه المجموعة.",
-      "settingsHint": "⚙️ الإعدادات:\n• antilink punicao apagar\n• antilink punicao banir\n• antilink texto <mensagem>",
+      "settingsHint": "⚙️ الإعدادات:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <رسالة>",
       "punishmentUpdated": "✅ تم تحديث عقوبة Anti-link إلى *{{value}}*.",
-      "invalidPunishment": "❌ استخدم: antilink punicao apagar | banir",
+      "invalidPunishment": "❌ استخدم: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ تم تحديث نص Anti-link!\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilink texto <mensagem>",
-      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink punicao apagar\n│ antilink punicao banir\n│ antilink texto <mensagem>",
-      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+      "textHeader": "╭─「 *نص منع الروابط* 」\n│\n│ *العناصر القابلة للاستبدال:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ الاستخدام: antilink {{text}} <رسالة>",
+      "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <رسالة>",
+      "params": "@نوع → نوع الرابط المكتشف"
     },
     "antilinkgp": {
       "enabled": "✅ تم تفعيل Anti-link للمجموعة في هذه المجموعة!",
       "disabled": "❌ تم تعطيل Anti-link للمجموعة في هذه المجموعة.",
-      "settingsHint": "⚙️ الإعدادات:\n• antilinkgp punicao apagar\n• antilinkgp punicao banir\n• antilinkgp texto <mensagem>",
+      "settingsHint": "⚙️ الإعدادات:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <رسالة>",
       "punishmentUpdated": "✅ تم تحديث عقوبة Anti-link للمجموعة إلى *{{value}}*.",
-      "invalidPunishment": "❌ استخدم: antilinkgp punicao apagar | banir",
+      "invalidPunishment": "❌ استخدم: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ تم تحديث نص Anti-link للمجموعة!\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINKGP* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilinkgp texto <mensagem>",
-      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp punicao apagar\n│ antilinkgp punicao banir\n│ antilinkgp texto <mensagem>",
-      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+      "textHeader": "╭─「 *نص منع الروابط* 」\n│\n│ *العناصر القابلة للاستبدال:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ الاستخدام: antilinkgp {{text}} <رسالة>",
+      "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <رسالة>",
+      "params": "@نوع → نوع الرابط المكتشف"
     },
     "antilinkch": {
       "enabled": "✅ تم تفعيل Anti-link للقناة في هذه المجموعة!",
       "disabled": "❌ تم تعطيل Anti-link للقناة في هذه المجموعة.",
-      "settingsHint": "⚙️ الإعدادات:\n• antilinkch punicao apagar\n• antilinkch punicao banir\n• antilinkch texto <mensagem>",
+      "settingsHint": "⚙️ الإعدادات:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <رسالة>",
       "punishmentUpdated": "✅ تم تحديث عقوبة Anti-link للقناة إلى *{{value}}*.",
-      "invalidPunishment": "❌ استخدم: antilinkch punicao apagar | banir",
+      "invalidPunishment": "❌ استخدم: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ تم تحديث نص Anti-link للقناة!\n\n{{text}}",
-      "textHeader": "╭─「 *TEXTO ANTILINKCH* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: antilinkch texto <mensagem>",
-      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch punicao apagar\n│ antilinkch punicao banir\n│ antilinkch texto <mensagem>",
-      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @tipo      → نوع الرابط المكتشف"
+      "textHeader": "╭─「 *نص منع الروابط* 」\n│\n│ *العناصر القابلة للاستبدال:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ الاستخدام: antilinkch {{text}} <رسالة>",
+      "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <رسالة>",
+      "params": "@نوع → نوع الرابط المكتشف"
     },
     "antistealth": {
       "enabled": "✅ تم تفعيل anti-stealth في هذه المجموعة.",
@@ -443,24 +444,24 @@
       "disabled": "❌ تم تعطيل الترحيب في هذه المجموعة."
     },
     "gp": {
-      "usage": "╭─「 *GRUPO* 」\n│\n│ ✦ gp a → فتح المجموعة\n│ ✦ gp f → إغلاق المجموعة\n│\n╰─",
+      "usage": "╭─「 *المجموعة* 」\n│\n│ ✦ gp {{open}} → فتح المجموعة\n│ ✦ gp {{close}} → إغلاق المجموعة\n\n╰─",
       "closed": "🔒 تم إغلاق المجموعة! يمكن للمشرفين فقط إرسال الرسائل.",
       "opened": "🔓 تم فتح المجموعة! يمكن للجميع إرسال الرسائل."
     },
     "kick": {
-      "noMention": "❌ قم بذكر المستخدم الذي تريد إزالته.\n\nالاستخدام: kick @usuario",
+      "noMention": "❌ قم بذكر المستخدم الذي تريد إزالته.\n\nالاستخدام: kick @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "success": "✅ تمت إزالة المستخدم بنجاح!",
       "error": "❌ خطأ أثناء إزالة المستخدم: {{error}}"
     },
     "promote": {
-      "noMention": "❌ قم بذكر المستخدم الذي تريد ترقيته.\n\nالاستخدام: promote @usuario",
+      "noMention": "❌ قم بذكر المستخدم الذي تريد ترقيته.\n\nالاستخدام: promote @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "success": "✅ تمت ترقية المستخدم إلى مشرف!",
       "error": "❌ خطأ أثناء ترقية المستخدم: {{error}}"
     },
     "demote": {
-      "noMention": "❌ قم بذكر المشرف الذي تريد خفضه.\n\nالاستخدام: demote @usuario",
+      "noMention": "❌ قم بذكر المشرف الذي تريد خفضه.\n\nالاستخدام: demote @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "success": "✅ تمت إعادة المشرف إلى عضو عادي!",
       "error": "❌ خطأ أثناء خفض المشرف: {{error}}"
@@ -474,13 +475,13 @@
       "success": "✅ تم تحديث وصف المجموعة!"
     },
     "legendabv": {
-      "params": "@usuario   → يذكر المستخدم\n│ @nome      → اسم المستخدم\n│ @grupo     → اسم المجموعة\n│ @total     → إجمالي الأعضاء\n│ @desc      → وصف المجموعة",
+      "params": "@مستخدم → يذكر المستخدم\n│ @اسم → اسم المستخدم\n│ @مجموعة → اسم المجموعة\n│ @إجمالي → إجمالي الأعضاء\n│ @وصف → وصف المجموعة",
       "header": "╭─「 *LEGENDA BV* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *الوصف الحالي:*\n│ {{current}}\n│\n╰─ استخدم: legendabv <texto>",
       "updated": "✅ تم تحديث رسالة الترحيب!\n\n{{text}}"
     },
     "midiabv": {
       "removed": "✅ تمت إزالة وسائط الترحيب.",
-      "noMedia": "╭─「 *MÍDIA BV* 」\n│\n│ ✦ الحالة: {{status}}\n│\n│ أرسل أو رد على صورة أو فيديو.\n│ الفيديوهات: بحد أقصى 15 ثانية (سيتم إرسالها كـ gif).\n│ للإزالة: midiabv off\n│\n╰─",
+      "noMedia": "╭─「 *وسائط الترحيب* 」\n│\n│ ✦ الحالة: {{status}}\n\n│ أرسل صورة أو فيديو، أو رد على أحدهما.\n│ الفيديوهات: حتى 15 ثانية (تُرسل كـ GIF).\n│ للحذف: midiabv {{off}}\n\n╰─",
       "statusVideo": "فيديو 🎥 ✅",
       "statusImage": "صورة 🖼️ ✅",
       "statusNone": "بدون وسائط ❌",
@@ -489,13 +490,13 @@
       "successImage": "✅ تم ضبط صورة الترحيب!"
     },
     "cmdnf": {
-      "params": "@usuario      → يذكر المستخدم\n│ @nome         → اسم المستخدم\n│ @comando      → الأمر المكتوب\n│ @parecido     → الأمر الأقرب\n│ @similaridade → نسبة التشابه\n│ @prefixo      → البادئة الحالية\n│ @bot          → اسم البوت",
-      "header": "╭─「 *CMDNF* 」\n│\n│ *الوضع الحالي:* {{mode}}\n│ *النص الحالي:* {{text}}\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *الاستخدامات:*\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>",
-      "invalidMode": "❌ استخدم: cmdnf modo texto | mencao",
+      "params": "@مستخدم → يذكر المستخدم\n│ @اسم → اسم المستخدم\n│ @أمر → الأمر المكتوب\n│ @مشابه → الأمر الأقرب\n│ @تشابه → نسبة التشابه\n│ @بادئة → البادئة الحالية\n│ @بوت → اسم البوت",
+      "header": "╭─「 *CMDNF* 」\n│\n│ *الوضع الحالي:* {{mode}}\n│ *النص الحالي:* {{text}}\n│\n│ *العناصر القابلة للاستبدال:*\n│ {{params}}\n│\n│ *الاستخدام:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <رسالة>\n\n╰─",
+      "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
       "modeUpdated": "✅ تم تحديث وضع الأمر غير الموجود إلى *{{mode}}*.",
-      "textHeader": "╭─「 *TEXTO CMDNF* 」\n│\n│ *المعلمات المتاحة:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n│\n╰─ استخدم: cmdnf texto <mensagem>",
+      "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *العناصر القابلة للاستبدال:*\n│ {{params}}\n│\n│ *النص الحالي:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <رسالة>",
       "textUpdated": "✅ تم تحديث نص الأمر غير الموجود!\n\n{{text}}",
-      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf modo texto\n│ cmdnf modo mencao\n│ cmdnf texto <mensagem>"
+      "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <رسالة>"
     },
     "eval": {
       "noArgs": "❌ الاستخدام: eval <código>",
@@ -559,18 +560,18 @@
       "updatedNoLid": "✅ تم تحديث رقم المالك إلى *{{value}}*.\n⚠️ لم أتمكن من تحديد LID الجديد الآن؛ تم الإبقاء على LID السابق حتى يمكن تحديثه."
     },
     "prefixo": {
-      "current": "⌨️ البادئة الحالية: *{{value}}*\n\nالاستخدام: prefixo <novo prefixo>",
+      "current": "⌨️ البادئة الحالية: *{{value}}*\n\nالاستخدام: بادئة <بادئة جديدة>",
       "invalid": "❌ استخدم بادئة بدون مسافات وبحد أقصى 5 أحرف.",
       "updated": "✅ تم تحديث البادئة إلى *{{value}}*."
     },
     "apikey": {
-      "current": "🔑 مفتاح API المضبوط: *{{value}}*\n\nالاستخدام: apikey <valor>\nللمسح: apikey off",
+      "current": "🔑 API key مضبوطة: *{{value}}*\n\nالاستخدام: apikey <قيمة>\nللحذف: apikey {{off}}",
       "updated": "✅ تم تحديث مفتاح API بنجاح.",
       "cleared": "✅ تمت إزالة مفتاح API بنجاح."
     },
     "autoupdate": {
-      "current": "♻️ التحديث التلقائي الحالي: *{{value}}*\n\nالاستخدام: autoupdate <on|off>",
-      "invalid": "❌ استخدم: autoupdate on | off",
+      "current": "♻️ التحديث التلقائي الحالي: *{{value}}*\n\nالاستخدام: autoupdate <{{on}}|{{off}}>",
+      "invalid": "❌ استخدم: autoupdate {{on}} | {{off}}",
       "updated": "✅ تم تحديث التحديث التلقائي إلى *{{value}}*."
     },
     "antipv": {
@@ -596,10 +597,10 @@
       "confirm": "👋 جارٍ مغادرة هذه المجموعة..."
     },
     "idiomagp": {
-      "current": "🌐 لغة المجموعة: *{{language}}*\n(العالمي: {{global}})\n\nالاستخدام: idiomagp <{{options}}|reset>",
+      "current": "🌐 لغة المجموعة: *{{language}}*\n(Global: {{global}})\n\nالاستخدام: languagegroup <{{options}}|{{reset}}>",
       "updated": "✅ تم تحديث لغة المجموعة إلى *{{language}}*.",
       "reset": "✅ تمت إعادة ضبط لغة المجموعة إلى اللغة العالمية (*{{language}}*).",
-      "invalid": "❌ لغة غير صالحة. استخدم: {{optionsList}} (أو 'reset' لاستخدام اللغة العالمية)",
+      "invalid": "❌ لغة غير صالحة. استخدم: {{optionsList}} (أو \"{{reset}}\" للغة العالمية)",
       "i18nAliases": {
         "pt": [
           "idiomagp",
@@ -642,7 +643,7 @@
       "disabled": "❌ تم تعطيل وضع المزاح في هذه المجموعة."
     },
     "setprefixgp": {
-      "current": "⌨️ بادئة المجموعة: *{{value}}*\nالبادئة العالمية: *{{global}}*\n\nالاستخدام: setprefixgp <novo prefixo>\nلإعادة الضبط: setprefixgp reset",
+      "current": "⌨️ البادئة الحالية: *{{value}}*\nالبادئة العالمية: *{{global}}*\n\nالاستخدام: setgroupprefix <بادئة جديدة>\nلإعادة الضبط: setgroupprefix {{reset}}",
       "invalid": "❌ استخدم بادئة بدون مسافات وبحد أقصى 5 أحرف.",
       "updated": "✅ تم تحديث بادئة هذه المجموعة إلى *{{value}}*.",
       "reset": "✅ تمت إعادة ضبط بادئة هذه المجموعة إلى العالمية (*{{value}}*)."
@@ -660,7 +661,7 @@
       "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "blockuser": {
-      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: blockuser @usuario [30m|12h|7d] [motivo]",
+      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: blockuser @مستخدم [30m|12h|7d] [motivo]",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "ownerBypass": "❌ لا يمكن حظر المالك.",
       "alreadyBlocked": "❌ هذا المستخدم محظور بالفعل.",
@@ -668,7 +669,7 @@
       "success": "✅ تم حظر المستخدم {{user}}.\nينتهي: {{expires}}\nالسبب: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: unblockuser @usuario",
+      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: unblockuser @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "notBlocked": "❌ هذا المستخدم غير محظور.",
       "success": "✅ تم إلغاء حظر المستخدم {{user}}."
@@ -731,12 +732,12 @@
   },
   "group": {
     "welcome": {
-      "defaultLegend": "أهلا بك، @usuario! 👋\nأنت العضو رقم @total في المجموعة *@grupo*."
+      "defaultLegend": "أهلا بك، @مستخدم! 👋\nأنت العضو رقم @إجمالي في المجموعة *@مجموعة*."
     },
     "antilink": {
-      "defaultText": "🚫 @usuario، الروابط غير مسموح بها في هذه المجموعة.",
-      "defaultGroupText": "🚫 @usuario، روابط المجموعات غير مسموح بها في هذه المجموعة.",
-      "defaultChannelText": "🚫 @usuario، روابط القنوات غير مسموح بها في هذه المجموعة.",
+      "defaultText": "🚫 @مستخدم، الروابط غير مسموح بها في هذه المجموعة.",
+      "defaultGroupText": "🚫 @مستخدم، روابط المجموعات غير مسموح بها في هذه المجموعة.",
+      "defaultChannelText": "🚫 @مستخدم، روابط القنوات غير مسموح بها في هذه المجموعة.",
       "typeLink": "رابط",
       "typeGroupLink": "رابط مجموعة",
       "typeChannelLink": "رابط قناة"
@@ -744,7 +745,9 @@
   },
   "owner": {
     "cmdnf": {
-      "defaultText": "❌ @usuario، الأمر @comando غير موجود.\n\nربما كنت تقصد: @parecido (@similaridade)\nاستخدم @prefixomenu لرؤية الأوامر."
-    }
+      "defaultText": "❌ @مستخدم، الأمر @أمر غير موجود.\n\nربما كنت تقصد: @مشابه (@تشابه)\nاستخدم @بادئةmenu لعرض الأوامر."
+    },
+    "text": "╭─「 *المالك* 」\n│\n│ الاسم: {{owner}}\n│ الرقم: {{ownerNumber}}\n│ البوت: {{bot}}\n│\n╰─",
+    "info": "╭─「 *معلومات البوت* 」\n│\n│ الاسم: {{bot}}\n│ المالك: {{owner}}\n│ البادئة: {{prefix}}\n│ اللغة: {{language}}\n│ مدة التشغيل: {{uptime}}\n│ الذاكرة: {{memory}}\n│ node: {{node}}\n│\n╰─"
   }
 }

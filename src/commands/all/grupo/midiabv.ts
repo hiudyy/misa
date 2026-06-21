@@ -5,6 +5,7 @@
 import { WAMessage, downloadMediaMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getGroup, saveGroup } from "../../../database/groupDB.js";
+import { matchesLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { paths } from "../../../config/paths.js";
@@ -19,8 +20,8 @@ const midiabvCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args, t }) {
-    if (args[0]?.toLowerCase() === "off") {
+  async execute({ misa, message, from, args, t, locale }) {
+    if (matchesLocalizedToken(locale, args[0], "off")) {
       const current = await getGroup(from);
       await saveGroup(from, { bemvindo: { ...current.bemvindo, midia: null } });
       await misa.sendMessage(from, { text: t("commands.midiabv.removed") }, { quoted: message as WAMessage });
