@@ -26,11 +26,12 @@ async function cleanup(): Promise<void> {
  * Soft-fails on older npm where the command does not exist.
  */
 export function approveNpmInstallScripts(cwd: string): boolean {
-  const result = spawnSync(
-    "npm",
-    ["approve-scripts", "--all", "--no-allow-scripts-pin"],
-    { cwd, encoding: "utf8", shell: true },
-  );
+  // Single command string + shell avoids DEP0190 and works on Windows (.cmd) and Unix.
+  const result = spawnSync("npm approve-scripts --all --no-allow-scripts-pin", {
+    cwd,
+    encoding: "utf8",
+    shell: true,
+  });
 
   if (result.status === 0) return true;
 
@@ -309,7 +310,7 @@ export async function runAutoUpdate(): Promise<void> {
     await cleanup();
 
     process.on("exit", () => {
-      spawnSync("npm", ["run", "start:fast", "--", "--no-update"], { cwd: paths.root, stdio: "inherit", shell: true });
+      spawnSync("npm run start:fast -- --no-update", { cwd: paths.root, stdio: "inherit", shell: true });
     });
 
     process.exit(0);
