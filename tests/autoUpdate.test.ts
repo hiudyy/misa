@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import path from "node:path";
-import { MAX_BACKUPS, safeExtractPath, selectBackupsToDelete } from "../src/helpers/autoUpdate.js";
+import { MAX_BACKUPS, approveNpmInstallScripts, safeExtractPath, selectBackupsToDelete } from "../src/helpers/autoUpdate.js";
 
 describe("safeExtractPath", () => {
   const destination = path.resolve("/tmp/misa-extract-test");
@@ -53,5 +53,12 @@ describe("selectBackupsToDelete", () => {
   it("ignores non-backup names", () => {
     const names = ["other", "update-2024-01-01"];
     assert.deepEqual(selectBackupsToDelete(names, MAX_BACKUPS), []);
+  });
+});
+
+describe("approveNpmInstallScripts", () => {
+  it("runs without throwing against the project root", () => {
+    const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+    assert.doesNotThrow(() => approveNpmInstallScripts(root));
   });
 });

@@ -21,6 +21,30 @@ async function cleanup(): Promise<void> {
   await fs.rm(EXTRACT_PATH, { force: true, recursive: true });
 }
 
+/**
+ * Approves pending dependency install scripts (npm 11.16+ allowScripts).
+ * Soft-fails on older npm where the command does not exist.
+ */
+export function approveNpmInstallScripts(cwd: string): boolean {
+  const result = spawnSync(
+    "npm",
+    ["approve-scripts", "--all", "--no-allow-scripts-pin"],
+    { cwd, encoding: "utf8", shell: true },
+  );
+
+  if (result.status === 0) return true;
+
+  const detail = `${result.stderr ?? ""}${result.stdout ?? ""}`.trim();
+  if (/Unknown command:\s*"?approve-scripts"?/i.test(detail)) {
+    return false;
+  }
+
+  if (detail) {
+    log.warn("UPDATE", detail);
+  }
+  return false;
+}
+
 async function cleanupBackup(backupDir: string): Promise<void> {
   await fs.rm(backupDir, { force: true, recursive: true });
 }
@@ -278,6 +302,7 @@ export async function runAutoUpdate(): Promise<void> {
 
     log.info("UPDATE", t("update.installingDeps"));
     execSync("npm install --prefer-offline", { cwd: paths.root, stdio: "inherit" });
+    approveNpmInstallScripts(paths.root);
 
     log.success("UPDATE", t("update.done"));
 
