@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ Impossible d'obtenir les informations du groupe.",
       "noMembers": "❌ Aucun membre trouvé dans le groupe.",
-      "defaultMessage": "Tout le monde a été mentionné !"
+      "defaultMessage": "Tout le monde a été mentionné !",
+      "mediaError": "❌ Impossible de traiter le média pour mentionner tout le monde."
     },
     "del": {
       "noQuoted": "❌ Réponds au message que tu veux supprimer.\n\nUtilisation : del (réponds à un message)",

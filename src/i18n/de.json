@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ Gruppeninformationen können nicht abgerufen werden.",
       "noMembers": "❌ Keine Mitglieder in der Gruppe gefunden.",
-      "defaultMessage": "Jeder wurde markiert!"
+      "defaultMessage": "Jeder wurde markiert!",
+      "mediaError": "❌ Medien konnten nicht verarbeitet werden, um alle zu erwähnen."
     },
     "del": {
       "noQuoted": "❌ Antworten Sie auf die Nachricht, die Sie löschen möchten.\n\nVerwendung: del (auf eine Nachricht antworten)",

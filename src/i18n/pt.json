@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ Não foi possível obter informações do grupo.",
       "noMembers": "❌ Nenhum membro encontrado no grupo.",
-      "defaultMessage": "Todos foram marcados!"
+      "defaultMessage": "Todos foram marcados!",
+      "mediaError": "❌ Não foi possível processar a mídia para marcar todos."
     },
     "del": {
       "noQuoted": "❌ Responda a mensagem que deseja deletar.\n\nUso: del (responda uma mensagem)",

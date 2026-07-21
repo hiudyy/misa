@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ No fue posible obtener información del grupo.",
       "noMembers": "❌ No se encontraron miembros en el grupo.",
-      "defaultMessage": "¡Todos fueron mencionados!"
+      "defaultMessage": "¡Todos fueron mencionados!",
+      "mediaError": "❌ No se pudo procesar el medio para mencionar a todos."
     },
     "del": {
       "noQuoted": "❌ Responde al mensaje que deseas eliminar.\n\nUso: del (responde a un mensaje)",

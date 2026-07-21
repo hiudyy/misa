@@ -2,8 +2,79 @@
  * @author Hiudy · github.com/hiudyy
  * @project Misa Bot
  */
-import { WAMessage } from "baileys";
+import { downloadMediaMessage, proto } from "baileys";
 import { Command } from "../../../types/Command.js";
+
+type MediaKind = "image" | "video" | "sticker" | "audio" | "document";
+
+function resolveMediaSource(message: proto.IWebMessageInfo): {
+  kind: MediaKind;
+  toDownload: proto.IWebMessageInfo;
+  mimetype?: string | null;
+  ptt?: boolean | null;
+  fileName?: string | null;
+} | null {
+  const msg = message.message;
+  if (!msg) return null;
+
+  const quoted = msg.extendedTextMessage?.contextInfo?.quotedMessage;
+  const directImage = msg.imageMessage;
+  const directVideo = msg.videoMessage;
+  const directSticker = msg.stickerMessage;
+  const directAudio = msg.audioMessage;
+  const directDocument = msg.documentMessage;
+
+  if (directImage) {
+    return { kind: "image", toDownload: message };
+  }
+  if (directVideo) {
+    return { kind: "video", toDownload: message };
+  }
+  if (directSticker) {
+    return { kind: "sticker", toDownload: message };
+  }
+  if (directAudio) {
+    return { kind: "audio", toDownload: message, mimetype: directAudio.mimetype, ptt: directAudio.ptt };
+  }
+  if (directDocument) {
+    return {
+      kind: "document",
+      toDownload: message,
+      mimetype: directDocument.mimetype,
+      fileName: directDocument.fileName,
+    };
+  }
+
+  if (!quoted) return null;
+
+  if (quoted.imageMessage) {
+    return { kind: "image", toDownload: { key: message.key, message: quoted } };
+  }
+  if (quoted.videoMessage) {
+    return { kind: "video", toDownload: { key: message.key, message: quoted } };
+  }
+  if (quoted.stickerMessage) {
+    return { kind: "sticker", toDownload: { key: message.key, message: quoted } };
+  }
+  if (quoted.audioMessage) {
+    return {
+      kind: "audio",
+      toDownload: { key: message.key, message: quoted },
+      mimetype: quoted.audioMessage.mimetype,
+      ptt: quoted.audioMessage.ptt,
+    };
+  }
+  if (quoted.documentMessage) {
+    return {
+      kind: "document",
+      toDownload: { key: message.key, message: quoted },
+      mimetype: quoted.documentMessage.mimetype,
+      fileName: quoted.documentMessage.fileName,
+    };
+  }
+
+  return null;
+}
 
 const hidetagCommand: Command = {
   name: "hidetag",
@@ -16,191 +87,67 @@ const hidetagCommand: Command = {
     const groupMeta = await groupCache.ensure(from, misa);
 
     if (!groupMeta) {
-      await misa.sendMessage(from, { text: t("commands.hidetag.fetchError") }, { quoted: message as WAMessage });
+      await misa.sendMessage(from, { text: t("commands.hidetag.fetchError") });
       return;
     }
 
     const mentions = groupMeta.participants.map((p) => p.id);
 
     if (mentions.length === 0) {
-      await misa.sendMessage(from, { text: t("commands.hidetag.noMembers") }, { quoted: message as WAMessage });
+      await misa.sendMessage(from, { text: t("commands.hidetag.noMembers") });
       return;
     }
 
-    const msg = message.message;
     const caption = args.length > 0 ? rawArgs : "";
+    const media = resolveMediaSource(message as proto.IWebMessageInfo);
 
-    // Check for quoted message
-    const quotedMsg = msg?.extendedTextMessage?.contextInfo?.quotedMessage;
-    const hasQuotedMedia = quotedMsg && (
-      quotedMsg.imageMessage || 
-      quotedMsg.videoMessage || 
-      quotedMsg.stickerMessage || 
-      quotedMsg.audioMessage ||
-      quotedMsg.documentMessage
-    );
+    if (media) {
+      try {
+        const buffer = (await downloadMediaMessage(
+          media.toDownload as Parameters<typeof downloadMediaMessage>[0],
+          "buffer",
+          {},
+        )) as Buffer;
 
-    // 1. Quoted image
-    if (quotedMsg?.imageMessage) {
-      const mediaUrl = quotedMsg.imageMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          {
-            image: { url: mediaUrl },
-            caption: caption || quotedMsg.imageMessage.caption || "",
+        if (media.kind === "image") {
+          await misa.sendMessage(from, { image: buffer, caption, mentions });
+          return;
+        }
+        if (media.kind === "video") {
+          await misa.sendMessage(from, { video: buffer, caption, mentions });
+          return;
+        }
+        if (media.kind === "sticker") {
+          await misa.sendMessage(from, { sticker: buffer, mentions });
+          return;
+        }
+        if (media.kind === "audio") {
+          await misa.sendMessage(from, {
+            audio: buffer,
+            mimetype: media.mimetype || "audio/ogg; codecs=opus",
+            ptt: Boolean(media.ptt),
             mentions,
-          },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 2. Quoted video
-    if (quotedMsg?.videoMessage) {
-      const mediaUrl = quotedMsg.videoMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          {
-            video: { url: mediaUrl },
-            caption: caption || quotedMsg.videoMessage.caption || "",
+          });
+          return;
+        }
+        if (media.kind === "document") {
+          await misa.sendMessage(from, {
+            document: buffer,
+            mimetype: media.mimetype || "application/octet-stream",
+            fileName: media.fileName || "file",
+            caption,
             mentions,
-          },
-          { quoted: message as WAMessage },
-        );
+          });
+          return;
+        }
+      } catch {
+        await misa.sendMessage(from, { text: t("commands.hidetag.mediaError") });
         return;
       }
     }
 
-    // 3. Quoted sticker
-    if (quotedMsg?.stickerMessage) {
-      const mediaUrl = quotedMsg.stickerMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          { sticker: { url: mediaUrl }, mentions },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 4. Quoted audio
-    if (quotedMsg?.audioMessage) {
-      const mediaUrl = quotedMsg.audioMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          { audio: { url: mediaUrl }, mentions },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 5. Quoted document
-    if (quotedMsg?.documentMessage) {
-      const mediaUrl = quotedMsg.documentMessage.url;
-      const mimeType = quotedMsg.documentMessage.mimetype;
-      if (mediaUrl && mimeType) {
-        await misa.sendMessage(
-          from,
-          {
-            document: { url: mediaUrl },
-            mimetype: mimeType,
-            caption: caption || quotedMsg.documentMessage.caption || "",
-            mentions,
-          },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 6. Direct image in command
-    if (msg?.imageMessage) {
-      const mediaUrl = msg.imageMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          {
-            image: { url: mediaUrl },
-            caption: caption || msg.imageMessage.caption || "",
-            mentions,
-          },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 7. Direct video in command
-    if (msg?.videoMessage) {
-      const mediaUrl = msg.videoMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          {
-            video: { url: mediaUrl },
-            caption: caption || msg.videoMessage.caption || "",
-            mentions,
-          },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 8. Direct sticker in command
-    if (msg?.stickerMessage) {
-      const mediaUrl = msg.stickerMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          { sticker: { url: mediaUrl }, mentions },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 9. Direct audio in command
-    if (msg?.audioMessage) {
-      const mediaUrl = msg.audioMessage.url;
-      if (mediaUrl) {
-        await misa.sendMessage(
-          from,
-          { audio: { url: mediaUrl }, mentions },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 10. Direct document in command
-    if (msg?.documentMessage) {
-      const mediaUrl = msg.documentMessage.url;
-      const mimeType = msg.documentMessage.mimetype;
-      if (mediaUrl && mimeType) {
-        await misa.sendMessage(
-          from,
-          {
-            document: { url: mediaUrl },
-            mimetype: mimeType,
-            caption: caption || msg.documentMessage.caption || "",
-            mentions,
-          },
-          { quoted: message as WAMessage },
-        );
-        return;
-      }
-    }
-
-    // 11. Text-only fallback (quoted text or direct text)
     const text = caption || t("commands.hidetag.defaultMessage");
-    await misa.sendMessage(from, { text, mentions }, { quoted: message as WAMessage });
+    await misa.sendMessage(from, { text, mentions });
   },
 };
 

@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ Tidak dapat mengambil informasi grup.",
       "noMembers": "❌ Tidak ada anggota yang ditemukan di grup.",
-      "defaultMessage": "Semua orang telah ditandai!"
+      "defaultMessage": "Semua orang telah ditandai!",
+      "mediaError": "❌ Tidak dapat memproses media untuk menandai semua."
     },
     "del": {
       "noQuoted": "❌ Balas pesan yang ingin Anda hapus.\n\nPenggunaan: hapus (balas pesan)",

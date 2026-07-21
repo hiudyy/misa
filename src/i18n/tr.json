@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ Grup bilgisi alınamıyor.",
       "noMembers": "❌Grupta üye bulunamadı.",
-      "defaultMessage": "Herkes işaretlendi!"
+      "defaultMessage": "Herkes işaretlendi!",
+      "mediaError": "❌ Herkesi etiketlemek için medya işlenemedi."
     },
     "del": {
       "noQuoted": "❌ Silmek istediğiniz mesajı yanıtlayın.\n\nKullanımı: del (mesajı yanıtla)",

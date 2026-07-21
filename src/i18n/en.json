@@ -421,7 +421,8 @@
     "hidetag": {
       "fetchError": "❌ Could not get group information.",
       "noMembers": "❌ No members found in the group.",
-      "defaultMessage": "Everyone has been tagged!"
+      "defaultMessage": "Everyone has been tagged!",
+      "mediaError": "❌ Could not process the media to tag everyone."
     },
     "del": {
       "noQuoted": "❌ Reply to the message you want to delete.\n\nUsage: del (reply to a message)",
