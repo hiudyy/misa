@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const listblockCommand: Command = {
   name: "listblock",
   aliases: ["listblockuser", "listbanuserbot"],
-  description: "Lista os usuários bloqueados no bot",
+  description: "Lists users blocked on the bot",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t, locale }) {

@@ -14,7 +14,7 @@ const modobnCommand: Command = {
     es: ["mododiversion", "modobroma"],
     id: ["modeseru", "modocanda"],
   },
-  description: "Ativa ou desativa o modo brincadeira no grupo",
+  description: "Enables or disables fun mode in the group",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

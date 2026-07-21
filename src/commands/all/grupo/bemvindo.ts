@@ -9,7 +9,7 @@ import { getGroup, saveGroup } from "../../../database/groupDB.js";
 const bemvindoCommand: Command = {
   name: "bemvindo",
   aliases: ["bv", "welcome", "bienvenida"],
-  description: "Ativa ou desativa a mensagem de bem-vindo no grupo",
+  description: "Enables or disables the group welcome message",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

@@ -38,8 +38,6 @@
       "ownerName": "مالک کا نام",
       "prefix": "بوٹ پریفکس",
       "ownerNumber": "مالک کا نمبر",
-      "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] API key https://api.misaka.com.br سے لی جا سکتی ہے",
       "autoUpdate": "خودکار اپڈیٹ",
       "language": "بوٹ کی زبان",
       "languageHint": "({{options}})",
@@ -51,7 +49,7 @@
     "connection": {
       "title": "کنیکشن کا طریقہ",
       "qr": "QR Code",
-      "pairing": "Pairing Code",
+      "pairing": "پیئرنگ کوڈ",
       "pairingHint": "(فون نمبر)",
       "back": "واپس",
       "phonePrompt": "  › ملک کے کوڈ کے ساتھ نمبر (مثال: 5511999999999): "
@@ -69,7 +67,12 @@
     "configReadFailed": "{{path}} پڑھا نہیں جا سکا۔",
     "configMigrated": "ترتیب {{path}} میں منتقل کر دی گئی۔",
     "botStarted": "{{botName}} شروع ہو چکا ہے اور پیغامات وصول کرنے کے لیے تیار ہے۔",
-    "updateRestoreFailed": "package.json بحال نہیں کیا جا سکا۔"
+    "updateRestoreFailed": "package.json بحال نہیں کیا جا سکا۔",
+    "emptySender": "خالی بھیجنے والا",
+    "antilinkDeleteFailed": "گروپ {{groupId}} میں antilink پیغام حذف کرنے میں ناکام: {{error}}",
+    "antilinkBanFailed": "گروپ {{groupId}} میں {{sender}} کو بین کرنے میں ناکام: {{error}}",
+    "antistealthDeleteFailed": "گروپ {{groupId}} میں antistealth پیغام حذف کرنے میں ناکام: {{error}}",
+    "antistealthRemoveFailed": "گروپ {{groupId}} سے {{sender}} کو ہٹانے میں ناکام: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ یہ کمانڈ صرف بوٹ کے مالک کے لیے ہے۔",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ اس کمانڈ کو چلانے کے لیے میرا گروپ ایڈمن ہونا ضروری ہے۔",
     "commandBlocked": "❌ یہ کمانڈ بوٹ کے مالک نے بلاک کر دی ہے۔",
     "groupCommandsAdminOnly": "❌ اس گروپ میں صرف ایڈمنز کمانڈز استعمال کر سکتے ہیں۔",
-    "commandExecution": "❌ کمانڈ چلاتے وقت ایک خرابی ہوئی۔"
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API key ترتیب نہیں دی گئی۔ اسے src/config.json میں سیٹ کریں",
-      "invalidKey": "غلط API key",
-      "forbidden": "اس endpoint کے لیے اجازت نہیں ہے",
-      "rateLimit": "Rate limit ختم ہو گئی۔ بعد میں دوبارہ کوشش کریں",
-      "invalidParam": "غلط یا غائب parameter",
-      "serverError": "API خرابی: {{status}}",
-      "failure": "API response ناکامی ظاہر کرتی ہے",
-      "connection": "API سے کنیکٹ کرتے وقت خرابی"
+    "commandExecution": "❌ کمانڈ چلاتے وقت ایک خرابی ہوئی۔",
+    "download": {
+      "notFound": "کوئی نتیجہ نہیں ملا۔",
+      "noMedia": "کوئی میڈیا نہیں ملا۔",
+      "invalidUrl": "غلط URL۔",
+      "timeout": "ڈاؤن لوڈ کا وقت ختم ہو گیا۔",
+      "failed": "مواد ڈاؤن لوڈ کرنے میں ناکام۔",
+      "noData": "ڈیٹا حاصل نہیں کیا جا سکا۔",
+      "pinId": "pin ID نکال نہیں سکے۔",
+      "linkNotFound": "ڈاؤن لوڈ لنک نہیں ملا۔"
+    },
+    "sticker": {
+      "downloadFailed": "میڈیا ڈاؤن لوڈ کرنے میں ناکام۔",
+      "emptyDownload": "خالی ڈاؤن لوڈ۔",
+      "invalidInput": "غلط اسٹیکر ان پٹ۔",
+      "conversionFailed": "تبدیلی ناکام۔",
+      "invalidBuffer": "غلط یا خالی بفر۔"
     }
   },
   "connection": {
@@ -164,7 +172,10 @@
         "description": "کنیکشن کسی نامعلوم وجہ سے بند ہو گیا۔",
         "action": "میں خودکار طور پر دوبارہ کنیکٹ کرنے کی کوشش کروں گا۔"
       }
-    }
+    },
+    "noAutoReconnect": "کنکشن بند۔ خودکار دوبارہ کنکشن کی کوشش نہیں کی جائے گی۔",
+    "reconnectAttempt": "{{delay}}ms میں دوبارہ منسلک ہو رہا ہے... (کوشش {{attempt}}/{{max}})",
+    "maxReconnectReached": "دوبارہ کنکشن کی زیادہ سے زیادہ کوششیں مکمل ({{max}})۔"
   },
   "update": {
     "checking": "اپڈیٹس چیک کی جا رہی ہیں...",
@@ -172,7 +183,14 @@
     "extracting": "نکالا جا رہا ہے...",
     "installingDeps": "انحصارات انسٹال کی جا رہی ہیں...",
     "done": "اپڈیٹ مکمل ہو گئی! دوبارہ شروع کیا جا رہا ہے...",
-    "failed": "اپڈیٹ ناکام ہو گئی۔ موجودہ ورژن کے ساتھ جاری رکھا جائے گا۔"
+    "failed": "اپڈیٹ ناکام ہو گئی۔ موجودہ ورژن کے ساتھ جاری رکھا جائے گا۔",
+    "creatingBackup": "اپ ڈیٹ سے پہلے مکمل بیک اپ بنایا جا رہا ہے...",
+    "backupCreated": "بیک اپ یہاں بنایا گیا: {{path}}",
+    "restoringBackup": "مکمل بیک اپ بحال کیا جا رہا ہے...",
+    "backupRestored": "بیک اپ بحال ہو گیا۔",
+    "restoreSrcFailed": "src/ بیک اپ بحال کرنے میں ناکام۔",
+    "restorePackageFailed": "package.json بیک اپ بحال کرنے میں ناکام۔",
+    "restoreFailed": "package.json بحال کرنے میں ناکام۔"
   },
   "commands": {
     "ping": {
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ استعمال:\n│   تصویر بھیجیں یا اس کا جواب دیں:\n│   s2\n│\n│   ویڈیو بھیجیں یا اس کا جواب دیں:\n│   sticker2\n│\n╰─ نتیجہ: اصل فارمیٹ برقرار رہتا ہے"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ استعمال:\n│   brat <متن>\n│\n╰─ مثال:\n   brat maine kaha tha",
-      "creating": "🖼️ brat اسٹیکر بنایا جا رہا ہے...",
-      "error": "❌ brat بناتے وقت خرابی: {{message}}",
-      "empty": "API نے خالی تصویر واپس کی۔",
-      "unknown": "نامعلوم خرابی"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ استعمال:\n│   brat2 <متن>\n│\n╰─ مثال:\n   brat2 aaj main ghaib ho jaunga"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "گروپ",
         "owner": "مالک",
         "activations": "فعالیتیں",
-        "welcome": "خوش آمدید"
+        "welcome": "خوش آمدید",
+        "funMalePercent": "فیصد (مرد)",
+        "funFemalePercent": "فیصد (عورت)",
+        "funMaleRank": "رینک (مرد)",
+        "funFemaleRank": "رینک (عورت)",
+        "funInteractions": "تعاملات"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menudl",
         "menugrupo": "menugrupo",
         "menuadm": "menuadm",
@@ -269,7 +280,6 @@
         "nomedono": "ownername",
         "numerodono": "numerodono",
         "prefixo": "prefix",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "تفریحیمینو",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "تعامل"
       }
     },
     "play": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ استعمال: eval <code>",
       "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ کامیابی سے چلایا گیا۔",
-      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ چلانے میں خرابی۔"
+      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ چلانے میں خرابی۔",
+      "tooLong": "❌ کوڈ {{max}} حروف کی حد سے تجاوز کر گیا ہے۔"
     },
     "idioma": {
       "current": "🌐 موجودہ عالمی زبان: *{{language}}*\n\nاستعمال: zaban <{{options}}>",
@@ -569,11 +585,6 @@
       "current": "⌨️ موجودہ پریفکس: *{{value}}*\n\nاستعمال: prefix <نیا پریفکس>",
       "invalid": "❌ ایسا پریفکس استعمال کریں جس میں spaces نہ ہوں اور زیادہ سے زیادہ 5 حروف ہوں۔",
       "updated": "✅ پریفکس کو *{{value}}* پر اپڈیٹ کر دیا گیا۔"
-    },
-    "apikey": {
-      "current": "🔑 API key سیٹ ہے: *{{value}}*\n\nاستعمال: apikey <قدر>\nہٹانے کے لیے: apikey {{off}}",
-      "updated": "✅ API key کامیابی سے اپڈیٹ کر دی گئی۔",
-      "cleared": "✅ API key کامیابی سے ہٹا دی گئی۔"
     },
     "autoupdate": {
       "current": "♻️ موجودہ خودکار اپ ڈیٹ: *{{value}}*\n\nاستعمال: autoupdate <{{on}}|{{off}}>",
@@ -667,7 +678,7 @@
     },
     "listbangp": {
       "empty": "❌ کوئی گروپ bangp میں نہیں ہے۔",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ کل: {{total}}\n│\n{{items}}\n│\n╰─",
       "reasonLabel": "وجہ",
       "sinceLabel": "سے"
     },
@@ -687,7 +698,7 @@
     },
     "listblock": {
       "empty": "❌ کوئی صارف block نہیں ہے۔",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ کل: {{total}}\n│\n{{items}}\n│\n╰─",
       "expiresLabel": "اختتام",
       "reasonLabel": "وجہ"
     },
@@ -705,7 +716,7 @@
     },
     "listblockcmd": {
       "empty": "❌ کوئی کمانڈ block نہیں ہے۔",
-      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ کل: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "antimidia": {
       "blocked": "🚫 {{user}}, *{{type}}* قسم کے پیغامات اس گروپ میں اجازت نہیں رکھتے۔",
@@ -741,6 +752,54 @@
     "antilista": {
       "enabled": "✅ اس گروپ میں Anti-list فعال کر دیا گیا!",
       "disabled": "❌ اس گروپ میں Anti-list غیرفعال کر دیا گیا۔"
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ استعمال:\n│   {{prefix}}apk <ایپ کا نام>\n│\n╰─ مثال:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Modyolo پر تلاش ہو رہی ہے...",
+      "noResults": "❌ *{{query}}* کے لیے کوئی نتیجہ نہیں ملا",
+      "error": "❌ درخواست پروسیس کرتے وقت خرابی",
+      "select": "📱 *نتائج - {{query}}*",
+      "selectApp": "ایپ نمبر لکھیں:",
+      "selectVersion": "ورژن نمبر لکھیں:",
+      "versionsTitle": "📦 *ورژنز - {{name}}*",
+      "invalidOption": "❌ غلط اختیار! فہرست سے نمبر لکھیں۔",
+      "invalidRange": "❌ غلط اختیار! 1 سے {{max}} تک نمبر لکھیں",
+      "fetchError": "❌ ایپ کی معلومات حاصل نہیں ہو سکیں",
+      "downloadError": "❌ ڈاؤن لوڈ لنک نہیں ملا",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "ورژن",
+      "labelMod": "موڈ",
+      "labelSize": "سائز",
+      "labelPublisher": "ڈویلپر",
+      "labelGenre": "صنف"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ تفریحی موڈ فعال ہونا چاہیے (modobn)",
+      "modobnRequired": "❌ اس گروپ میں تفریحی موڈ فعال نہیں۔\nفعال کریں: modobn",
+      "percentResult": "📊 {{user}} کے پاس *{{level}}%* {{trait}} ہے! 🔥",
+      "rankHeader": "📊 *{{trait}} رینکنگ*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ رینکنگ کے لیے اراکین کم ہیں (کم از کم {{min}})۔",
+      "interactionUsage": "❌ کسی کا ذکر کریں یا پیغام کا جواب دیں۔\nمثال: {{command}} @صارف",
+      "interactionSelf": "❌ آپ اسے خود پر استعمال نہیں کر سکتے!",
+      "interactionGeneric": "{{from}} نے {{to}} پر *{{action}}* استعمال کیا!",
+      "interactions": {
+        "chute": "{{from}} نے {{to}} کو لات ماری! 🦵",
+        "tapa": "{{from}} نے {{to}} کو تھپڑ مارا! 👋",
+        "soco": "{{from}} نے {{to}} کو مکا مارا! 👊",
+        "beijo": "{{from}} نے {{to}} کو چوما! 😘",
+        "abraco": "{{from}} نے {{to}} کو گلے لگایا! 🤗",
+        "mata": "{{from}} نے {{to}} کو مار ڈالا! 💀",
+        "sexo": "{{from}} نے {{to}} کے ساتھ جنسی تعلق کیا! 🔥",
+        "goza": "{{from}} {{to}} پر خارج ہوا! 💦",
+        "mamar": "{{from}} نے {{to}} کو چوسا! 👅",
+        "cafune": "{{from}} نے {{to}} کے سر پر پیار سے ہاتھ پھیرا! ✨",
+        "morder": "{{from}} نے {{to}} کو کاٹا! 🦷",
+        "lamber": "{{from}} نے {{to}} کو چاٹا! 👅",
+        "explodir": "{{from}} نے {{to}} کو اڑا دیا! 💥",
+        "tomate": "{{from}} نے {{to}} پر ٹماٹر پھینکا! 🍅"
+      }
     }
   },
   "group": {

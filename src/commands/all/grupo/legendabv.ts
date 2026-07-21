@@ -10,7 +10,7 @@ import { getLocalizedCommandWordVars } from "../../../helpers/localizedTokens.js
 const legendabvCommand: Command = {
   name: "legendabv",
   aliases: ["legendabemvindo", "textobv", "welcometext"],
-  description: "Configura o texto da mensagem de bem-vindo",
+  description: "Configures the welcome message text",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

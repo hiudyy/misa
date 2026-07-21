@@ -14,7 +14,7 @@ const antifotoCommand: Command = {
     es: ["antifoto"],
     id: ["antifoto"],
   },
-  description: "Ativa ou desativa o bloqueio de fotos",
+  description: "Enables or disables photo blocking",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

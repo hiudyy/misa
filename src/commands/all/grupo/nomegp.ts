@@ -8,7 +8,7 @@ import { Command } from "../../../types/Command.js";
 const nomeGpCommand: Command = {
   name: "nomegp",
   aliases: ["nomegrup", "renamegp", "groupname", "nombregrupo"],
-  description: "Muda o nome do grupo",
+  description: "Changes the group name",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

@@ -11,7 +11,7 @@ import { Command } from "../../../types/Command.js";
 const unblockuserCommand: Command = {
   name: "unblockuser",
   aliases: ["desbloquearuser", "unbanuserbot"],
-  description: "Remove o bloqueio global de um usuário",
+  description: "Removes the global block from a user",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t }) {

@@ -14,7 +14,7 @@ const antivideoCommand: Command = {
     es: ["antivideo"],
     id: ["antivideo"],
   },
-  description: "Ativa ou desativa o bloqueio de vídeos",
+  description: "Enables or disables video blocking",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

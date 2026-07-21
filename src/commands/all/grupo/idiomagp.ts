@@ -20,7 +20,7 @@ const idiomagpCommand: Command = {
   name: "idiomagp",
   aliases: ["idiomagrupo"],
   i18nAliases: getGroupLanguageAliases(),
-  description: "Muda o idioma do grupo",
+  description: "Changes the group language",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

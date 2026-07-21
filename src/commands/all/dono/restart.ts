@@ -14,7 +14,7 @@ const restartCommand: Command = {
     es: ["reiniciar", "reiniciabot"],
     id: ["mulaiulang", "restartbot"],
   },
-  description: "Reinicia o processo do bot",
+  description: "Restarts the bot process",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t }) {

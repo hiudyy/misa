@@ -38,8 +38,6 @@
       "ownerName": "Nama pemilik",
       "prefix": "Prefiks bot",
       "ownerNumber": "Nomor pemilik",
-      "apiKey": "Kunci API",
-      "apiKeyHint": "[CONFIG] Kunci API dapat diperoleh di https://api.misaka.com.br",
       "autoUpdate": "Pembaruan otomatis",
       "language": "Bahasa bot",
       "languageHint": "({{options}})",
@@ -69,7 +67,12 @@
     "configReadFailed": "Tidak dapat membaca {{path}}.",
     "configMigrated": "Konfigurasi dimigrasikan ke {{path}}.",
     "botStarted": "{{botName}} dimulai dan siap menerima pesan.",
-    "updateRestoreFailed": "Gagal memulihkan package.json."
+    "updateRestoreFailed": "Gagal memulihkan package.json.",
+    "emptySender": "pengirim kosong",
+    "antilinkDeleteFailed": "Gagal menghapus pesan antilink di grup {{groupId}}: {{error}}",
+    "antilinkBanFailed": "Gagal memblokir {{sender}} di grup {{groupId}}: {{error}}",
+    "antistealthDeleteFailed": "Gagal menghapus pesan antistealth di grup {{groupId}}: {{error}}",
+    "antistealthRemoveFailed": "Gagal mengeluarkan {{sender}} dari grup {{groupId}}: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ Perintah ini hanya untuk pemilik bot.",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ Saya harus menjadi administrator grup untuk menjalankan perintah ini.",
     "commandBlocked": "❌ Perintah ini diblokir oleh pemilik bot.",
     "groupCommandsAdminOnly": "❌ Di grup ini, hanya admin yang dapat menggunakan perintah.",
-    "commandExecution": "❌ Terjadi kesalahan saat menjalankan perintah."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "Kunci API belum dikonfigurasi. Konfigurasikan di src/config.json",
-      "invalidKey": "Kunci API tidak valid",
-      "forbidden": "Tidak ada izin untuk endpoint ini",
-      "rateLimit": "Batas permintaan terlampaui. Coba lagi nanti",
-      "invalidParam": "Parameter tidak valid atau hilang",
-      "serverError": "Kesalahan API: {{status}}",
-      "failure": "Respons API menunjukkan kegagalan",
-      "connection": "Kesalahan menghubungkan ke API"
+    "commandExecution": "❌ Terjadi kesalahan saat menjalankan perintah.",
+    "download": {
+      "notFound": "Tidak ada hasil ditemukan.",
+      "noMedia": "Tidak ada media ditemukan.",
+      "invalidUrl": "URL tidak valid.",
+      "timeout": "Waktu unduhan habis.",
+      "failed": "Gagal mengunduh konten.",
+      "noData": "Tidak dapat mengambil data.",
+      "pinId": "Tidak dapat mengekstrak ID pin.",
+      "linkNotFound": "Tautan unduhan tidak ditemukan."
+    },
+    "sticker": {
+      "downloadFailed": "Gagal mengunduh media.",
+      "emptyDownload": "Unduhan kosong.",
+      "invalidInput": "Input stiker tidak valid.",
+      "conversionFailed": "Konversi gagal.",
+      "invalidBuffer": "Buffer tidak valid atau kosong."
     }
   },
   "connection": {
@@ -111,7 +119,7 @@
     "pairingError": "Kesalahan saat meminta kode pairing.",
     "disconnectCode": "Kode: {{code}}",
     "disconnectReason": "Alasan: {{reason}}",
-    "disconnectDetail": "Detail: {{detail}}",
+    "disconnectDetail": "Rincian: {{detail}}",
     "disconnectAction": "Tindakan: {{action}}",
     "disconnect": {
       "loggedOut": {
@@ -164,7 +172,10 @@
         "description": "Koneksi ditutup karena alasan yang tidak terpetakan.",
         "action": "Saya akan mencoba menghubungkan kembali secara otomatis."
       }
-    }
+    },
+    "noAutoReconnect": "Koneksi ditutup. Reconnecting otomatis tidak akan dicoba.",
+    "reconnectAttempt": "Menghubungkan ulang dalam {{delay}}ms... (percobaan {{attempt}}/{{max}})",
+    "maxReconnectReached": "Jumlah maksimum percobaan reconnect tercapai ({{max}})."
   },
   "update": {
     "checking": "Memeriksa pembaruan...",
@@ -172,7 +183,14 @@
     "extracting": "Mengekstrak...",
     "installingDeps": "Menginstal dependensi...",
     "done": "Pembaruan selesai! Memulai ulang...",
-    "failed": "Pembaruan gagal. Melanjutkan dengan versi saat ini."
+    "failed": "Pembaruan gagal. Melanjutkan dengan versi saat ini.",
+    "creatingBackup": "Membuat cadangan lengkap sebelum pembaruan...",
+    "backupCreated": "Cadangan dibuat di: {{path}}",
+    "restoringBackup": "Memulihkan cadangan lengkap...",
+    "backupRestored": "Cadangan dipulihkan.",
+    "restoreSrcFailed": "Gagal memulihkan cadangan src/.",
+    "restorePackageFailed": "Gagal memulihkan cadangan package.json.",
+    "restoreFailed": "Gagal memulihkan package.json."
   },
   "commands": {
     "ping": {
@@ -181,7 +199,7 @@
       "uptime": "Online selama",
       "memory": "Memori",
       "ownerStatus": "Status: Pemilik",
-      "footer": "Powered By {{botName}}."
+      "footer": "Didukung oleh {{botName}}."
     },
     "dono": {
       "text": "╭─「 *PEMILIK* 」\n│\n│ nama: {{owner}}\n│ nomor: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *STIKER2* 」\n│\n│ ✦ Cara penggunaan:\n│   kirim atau balas foto dengan:\n│   s2\n│\n│   kirim atau balas video dengan:\n│   stiker2\n│\n╰─ Hasil: mempertahankan format asli"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Cara penggunaan:\n│   brat <teks>\n│\n╰─ Contoh:\n   brat aku sudah bilang",
-      "creating": "🖼️ Membuat stiker brat...",
-      "error": "❌ Kesalahan membuat brat: {{message}}",
-      "empty": "API mengembalikan gambar kosong.",
-      "unknown": "Kesalahan tidak diketahui"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Cara penggunaan:\n│   brat2 <teks>\n│\n╰─ Contoh:\n   brat2 hari ini aku menghilang"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "grup",
         "owner": "pemilik",
         "activations": "aktivasi",
-        "welcome": "sambutan"
+        "welcome": "sambutan",
+        "funMalePercent": "persentase (pria)",
+        "funFemalePercent": "persentase (wanita)",
+        "funMaleRank": "peringkat (pria)",
+        "funFemaleRank": "peringkat (wanita)",
+        "funInteractions": "interaksi"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menuumum",
         "menufig": "menustiker",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menuunduhan",
         "menugrupo": "menugrup",
         "menuadm": "menuadmin",
@@ -269,7 +280,6 @@
         "nomedono": "namapemilik",
         "numerodono": "nomorpemilik",
         "prefixo": "prefiks",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "menuseru",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "interaksi"
       }
     },
     "play": {
@@ -376,19 +391,19 @@
       "defaultMessage": "para admin telah dipanggil!"
     },
     "rankativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ There is no activity registered in this group yet.",
+      "groupInfoFailed": "❌ Tidak dapat mengambil informasi grup.",
+      "empty": "❌ Belum ada aktivitas terdaftar di grup ini.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
       "text": "╭─「 *RANK AKTIF* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ No members found in the group.",
+      "groupInfoFailed": "❌ Tidak dapat mengambil informasi grup.",
+      "empty": "❌ Tidak ada anggota ditemukan di grup.",
       "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
       "text": "╭─「 *RANK TIDAK AKTIF* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
-      "lidFailed": "❌ Could not resolve the mentioned user.",
+      "lidFailed": "❌ Tidak dapat menyelesaikan pengguna yang disebutkan.",
       "text": "╭─「 *CEK AKTIF* 」\n│\n│ pengguna: {{user}}\n│ posisi: {{position}}\n│ total: {{total}}\n│ pesan: {{messages}}\n│ perintah: {{commands}}\n│ stiker: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ Penggunaan: eval <kode>",
       "success": "╭─「 *HASIL EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ Berhasil dieksekusi.",
-      "error": "╭─「 *KESALAHAN EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *KESALAHAN* 」\n│\n│ {{error}}\n│\n╰─ Kesalahan eksekusi."
+      "error": "╭─「 *KESALAHAN EVAL* 」\n│\n│ ✦ Kode: {{code}}\n│\n├─「 *KESALAHAN* 」\n│\n│ {{error}}\n│\n╰─ Kesalahan eksekusi.",
+      "tooLong": "❌ Kode melebihi batas {{max}} karakter."
     },
     "idioma": {
       "current": "🌐 Bahasa global saat ini: *{{language}}*\n\nCara pakai: bahasa <{{options}}>",
@@ -563,11 +579,6 @@
       "current": "⌨️ Prefiks saat ini: *{{value}}*\n\nCara pakai: prefiks <prefiks baru>",
       "invalid": "❌ Gunakan prefiks tanpa spasi dan maksimal 5 karakter.",
       "updated": "✅ Prefiks diperbarui menjadi *{{value}}*."
-    },
-    "apikey": {
-      "current": "🔑 API key diatur: *{{value}}*\n\nCara pakai: apikey <nilai>\nUntuk hapus: apikey {{off}}",
-      "updated": "✅ API key berhasil diperbarui.",
-      "cleared": "✅ API key berhasil dihapus."
     },
     "autoupdate": {
       "current": "♻️ Auto update saat ini: *{{value}}*\n\nCara pakai: autoupdate <{{on}}|{{off}}>",
@@ -732,6 +743,54 @@
     "antilista": {
       "enabled": "✅ Anti-daftar diaktifkan di grup ini!",
       "disabled": "❌ Anti-daftar dinonaktifkan di grup ini."
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ Cara pakai:\n│   {{prefix}}apk <nama aplikasi>\n│\n╰─ Contoh:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Mencari di Modyolo...",
+      "noResults": "❌ Tidak ada hasil untuk *{{query}}*",
+      "error": "❌ Gagal memproses permintaan",
+      "select": "📱 *HASIL - {{query}}*",
+      "selectApp": "Ketik nomor aplikasi:",
+      "selectVersion": "Ketik nomor versi:",
+      "versionsTitle": "📦 *VERSI - {{name}}*",
+      "invalidOption": "❌ Opsi tidak valid! Ketik nomor dari daftar.",
+      "invalidRange": "❌ Opsi tidak valid! Ketik nomor dari 1 sampai {{max}}",
+      "fetchError": "❌ Gagal mengambil info aplikasi",
+      "downloadError": "❌ Gagal mendapatkan tautan unduhan",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "Versi",
+      "labelMod": "Mod",
+      "labelSize": "Ukuran",
+      "labelPublisher": "Pengembang",
+      "labelGenre": "Genre"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ Memerlukan mode fun aktif (modobn)",
+      "modobnRequired": "❌ Mode fun tidak aktif di grup ini.\nAktifkan dengan: modobn",
+      "percentResult": "📊 {{user}} punya *{{level}}%* {{trait}}! 🔥",
+      "rankHeader": "📊 *Peringkat {{trait}}*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ Anggota tidak cukup untuk ranking (minimum {{min}}).",
+      "interactionUsage": "❌ Sebut seseorang atau balas pesan.\nContoh: {{command}} @pengguna",
+      "interactionSelf": "❌ Kamu tidak bisa menggunakannya pada dirimu sendiri!",
+      "interactionGeneric": "{{from}} menggunakan *{{action}}* pada {{to}}!",
+      "interactions": {
+        "chute": "{{from}} menendang {{to}}! 🦵",
+        "tapa": "{{from}} menampar {{to}}! 👋",
+        "soco": "{{from}} memukul {{to}}! 👊",
+        "beijo": "{{from}} mencium {{to}}! 😘",
+        "abraco": "{{from}} memeluk {{to}}! 🤗",
+        "mata": "{{from}} membunuh {{to}}! 💀",
+        "sexo": "{{from}} berhubungan seks dengan {{to}}! 🔥",
+        "goza": "{{from}} keluar di {{to}}! 💦",
+        "mamar": "{{from}} mengisap {{to}}! 👅",
+        "cafune": "{{from}} mengusap kepala {{to}}! ✨",
+        "morder": "{{from}} menggigit {{to}}! 🦷",
+        "lamber": "{{from}} menjilat {{to}}! 👅",
+        "explodir": "{{from}} meledakkan {{to}}! 💥",
+        "tomate": "{{from}} melempar tomat ke {{to}}! 🍅"
+      }
     }
   },
   "group": {

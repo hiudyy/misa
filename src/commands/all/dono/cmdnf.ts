@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const cmdnfCommand: Command = {
   name: "cmdnf",
   aliases: ["cmd404", "comandonf", "naoencontrado"],
-  description: "Configura a mensagem de comando não encontrado",
+  description: "Configures the command-not-found message",
   category: "all",
   ownerOnly: true,
   async execute({ misa, message, from, args, t, locale }) {

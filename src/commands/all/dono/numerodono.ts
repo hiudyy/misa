@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const numerodonoCommand: Command = {
   name: "numerodono",
   aliases: ["ownernumber", "setownernumber"],
-  description: "Atualiza o número do dono no config do bot",
+  description: "Updates the owner number in the bot config",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, t }) {

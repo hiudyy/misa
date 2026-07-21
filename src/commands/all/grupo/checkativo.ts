@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const checkAtivoCommand: Command = {
   name: "checkativo",
   aliases: ["atividade", "checkatividade"],
-  description: "Mostra a atividade de um membro do grupo",
+  description: "Shows a group member's activity",
   category: "grupo",
   groupOnly: true,
   async execute({ misa, message, from, sender, groupCache, t }) {

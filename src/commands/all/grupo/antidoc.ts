@@ -14,7 +14,7 @@ const antidocCommand: Command = {
     es: ["antidoc", "antidocumento"],
     id: ["antidoc", "antidokumen"],
   },
-  description: "Ativa ou desativa o bloqueio de documentos",
+  description: "Enables or disables document blocking",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

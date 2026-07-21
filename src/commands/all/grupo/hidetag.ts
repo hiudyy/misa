@@ -8,7 +8,7 @@ import { Command } from "../../../types/Command.js";
 const hidetagCommand: Command = {
   name: "hidetag",
   aliases: ["tag", "totag", "marcartodos", "everyone", "todos"],
-  description: "Menciona todos os membros do grupo (oculto)",
+  description: "Mentions all group members (hidden)",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

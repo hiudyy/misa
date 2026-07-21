@@ -13,7 +13,7 @@ const leavegpCommand: Command = {
     es: ["salirgrupo", "dejargrupo"],
     id: ["keluargrup", "tinggalkangrup"],
   },
-  description: "Faz o bot sair do grupo atual",
+  description: "Makes the bot leave the current group",
   category: "geral",
   ownerOnly: true,
   groupOnly: true,

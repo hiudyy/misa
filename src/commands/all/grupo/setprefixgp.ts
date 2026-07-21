@@ -16,7 +16,7 @@ const setprefixgpCommand: Command = {
     es: ["prefijogrupo", "setprefijogrupo"],
     id: ["prefiksgrup", "setprefiksgrup"],
   },
-  description: "Define um prefixo exclusivo para o grupo",
+  description: "Sets a unique prefix for the group",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

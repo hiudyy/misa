@@ -8,7 +8,7 @@ import { Command } from "../../../types/Command.js";
 const adminsCommand: Command = {
   name: "admins",
   aliases: ["adms", "chamaradm", "administradores"],
-  description: "Menciona todos os admins do grupo",
+  description: "Mentions all group admins",
   category: "grupo",
   groupOnly: true,
   async execute({ misa, message, from, args, groupCache, t }) {

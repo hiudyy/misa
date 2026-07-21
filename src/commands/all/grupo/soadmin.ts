@@ -14,7 +14,7 @@ const soadminCommand: Command = {
     es: ["soloadmin", "adminsologrupo"],
     id: ["hanyaadmin", "adminsajagrup"],
   },
-  description: "Permite que apenas admins usem comandos no grupo",
+  description: "Allows only admins to use commands in the group",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

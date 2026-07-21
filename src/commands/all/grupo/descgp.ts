@@ -8,7 +8,7 @@ import { Command } from "../../../types/Command.js";
 const descGpCommand: Command = {
   name: "descgp",
   aliases: ["descricao", "descricaogp", "groupdesc", "descgrupo"],
-  description: "Muda a descrição do grupo",
+  description: "Changes the group description",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

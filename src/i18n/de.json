@@ -38,8 +38,6 @@
       "ownerName": "Name des Besitzers",
       "prefix": "Bot-Präfix",
       "ownerNumber": "Besitzernummer",
-      "apiKey": "APITaste",
-      "apiKeyHint": "[CONFIG] Der Schlüssel API kann von https://api.misaka.com.br abgerufen werden.",
       "autoUpdate": "Automatisches Update",
       "language": "Bot-Sprache",
       "languageHint": "({{options}})",
@@ -69,7 +67,12 @@
     "configReadFailed": "{{path}} konnte nicht gelesen werden.",
     "configMigrated": "Konfiguration wurde nach {{path}} migriert.",
     "botStarted": "{{botName}} gestartet und bereit zum Empfangen von Nachrichten.",
-    "updateRestoreFailed": "package.json konnte nicht wiederhergestellt werden."
+    "updateRestoreFailed": "package.json konnte nicht wiederhergestellt werden.",
+    "emptySender": "leerer Absender",
+    "antilinkDeleteFailed": "Antilink-Nachricht in Gruppe {{groupId}} konnte nicht gelöscht werden: {{error}}",
+    "antilinkBanFailed": "{{sender}} in Gruppe {{groupId}} konnte nicht gebannt werden: {{error}}",
+    "antistealthDeleteFailed": "Antistealth-Nachricht in Gruppe {{groupId}} konnte nicht gelöscht werden: {{error}}",
+    "antistealthRemoveFailed": "{{sender}} konnte nicht aus Gruppe {{groupId}} entfernt werden: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ Dieser Befehl ist nur für den Bot-Besitzer.",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ Ich muss ein Gruppenadministrator sein, um diesen Befehl auszuführen.",
     "commandBlocked": "❌ Dieser Befehl wurde vom Bot-Besitzer blockiert.",
     "groupCommandsAdminOnly": "❌ In dieser Gruppe können nur Administratoren Befehle verwenden.",
-    "commandExecution": "❌ Beim Ausführen des Befehls ist ein Fehler aufgetreten."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API-Taste nicht konfiguriert. Konfigurieren Sie in src/config.json",
-      "invalidKey": "API ungültiger Schlüssel",
-      "forbidden": "Keine Berechtigung für diesen Endpunkt",
-      "rateLimit": "Ratenlimit überschritten. Versuchen Sie es später noch einmal",
-      "invalidParam": "Ungültiger oder fehlender Parameter",
-      "serverError": "Fehler in API: {{status}}",
-      "failure": "Die Antwort von API weist auf einen Fehler hin",
-      "connection": "Fehler beim Herstellen der Verbindung zu API"
+    "commandExecution": "❌ Beim Ausführen des Befehls ist ein Fehler aufgetreten.",
+    "download": {
+      "notFound": "Keine Ergebnisse gefunden.",
+      "noMedia": "Keine Medien gefunden.",
+      "invalidUrl": "Ungültige URL.",
+      "timeout": "Download-Zeitüberschreitung.",
+      "failed": "Inhalt konnte nicht heruntergeladen werden.",
+      "noData": "Daten konnten nicht abgerufen werden.",
+      "pinId": "Pin-ID konnte nicht extrahiert werden.",
+      "linkNotFound": "Download-Link nicht gefunden."
+    },
+    "sticker": {
+      "downloadFailed": "Medien konnten nicht heruntergeladen werden.",
+      "emptyDownload": "Leerer Download.",
+      "invalidInput": "Ungültige Sticker-Eingabe.",
+      "conversionFailed": "Konvertierung fehlgeschlagen.",
+      "invalidBuffer": "Ungültiger oder leerer Buffer."
     }
   },
   "connection": {
@@ -164,7 +172,10 @@
         "description": "Die Verbindung wurde aus einem nicht zugeordneten Grund geschlossen.",
         "action": "Ich werde versuchen, die Verbindung automatisch wiederherzustellen."
       }
-    }
+    },
+    "noAutoReconnect": "Verbindung beendet. Automatische Wiederverbindung wird nicht versucht.",
+    "reconnectAttempt": "Wiederverbindung in {{delay}}ms... (Versuch {{attempt}}/{{max}})",
+    "maxReconnectReached": "Maximale Anzahl an Wiederverbindungsversuchen erreicht ({{max}})."
   },
   "update": {
     "checking": "Suche nach Updates...",
@@ -172,7 +183,14 @@
     "extracting": "Extrahieren...",
     "installingDeps": "Abhängigkeiten werden installiert...",
     "done": "Update abgeschlossen! Neustart...",
-    "failed": "Update fehlgeschlagen. Fortsetzung mit der aktuellen Version."
+    "failed": "Update fehlgeschlagen. Fortsetzung mit der aktuellen Version.",
+    "creatingBackup": "Vollständiges Backup vor dem Update wird erstellt...",
+    "backupCreated": "Backup erstellt unter: {{path}}",
+    "restoringBackup": "Vollständiges Backup wird wiederhergestellt...",
+    "backupRestored": "Backup wiederhergestellt.",
+    "restoreSrcFailed": "Wiederherstellung des src/-Backups fehlgeschlagen.",
+    "restorePackageFailed": "Wiederherstellung des package.json-Backups fehlgeschlagen.",
+    "restoreFailed": "Wiederherstellung von package.json fehlgeschlagen."
   },
   "commands": {
     "ping": {
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ Anwendung:\n│ Senden oder antworten Sie auf ein Foto mit:\n│ s2\n│\n│ Senden oder antworten Sie auf ein Video mit:\n│ sticker2\n│\n╰─ Ergebnis: Behält das Originalformat bei"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Anwendung:\n│ brat <texto>\n│\n╰─ Beispiel:\n   brat Ich habe es dir gesagt",
-      "creating": "🖼️ Aufkleber wird generiert brat...",
-      "error": "❌ Fehler beim Erstellen von brat: {{message}}",
-      "empty": "API hat ein leeres Bild zurückgegeben.",
-      "unknown": "Unbekannter Fehler"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Anwendung:\n│ brat2 <texto>\n│\n╰─ Beispiel:\n   brat2 heute verschwinde ich"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "Gruppe",
         "owner": "Eigentümer",
         "activations": "Aktivierungen",
-        "welcome": "Willkommen"
+        "welcome": "Willkommen",
+        "funMalePercent": "prozente (männlich)",
+        "funFemalePercent": "prozente (weiblich)",
+        "funMaleRank": "rankings (männlich)",
+        "funFemaleRank": "rankings (weiblich)",
+        "funInteractions": "Interaktionen"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menudl",
         "menugrupo": "menugrupo",
         "menuadm": "menuadm",
@@ -269,7 +280,6 @@
         "nomedono": "nomedono",
         "numerodono": "numerodono",
         "prefixo": "prefixo",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "spassmenu",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "interagieren"
       }
     },
     "play": {
@@ -376,19 +391,19 @@
       "defaultMessage": "Die Admins wurden gerufen!"
     },
     "rankativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ There is no activity registered in this group yet.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ Gruppeninformationen konnten nicht abgerufen werden.",
+      "empty": "❌ In dieser Gruppe ist noch keine Aktivität registriert.",
+      "item": "{{pos}}. {{user}} - gesamt: {{total}} | Nachr.: {{messages}} | Befehle: {{commands}} | Stk: {{stickers}}",
       "text": "╭─「 *AKTIVER RANG* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ No members found in the group.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ Gruppeninformationen konnten nicht abgerufen werden.",
+      "empty": "❌ Keine Mitglieder in der Gruppe gefunden.",
+      "item": "{{pos}}. {{user}} - gesamt: {{total}} | Nachr.: {{messages}} | Befehle: {{commands}} | Stk: {{stickers}}",
       "text": "╭─「 *INAKTIVER RANG* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
-      "lidFailed": "❌ Could not resolve the mentioned user.",
+      "lidFailed": "❌ Der erwähnte Nutzer konnte nicht aufgelöst werden.",
       "text": "╭─「 *AKTIVITÄTSCHECK* 」\n│\n│ Benutzer: {{user}}\n│ Position: {{position}}\n│ Gesamt: {{total}}\n│ Nachrichten: {{messages}}\n│ Befehle: {{commands}}\n│ Sticker: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ Verwendung: eval <Code>",
       "success": "╭─「 *BEWERTUNGSERGEBNIS* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *AUSGABE* 」\n│\n{{output}}\n│\n╰─ Erfolgreich ausgeführt.",
-      "error": "╭─「 *EVAL-FEHLER* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *FEHLER* 」\n│\n│ {{error}}\n│\n╰─ Ausführungsfehler."
+      "error": "╭─「 *EVAL-FEHLER* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *FEHLER* 」\n│\n│ {{error}}\n│\n╰─ Ausführungsfehler.",
+      "tooLong": "❌ Code überschreitet das Limit von {{max}} Zeichen."
     },
     "idioma": {
       "current": "🌐 Aktuelle globale Sprache: *{{language}}*\n\nVerwendung: language <{{options}}>",
@@ -563,11 +579,6 @@
       "current": "⌨️ Aktuelles Präfix: *{{value}}*\n\nVerwendung: Präfix <neues Präfix>",
       "invalid": "❌ Verwenden Sie prefixo ohne Leerzeichen und bis zu 5 Zeichen.",
       "updated": "✅ Präfix aktualisiert auf *{{value}}*."
-    },
-    "apikey": {
-      "current": "🔑 API-Schlüssel gesetzt: *{{value}}*\n\nVerwendung: apikey <Wert>\nZum Löschen: apikey {{off}}",
-      "updated": "✅ API Schlüssel erfolgreich aktualisiert.",
-      "cleared": "✅ API Schlüssel erfolgreich entfernt."
     },
     "autoupdate": {
       "current": "♻️ Aktuelle automatische Aktualisierung: *{{value}}*\n\nVerwendung: autoupdate <{{on}}|{{off}}>",
@@ -732,6 +743,54 @@
     "antilista": {
       "enabled": "✅ Anti-Liste in dieser Gruppe aktiviert!",
       "disabled": "❌ Anti-Liste in dieser Gruppe deaktiviert."
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ Verwendung:\n│   {{prefix}}apk <App-Name>\n│\n╰─ Beispiel:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Suche auf Modyolo...",
+      "noResults": "❌ Keine Ergebnisse für *{{query}}*",
+      "error": "❌ Fehler bei der Verarbeitung",
+      "select": "📱 *ERGEBNISSE - {{query}}*",
+      "selectApp": "Gib die App-Nummer ein:",
+      "selectVersion": "Gib die Versionsnummer ein:",
+      "versionsTitle": "📦 *VERSIONEN - {{name}}*",
+      "invalidOption": "❌ Ungültige Option! Gib eine Nummer aus der Liste ein.",
+      "invalidRange": "❌ Ungültige Option! Gib eine Nummer von 1 bis {{max}} ein",
+      "fetchError": "❌ App-Informationen konnten nicht geladen werden",
+      "downloadError": "❌ Download-Link konnte nicht geholt werden",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "Version",
+      "labelMod": "Mod",
+      "labelSize": "Größe",
+      "labelPublisher": "Entwickler",
+      "labelGenre": "Genre"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ Erfordert aktiven Spaßmodus (modobn)",
+      "modobnRequired": "❌ Spaßmodus ist in dieser Gruppe nicht aktiv.\nAktiviere mit: modobn",
+      "percentResult": "📊 {{user}} hat *{{level}}%* {{trait}}! 🔥",
+      "rankHeader": "📊 *{{trait}}-Ranking*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ Nicht genug Mitglieder für ein Ranking (mindestens {{min}}).",
+      "interactionUsage": "❌ Erwähne jemanden oder antworte auf eine Nachricht.\nBeispiel: {{command}} @nutzer",
+      "interactionSelf": "❌ Du kannst das nicht bei dir selbst verwenden!",
+      "interactionGeneric": "{{from}} hat *{{action}}* bei {{to}} benutzt!",
+      "interactions": {
+        "chute": "{{from}} hat {{to}} getreten! 🦵",
+        "tapa": "{{from}} hat {{to}} eine Ohrfeige gegeben! 👋",
+        "soco": "{{from}} hat {{to}} geschlagen! 👊",
+        "beijo": "{{from}} hat {{to}} geküsst! 😘",
+        "abraco": "{{from}} hat {{to}} umarmt! 🤗",
+        "mata": "{{from}} hat {{to}} getötet! 💀",
+        "sexo": "{{from}} hatte Sex mit {{to}}! 🔥",
+        "goza": "{{from}} ist auf {{to}} gekommen! 💦",
+        "mamar": "{{from}} hat {{to}} gelutscht! 👅",
+        "cafune": "{{from}} hat {{to}} gestreichelt! ✨",
+        "morder": "{{from}} hat {{to}} gebissen! 🦷",
+        "lamber": "{{from}} hat {{to}} geleckt! 👅",
+        "explodir": "{{from}} hat {{to}} in die Luft gesprengt! 💥",
+        "tomate": "{{from}} hat eine Tomate auf {{to}} geworfen! 🍅"
+      }
     }
   },
   "group": {

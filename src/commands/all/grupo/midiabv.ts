@@ -15,7 +15,7 @@ const MAX_VIDEO_SECONDS = 15;
 const midiabvCommand: Command = {
   name: "midiabv",
   aliases: ["fotobv", "videobv", "welcomemedia", "mediabv"],
-  description: "Define ou remove a mídia de bem-vindo (imagem ou vídeo até 15s)",
+  description: "Sets or removes welcome media (image or video up to 15s)",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

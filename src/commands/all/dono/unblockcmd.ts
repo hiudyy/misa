@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const unblockcmdCommand: Command = {
   name: "unblockcmd",
   aliases: ["desbloquearcmd", "unblockcommand"],
-  description: "Remove o bloqueio global de um comando",
+  description: "Removes the global block from a command",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, commandDirectory, t }) {

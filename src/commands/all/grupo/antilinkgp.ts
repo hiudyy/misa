@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const antilinkgpCommand: Command = {
   name: "antilinkgp",
   aliases: ["antilinkgrupo", "algp"],
-  description: "Ativa ou configura o anti-link de grupo",
+  description: "Enables or configures group anti-link",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

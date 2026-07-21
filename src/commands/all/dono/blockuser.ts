@@ -12,7 +12,7 @@ import { Command } from "../../../types/Command.js";
 const blockuserCommand: Command = {
   name: "blockuser",
   aliases: ["bloquearuser", "banuserbot"],
-  description: "Bloqueia um usuário globalmente no bot",
+  description: "Blocks a user globally on the bot",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, sender, t, locale }) {

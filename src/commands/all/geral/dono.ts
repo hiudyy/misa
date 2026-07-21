@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const donoCommand: Command = {
   name: "dono",
   aliases: ["owner", "infodono", "ownerinfo"],
-  description: "Mostra as informacoes do dono do bot",
+  description: "Shows bot owner information",
   category: "geral",
   async execute({ misa, message, from, t }) {
     const config = await getBotConfig();

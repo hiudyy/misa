@@ -38,8 +38,6 @@
       "ownerName": "Sahibinin adı",
       "prefix": "Bot öneki",
       "ownerNumber": "Sahip numarası",
-      "apiKey": "APIanahtar",
-      "apiKeyHint": "[CONFIG] API anahtarı https://api.misaka.com.br adresinden edinilebilir",
       "autoUpdate": "Otomatik güncelleme",
       "language": "Bot dili",
       "languageHint": "({{options}})",
@@ -69,7 +67,12 @@
     "configReadFailed": "{{path}} okunamadı.",
     "configMigrated": "Yapılandırma {{path}}'ye taşındı.",
     "botStarted": "{{botName}} başlatıldı ve mesaj almaya hazır.",
-    "updateRestoreFailed": "package.json geri yüklenemedi."
+    "updateRestoreFailed": "package.json geri yüklenemedi.",
+    "emptySender": "boş gönderen",
+    "antilinkDeleteFailed": "{{groupId}} grubunda antilink mesajı silinemedi: {{error}}",
+    "antilinkBanFailed": "{{groupId}} grubunda {{sender}} yasaklanamadı: {{error}}",
+    "antistealthDeleteFailed": "{{groupId}} grubunda antistealth mesajı silinemedi: {{error}}",
+    "antistealthRemoveFailed": "{{sender}} {{groupId}} grubundan çıkarılamadı: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ Bu komut yalnızca bot sahibi içindir.",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌Bu komutu çalıştırabilmem için grup yöneticisi olmam gerekiyor.",
     "commandBlocked": "❌ Bu komut bot sahibi tarafından engellendi.",
     "groupCommandsAdminOnly": "❌Bu grupta yalnızca yöneticiler komutları kullanabilir.",
-    "commandExecution": "❌ Komut yürütülürken bir hata oluştu."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API anahtarı yapılandırılmadı. Src/config.json'da yapılandırın",
-      "invalidKey": "API geçersiz anahtar",
-      "forbidden": "Bu uç nokta için izin yok",
-      "rateLimit": "Hız limiti aşıldı. Daha sonra tekrar deneyin",
-      "invalidParam": "Geçersiz veya eksik parametre",
-      "serverError": "API hatası: {{status}}",
-      "failure": "API tarafından gönderilen yanıt başarısız olduğunu gösteriyor",
-      "connection": "API'ye bağlanırken hata oluştu"
+    "commandExecution": "❌ Komut yürütülürken bir hata oluştu.",
+    "download": {
+      "notFound": "Sonuç bulunamadı.",
+      "noMedia": "Medya bulunamadı.",
+      "invalidUrl": "Geçersiz URL.",
+      "timeout": "İndirme zaman aşımına uğradı.",
+      "failed": "İçerik indirilemedi.",
+      "noData": "Veriler alınamadı.",
+      "pinId": "Pin kimliği çıkarılamadı.",
+      "linkNotFound": "İndirme bağlantısı bulunamadı."
+    },
+    "sticker": {
+      "downloadFailed": "Medya indirilemedi.",
+      "emptyDownload": "Boş indirme.",
+      "invalidInput": "Geçersiz sticker girişi.",
+      "conversionFailed": "Dönüştürme başarısız.",
+      "invalidBuffer": "Geçersiz veya boş buffer."
     }
   },
   "connection": {
@@ -164,7 +172,10 @@
         "description": "Bağlantı, eşlenmeyen bir nedenden dolayı kapatıldı.",
         "action": "Otomatik olarak yeniden bağlanmayı deneyeceğim."
       }
-    }
+    },
+    "noAutoReconnect": "Bağlantı kapatıldı. Otomatik yeniden bağlanma denenmeyecek.",
+    "reconnectAttempt": "{{delay}}ms içinde yeniden bağlanılıyor... (deneme {{attempt}}/{{max}})",
+    "maxReconnectReached": "Maksimum yeniden bağlanma denemesine ulaşıldı ({{max}})."
   },
   "update": {
     "checking": "Güncellemeler kontrol ediliyor...",
@@ -172,7 +183,14 @@
     "extracting": "Çıkarılıyor...",
     "installingDeps": "Bağımlılıklar yükleniyor...",
     "done": "Güncelleme tamamlandı! Yeniden başlatılıyor...",
-    "failed": "Güncelleme başarısız oldu. Güncel sürümle devam ediyoruz."
+    "failed": "Güncelleme başarısız oldu. Güncel sürümle devam ediyoruz.",
+    "creatingBackup": "Güncellemeden önce tam yedek oluşturuluyor...",
+    "backupCreated": "Yedek şurada oluşturuldu: {{path}}",
+    "restoringBackup": "Tam yedek geri yükleniyor...",
+    "backupRestored": "Yedek geri yüklendi.",
+    "restoreSrcFailed": "src/ yedeği geri yüklenemedi.",
+    "restorePackageFailed": "package.json yedeği geri yüklenemedi.",
+    "restoreFailed": "package.json geri yüklenemedi."
   },
   "commands": {
     "ping": {
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *ÇIKARTMA2* 」\n│\n│ ✦ Nasıl kullanılır:\n│ bir fotoğrafı şununla gönderin veya yanıtlayın:\n│ s2\n│\n│ bir videoyu aşağıdakilerle gönderin veya yanıtlayın:\n│ sticker2\n│\n╰─ Sonuç: orijinal formatı korur"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Nasıl kullanılır:\n│ brat <metin>\n│\n╰─ Örnek:\n   brat sana söylemiştim",
-      "creating": "🖼️ Çıkartma oluşturuluyor brat...",
-      "error": "❌ brat oluşturulurken hata oluştu: {{message}}",
-      "empty": "API boş bir resim döndürdü.",
-      "unknown": "Bilinmeyen hata"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Nasıl kullanılır:\n│ brat2 <metin>\n│\n╰─ Örnek:\n   brat2 bugün ortadan kayboluyorum"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "grup",
         "owner": "mal sahibi",
         "activations": "aktivasyonlar",
-        "welcome": "Hoş geldin"
+        "welcome": "Hoş geldin",
+        "funMalePercent": "yüzdeler (erkek)",
+        "funFemalePercent": "yüzdeler (kadın)",
+        "funMaleRank": "sıralamalar (erkek)",
+        "funFemaleRank": "sıralamalar (kadın)",
+        "funInteractions": "etkileşimler"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menudl",
         "menugrupo": "menugrupo",
         "menuadm": "menuadm",
@@ -269,7 +280,6 @@
         "nomedono": "ownername",
         "numerodono": "numerodono",
         "prefixo": "onek",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "eglencemenu",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "etkilesim"
       }
     },
     "play": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ Kullanım: eval <kod>",
       "success": "╭─「 *SONUCU DEĞERLENDİRİN* 」\n│\n│ ✦ Kod: {{code}}\n│\n├─「 *ÇIKTI* 」\n│\n{{output}}\n│\n╰─ Başarıyla yürütüldü.",
-      "error": "╭─「 *DEĞERLENDİRME HATASI* 」\n│\n│ ✦ Kod: {{code}}\n│\n├─「 *HATA* 」\n│\n│ {{error}}\n│\n╰─ Yürütme hatası."
+      "error": "╭─「 *DEĞERLENDİRME HATASI* 」\n│\n│ ✦ Kod: {{code}}\n│\n├─「 *HATA* 」\n│\n│ {{error}}\n│\n╰─ Yürütme hatası.",
+      "tooLong": "❌ Kod, {{max}} karakter sınırını aşıyor."
     },
     "idioma": {
       "current": "🌐 Geçerli küresel dil: *{{language}}*\n\nKullanım: language <{{options}}>",
@@ -563,11 +579,6 @@
       "current": "⌨️ Geçerli önek: *{{value}}*\n\nKullanım: prefix <yeni önek>",
       "invalid": "❌ Boşluk içermeyen ve en fazla 5 karakterden oluşan bir önek kullanın.",
       "updated": "✅ Önek *{{value}}* olarak güncellendi."
-    },
-    "apikey": {
-      "current": "🔑 API anahtarı ayarlandı: *{{value}}*\n\nKullanım: apikey <değer>\nSilmek için: apikey {{off}}",
-      "updated": "✅ API anahtarı başarıyla güncellendi.",
-      "cleared": "✅ API anahtarı başarıyla kaldırıldı."
     },
     "autoupdate": {
       "current": "♻️ Geçerli otomatik güncelleme: *{{value}}*\n\nKullanım: autoupdate <{{on}}|{{off}}>",
@@ -732,6 +743,54 @@
     "antilista": {
       "enabled": "✅ Bu grupta anti-liste aktif!",
       "disabled": "❌ Bu grupta liste engelleme devre dışı bırakıldı."
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ Kullanım:\n│   {{prefix}}apk <uygulama adı>\n│\n╰─ Örnek:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Modyolo'da aranıyor...",
+      "noResults": "❌ *{{query}}* için sonuç bulunamadı",
+      "error": "❌ İstek işlenirken hata oluştu",
+      "select": "📱 *SONUÇLAR - {{query}}*",
+      "selectApp": "Uygulama numarasını yazın:",
+      "selectVersion": "Sürüm numarasını yazın:",
+      "versionsTitle": "📦 *SÜRÜMLER - {{name}}*",
+      "invalidOption": "❌ Geçersiz seçenek! Listeden bir numara yazın.",
+      "invalidRange": "❌ Geçersiz seçenek! 1 ile {{max}} arasında bir numara yazın",
+      "fetchError": "❌ Uygulama bilgileri alınamadı",
+      "downloadError": "❌ İndirme bağlantısı alınamadı",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "Sürüm",
+      "labelMod": "Mod",
+      "labelSize": "Boyut",
+      "labelPublisher": "Geliştirici",
+      "labelGenre": "Tür"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ Eğlence modunun açık olması gerekir (modobn)",
+      "modobnRequired": "❌ Bu grupta eğlence modu açık değil.\nAçmak için: modobn",
+      "percentResult": "📊 {{user}} *{{level}}%* {{trait}}! 🔥",
+      "rankHeader": "📊 *{{trait}} sıralaması*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ Sıralama için yeterli üye yok (en az {{min}}).",
+      "interactionUsage": "❌ Birini etiketleyin veya bir mesaja yanıt verin.\nÖrnek: {{command}} @kullanici",
+      "interactionSelf": "❌ Bunu kendinize kullanamazsınız!",
+      "interactionGeneric": "{{from}}, {{to}} üzerinde *{{action}}* kullandı!",
+      "interactions": {
+        "chute": "{{from}}, {{to}} kişisine tekme attı! 🦵",
+        "tapa": "{{from}}, {{to}} kişisine tokat attı! 👋",
+        "soco": "{{from}}, {{to}} kişisine yumruk attı! 👊",
+        "beijo": "{{from}}, {{to}} kişisini öptü! 😘",
+        "abraco": "{{from}}, {{to}} kişisini kucakladı! 🤗",
+        "mata": "{{from}}, {{to}} kişisini öldürdü! 💀",
+        "sexo": "{{from}}, {{to}} ile seks yaptı! 🔥",
+        "goza": "{{from}}, {{to}} üzerine boşaldı! 💦",
+        "mamar": "{{from}}, {{to}} kişisini emdi! 👅",
+        "cafune": "{{from}}, {{to}} kişisinin başını okşadı! ✨",
+        "morder": "{{from}}, {{to}} kişisini ısırdı! 🦷",
+        "lamber": "{{from}}, {{to}} kişisini yaladı! 👅",
+        "explodir": "{{from}}, {{to}} kişisini patlattı! 💥",
+        "tomate": "{{from}}, {{to}} kişisine domates fırlattı! 🍅"
+      }
     }
   },
   "group": {

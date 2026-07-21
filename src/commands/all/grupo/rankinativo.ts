@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const rankInativoCommand: Command = {
   name: "rankinativo",
   aliases: ["inativos", "rankinativos"],
-  description: "Mostra o ranking dos membros menos ativos do grupo",
+  description: "Shows the ranking of the least active group members",
   category: "grupo",
   groupOnly: true,
   async execute({ misa, message, from, groupCache, t }) {

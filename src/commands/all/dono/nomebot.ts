@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const nomebotCommand: Command = {
   name: "nomebot",
   aliases: ["botname", "setbotname"],
-  description: "Atualiza o nome do bot",
+  description: "Updates the bot name",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, t }) {

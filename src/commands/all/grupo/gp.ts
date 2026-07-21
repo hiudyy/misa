@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const gpCommand: Command = {
   name: "gp",
   aliases: ["grupo"],
-  description: "Abre ou fecha o grupo. Use: gp a (abrir) ou gp f (fechar)",
+  description: "Opens or closes the group. Use: gp a (open) or gp f (close)",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

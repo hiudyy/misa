@@ -9,7 +9,7 @@ import { toLID } from "../../../helpers/toLID.js";
 const promoteCommand: Command = {
   name: "promote",
   aliases: ["promover", "admin"],
-  description: "Promove um membro a administrador",
+  description: "Promotes a member to administrator",
   category: "all",
   groupOnly: true,
   adminOnly: true,

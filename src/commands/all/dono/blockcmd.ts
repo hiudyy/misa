@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const blockcmdCommand: Command = {
   name: "blockcmd",
   aliases: ["bloquearcmd", "blockcommand"],
-  description: "Bloqueia um comando globalmente para não-donos",
+  description: "Blocks a command globally for non-owners",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, commandDirectory, t }) {

@@ -19,7 +19,7 @@ const idiomaCommand: Command = {
   name: "idioma",
   aliases: ["setidioma"],
   i18nAliases: getGlobalLanguageAliases(),
-  description: "Muda o idioma global do bot",
+  description: "Changes the bot's global language",
   category: "all",
   ownerOnly: true,
   async execute({ misa, message, from, args, t, locale }) {

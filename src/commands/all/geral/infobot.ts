@@ -25,7 +25,7 @@ function formatMemory(bytes: number): string {
 const infobotCommand: Command = {
   name: "infobot",
   aliases: ["botinfo", "info", "sobrebot"],
-  description: "Mostra as informacoes do bot",
+  description: "Shows bot information",
   category: "geral",
   async execute({ misa, message, from, t }) {
     const config = await getBotConfig();

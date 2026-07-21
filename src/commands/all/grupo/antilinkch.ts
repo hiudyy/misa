@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const antilinkchCommand: Command = {
   name: "antilinkch",
   aliases: ["antilinkcanal", "alch"],
-  description: "Ativa ou configura o anti-link de canal",
+  description: "Enables or configures channel anti-link",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

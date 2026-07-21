@@ -9,7 +9,7 @@ import { toLID } from "../../../helpers/toLID.js";
 const kickCommand: Command = {
   name: "kick",
   aliases: ["ban", "remover", "expulsar"],
-  description: "Remove um membro do grupo",
+  description: "Removes a member from the group",
   category: "all",
   groupOnly: true,
   adminOnly: true,

@@ -23,7 +23,7 @@
     "sessionDetected": "Sesión existente detectada. Conectando automáticamente...",
     "menu": {
       "title": "{{botName}}",
-      "version": "version",
+      "version": "versión",
       "configure": "Configurar bot",
       "start": "Iniciar bot",
       "exit": "Salir",
@@ -38,8 +38,6 @@
       "ownerName": "Nombre del dueño",
       "prefix": "Prefijo del bot",
       "ownerNumber": "Número del dueño",
-      "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] La API key se puede obtener en https://api.misaka.com.br",
       "autoUpdate": "Actualización automática",
       "language": "Idioma del bot",
       "languageHint": "({{options}})",
@@ -51,7 +49,7 @@
     "connection": {
       "title": "MÉTODO DE CONEXIÓN",
       "qr": "QR Code",
-      "pairing": "Pairing Code",
+      "pairing": "Código de emparejamiento",
       "pairingHint": "(número de teléfono)",
       "back": "Volver",
       "phonePrompt": "  › Número con DDI (ej: 5511999999999): "
@@ -69,7 +67,12 @@
     "configReadFailed": "No fue posible leer {{path}}.",
     "configMigrated": "Configuracion migrada a {{path}}.",
     "botStarted": "{{botName}} iniciada y lista para recibir mensajes.",
-    "updateRestoreFailed": "No se pudo restaurar package.json."
+    "updateRestoreFailed": "No se pudo restaurar package.json.",
+    "emptySender": "remitente vacío",
+    "antilinkDeleteFailed": "Error al borrar mensaje antilink en el grupo {{groupId}}: {{error}}",
+    "antilinkBanFailed": "Error al banear a {{sender}} en el grupo {{groupId}}: {{error}}",
+    "antistealthDeleteFailed": "Error al borrar mensaje antistealth en el grupo {{groupId}}: {{error}}",
+    "antistealthRemoveFailed": "Error al expulsar a {{sender}} del grupo {{groupId}}: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ Este comando es solo para el dueño del bot.",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ Necesito ser administrador del grupo para ejecutar este comando.",
     "commandBlocked": "❌ Este comando fue bloqueado por el dueño del bot.",
     "groupCommandsAdminOnly": "❌ En este grupo, solo los admins pueden usar comandos.",
-    "commandExecution": "❌ Ocurrió un error al ejecutar el comando."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API key no configurada. Configura en src/config.json",
-      "invalidKey": "API key inválida",
-      "forbidden": "Sin permiso para este endpoint",
-      "rateLimit": "Límite de peticiones excedido. Intenta de nuevo más tarde",
-      "invalidParam": "Parámetro inválido o ausente",
-      "serverError": "Error en la API: {{status}}",
-      "failure": "La respuesta de la API indica fallo",
-      "connection": "Error al conectar con la API"
+    "commandExecution": "❌ Ocurrió un error al ejecutar el comando.",
+    "download": {
+      "notFound": "No se encontraron resultados.",
+      "noMedia": "No se encontró ningún medio.",
+      "invalidUrl": "URL inválida.",
+      "timeout": "Se agotó el tiempo de descarga.",
+      "failed": "Error al descargar el contenido.",
+      "noData": "No se pudieron obtener los datos.",
+      "pinId": "No se pudo extraer el ID del pin.",
+      "linkNotFound": "No se encontró el enlace de descarga."
+    },
+    "sticker": {
+      "downloadFailed": "Error al descargar el medio.",
+      "emptyDownload": "Descarga vacía.",
+      "invalidInput": "Entrada de sticker inválida.",
+      "conversionFailed": "La conversión falló.",
+      "invalidBuffer": "Buffer inválido o vacío."
     }
   },
   "connection": {
@@ -164,7 +172,10 @@
         "description": "La conexión fue cerrada por un motivo no mapeado.",
         "action": "Voy a intentar reconectar automáticamente."
       }
-    }
+    },
+    "noAutoReconnect": "Conexión cerrada. No se intentará la reconexión automática.",
+    "reconnectAttempt": "Reconectando en {{delay}}ms... (intento {{attempt}}/{{max}})",
+    "maxReconnectReached": "Se alcanzó el número máximo de intentos de reconexión ({{max}})."
   },
   "update": {
     "checking": "Verificando actualizaciones...",
@@ -172,7 +183,14 @@
     "extracting": "Extrayendo...",
     "installingDeps": "Instalando dependencias...",
     "done": "¡Actualización completada! Reiniciando...",
-    "failed": "Error en la actualización. Continuando con la versión actual."
+    "failed": "Error en la actualización. Continuando con la versión actual.",
+    "creatingBackup": "Creando copia de seguridad completa antes de actualizar...",
+    "backupCreated": "Copia de seguridad creada en: {{path}}",
+    "restoringBackup": "Restaurando copia de seguridad completa...",
+    "backupRestored": "Copia de seguridad restaurada.",
+    "restoreSrcFailed": "Error al restaurar la copia de seguridad de src/.",
+    "restorePackageFailed": "Error al restaurar la copia de seguridad de package.json.",
+    "restoreFailed": "Error al restaurar package.json."
   },
   "commands": {
     "ping": {
@@ -181,7 +199,7 @@
       "uptime": "Activa hace",
       "memory": "Memoria",
       "ownerStatus": "Estado: Dueño",
-      "footer": "Powered By {{botName}}."
+      "footer": "Desarrollado por {{botName}}."
     },
     "dono": {
       "text": "╭─「 *PROPIETARIO* 」\n│\n│ nombre: {{owner}}\n│ número: {{ownerNumber}}\n│ bot: {{bot}}\n│\n╰─"
@@ -199,26 +217,21 @@
     "sticker2": {
       "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ Cómo usar:\n│   envía o responde una foto con:\n│   s2\n│\n│   envía o responde un video con:\n│   sticker2\n│\n╰─ Resultado: mantiene el formato original"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ Cómo usar:\n│   brat <texto>\n│\n╰─ Ejemplo:\n   brat te lo dije",
-      "creating": "🖼️ Generando sticker brat...",
-      "error": "❌ Error al crear brat: {{message}}",
-      "empty": "La API devolvió una imagen vacía.",
-      "unknown": "Error desconocido"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ Cómo usar:\n│   brat2 <texto>\n│\n╰─ Ejemplo:\n   brat2 hoy desaparezco"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
         "geral": "general",
-        "fig": "stickers",
+        "fig": "figuritas",
         "downloads": "descargas",
         "grupo": "grupo",
         "owner": "dueño",
         "activations": "activaciones",
-        "welcome": "bienvenida"
+        "welcome": "bienvenida",
+        "funMalePercent": "porcentajes (masculino)",
+        "funFemalePercent": "porcentajes (femenino)",
+        "funMaleRank": "ranks (masculino)",
+        "funFemaleRank": "ranks (femenino)",
+        "funInteractions": "interacciones"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menugeneral",
         "menufig": "menusticker",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menudescargas",
         "menugrupo": "menugrupo",
         "menuadm": "menuadmin",
@@ -269,7 +280,6 @@
         "nomedono": "nombredueño",
         "numerodono": "numerodueño",
         "prefixo": "prefijo",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "menudiversion",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "interactuar"
       }
     },
     "play": {
@@ -406,7 +421,7 @@
       "disabled": "❌ Anti-link *desactivado* en este grupo.",
       "settingsHint": "⚙️ Ajustes:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <mensaje>",
       "punishmentUpdated": "✅ Castigo del anti-link actualizado a *{{value}}*.",
-      "invalidPunishment": "❌ Use: antilink {{punishment}} {{delete}} | {{ban}}",
+      "invalidPunishment": "❌ Usa: antilink {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Texto del anti-link actualizado!\n\n{{text}}",
       "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *Parámetros disponibles:*\n│ {{params}}\n│\n│ *Texto actual:*\n│ {{current}}\n│\n╰─ Uso: antilink {{text}} <mensaje>",
       "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <mensaje>",
@@ -417,7 +432,7 @@
       "disabled": "❌ Anti-link de grupo *desactivado* en este grupo.",
       "settingsHint": "⚙️ Ajustes:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <mensaje>",
       "punishmentUpdated": "✅ Castigo del anti-link de grupo actualizado a *{{value}}*.",
-      "invalidPunishment": "❌ Use: antilinkgp {{punishment}} {{delete}} | {{ban}}",
+      "invalidPunishment": "❌ Usa: antilinkgp {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Texto del anti-link de grupo actualizado!\n\n{{text}}",
       "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *Parámetros disponibles:*\n│ {{params}}\n│\n│ *Texto actual:*\n│ {{current}}\n│\n╰─ Uso: antilinkgp {{text}} <mensaje>",
       "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <mensaje>",
@@ -428,7 +443,7 @@
       "disabled": "❌ Anti-link de canal *desactivado* en este grupo.",
       "settingsHint": "⚙️ Ajustes:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <mensaje>",
       "punishmentUpdated": "✅ Castigo del anti-link de canal actualizado a *{{value}}*.",
-      "invalidPunishment": "❌ Use: antilinkch {{punishment}} {{delete}} | {{ban}}",
+      "invalidPunishment": "❌ Usa: antilinkch {{punishment}} {{delete}} | {{ban}}",
       "textUpdated": "✅ Texto del anti-link de canal actualizado!\n\n{{text}}",
       "textHeader": "╭─「 *TEXTO ANTILINK* 」\n│\n│ *Parámetros disponibles:*\n│ {{params}}\n│\n│ *Texto actual:*\n│ {{current}}\n│\n╰─ Uso: antilinkch {{text}} <mensaje>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <mensaje>",
@@ -482,7 +497,7 @@
     "midiabv": {
       "removed": "✅ Multimedia de bienvenida eliminada.",
       "noMedia": "╭─「 *MEDIA DE BIENVENIDA* 」\n│\n│ ✦ Estado: {{status}}\n\n│ Envía una imagen o un vídeo, o responde a uno.\n│ Vídeos: hasta 15 segundos (se envían como GIF).\n│ Para quitar: midiabv {{off}}\n\n╰─",
-      "statusVideo": "Video 🎥 ✅",
+      "statusVideo": "Vídeo 🎥 ✅",
       "statusImage": "Imagen 🖼️ ✅",
       "statusNone": "Sin multimedia ❌",
       "videoTooLong": "❌ El video tiene {{seconds}}s. Máximo permitido: {{max}}s.",
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ Uso: eval <código>",
       "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ Código: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ Ejecutado con éxito.",
-      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Código: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Error en la ejecución."
+      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Código: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Error en la ejecución.",
+      "tooLong": "❌ El código excede el límite de {{max}} caracteres."
     },
     "idioma": {
       "current": "🌐 Idioma global actual: *{{language}}*\n\nUso: language <{{options}}>",
@@ -564,14 +580,9 @@
       "invalid": "❌ Usa un prefijo sin espacios y de hasta 5 caracteres.",
       "updated": "✅ Prefijo actualizado a *{{value}}*."
     },
-    "apikey": {
-      "current": "🔑 API key configurada: *{{value}}*\n\nUso: apikey <valor>\nPara borrar: apikey {{off}}",
-      "updated": "✅ API key actualizada con éxito.",
-      "cleared": "✅ API key eliminada con éxito."
-    },
     "autoupdate": {
       "current": "♻️ Actualización automática actual: *{{value}}*\n\nUso: autoupdate <{{on}}|{{off}}>",
-      "invalid": "❌ Use: autoupdate {{on}} | {{off}}",
+      "invalid": "❌ Usa: autoupdate {{on}} | {{off}}",
       "updated": "✅ Auto update actualizado a *{{value}}*."
     },
     "antipv": {
@@ -732,6 +743,54 @@
     "antilista": {
       "enabled": "✅ Anti-lista activado en este grupo!",
       "disabled": "❌ Anti-lista desactivado en este grupo."
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ Cómo usar:\n│   {{prefix}}apk <nombre de la app>\n│\n╰─ Ejemplo:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Buscando en Modyolo...",
+      "noResults": "❌ No se encontraron resultados para *{{query}}*",
+      "error": "❌ Error al procesar tu solicitud",
+      "select": "🔢 Responde con el número de la opción.",
+      "selectApp": "Escribe el número de la app:",
+      "selectVersion": "Escribe el número de la versión:",
+      "versionsTitle": "📦 *VERSIONES - {{name}}*",
+      "invalidOption": "❌ ¡Opción inválida! Escribe un número de la lista.",
+      "invalidRange": "❌ ¡Opción inválida! Escribe un número del 1 al {{max}}",
+      "fetchError": "❌ Error al obtener información de la app",
+      "downloadError": "❌ Error al obtener el enlace de descarga",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "Versión",
+      "labelMod": "Mod",
+      "labelSize": "Tamaño",
+      "labelPublisher": "Desarrollador",
+      "labelGenre": "Género"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ Requiere modo diversión activo (modobn)",
+      "modobnRequired": "❌ El modo diversión no está activo en este grupo.\nActívalo con: modobn",
+      "percentResult": "📊 {{user}} tiene *{{level}}%* de {{trait}}! 🔥",
+      "rankHeader": "📊 *Ranking de {{trait}}*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ Miembros insuficientes para formar un ranking (mínimo {{min}}).",
+      "interactionUsage": "❌ Menciona a alguien o responde un mensaje.\nEjemplo: {{command}} @usuario",
+      "interactionSelf": "❌ ¡No puedes usarlo contigo mismo!",
+      "interactionGeneric": "{{from}} usó *{{action}}* en {{to}}!",
+      "interactions": {
+        "chute": "{{from}} le dio una patada a {{to}}! 🦵",
+        "tapa": "{{from}} le dio una cachetada a {{to}}! 👋",
+        "soco": "{{from}} le dio un puñetazo a {{to}}! 👊",
+        "beijo": "{{from}} besó a {{to}}! 😘",
+        "abraco": "{{from}} abrazó a {{to}}! 🤗",
+        "mata": "{{from}} mató a {{to}}! 💀",
+        "sexo": "{{from}} tuvo sexo con {{to}}! 🔥",
+        "goza": "{{from}} se corrió en {{to}}! 💦",
+        "mamar": "{{from}} chupó a {{to}}! 👅",
+        "cafune": "{{from}} le hizo caricias a {{to}}! ✨",
+        "morder": "{{from}} mordió a {{to}}! 🦷",
+        "lamber": "{{from}} lamió a {{to}}! 👅",
+        "explodir": "{{from}} explotó a {{to}}! 💥",
+        "tomate": "{{from}} le lanzó un tomate a {{to}}! 🍅"
+      }
     }
   },
   "group": {

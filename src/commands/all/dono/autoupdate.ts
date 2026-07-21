@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const autoupdateCommand: Command = {
   name: "autoupdate",
   aliases: ["setautoupdate", "atualizacaoauto"],
-  description: "Ativa ou desativa o auto update do bot",
+  description: "Enables or disables bot auto update",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, t, locale }) {

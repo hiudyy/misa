@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const unbangpCommand: Command = {
   name: "unbangp",
   aliases: ["desbangp", "unbanggroup"],
-  description: "Remove o bloqueio do bot no grupo atual",
+  description: "Removes the bot block from the current group",
   category: "geral",
   ownerOnly: true,
   groupOnly: true,

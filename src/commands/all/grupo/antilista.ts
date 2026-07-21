@@ -14,7 +14,7 @@ const antilistaCommand: Command = {
     es: ["antilista"],
     id: ["antilista"],
   },
-  description: "Ativa ou desativa o bloqueio de listas/interativos",
+  description: "Enables or disables list/interactive message blocking",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

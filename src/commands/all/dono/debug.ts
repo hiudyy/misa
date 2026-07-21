@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const debugCommand: Command = {
   name: "debug",
   aliases: ["debugmsg", "debugmessages"],
-  description: "Liga ou desliga logs completos dos eventos de mensagem",
+  description: "Turns full message event logs on or off",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, t, locale }) {

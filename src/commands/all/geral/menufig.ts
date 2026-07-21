@@ -10,7 +10,7 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 const menuFigCommand: Command = {
   name: "menufig",
   aliases: ["mfig", "menusticker", "figmenu"],
-  description: "Mostra os comandos de figurinha",
+  description: "Shows sticker commands",
   category: "geral",
   async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
@@ -24,8 +24,6 @@ const menuFigCommand: Command = {
         `├ 〔 ${t("commands.menu.categories.fig")} 〕`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.sticker")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.sticker2")}`,
-        `│  ♡ ${prefix}${t("commands.menu.cmds.brat")}`,
-        `│  ♡ ${prefix}${t("commands.menu.cmds.brat2")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),

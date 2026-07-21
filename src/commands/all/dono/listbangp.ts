@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const listbangpCommand: Command = {
   name: "listbangp",
   aliases: ["bangplist", "listbangroup"],
-  description: "Lista os grupos onde o bot está bloqueado",
+  description: "Lists groups where the bot is blocked",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t, locale }) {

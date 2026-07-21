@@ -38,8 +38,6 @@
       "ownerName": "Owner name",
       "prefix": "Bot prefix",
       "ownerNumber": "Owner number",
-      "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] The API key can be obtained at https://api.misaka.com.br",
       "autoUpdate": "Auto update",
       "language": "Bot language",
       "languageHint": "({{options}})",
@@ -69,7 +67,12 @@
     "configReadFailed": "Could not read {{path}}.",
     "configMigrated": "Configuration migrated to {{path}}.",
     "botStarted": "{{botName}} started and ready to receive messages.",
-    "updateRestoreFailed": "Failed to restore package.json."
+    "updateRestoreFailed": "Failed to restore package.json.",
+    "emptySender": "empty sender",
+    "antilinkDeleteFailed": "Failed to delete antilink message in group {{groupId}}: {{error}}",
+    "antilinkBanFailed": "Failed to ban {{sender}} in group {{groupId}}: {{error}}",
+    "antistealthDeleteFailed": "Failed to delete antistealth message in group {{groupId}}: {{error}}",
+    "antistealthRemoveFailed": "Failed to remove {{sender}} from group {{groupId}}: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ This command is only for the bot owner.",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ I need to be a group administrator to execute this command.",
     "commandBlocked": "❌ This command has been blocked by the bot owner.",
     "groupCommandsAdminOnly": "❌ In this group, only admins can use commands.",
-    "commandExecution": "❌ An error occurred while executing the command."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API key not configured. Configure it in src/config.json",
-      "invalidKey": "Invalid API key",
-      "forbidden": "No permission for this endpoint",
-      "rateLimit": "Rate limit exceeded. Try again later",
-      "invalidParam": "Invalid or missing parameter",
-      "serverError": "API Error: {{status}}",
-      "failure": "API response indicates failure",
-      "connection": "Error connecting to the API"
+    "commandExecution": "❌ An error occurred while executing the command.",
+    "download": {
+      "notFound": "No results found.",
+      "noMedia": "No media found.",
+      "invalidUrl": "Invalid URL.",
+      "timeout": "Download timed out.",
+      "failed": "Failed to download the content.",
+      "noData": "Could not retrieve the data.",
+      "pinId": "Could not extract the pin ID.",
+      "linkNotFound": "Download link not found."
+    },
+    "sticker": {
+      "downloadFailed": "Failed to download media.",
+      "emptyDownload": "Empty download.",
+      "invalidInput": "Invalid sticker input.",
+      "conversionFailed": "Conversion failed.",
+      "invalidBuffer": "Invalid or empty buffer."
     }
   },
   "connection": {
@@ -99,6 +107,9 @@
     "connected": "Successfully connected.",
     "disconnected": "Connection closed",
     "reconnecting": "Trying to reconnect...",
+    "noAutoReconnect": "Connection closed. Automatic reconnection will not be attempted.",
+    "reconnectAttempt": "Reconnecting in {{delay}}ms... (attempt {{attempt}}/{{max}})",
+    "maxReconnectReached": "Maximum reconnection attempts reached ({{max}}).",
     "sessionCleared": "Local session removed. Start again to generate a new QR.",
     "sessionClearFailed": "Could not remove {{path}}.",
     "qrReceived": "QR code received",
@@ -172,7 +183,14 @@
     "extracting": "Extracting...",
     "installingDeps": "Installing dependencies...",
     "done": "Update complete! Restarting...",
-    "failed": "Update failed. Continuing with current version."
+    "failed": "Update failed. Continuing with current version.",
+    "creatingBackup": "Creating a full backup before updating...",
+    "backupCreated": "Backup created at: {{path}}",
+    "restoringBackup": "Restoring full backup...",
+    "backupRestored": "Backup restored.",
+    "restoreSrcFailed": "Failed to restore src/ backup.",
+    "restorePackageFailed": "Failed to restore package.json backup.",
+    "restoreFailed": "Failed to restore package.json."
   },
   "commands": {
     "ping": {
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s2\n│\n│   send or reply to a video with:\n│   sticker2\n│\n╰─ Result: keeps the original format"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ How to use:\n│   brat <text>\n│\n╰─ Example:\n   brat i told you",
-      "creating": "🖼️ Generating brat sticker...",
-      "error": "❌ Error creating brat: {{message}}",
-      "empty": "The API returned an empty image.",
-      "unknown": "Unknown error"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ How to use:\n│   brat2 <text>\n│\n╰─ Example:\n   brat2 today i disappear"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "group",
         "owner": "owner",
         "activations": "activations",
-        "welcome": "welcome"
+        "welcome": "welcome",
+        "funMalePercent": "percentages (male)",
+        "funFemalePercent": "percentages (female)",
+        "funMaleRank": "ranks (male)",
+        "funFemaleRank": "ranks (female)",
+        "funInteractions": "interactions"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "generalmenu",
         "menufig": "stickermenu",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "dlmenu",
         "menugrupo": "groupmenu",
         "menuadm": "adminmenu",
@@ -269,7 +280,6 @@
         "nomedono": "ownername",
         "numerodono": "ownernumber",
         "prefixo": "prefix",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antiimage",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilist"
+        "antilista": "antilist",
+        "apk": "apk",
+        "menubrincadeira": "funmenu",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "interact"
       }
     },
     "play": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ Usage: eval <code>",
       "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ Executed successfully.",
-      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Execution error."
+      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Execution error.",
+      "tooLong": "❌ Code exceeds the limit of {{max}} characters."
     },
     "idioma": {
       "current": "🌐 Current global language: *{{language}}*\n\nUsage: language <{{options}}>",
@@ -563,11 +579,6 @@
       "current": "⌨️ Current prefix: *{{value}}*\n\nUsage: prefix <new prefix>",
       "invalid": "❌ Use a prefix without spaces and up to 5 characters.",
       "updated": "✅ Prefix updated to *{{value}}*."
-    },
-    "apikey": {
-      "current": "🔑 API key set: *{{value}}*\n\nUsage: apikey <value>\nTo clear: apikey {{off}}",
-      "updated": "✅ API key updated successfully.",
-      "cleared": "✅ API key removed successfully."
     },
     "autoupdate": {
       "current": "♻️ Current auto update: *{{value}}*\n\nUsage: autoupdate <{{on}}|{{off}}>",
@@ -732,6 +743,54 @@
     "antilista": {
       "enabled": "✅ Anti-list enabled in this group!",
       "disabled": "❌ Anti-list disabled in this group."
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ How to use:\n│   {{prefix}}apk <app name>\n│\n╰─ Example:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Searching on Modyolo...",
+      "noResults": "❌ No results found for *{{query}}*",
+      "error": "❌ Failed to process your request",
+      "select": "📱 *RESULTS - {{query}}*",
+      "selectApp": "Type the app number:",
+      "selectVersion": "Type the version number:",
+      "versionsTitle": "📦 *VERSIONS - {{name}}*",
+      "invalidOption": "❌ Invalid option! Type a number from the list.",
+      "invalidRange": "❌ Invalid option! Type a number from 1 to {{max}}",
+      "fetchError": "❌ Failed to fetch app info",
+      "downloadError": "❌ Failed to get download link",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "Version",
+      "labelMod": "Mod",
+      "labelSize": "Size",
+      "labelPublisher": "Developer",
+      "labelGenre": "Genre"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ Requires fun mode enabled (funmode)",
+      "modobnRequired": "❌ Fun mode is not enabled in this group.\nEnable with: funmode",
+      "percentResult": "📊 {{user}} is *{{level}}%* {{trait}}! 🔥",
+      "rankHeader": "📊 *{{trait}} ranking*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ Not enough members to build a ranking (minimum {{min}}).",
+      "interactionUsage": "❌ Mention someone or reply to a message.\nExample: {{command}} @user",
+      "interactionSelf": "❌ You can't use this on yourself!",
+      "interactionGeneric": "{{from}} used *{{action}}* on {{to}}!",
+      "interactions": {
+        "chute": "{{from}} kicked {{to}}! 🦵",
+        "tapa": "{{from}} slapped {{to}}! 👋",
+        "soco": "{{from}} punched {{to}}! 👊",
+        "beijo": "{{from}} kissed {{to}}! 😘",
+        "abraco": "{{from}} hugged {{to}}! 🤗",
+        "mata": "{{from}} killed {{to}}! 💀",
+        "sexo": "{{from}} had sex with {{to}}! 🔥",
+        "goza": "{{from}} came on {{to}}! 💦",
+        "mamar": "{{from}} sucked {{to}}! 👅",
+        "cafune": "{{from}} gave {{to}} a head massage! ✨",
+        "morder": "{{from}} bit {{to}}! 🦷",
+        "lamber": "{{from}} licked {{to}}! 👅",
+        "explodir": "{{from}} blew {{to}} up! 💥",
+        "tomate": "{{from}} threw a tomato at {{to}}! 🍅"
+      }
     }
   },
   "group": {

@@ -14,7 +14,7 @@ const antiaudioCommand: Command = {
     es: ["antiaudio"],
     id: ["antiaudio"],
   },
-  description: "Ativa ou desativa o bloqueio de áudio",
+  description: "Enables or disables audio blocking",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

@@ -8,7 +8,7 @@ import { Command } from "../../../types/Command.js";
 const delCommand: Command = {
   name: "del",
   aliases: ["delete", "apagar"],
-  description: "Deleta uma mensagem do grupo (responda a mensagem)",
+  description: "Deletes a group message (reply to the message)",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

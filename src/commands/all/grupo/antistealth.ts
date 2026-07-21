@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const antistealthCommand: Command = {
   name: "antistealth",
   aliases: ["antifurtivo", "antisombra"],
-  description: "Remove usuários que disparam mensagens não descriptografadas em rajada",
+  description: "Removes users who spam undecryptable messages in bursts",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

@@ -14,7 +14,7 @@ const antipvCommand: Command = {
     es: ["antiprivado"],
     id: ["antipribadi"],
   },
-  description: "Ativa ou desativa o bot no privado para não-donos",
+  description: "Enables or disables the bot in private chats for non-owners",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t }) {

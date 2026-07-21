@@ -29,7 +29,7 @@ const statusbotCommand: Command = {
     es: ["estadobot", "statusbot"],
     id: ["statusbot", "statusmesin"],
   },
-  description: "Mostra o status geral do bot",
+  description: "Shows overall bot status",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t }) {

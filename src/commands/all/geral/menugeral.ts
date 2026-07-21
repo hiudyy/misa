@@ -10,7 +10,7 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 const menuGeralCommand: Command = {
   name: "menugeral",
   aliases: ["mgeral", "generalmenu", "menugeneral"],
-  description: "Mostra os comandos gerais",
+  description: "Shows general commands",
   category: "geral",
   async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();

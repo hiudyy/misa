@@ -38,8 +38,6 @@
       "ownerName": "اسم المالك",
       "prefix": "بادئة البوت",
       "ownerNumber": "رقم المالك",
-      "apiKey": "مفتاح API",
-      "apiKeyHint": "[CONFIG] يمكن الحصول على مفتاح API من https://api.misaka.com.br",
       "autoUpdate": "تحديث تلقائي",
       "language": "لغة البوت",
       "languageHint": "({{options}})",
@@ -51,7 +49,7 @@
     "connection": {
       "title": "طريقة الاتصال",
       "qr": "QR Code",
-      "pairing": "Pairing Code",
+      "pairing": "رمز الاقتران",
       "pairingHint": "(رقم الهاتف)",
       "back": "رجوع",
       "phonePrompt": "  › رقم مع كود الدولة (مثال: 5511999999999): "
@@ -69,7 +67,12 @@
     "configReadFailed": "تعذر قراءة {{path}}.",
     "configMigrated": "تم ترحيل الإعدادات إلى {{path}}.",
     "botStarted": "تم تشغيل {{botName}} وأصبح جاهزا لاستقبال الرسائل.",
-    "updateRestoreFailed": "فشل استعادة package.json."
+    "updateRestoreFailed": "فشل استعادة package.json.",
+    "emptySender": "مرسل فارغ",
+    "antilinkDeleteFailed": "فشل حذف رسالة antilink في المجموعة {{groupId}}: {{error}}",
+    "antilinkBanFailed": "فشل حظر {{sender}} في المجموعة {{groupId}}: {{error}}",
+    "antistealthDeleteFailed": "فشل حذف رسالة antistealth في المجموعة {{groupId}}: {{error}}",
+    "antistealthRemoveFailed": "فشل إزالة {{sender}} من المجموعة {{groupId}}: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ هذا الأمر مخصص لمالك البوت فقط.",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ يجب أن أكون مشرفا في المجموعة لتنفيذ هذا الأمر.",
     "commandBlocked": "❌ تم حظر هذا الأمر من قِبل مالك البوت.",
     "groupCommandsAdminOnly": "❌ في هذه المجموعة، المشرفون فقط يمكنهم استخدام الأوامر.",
-    "commandExecution": "❌ حدث خطأ أثناء تنفيذ الأمر."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "مفتاح API غير مضبوط. قم بضبطه في src/config.json",
-      "invalidKey": "مفتاح API غير صالح",
-      "forbidden": "لا توجد صلاحية لهذا المسار",
-      "rateLimit": "تم تجاوز حد الطلبات. حاول مرة أخرى لاحقا",
-      "invalidParam": "معامل غير صالح أو مفقود",
-      "serverError": "خطأ في API: {{status}}",
-      "failure": "استجابة API تشير إلى فشل",
-      "connection": "حدث خطأ أثناء الاتصال بـ API"
+    "commandExecution": "❌ حدث خطأ أثناء تنفيذ الأمر.",
+    "download": {
+      "notFound": "لم يتم العثور على نتائج.",
+      "noMedia": "لم يتم العثور على وسائط.",
+      "invalidUrl": "رابط غير صالح.",
+      "timeout": "انتهت مهلة التنزيل.",
+      "failed": "فشل تنزيل المحتوى.",
+      "noData": "تعذر الحصول على البيانات.",
+      "pinId": "تعذر استخراج معرّف الـ pin.",
+      "linkNotFound": "لم يتم العثور على رابط التنزيل."
+    },
+    "sticker": {
+      "downloadFailed": "فشل تنزيل الوسائط.",
+      "emptyDownload": "تنزيل فارغ.",
+      "invalidInput": "إدخال ملصق غير صالح.",
+      "conversionFailed": "فشل التحويل.",
+      "invalidBuffer": "Buffer غير صالح أو فارغ."
     }
   },
   "connection": {
@@ -164,7 +172,10 @@
         "description": "تم إغلاق الاتصال لسبب غير معروف في النظام.",
         "action": "سأحاول إعادة الاتصال تلقائيا."
       }
-    }
+    },
+    "noAutoReconnect": "تم إنهاء الاتصال. لن تتم إعادة الاتصال تلقائياً.",
+    "reconnectAttempt": "إعادة الاتصال خلال {{delay}}ms... (محاولة {{attempt}}/{{max}})",
+    "maxReconnectReached": "تم بلوغ الحد الأقصى لمحاولات إعادة الاتصال ({{max}})."
   },
   "update": {
     "checking": "جارٍ التحقق من التحديثات...",
@@ -172,7 +183,14 @@
     "extracting": "جارٍ الاستخراج...",
     "installingDeps": "جارٍ تثبيت الاعتماديات...",
     "done": "اكتمل التحديث! جارٍ إعادة التشغيل...",
-    "failed": "فشل التحديث. سيتم المتابعة بالإصدار الحالي."
+    "failed": "فشل التحديث. سيتم المتابعة بالإصدار الحالي.",
+    "creatingBackup": "إنشاء نسخة احتياطية كاملة قبل التحديث...",
+    "backupCreated": "تم إنشاء النسخة الاحتياطية في: {{path}}",
+    "restoringBackup": "استعادة النسخة الاحتياطية الكاملة...",
+    "backupRestored": "تمت استعادة النسخة الاحتياطية.",
+    "restoreSrcFailed": "فشل استعادة نسخة src/ الاحتياطية.",
+    "restorePackageFailed": "فشل استعادة نسخة package.json الاحتياطية.",
+    "restoreFailed": "فشل استعادة package.json."
   },
   "commands": {
     "ping": {
@@ -181,7 +199,7 @@
       "uptime": "مفعّل منذ",
       "memory": "الذاكرة",
       "ownerStatus": "الحالة: المالك",
-      "footer": "Powered By {{botName}}."
+      "footer": "مدعوم بواسطة {{botName}}."
     },
     "dono": {
       "text": "╭─「 *المالك* 」\n│\n│ الاسم: {{owner}}\n│ الرقم: {{ownerNumber}}\n│ البوت: {{bot}}\n│\n╰─"
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ طريقة الاستخدام:\n│   أرسل أو رد على صورة باستخدام:\n│   s2\n│\n│   أرسل أو رد على فيديو باستخدام:\n│   sticker2\n│\n╰─ النتيجة: يحتفظ بالتنسيق الأصلي"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ طريقة الاستخدام:\n│   brat <texto>\n│\n╰─ مثال:\n   brat eu te disse",
-      "creating": "🖼️ جارٍ إنشاء ملصق brat...",
-      "error": "❌ خطأ أثناء إنشاء brat: {{message}}",
-      "empty": "أعادت الـ API صورة فارغة.",
-      "unknown": "خطأ غير معروف"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ طريقة الاستخدام:\n│   brat2 <texto>\n│\n╰─ مثال:\n   brat2 hoje eu sumo"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "مجموعة",
         "owner": "المالك",
         "activations": "تفعيلات",
-        "welcome": "الترحيب"
+        "welcome": "الترحيب",
+        "funMalePercent": "نسب مئوية (ذكور)",
+        "funFemalePercent": "نسب مئوية (إناث)",
+        "funMaleRank": "ترتيب (ذكور)",
+        "funFemaleRank": "ترتيب (إناث)",
+        "funInteractions": "تفاعلات"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menudl",
         "menugrupo": "menugrupo",
         "menuadm": "menuadm",
@@ -269,7 +280,6 @@
         "nomedono": "nomedono",
         "numerodono": "numerodono",
         "prefixo": "prefixo",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "قائمةالمرح",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "تفاعل"
       }
     },
     "play": {
@@ -376,19 +391,19 @@
       "defaultMessage": "تم استدعاء المشرفين!"
     },
     "rankativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ There is no activity registered in this group yet.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ تعذر الحصول على معلومات المجموعة.",
+      "empty": "❌ لا يوجد نشاط مسجل في هذه المجموعة بعد.",
+      "item": "{{pos}}. {{user}} - الإجمالي: {{total}} | رسائل: {{messages}} | أوامر: {{commands}} | ملصقات: {{stickers}}",
       "text": "╭─「 *التصنيف النشط* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ No members found in the group.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ تعذر الحصول على معلومات المجموعة.",
+      "empty": "❌ لم يتم العثور على أعضاء في المجموعة.",
+      "item": "{{pos}}. {{user}} - الإجمالي: {{total}} | رسائل: {{messages}} | أوامر: {{commands}} | ملصقات: {{stickers}}",
       "text": "╭─「 *التصنيف غير النشط* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
-      "lidFailed": "❌ Could not resolve the mentioned user.",
+      "lidFailed": "❌ تعذر حل المستخدم المذكور.",
       "text": "╭─「 *فحص النشاط* 」\n│\n│ المستخدم: {{user}}\n│ الموقع: {{position}}\n│ الإجمالي: {{total}}\n│ الرسائل: {{messages}}\n│ الأوامر: {{commands}}\n│ الملصقات: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ الاستخدام: eval <código>",
       "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ الكود: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ تم التنفيذ بنجاح.",
-      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ الكود: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ خطأ أثناء التنفيذ."
+      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ الكود: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ خطأ أثناء التنفيذ.",
+      "tooLong": "❌ تجاوز الكود الحد الأقصى البالغ {{max}} حرفًا."
     },
     "idioma": {
       "current": "🌐 اللغة العالمية الحالية: *{{language}}*\n\nالاستخدام: language <{{options}}>",
@@ -563,11 +579,6 @@
       "current": "⌨️ البادئة الحالية: *{{value}}*\n\nالاستخدام: بادئة <بادئة جديدة>",
       "invalid": "❌ استخدم بادئة بدون مسافات وبحد أقصى 5 أحرف.",
       "updated": "✅ تم تحديث البادئة إلى *{{value}}*."
-    },
-    "apikey": {
-      "current": "🔑 API key مضبوطة: *{{value}}*\n\nالاستخدام: apikey <قيمة>\nللحذف: apikey {{off}}",
-      "updated": "✅ تم تحديث مفتاح API بنجاح.",
-      "cleared": "✅ تمت إزالة مفتاح API بنجاح."
     },
     "autoupdate": {
       "current": "♻️ التحديث التلقائي الحالي: *{{value}}*\n\nالاستخدام: autoupdate <{{on}}|{{off}}>",
@@ -658,7 +669,7 @@
     },
     "listbangp": {
       "empty": "❌ لا توجد أي مجموعة في bangp.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ الإجمالي: {{total}}\n│\n{{items}}\n│\n╰─",
       "reasonLabel": "السبب",
       "sinceLabel": "منذ"
     },
@@ -678,7 +689,7 @@
     },
     "listblock": {
       "empty": "❌ لا يوجد أي مستخدم محظور.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ الإجمالي: {{total}}\n│\n{{items}}\n│\n╰─",
       "expiresLabel": "ينتهي",
       "reasonLabel": "السبب"
     },
@@ -696,7 +707,7 @@
     },
     "listblockcmd": {
       "empty": "❌ لا يوجد أي أمر محظور.",
-      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ الإجمالي: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "antimidia": {
       "blocked": "🚫 {{user}}، الرسائل من نوع *{{type}}* غير مسموح بها في هذه المجموعة.",
@@ -732,6 +743,54 @@
     "antilista": {
       "enabled": "✅ تم تفعيل Anti-list في هذه المجموعة!",
       "disabled": "❌ تم تعطيل Anti-list في هذه المجموعة."
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ الاستخدام:\n│   {{prefix}}apk <اسم التطبيق>\n│\n╰─ مثال:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 جارٍ البحث في Modyolo...",
+      "noResults": "❌ لم يتم العثور على نتائج لـ *{{query}}*",
+      "error": "❌ فشل في معالجة الطلب",
+      "select": "📱 *النتائج - {{query}}*",
+      "selectApp": "اكتب رقم التطبيق:",
+      "selectVersion": "اكتب رقم الإصدار:",
+      "versionsTitle": "📦 *الإصدارات - {{name}}*",
+      "invalidOption": "❌ خيار غير صالح! اكتب رقماً من القائمة.",
+      "invalidRange": "❌ خيار غير صالح! اكتب رقماً من 1 إلى {{max}}",
+      "fetchError": "❌ فشل في جلب معلومات التطبيق",
+      "downloadError": "❌ فشل في الحصول على رابط التحميل",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "الإصدار",
+      "labelMod": "التعديل",
+      "labelSize": "الحجم",
+      "labelPublisher": "المطور",
+      "labelGenre": "النوع"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ يتطلب تفعيل وضع المرح (modobn)",
+      "modobnRequired": "❌ وضع المرح غير مفعّل في هذه المجموعة.\nفعّله بـ: modobn",
+      "percentResult": "📊 {{user}} لديه *{{level}}%* من {{trait}}! 🔥",
+      "rankHeader": "📊 *ترتيب {{trait}}*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ أعضاء غير كافين للترتيب (الحد الأدنى {{min}}).",
+      "interactionUsage": "❌ أشر إلى شخص أو رد على رسالة.\nمثال: {{command}} @مستخدم",
+      "interactionSelf": "❌ لا يمكنك استخدام هذا على نفسك!",
+      "interactionGeneric": "{{from}} استخدم *{{action}}* على {{to}}!",
+      "interactions": {
+        "chute": "{{from}} ركل {{to}}! 🦵",
+        "tapa": "{{from}} صفع {{to}}! 👋",
+        "soco": "{{from}} لكم {{to}}! 👊",
+        "beijo": "{{from}} قبّل {{to}}! 😘",
+        "abraco": "{{from}} عانق {{to}}! 🤗",
+        "mata": "{{from}} قتل {{to}}! 💀",
+        "sexo": "{{from}} مارس الجنس مع {{to}}! 🔥",
+        "goza": "{{from}} قذف على {{to}}! 💦",
+        "mamar": "{{from}} مصّ {{to}}! 👅",
+        "cafune": "{{from}} دلّك رأس {{to}}! ✨",
+        "morder": "{{from}} عضّ {{to}}! 🦷",
+        "lamber": "{{from}} لعق {{to}}! 👅",
+        "explodir": "{{from}} فجّر {{to}}! 💥",
+        "tomate": "{{from}} رمى طماطم على {{to}}! 🍅"
+      }
     }
   },
   "group": {

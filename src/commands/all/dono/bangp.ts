@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const bangpCommand: Command = {
   name: "bangp",
   aliases: ["bangrupo", "banggroup"],
-  description: "Bloqueia o bot no grupo atual para todos, exceto o dono",
+  description: "Blocks the bot in the current group for everyone except the owner",
   category: "geral",
   ownerOnly: true,
   groupOnly: true,

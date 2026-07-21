@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const listblockcmdCommand: Command = {
   name: "listblockcmd",
   aliases: ["listcmdblock", "listblockcommand"],
-  description: "Lista os comandos bloqueados globalmente",
+  description: "Lists globally blocked commands",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t }) {

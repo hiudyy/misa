@@ -9,7 +9,7 @@ import { toLID } from "../../../helpers/toLID.js";
 const demoteCommand: Command = {
   name: "demote",
   aliases: ["rebaixar", "demover", "degradar"],
-  description: "Remove cargo de administrador de um membro",
+  description: "Remove administrator role from a member",
   category: "all",
   groupOnly: true,
   adminOnly: true,

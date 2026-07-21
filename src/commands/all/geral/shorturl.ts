@@ -8,7 +8,7 @@ import { Command } from "../../../types/Command.js";
 const command: Command = {
   name: "shorturl",
   aliases: ["encurtar", "short", "encurtarlink"],
-  description: "Encurta um link/URL",
+  description: "Shortens a link/URL",
   category: "geral",
   async execute({ misa, message, from, args, t }) {
     if (!args[0]) {

@@ -9,7 +9,7 @@ import { Command } from "../../../types/Command.js";
 const prefixoCommand: Command = {
   name: "prefixo",
   aliases: ["prefix", "setprefix"],
-  description: "Atualiza o prefixo do bot",
+  description: "Updates the bot prefix",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, t }) {

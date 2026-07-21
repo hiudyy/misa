@@ -10,7 +10,7 @@ import { Command } from "../../../types/Command.js";
 const antilinkCommand: Command = {
   name: "antilink",
   aliases: ["al"],
-  description: "Ativa ou configura o anti-link geral",
+  description: "Enables or configures general anti-link",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

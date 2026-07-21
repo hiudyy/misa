@@ -15,7 +15,7 @@ const joinCommand: Command = {
     es: ["entrargrupo", "unirsegrupo"],
     id: ["masukgrup", "gabunggrup"],
   },
-  description: "Faz o bot entrar em um grupo por link",
+  description: "Makes the bot join a group via invite link",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, args, t }) {

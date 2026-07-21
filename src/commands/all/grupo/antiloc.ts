@@ -14,7 +14,7 @@ const antilocCommand: Command = {
     es: ["antiubicacion"],
     id: ["antilokasi"],
   },
-  description: "Ativa ou desativa o bloqueio de localização",
+  description: "Enables or disables location blocking",
   category: "grupo",
   groupOnly: true,
   adminOnly: true,

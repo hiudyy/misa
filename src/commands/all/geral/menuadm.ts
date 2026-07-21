@@ -10,7 +10,7 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 const menuAdmCommand: Command = {
   name: "menuadm",
   aliases: ["madm", "menuadmin", "adminmenu"],
-  description: "Mostra os comandos de administração",
+  description: "Shows administration commands",
   category: "geral",
   groupOnly: true,
   adminOnly: true,

@@ -38,8 +38,6 @@
       "ownerName": "मालिक का नाम",
       "prefix": "बॉट प्रीफ़िक्स",
       "ownerNumber": "मालिक का नंबर",
-      "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] API key https://api.misaka.com.br से ली जा सकती है",
       "autoUpdate": "स्वचालित अपडेट",
       "language": "बॉट की भाषा",
       "languageHint": "({{options}})",
@@ -51,7 +49,7 @@
     "connection": {
       "title": "कनेक्शन का तरीका",
       "qr": "QR Code",
-      "pairing": "Pairing Code",
+      "pairing": "पेयरिंग कोड",
       "pairingHint": "(फ़ोन नंबर)",
       "back": "वापस",
       "phonePrompt": "  › देश कोड सहित नंबर (उदा. 5511999999999): "
@@ -69,7 +67,12 @@
     "configReadFailed": "{{path}} पढ़ा नहीं जा सका।",
     "configMigrated": "कॉन्फ़िगरेशन {{path}} पर माइग्रेट की गई।",
     "botStarted": "{{botName}} शुरू हो गया है और संदेश प्राप्त करने के लिए तैयार है।",
-    "updateRestoreFailed": "package.json पुनर्स्थापित नहीं हुआ."
+    "updateRestoreFailed": "package.json पुनर्स्थापित नहीं हुआ.",
+    "emptySender": "खाली प्रेषक",
+    "antilinkDeleteFailed": "ग्रुप {{groupId}} में antilink संदेश हटाने में विफल: {{error}}",
+    "antilinkBanFailed": "ग्रुप {{groupId}} में {{sender}} को बैन करने में विफल: {{error}}",
+    "antistealthDeleteFailed": "ग्रुप {{groupId}} में antistealth संदेश हटाने में विफल: {{error}}",
+    "antistealthRemoveFailed": "ग्रुप {{groupId}} से {{sender}} को हटाने में विफल: {{error}}"
   },
   "errors": {
     "ownerOnly": "❌ यह कमांड केवल बॉट के मालिक के लिए है।",
@@ -79,18 +82,23 @@
     "botAdminRequired": "❌ इस कमांड को चलाने के लिए मुझे समूह का एडमिन होना ज़रूरी है।",
     "commandBlocked": "❌ यह कमांड बॉट के मालिक द्वारा ब्लॉक की गई है।",
     "groupCommandsAdminOnly": "❌ इस समूह में केवल एडमिन ही कमांड्स का उपयोग कर सकते हैं।",
-    "commandExecution": "❌ कमांड चलाते समय एक त्रुटि हुई।"
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API key कॉन्फ़िगर नहीं है। इसे src/config.json में सेट करें",
-      "invalidKey": "अमान्य API key",
-      "forbidden": "इस endpoint के लिए अनुमति नहीं है",
-      "rateLimit": "Rate limit पार हो गई। बाद में फिर कोशिश करें",
-      "invalidParam": "अमान्य या गायब पैरामीटर",
-      "serverError": "API त्रुटि: {{status}}",
-      "failure": "API प्रतिक्रिया विफलता दिखाती है",
-      "connection": "API से कनेक्ट करते समय त्रुटि"
+    "commandExecution": "❌ कमांड चलाते समय एक त्रुटि हुई।",
+    "download": {
+      "notFound": "कोई परिणाम नहीं मिला।",
+      "noMedia": "कोई मीडिया नहीं मिला।",
+      "invalidUrl": "अमान्य URL।",
+      "timeout": "डाउनलोड का समय समाप्त।",
+      "failed": "सामग्री डाउनलोड करने में विफल।",
+      "noData": "डेटा प्राप्त नहीं किया जा सका।",
+      "pinId": "pin ID निकाल नहीं सके।",
+      "linkNotFound": "डाउनलोड लिंक नहीं मिला।"
+    },
+    "sticker": {
+      "downloadFailed": "मीडिया डाउनलोड करने में विफल।",
+      "emptyDownload": "खाली डाउनलोड।",
+      "invalidInput": "अमान्य स्टिकर इनपुट।",
+      "conversionFailed": "रूपांतरण विफल।",
+      "invalidBuffer": "अमान्य या खाली बफ़र।"
     }
   },
   "connection": {
@@ -164,7 +172,10 @@
         "description": "कनेक्शन किसी अज्ञात कारण से बंद हो गया।",
         "action": "मैं स्वतः फिर से कनेक्ट करने की कोशिश करूँगा।"
       }
-    }
+    },
+    "noAutoReconnect": "कनेक्शन बंद। स्वचालित पुनः कनेक्शन का प्रयास नहीं किया जाएगा।",
+    "reconnectAttempt": "{{delay}}ms में पुनः कनेक्ट हो रहा है... (प्रयास {{attempt}}/{{max}})",
+    "maxReconnectReached": "पुनः कनेक्शन के अधिकतम प्रयास पूरे हो गए ({{max}})।"
   },
   "update": {
     "checking": "अपडेट जाँची जा रही हैं...",
@@ -172,7 +183,14 @@
     "extracting": "निकाला जा रहा है...",
     "installingDeps": "निर्भरताएँ इंस्टॉल की जा रही हैं...",
     "done": "अपडेट पूरी हुई! पुनः आरंभ किया जा रहा है...",
-    "failed": "अपडेट विफल रही। मौजूदा संस्करण के साथ जारी रहेगा।"
+    "failed": "अपडेट विफल रही। मौजूदा संस्करण के साथ जारी रहेगा।",
+    "creatingBackup": "अपडेट से पहले पूरा बैकअप बनाया जा रहा है...",
+    "backupCreated": "बैकअप यहाँ बनाया गया: {{path}}",
+    "restoringBackup": "पूरा बैकअप पुनर्स्थापित किया जा रहा है...",
+    "backupRestored": "बैकअप पुनर्स्थापित हो गया।",
+    "restoreSrcFailed": "src/ बैकअप पुनर्स्थापित करने में विफल।",
+    "restorePackageFailed": "package.json बैकअप पुनर्स्थापित करने में विफल।",
+    "restoreFailed": "package.json पुनर्स्थापित करने में विफल।"
   },
   "commands": {
     "ping": {
@@ -199,16 +217,6 @@
     "sticker2": {
       "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ उपयोग:\n│   फोटो भेजें या उस पर उत्तर दें:\n│   s2\n│\n│   वीडियो भेजें या उस पर उत्तर दें:\n│   sticker2\n│\n╰─ परिणाम: मूल फ़ॉर्मेट बनाए रखता है"
     },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ उपयोग:\n│   brat <टेक्स्ट>\n│\n╰─ उदाहरण:\n   brat maine kaha tha",
-      "creating": "🖼️ brat स्टिकर बनाया जा रहा है...",
-      "error": "❌ brat बनाते समय त्रुटि: {{message}}",
-      "empty": "API ने खाली इमेज लौटाई।",
-      "unknown": "अज्ञात त्रुटि"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ उपयोग:\n│   brat2 <टेक्स्ट>\n│\n╰─ उदाहरण:\n   brat2 aaj main gayab ho jaunga"
-    },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
@@ -218,7 +226,12 @@
         "grupo": "समूह",
         "owner": "मालिक",
         "activations": "सक्रियण",
-        "welcome": "स्वागत"
+        "welcome": "स्वागत",
+        "funMalePercent": "प्रतिशत (पुरुष)",
+        "funFemalePercent": "प्रतिशत (महिला)",
+        "funMaleRank": "रैंक (पुरुष)",
+        "funFemaleRank": "रैंक (महिला)",
+        "funInteractions": "मज़ेदार क्रियाएँ"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "menugeral",
         "menufig": "menufig",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "menudl",
         "menugrupo": "menugrupo",
         "menuadm": "menuadm",
@@ -269,7 +280,6 @@
         "nomedono": "ownername",
         "numerodono": "numerodono",
         "prefixo": "prefix",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,7 +305,12 @@
         "antifoto": "antifoto",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilista"
+        "antilista": "antilista",
+        "apk": "apk",
+        "menubrincadeira": "मज़ेमेनू",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "क्रियाएँ"
       }
     },
     "play": {
@@ -501,7 +516,8 @@
     "eval": {
       "noArgs": "❌ उपयोग: eval <code>",
       "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ सफलतापूर्वक चलाया गया।",
-      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ चलाने में त्रुटि।"
+      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ चलाने में त्रुटि।",
+      "tooLong": "❌ कोड {{max}} अक्षरों की सीमा से अधिक है।"
     },
     "idioma": {
       "current": "🌐 वर्तमान वैश्विक भाषा: *{{language}}*\n\nउपयोग: bhasha <{{options}}>",
@@ -569,11 +585,6 @@
       "current": "⌨️ वर्तमान प्रीफ़िक्स: *{{value}}*\n\nउपयोग: prefix <नया प्रीफ़िक्स>",
       "invalid": "❌ ऐसा प्रीफ़िक्स उपयोग करें जिसमें स्पेस न हों और अधिकतम 5 अक्षर हों।",
       "updated": "✅ प्रीफ़िक्स *{{value}}* पर अपडेट किया गया।"
-    },
-    "apikey": {
-      "current": "🔑 API key सेट है: *{{value}}*\n\nउपयोग: apikey <मान>\nहटाने के लिए: apikey {{off}}",
-      "updated": "✅ API key सफलतापूर्वक अपडेट की गई।",
-      "cleared": "✅ API key सफलतापूर्वक हटाई गई।"
     },
     "autoupdate": {
       "current": "♻️ वर्तमान स्वचालित अपडेट: *{{value}}*\n\nउपयोग: autoupdate <{{on}}|{{off}}>",
@@ -667,7 +678,7 @@
     },
     "listbangp": {
       "empty": "❌ कोई समूह bangp में नहीं है।",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ कुल: {{total}}\n│\n{{items}}\n│\n╰─",
       "reasonLabel": "कारण",
       "sinceLabel": "से"
     },
@@ -687,7 +698,7 @@
     },
     "listblock": {
       "empty": "❌ कोई उपयोगकर्ता block नहीं है।",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ कुल: {{total}}\n│\n{{items}}\n│\n╰─",
       "expiresLabel": "समाप्ति",
       "reasonLabel": "कारण"
     },
@@ -705,7 +716,7 @@
     },
     "listblockcmd": {
       "empty": "❌ कोई कमांड block नहीं है।",
-      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ कुल: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "antimidia": {
       "blocked": "🚫 {{user}}, *{{type}}* प्रकार के संदेश इस समूह में अनुमति नहीं हैं।",
@@ -741,6 +752,54 @@
     "antilista": {
       "enabled": "✅ इस समूह में Anti-list सक्रिय किया गया!",
       "disabled": "❌ इस समूह में Anti-list निष्क्रिय किया गया।"
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ उपयोग:\n│   {{prefix}}apk <ऐप नाम>\n│\n╰─ उदाहरण:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Modyolo पर खोज रहा है...",
+      "noResults": "❌ *{{query}}* के लिए कोई परिणाम नहीं मिला",
+      "error": "❌ अनुरोध प्रोसेस करते समय त्रुटि",
+      "select": "📱 *परिणाम - {{query}}*",
+      "selectApp": "ऐप नंबर टाइप करें:",
+      "selectVersion": "वर्शन नंबर टाइप करें:",
+      "versionsTitle": "📦 *वर्शन - {{name}}*",
+      "invalidOption": "❌ अमान्य विकल्प! सूची से नंबर लिखें।",
+      "invalidRange": "❌ अमान्य विकल्प! 1 से {{max}} तक नंबर लिखें",
+      "fetchError": "❌ ऐप जानकारी प्राप्त नहीं हो सकी",
+      "downloadError": "❌ डाउनलोड लिंक नहीं मिला",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "वर्शन",
+      "labelMod": "मॉड",
+      "labelSize": "साइज़",
+      "labelPublisher": "डेवलपर",
+      "labelGenre": "शैली"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ मज़ेदार मोड सक्रिय होना चाहिए (modobn)",
+      "modobnRequired": "❌ इस ग्रुप में मज़ेदार मोड चालू नहीं है।\nचालू करें: modobn",
+      "percentResult": "📊 {{user}} के पास *{{level}}%* {{trait}} है! 🔥",
+      "rankHeader": "📊 *{{trait}} रैंकिंग*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ रैंकिंग के लिए सदस्य कम हैं (न्यूनतम {{min}})।",
+      "interactionUsage": "❌ किसी का उल्लेख करें या संदेश का जवाब दें।\nउदाहरण: {{command}} @उपयोगकर्ता",
+      "interactionSelf": "❌ आप इसे खुद पर उपयोग नहीं कर सकते!",
+      "interactionGeneric": "{{from}} ने {{to}} पर *{{action}}* इस्तेमाल किया!",
+      "interactions": {
+        "chute": "{{from}} ने {{to}} को लात मारी! 🦵",
+        "tapa": "{{from}} ने {{to}} को थप्पड़ मारा! 👋",
+        "soco": "{{from}} ने {{to}} को मुक्का मारा! 👊",
+        "beijo": "{{from}} ने {{to}} को चूमा! 😘",
+        "abraco": "{{from}} ने {{to}} को गले लगाया! 🤗",
+        "mata": "{{from}} ने {{to}} को मार डाला! 💀",
+        "sexo": "{{from}} ने {{to}} के साथ सेक्स किया! 🔥",
+        "goza": "{{from}} {{to}} पर झड़ गया! 💦",
+        "mamar": "{{from}} ने {{to}} को चूसा! 👅",
+        "cafune": "{{from}} ने {{to}} के सिर पर प्यार से हाथ फेरा! ✨",
+        "morder": "{{from}} ने {{to}} को काटा! 🦷",
+        "lamber": "{{from}} ने {{to}} को चाटा! 👅",
+        "explodir": "{{from}} ने {{to}} को उड़ा दिया! 💥",
+        "tomate": "{{from}} ने {{to}} पर टमाटर फेंका! 🍅"
+      }
     }
   },
   "group": {

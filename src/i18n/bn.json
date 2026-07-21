@@ -1,187 +1,205 @@
 {
   "common": {
-    "yes": "Yes",
-    "no": "No",
-    "enabled": "enabled",
-    "disabled": "disabled",
-    "error": "Error",
-    "success": "Success",
-    "unknown": "unknown",
-    "none": "none",
-    "file": "file",
-    "files": "files"
+    "yes": "হ্যাঁ",
+    "no": "না",
+    "enabled": "চালু",
+    "disabled": "বন্ধ",
+    "error": "ত্রুটি",
+    "success": "সফল",
+    "unknown": "অজানা",
+    "none": "কোনোটিই নয়",
+    "file": "ফাইল",
+    "files": "ফাইলসমূহ"
   },
   "terminal": {
-    "initializing": "  Initializing...",
-    "goodbye": "Goodbye.",
-    "startCancelled": "Start cancelled.",
-    "startFailed": "Start failed.",
-    "boolYes": "y|yes",
-    "boolNo": "n|no",
-    "invalidOption": "Invalid option. Please try again.",
-    "invalidPhone": "Invalid number.",
-    "sessionDetected": "Existing session detected. Connecting automatically...",
+    "initializing": "  শুরু করা হচ্ছে...",
+    "goodbye": "বিদায়।",
+    "startCancelled": "শুরু বাতিল করা হয়েছে।",
+    "startFailed": "শুরু করতে ব্যর্থ।",
+    "boolYes": "হ|হ্যাঁ|y|yes",
+    "boolNo": "ন|না|n|no",
+    "invalidOption": "অবৈধ বিকল্প। আবার চেষ্টা করুন।",
+    "invalidPhone": "অবৈধ নম্বর।",
+    "sessionDetected": "বিদ্যমান সেশন পাওয়া গেছে। স্বয়ংক্রিয়ভাবে সংযুক্ত হচ্ছে...",
     "menu": {
       "title": "{{botName}}",
-      "version": "version",
+      "version": "সংস্করণ",
       "configure": "বট কনফিগার করুন",
       "start": "বট চালু করুন",
-      "exit": "Exit",
-      "chooseOption": "  › Choose an option: "
+      "exit": "প্রস্থান",
+      "chooseOption": "  › একটি বিকল্প বেছে নিন: "
     },
     "config": {
-      "header": "CONFIGURE BOT",
-      "pressEnter": "   Press Enter to keep the current value     ",
-      "saved": "CONFIGURATION SAVED",
-      "fileUpdated": "   File updated: src/config.json             ",
-      "botName": "Bot name",
-      "ownerName": "Owner name",
-      "prefix": "Bot prefix",
-      "ownerNumber": "Owner number",
-      "apiKey": "API key",
-      "apiKeyHint": "[CONFIG] The API key can be obtained at https://api.misaka.com.br",
-      "autoUpdate": "Auto update",
-      "language": "Bot language",
+      "header": "বট কনফিগার করুন",
+      "pressEnter": "   বর্তমান মান রাখতে Enter চাপুন              ",
+      "saved": "কনফিগারেশন সংরক্ষিত",
+      "fileUpdated": "   ফাইল আপডেট হয়েছে: src/config.json           ",
+      "botName": "বটের নাম",
+      "ownerName": "মালিকের নাম",
+      "prefix": "বট প্রিফিক্স",
+      "ownerNumber": "মালিকের নম্বর",
+      "autoUpdate": "স্বয়ংক্রিয় আপডেট",
+      "language": "বটের ভাষা",
       "languageHint": "({{options}})",
-      "notConfigured": "not configured",
-      "configured": "configured",
-      "boolPrompt": "(y/N)",
-      "boolInvalid": "Answer with y/yes for yes, n for no, or Enter to keep."
+      "notConfigured": "কনফিগার করা হয়নি",
+      "configured": "কনফিগার করা হয়েছে",
+      "boolPrompt": "(হ/y/N)",
+      "boolInvalid": "হ্যাঁর জন্য হ/y, নার জন্য ন, অথবা রাখতে Enter চাপুন।"
     },
     "connection": {
-      "title": "CONNECTION METHOD",
+      "title": "সংযোগের পদ্ধতি",
       "qr": "QR Code",
-      "pairing": "Pairing Code",
-      "pairingHint": "(phone number)",
-      "back": "Back",
-      "phonePrompt": "  › Number with country code (e.g. 5511999999999): "
+      "pairing": "পেয়ারিং কোড",
+      "pairingHint": "(ফোন নম্বর)",
+      "back": "পিছনে",
+      "phonePrompt": "  › দেশের কোডসহ নম্বর (যেমন: 5511999999999): "
     }
   },
   "logs": {
-    "ownerLidFetching": "Fetching owner LID...",
-    "ownerLidSaved": "Owner LID saved: {{lid}}",
-    "ownerLidFailed": "Could not get the owner LID.",
-    "commandIgnoredNoLid": "Ignored because LID could not be resolved: {{sender}}",
-    "commandError": "Error executing {{commandName}}.",
-    "commandInvalid": "Ignored because it is invalid: {{file}}",
-    "eventInvalid": "Ignored because it is invalid: {{file}}",
-    "eventError": "Error in {{name}}.",
-    "configReadFailed": "Could not read {{path}}.",
-    "configMigrated": "Configuration migrated to {{path}}.",
-    "botStarted": "{{botName}} started and ready to receive messages.",
-    "updateRestoreFailed": "package.json পুনরুদ্ধার ব্যর্থ হয়েছে।"
+    "ownerLidFetching": "মালিকের LID আনা হচ্ছে...",
+    "ownerLidSaved": "মালিকের LID সংরক্ষিত: {{lid}}",
+    "ownerLidFailed": "মালিকের LID পাওয়া যায়নি।",
+    "commandIgnoredNoLid": "উপেক্ষা করা হয়েছে কারণ LID সমাধান হয়নি: {{sender}}",
+    "commandError": "{{commandName}} চালাতে ত্রুটি।",
+    "commandInvalid": "উপেক্ষা করা হয়েছে কারণ এটি অবৈধ: {{file}}",
+    "eventInvalid": "উপেক্ষা করা হয়েছে কারণ এটি অবৈধ: {{file}}",
+    "eventError": "{{name}}-এ ত্রুটি।",
+    "configReadFailed": "{{path}} পড়া যায়নি।",
+    "configMigrated": "কনফিগারেশন {{path}}-এ স্থানান্তরিত হয়েছে।",
+    "botStarted": "{{botName}} চালু হয়েছে এবং বার্তা গ্রহণের জন্য প্রস্তুত।",
+    "updateRestoreFailed": "package.json পুনরুদ্ধার ব্যর্থ হয়েছে।",
+    "emptySender": "খালি প্রেরক",
+    "antilinkDeleteFailed": "গ্রুপ {{groupId}}-এ antilink বার্তা মুছতে ব্যর্থ: {{error}}",
+    "antilinkBanFailed": "গ্রুপ {{groupId}}-এ {{sender}}-কে ব্যান করতে ব্যর্থ: {{error}}",
+    "antistealthDeleteFailed": "গ্রুপ {{groupId}}-এ antistealth বার্তা মুছতে ব্যর্থ: {{error}}",
+    "antistealthRemoveFailed": "গ্রুপ {{groupId}} থেকে {{sender}}-কে সরাতে ব্যর্থ: {{error}}"
   },
   "errors": {
-    "ownerOnly": "❌ This command is only for the bot owner.",
-    "groupOnly": "❌ This command can only be used in groups.",
-    "privateOnly": "❌ This command can only be used in private chats.",
-    "adminOnly": "❌ This command is only for group administrators.",
-    "botAdminRequired": "❌ I need to be a group administrator to execute this command.",
-    "commandBlocked": "❌ This command has been blocked by the bot owner.",
-    "groupCommandsAdminOnly": "❌ In this group, only admins can use commands.",
-    "commandExecution": "❌ An error occurred while executing the command."
-  },
-  "api": {
-    "errors": {
-      "missingKey": "API key not configured. Configure it in src/config.json",
-      "invalidKey": "Invalid API key",
-      "forbidden": "No permission for this endpoint",
-      "rateLimit": "Rate limit exceeded. Try again later",
-      "invalidParam": "Invalid or missing parameter",
-      "serverError": "API Error: {{status}}",
-      "failure": "API response indicates failure",
-      "connection": "Error connecting to the API"
+    "ownerOnly": "❌ এই কমান্ড শুধু বটের মালিকের জন্য।",
+    "groupOnly": "❌ এই কমান্ড শুধু গ্রুপে ব্যবহার করা যায়।",
+    "privateOnly": "❌ এই কমান্ড শুধু ব্যক্তিগত চ্যাটে ব্যবহার করা যায়।",
+    "adminOnly": "❌ এই কমান্ড শুধু গ্রুপ অ্যাডমিনদের জন্য।",
+    "botAdminRequired": "❌ এই কমান্ড চালাতে আমাকে গ্রুপ অ্যাডমিন হতে হবে।",
+    "commandBlocked": "❌ এই কমান্ড বটের মালিক ব্লক করেছেন।",
+    "groupCommandsAdminOnly": "❌ এই গ্রুপে শুধু অ্যাডমিনরা কমান্ড ব্যবহার করতে পারেন।",
+    "commandExecution": "❌ কমান্ড চালাতে একটি ত্রুটি হয়েছে।",
+    "download": {
+      "notFound": "কোনো ফলাফল পাওয়া যায়নি।",
+      "noMedia": "কোনো মিডিয়া পাওয়া যায়নি।",
+      "invalidUrl": "অবৈধ URL।",
+      "timeout": "ডাউনলোডের সময় শেষ।",
+      "failed": "কন্টেন্ট ডাউনলোড করতে ব্যর্থ।",
+      "noData": "ডেটা পাওয়া যায়নি।",
+      "pinId": "pin ID বের করা যায়নি।",
+      "linkNotFound": "ডাউনলোড লিংক পাওয়া যায়নি।"
+    },
+    "sticker": {
+      "downloadFailed": "মিডিয়া ডাউনলোড করতে ব্যর্থ।",
+      "emptyDownload": "খালি ডাউনলোড।",
+      "invalidInput": "অবৈধ স্টিকার ইনপুট।",
+      "conversionFailed": "রূপান্তর ব্যর্থ।",
+      "invalidBuffer": "অবৈধ বা খালি বাফার।"
     }
   },
   "connection": {
-    "sessionDetected": "Existing session detected. Connecting automatically...",
-    "connecting": "Connecting to WhatsApp...",
-    "connected": "Successfully connected.",
-    "disconnected": "Connection closed",
-    "reconnecting": "Trying to reconnect...",
-    "sessionCleared": "Local session removed. Start again to generate a new QR.",
-    "sessionClearFailed": "Could not remove {{path}}.",
-    "qrReceived": "QR code received",
-    "qrScan": "Scan with WhatsApp to connect this session.",
-    "pairingCode": "Pairing code",
-    "pairingNewCode": "New pairing code",
-    "pairingCodeValue": "Code: {{code}}",
-    "pairingInstruction": "Enter in WhatsApp: Linked devices > Link a device > Link with phone number.",
-    "pairingExpired": "Pairing code expired. Requesting new code...",
-    "pairingError": "Error requesting pairing code.",
-    "disconnectCode": "Code: {{code}}",
-    "disconnectReason": "Reason: {{reason}}",
-    "disconnectDetail": "Detail: {{detail}}",
-    "disconnectAction": "Action: {{action}}",
+    "sessionDetected": "বিদ্যমান সেশন পাওয়া গেছে। স্বয়ংক্রিয়ভাবে সংযুক্ত হচ্ছে...",
+    "connecting": "WhatsApp-এ সংযুক্ত হচ্ছে...",
+    "connected": "সফলভাবে সংযুক্ত হয়েছে।",
+    "disconnected": "সংযোগ বন্ধ",
+    "reconnecting": "পুনঃসংযোগের চেষ্টা করা হচ্ছে...",
+    "sessionCleared": "লোকাল সেশন মুছে ফেলা হয়েছে। নতুন QR তৈরি করতে আবার শুরু করুন।",
+    "sessionClearFailed": "{{path}} মুছে ফেলা যায়নি।",
+    "qrReceived": "QR কোড পাওয়া গেছে",
+    "qrScan": "এই সেশন সংযুক্ত করতে WhatsApp দিয়ে স্ক্যান করুন।",
+    "pairingCode": "পেয়ারিং কোড",
+    "pairingNewCode": "নতুন পেয়ারিং কোড",
+    "pairingCodeValue": "কোড: {{code}}",
+    "pairingInstruction": "WhatsApp-এ যান: Linked devices > Link a device > Link with phone number.",
+    "pairingExpired": "পেয়ারিং কোডের মেয়াদ শেষ। নতুন কোড চাওয়া হচ্ছে...",
+    "pairingError": "পেয়ারিং কোড চাইতে ত্রুটি।",
+    "disconnectCode": "কোড: {{code}}",
+    "disconnectReason": "কারণ: {{reason}}",
+    "disconnectDetail": "বিস্তারিত: {{detail}}",
+    "disconnectAction": "কর্ম: {{action}}",
     "disconnect": {
       "loggedOut": {
-        "title": "Session disconnected",
-        "description": "WhatsApp ended this session or it was removed from connected devices.",
-        "action": "I will clear the local session. Start again to generate a new QR."
+        "title": "সেশন বিচ্ছিন্ন",
+        "description": "WhatsApp এই সেশন শেষ করেছে অথবা এটি সংযুক্ত ডিভাইস থেকে সরানো হয়েছে।",
+        "action": "আমি লোকাল সেশন মুছে দেব। নতুন QR তৈরি করতে আবার শুরু করুন।"
       },
       "forbidden": {
-        "title": "Access denied",
-        "description": "WhatsApp rejected the connection for this session.",
-        "action": "Check your credentials, wait a few minutes and generate a new session if it keeps failing."
+        "title": "প্রবেশাধিকার প্রত্যাখ্যান",
+        "description": "WhatsApp এই সেশনের সংযোগ প্রত্যাখ্যান করেছে।",
+        "action": "ক্রেডেনশিয়াল যাচাই করুন, কিছুক্ষণ অপেক্ষা করুন এবং সমস্যা থাকলে নতুন সেশন তৈরি করুন।"
       },
       "connectionLost": {
-        "title": "Connection lost or timed out",
-        "description": "The network dropped, fluctuated or the attempt took too long to respond.",
-        "action": "I will try to reconnect automatically."
+        "title": "সংযোগ হারিয়েছে বা সময় শেষ",
+        "description": "নেটওয়ার্ক কেটে গেছে, অস্থির ছিল অথবা প্রতিক্রিয়া আসতে দেরি হয়েছে।",
+        "action": "আমি স্বয়ংক্রিয়ভাবে পুনঃসংযোগের চেষ্টা করব।"
       },
       "multideviceMismatch": {
-        "title": "Multi-device mismatch",
-        "description": "The session does not match the multi-device protocol expected by WhatsApp.",
-        "action": "Update Baileys/dependencies and generate a new session if necessary."
+        "title": "মাল্টি-ডিভাইস অমিল",
+        "description": "সেশন WhatsApp-এর প্রত্যাশিত মাল্টি-ডিভাইস প্রোটোকলের সাথে মেলে না।",
+        "action": "Baileys/ডিপেন্ডেন্সি আপডেট করুন এবং প্রয়োজনে নতুন সেশন তৈরি করুন।"
       },
       "connectionClosed": {
-        "title": "Connection closed",
-        "description": "The connection was closed by WhatsApp or the network.",
-        "action": "I will try to reconnect automatically."
+        "title": "সংযোগ বন্ধ",
+        "description": "WhatsApp বা নেটওয়ার্ক সংযোগ বন্ধ করেছে।",
+        "action": "আমি স্বয়ংক্রিয়ভাবে পুনঃসংযোগের চেষ্টা করব।"
       },
       "connectionReplaced": {
-        "title": "Connection replaced",
-        "description": "Another instance connected using the same session.",
-        "action": "Close the other instance before starting this one again."
+        "title": "সংযোগ প্রতিস্থাপিত",
+        "description": "অন্য একটি ইনস্ট্যান্স একই সেশন দিয়ে সংযুক্ত হয়েছে।",
+        "action": "এটি আবার শুরু করার আগে অন্য ইনস্ট্যান্স বন্ধ করুন।"
       },
       "badSession": {
-        "title": "Invalid session",
-        "description": "The authentication files appear to be corrupted or invalid.",
-        "action": "Delete {{authPath}} and scan a new QR code."
+        "title": "অবৈধ সেশন",
+        "description": "প্রমাণীকরণ ফাইলগুলো ক্ষতিগ্রস্ত বা অবৈধ বলে মনে হচ্ছে।",
+        "action": "{{authPath}} মুছে নতুন QR কোড স্ক্যান করুন।"
       },
       "unavailableService": {
-        "title": "Service unavailable",
-        "description": "WhatsApp or the connection route is temporarily unavailable.",
-        "action": "I will try to reconnect automatically."
+        "title": "সেবা অনুপলব্ধ",
+        "description": "WhatsApp বা সংযোগ রুট সাময়িকভাবে অনুপলব্ধ।",
+        "action": "আমি স্বয়ংক্রিয়ভাবে পুনঃসংযোগের চেষ্টা করব।"
       },
       "restartRequired": {
-        "title": "Restart required",
-        "description": "The server requested that the client be restarted.",
-        "action": "I will restart the connection automatically."
+        "title": "রিস্টার্ট প্রয়োজন",
+        "description": "সার্ভার ক্লায়েন্ট রিস্টার্ট করতে বলেছে।",
+        "action": "আমি স্বয়ংক্রিয়ভাবে সংযোগ রিস্টার্ট করব।"
       },
       "default": {
-        "title": "Connection closed",
-        "description": "The connection was closed for an unmapped reason.",
-        "action": "I will try to reconnect automatically."
+        "title": "সংযোগ বন্ধ",
+        "description": "অজানা কারণে সংযোগ বন্ধ হয়েছে।",
+        "action": "আমি স্বয়ংক্রিয়ভাবে পুনঃসংযোগের চেষ্টা করব।"
       }
-    }
+    },
+    "noAutoReconnect": "সংযোগ বন্ধ। স্বয়ংক্রিয় পুনঃসংযোগ চেষ্টা করা হবে না।",
+    "reconnectAttempt": "{{delay}}ms-এ পুনঃসংযোগ হচ্ছে... (চেষ্টা {{attempt}}/{{max}})",
+    "maxReconnectReached": "পুনঃসংযোগের সর্বোচ্চ চেষ্টা শেষ ({{max}})।"
   },
   "update": {
-    "checking": "Checking for updates...",
-    "downloading": "Downloading update...",
-    "extracting": "Extracting...",
-    "installingDeps": "Installing dependencies...",
-    "done": "Update complete! Restarting...",
-    "failed": "Update failed. Continuing with current version."
+    "checking": "আপডেট পরীক্ষা করা হচ্ছে...",
+    "downloading": "আপডেট ডাউনলোড করা হচ্ছে...",
+    "extracting": "এক্সট্র্যাক্ট করা হচ্ছে...",
+    "installingDeps": "ডিপেন্ডেন্সি ইনস্টল করা হচ্ছে...",
+    "done": "আপডেট সম্পন্ন! পুনরায় চালু হচ্ছে...",
+    "failed": "আপডেট ব্যর্থ। বর্তমান সংস্করণ দিয়ে চলছে।",
+    "creatingBackup": "আপডেটের আগে সম্পূর্ণ ব্যাকআপ তৈরি করা হচ্ছে...",
+    "backupCreated": "ব্যাকআপ তৈরি হয়েছে: {{path}}",
+    "restoringBackup": "সম্পূর্ণ ব্যাকআপ পুনরুদ্ধার করা হচ্ছে...",
+    "backupRestored": "ব্যাকআপ পুনরুদ্ধার হয়েছে।",
+    "restoreSrcFailed": "src/ ব্যাকআপ পুনরুদ্ধার করতে ব্যর্থ।",
+    "restorePackageFailed": "package.json ব্যাকআপ পুনরুদ্ধার করতে ব্যর্থ।",
+    "restoreFailed": "package.json পুনরুদ্ধার করতে ব্যর্থ।"
   },
   "commands": {
     "ping": {
-      "latency": "Latency",
-      "unavailable": "unavailable",
-      "uptime": "Online for",
-      "memory": "Memory",
-      "ownerStatus": "Status: Owner",
-      "footer": "Powered By {{botName}}."
+      "latency": "লেটেন্সি",
+      "unavailable": "অনুপলব্ধ",
+      "uptime": "চালু আছে",
+      "memory": "মেমোরি",
+      "ownerStatus": "স্ট্যাটাস: মালিক",
+      "footer": "{{botName}} দ্বারা চালিত।"
     },
     "dono": {
       "text": "╭─「 *মালিক* 」\n│\n│ নাম: {{owner}}\n│ নম্বর: {{ownerNumber}}\n│ বট: {{bot}}\n│\n╰─"
@@ -190,35 +208,30 @@
       "text": "╭─「 *বট তথ্য* 」\n│\n│ নাম: {{bot}}\n│ মালিক: {{owner}}\n│ প্রিফিক্স: {{prefix}}\n│ ভাষা: {{language}}\n│ চালু সময়: {{uptime}}\n│ মেমোরি: {{memory}}\n│ node: {{node}}\n│\n╰─"
     },
     "sticker": {
-      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s\n│\n│   send or reply to a video with:\n│   sticker\n│\n╰─ Result: square sticker",
-      "creating": "🪄 Creating sticker...",
-      "videoTooLong": "❌ The video must be at most {{max}} seconds.",
-      "error": "❌ Error creating sticker: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *STICKER* 」\n│\n│ ✦ কীভাবে ব্যবহার করবেন:\n│   ছবি পাঠান বা রিপ্লাই করুন:\n│   s\n│\n│   ভিডিও পাঠান বা রিপ্লাই করুন:\n│   sticker\n│\n╰─ ফলাফল: বর্গাকার স্টিকার",
+      "creating": "🪄 স্টিকার তৈরি করা হচ্ছে...",
+      "videoTooLong": "❌ ভিডিও সর্বোচ্চ {{max}} সেকেন্ড হতে হবে।",
+      "error": "❌ স্টিকার তৈরির ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "sticker2": {
-      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ How to use:\n│   send or reply to a photo with:\n│   s2\n│\n│   send or reply to a video with:\n│   sticker2\n│\n╰─ Result: keeps the original format"
-    },
-    "brat": {
-      "usage": "╭─「 *BRAT* 」\n│\n│ ✦ How to use:\n│   brat <text>\n│\n╰─ Example:\n   brat i told you",
-      "creating": "🖼️ Generating brat sticker...",
-      "error": "❌ Error creating brat: {{message}}",
-      "empty": "The API returned an empty image.",
-      "unknown": "Unknown error"
-    },
-    "brat2": {
-      "usage": "╭─「 *BRAT2* 」\n│\n│ ✦ How to use:\n│   brat2 <text>\n│\n╰─ Example:\n   brat2 today i disappear"
+      "usage": "╭─「 *STICKER2* 」\n│\n│ ✦ কীভাবে ব্যবহার করবেন:\n│   ছবি পাঠান বা রিপ্লাই করুন:\n│   s2\n│\n│   ভিডিও পাঠান বা রিপ্লাই করুন:\n│   sticker2\n│\n╰─ ফলাফল: মূল ফরম্যাট রাখে"
     },
     "menu": {
       "mainTitle": "‧₊˚ ✿ ── {{botName}} ──✿ ˚₊‧",
       "categories": {
-        "geral": "general",
-        "fig": "stickers",
-        "downloads": "downloads",
-        "grupo": "group",
-        "owner": "owner",
-        "activations": "activations",
-        "welcome": "welcome"
+        "geral": "সাধারণ",
+        "fig": "স্টিকার",
+        "downloads": "ডাউনলোড",
+        "grupo": "গ্রুপ",
+        "owner": "মালিক",
+        "activations": "অ্যাক্টিভেশন",
+        "welcome": "স্বাগতম",
+        "funMalePercent": "শতাংশ (পুরুষ)",
+        "funFemalePercent": "শতাংশ (নারী)",
+        "funMaleRank": "র‍্যাঙ্ক (পুরুষ)",
+        "funFemaleRank": "র‍্যাঙ্ক (নারী)",
+        "funInteractions": "মিথস্ক্রিয়া"
       },
       "cmds": {
         "ping": "ping",
@@ -227,8 +240,6 @@
         "menu": "menu",
         "menugeral": "generalmenu",
         "menufig": "stickermenu",
-        "brat": "brat",
-        "brat2": "brat2",
         "menudl": "dlmenu",
         "menugrupo": "groupmenu",
         "menuadm": "adminmenu",
@@ -269,7 +280,6 @@
         "nomedono": "ownername",
         "numerodono": "ownernumber",
         "prefixo": "prefix",
-        "apikey": "apikey",
         "autoupdate": "autoupdate",
         "antipv": "antipv",
         "statusbot": "statusbot",
@@ -295,141 +305,146 @@
         "antifoto": "antiimage",
         "antivideo": "antivideo",
         "antidoc": "antidoc",
-        "antilista": "antilist"
+        "antilista": "antilist",
+        "apk": "apk",
+        "menubrincadeira": "মজারমেনু",
+        "percent": "percent",
+        "rank": "rank",
+        "interact": "মিথস্ক্রিয়া"
       }
     },
     "play": {
-      "usage": "╭─「 *PLAY* 」\n│\n│ ✦ Search:\n│   play <song name>\n│   p <song name>\n│\n╰─ Example:\n   play michael jackson billie jean",
-      "searching": "🔍 Searching for song...",
-      "notFound": "❌ No results found.",
-      "channel": "Channel",
-      "duration": "Duration",
-      "views": "Views",
-      "downloading": "⬇️ Downloading audio...",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error",
-      "author": "Unknown"
+      "usage": "╭─「 *PLAY* 」\n│\n│ ✦ অনুসন্ধান:\n│   play <গানের নাম>\n│   p <গানের নাম>\n│\n╰─ উদাহরণ:\n   play michael jackson billie jean",
+      "searching": "🔍 গান খোঁজা হচ্ছে...",
+      "notFound": "❌ কোনো ফলাফল পাওয়া যায়নি।",
+      "channel": "চ্যানেল",
+      "duration": "সময়কাল",
+      "views": "ভিউ",
+      "downloading": "⬇️ অডিও ডাউনলোড হচ্ছে...",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি",
+      "author": "অজানা"
     },
     "ytmp3": {
-      "usage": "╭─「 *YTMP3* 」\n│\n│ ✦ Download:\n│   ytmp3 <YouTube link>\n\n╰─ Examples:\n   ytmp3 https://youtube.com/watch?v=...\n   ytmp3 https://youtu.be/...\n   ytmp3 https://youtube.com/shorts/...",
-      "invalidUrl": "❌ Invalid URL. Use a YouTube link.",
-      "downloading": "⬇️ Downloading audio from YouTube...",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *YTMP3* 」\n│\n│ ✦ ডাউনলোড:\n│   ytmp3 <YouTube লিংক>\n\n╰─ উদাহরণ:\n   ytmp3 https://youtube.com/watch?v=...\n   ytmp3 https://youtu.be/...\n   ytmp3 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ অবৈধ URL। YouTube লিংক ব্যবহার করুন।",
+      "downloading": "⬇️ YouTube থেকে অডিও ডাউনলোড হচ্ছে...",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "playvid": {
-      "usage": "╭─「 *PLAYVID* 」\n│\n│ ✦ Search:\n│   playvid <video name>\n│   pv <video name>\n\n╰─ Example:\n   playvid michael jackson thriller",
-      "searching": "🔍 Searching for video...",
-      "notFound": "❌ No results found.",
-      "channel": "Channel",
-      "duration": "Duration",
-      "views": "Views",
-      "downloading": "⬇️ Downloading video...",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *PLAYVID* 」\n│\n│ ✦ অনুসন্ধান:\n│   playvid <ভিডিওর নাম>\n│   pv <ভিডিওর নাম>\n\n╰─ উদাহরণ:\n   playvid michael jackson thriller",
+      "searching": "🔍 ভিডিও খোঁজা হচ্ছে...",
+      "notFound": "❌ কোনো ফলাফল পাওয়া যায়নি।",
+      "channel": "চ্যানেল",
+      "duration": "সময়কাল",
+      "views": "ভিউ",
+      "downloading": "⬇️ ভিডিও ডাউনলোড হচ্ছে...",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "ytmp4": {
-      "usage": "╭─「 *YTMP4* 」\n│\n│ ✦ Download:\n│   ytmp4 <YouTube link>\n\n╰─ Examples:\n   ytmp4 https://youtube.com/watch?v=...\n   ytmp4 https://youtu.be/...\n   ytmp4 https://youtube.com/shorts/...",
-      "invalidUrl": "❌ Invalid URL. Use a YouTube link.",
-      "downloading": "⬇️ Downloading video from YouTube...",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *YTMP4* 」\n│\n│ ✦ ডাউনলোড:\n│   ytmp4 <YouTube লিংক>\n\n╰─ উদাহরণ:\n   ytmp4 https://youtube.com/watch?v=...\n   ytmp4 https://youtu.be/...\n   ytmp4 https://youtube.com/shorts/...",
+      "invalidUrl": "❌ অবৈধ URL। YouTube লিংক ব্যবহার করুন।",
+      "downloading": "⬇️ YouTube থেকে ভিডিও ডাউনলোড হচ্ছে...",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "tiktok": {
-      "usage": "╭─「 *TIKTOK* 」\n│\n│ ✦ Download:\n│   tiktok <url>\n│\n│ ✦ Search:\n│   tiktok <term>\n│\n╰─ Examples:\n   tiktok https://vm.tiktok.com/...\n   tiktok viral dance",
-      "downloading": "⬇️ Downloading from TikTok...",
-      "downloadFailed": "❌ Could not download the video.",
-      "downloadDone": "✅ Download complete!",
-      "searching": "🔍 Searching on TikTok...",
-      "notFound": "❌ No results found.",
-      "found": "📹 *{{title}}*\n\n⬇️ Downloading...",
-      "searchCaption": "🔍 Search: {{query}}",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *TIKTOK* 」\n│\n│ ✦ ডাউনলোড:\n│   tiktok <url>\n│\n│ ✦ অনুসন্ধান:\n│   tiktok <শব্দ>\n│\n╰─ উদাহরণ:\n   tiktok https://vm.tiktok.com/...\n   tiktok viral dance",
+      "downloading": "⬇️ TikTok থেকে ডাউনলোড হচ্ছে...",
+      "downloadFailed": "❌ ভিডিও ডাউনলোড করা যায়নি।",
+      "downloadDone": "✅ ডাউনলোড সম্পন্ন!",
+      "searching": "🔍 TikTok-এ খোঁজা হচ্ছে...",
+      "notFound": "❌ কোনো ফলাফল পাওয়া যায়নি।",
+      "found": "📹 *{{title}}*\n\n⬇️ ডাউনলোড হচ্ছে...",
+      "searchCaption": "🔍 অনুসন্ধান: {{query}}",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "instagram": {
-      "usage": "╭─「 *INSTAGRAM* 」\n│\n│ ✦ Download:\n│   instagram <url>\n│\n╰─ Example:\n   instagram https://instagram.com/p/...",
-      "invalidUrl": "❌ Invalid URL. Use an Instagram URL.",
-      "downloading": "⬇️ Downloading from Instagram...",
-      "downloadFailed": "❌ Could not download the content.",
-      "sending": "📥 Sending {{count}} {{fileWord}}...",
-      "done": "✅ Instagram download complete!",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *INSTAGRAM* 」\n│\n│ ✦ ডাউনলোড:\n│   instagram <url>\n│\n╰─ উদাহরণ:\n   instagram https://instagram.com/p/...",
+      "invalidUrl": "❌ অবৈধ URL। Instagram URL ব্যবহার করুন।",
+      "downloading": "⬇️ Instagram থেকে ডাউনলোড হচ্ছে...",
+      "downloadFailed": "❌ কন্টেন্ট ডাউনলোড করা যায়নি।",
+      "sending": "📥 {{count}} {{fileWord}} পাঠানো হচ্ছে...",
+      "done": "✅ Instagram ডাউনলোড সম্পন্ন!",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "pinterest": {
-      "usage": "╭─「 *PINTEREST* 」\n│\n│ ✦ Download:\n│   pinterest <url>\n│\n│ ✦ Search:\n│   pinterest <term>\n│\n╰─ Examples:\n   pinterest https://pin.it/...\n   pinterest 4k wallpaper",
-      "downloading": "⬇️ Downloading from Pinterest...",
-      "downloadFailed": "❌ Could not download the content.",
-      "done": "✅ Pinterest download complete!",
-      "searching": "🔍 Searching on Pinterest...",
-      "notFound": "❌ No results found.",
-      "found": "📸 Found {{count}} images!\n\n⬇️ Sending...",
-      "searchCaption": "🔍 Search: {{query}}",
-      "limited": "ℹ️ Found {{total}} images, but only sent {{sent}}.",
-      "error": "❌ Error: {{message}}",
-      "unknown": "Unknown error"
+      "usage": "╭─「 *PINTEREST* 」\n│\n│ ✦ ডাউনলোড:\n│   pinterest <url>\n│\n│ ✦ অনুসন্ধান:\n│   pinterest <শব্দ>\n│\n╰─ উদাহরণ:\n   pinterest https://pin.it/...\n   pinterest 4k wallpaper",
+      "downloading": "⬇️ Pinterest থেকে ডাউনলোড হচ্ছে...",
+      "downloadFailed": "❌ কন্টেন্ট ডাউনলোড করা যায়নি।",
+      "done": "✅ Pinterest ডাউনলোড সম্পন্ন!",
+      "searching": "🔍 Pinterest-এ খোঁজা হচ্ছে...",
+      "notFound": "❌ কোনো ফলাফল পাওয়া যায়নি।",
+      "found": "📸 {{count}}টি ছবি পাওয়া গেছে!\n\n⬇️ পাঠানো হচ্ছে...",
+      "searchCaption": "🔍 অনুসন্ধান: {{query}}",
+      "limited": "ℹ️ {{total}}টি ছবি পাওয়া গেছে, কিন্তু শুধু {{sent}}টি পাঠানো হয়েছে।",
+      "error": "❌ ত্রুটি: {{message}}",
+      "unknown": "অজানা ত্রুটি"
     },
     "admins": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "noAdmins": "❌ No admins found.",
-      "defaultMessage": "the admins have been called!"
+      "groupInfoFailed": "❌ গ্রুপের তথ্য পাওয়া যায়নি।",
+      "noAdmins": "❌ কোনো অ্যাডমিন পাওয়া যায়নি।",
+      "defaultMessage": "অ্যাডমিনদের ডাকা হয়েছে!"
     },
     "rankativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ There is no activity registered in this group yet.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ গ্রুপের তথ্য পাওয়া যায়নি।",
+      "empty": "❌ এই গ্রুপে এখনও কোনো কার্যকলাপ নেই।",
+      "item": "{{pos}}. {{user}} - মোট: {{total}} | বার্তা: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
       "text": "╭─「 *সক্রিয় র‌্যাঙ্ক* 」\n{{items}}\n│\n╰─"
     },
     "rankinativo": {
-      "groupInfoFailed": "❌ Could not get group information.",
-      "empty": "❌ No members found in the group.",
-      "item": "{{pos}}. {{user}} - total: {{total}} | msg: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
+      "groupInfoFailed": "❌ গ্রুপের তথ্য পাওয়া যায়নি।",
+      "empty": "❌ গ্রুপে কোনো সদস্য পাওয়া যায়নি।",
+      "item": "{{pos}}. {{user}} - মোট: {{total}} | বার্তা: {{messages}} | cmd: {{commands}} | stk: {{stickers}}",
       "text": "╭─「 *নিষ্ক্রিয় র‌্যাঙ্ক* 」\n{{items}}\n│\n╰─"
     },
     "checkativo": {
-      "lidFailed": "❌ Could not resolve the mentioned user.",
+      "lidFailed": "❌ উল্লেখিত ব্যবহারকারী সমাধান করা যায়নি।",
       "text": "╭─「 *সক্রিয়তা পরীক্ষা* 」\n│\n│ ব্যবহারকারী: {{user}}\n│ অবস্থান: {{position}}\n│ মোট: {{total}}\n│ বার্তা: {{messages}}\n│ কমান্ড: {{commands}}\n│ স্টিকার: {{stickers}}\n│\n╰─"
     },
     "hidetag": {
-      "fetchError": "❌ Could not get group information.",
-      "noMembers": "❌ No members found in the group.",
-      "defaultMessage": "Everyone has been tagged!"
+      "fetchError": "❌ গ্রুপের তথ্য পাওয়া যায়নি।",
+      "noMembers": "❌ গ্রুপে কোনো সদস্য পাওয়া যায়নি।",
+      "defaultMessage": "সবাইকে ট্যাগ করা হয়েছে!"
     },
     "del": {
-      "noQuoted": "❌ Reply to the message you want to delete.\n\nUsage: del (reply to a message)",
-      "success": "✅ Message deleted successfully!",
-      "error": "❌ Error deleting message: {{error}}"
+      "noQuoted": "❌ যে বার্তা মুছতে চান তাতে রিপ্লাই করুন।\n\nব্যবহার: del (একটি বার্তায় রিপ্লাই)",
+      "success": "✅ বার্তা সফলভাবে মুছে ফেলা হয়েছে!",
+      "error": "❌ বার্তা মুছতে ত্রুটি: {{error}}"
     },
     "antilink": {
-      "enabled": "✅ Anti-link *enabled* in this group!",
-      "disabled": "❌ Anti-link *disabled* in this group.",
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-লিংক *চালু*!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-লিংক *বন্ধ*।",
       "settingsHint": "⚙️ সেটিংস:\n• antilink {{punishment}} {{delete}}\n• antilink {{punishment}} {{ban}}\n• antilink {{text}} <বার্তা>",
-      "punishmentUpdated": "✅ Anti-link punishment updated to *{{value}}*.",
+      "punishmentUpdated": "✅ অ্যান্টি-লিংক শাস্তি *{{value}}*-এ আপডেট হয়েছে।",
       "invalidPunishment": "❌ ব্যবহার করুন: antilink {{punishment}} {{delete}} | {{ban}}",
-      "textUpdated": "✅ Anti-link text updated!\n\n{{text}}",
+      "textUpdated": "✅ অ্যান্টি-লিংক টেক্সট আপডেট হয়েছে!\n\n{{text}}",
       "textHeader": "╭─「 *ANTILINK বার্তা* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n│\n╰─ ব্যবহার: antilink {{text}} <বার্তা>",
       "usage": "╭─「 *ANTILINK* 」\n│\n│ antilink\n│ antilink {{punishment}} {{delete}}\n│ antilink {{punishment}} {{ban}}\n│ antilink {{text}} <বার্তা>",
       "params": "@ধরন → শনাক্ত হওয়া লিংকের ধরন"
     },
     "antilinkgp": {
-      "enabled": "✅ Group anti-link *enabled* in this group!",
-      "disabled": "❌ Group anti-link *disabled* in this group.",
+      "enabled": "✅ এই গ্রুপে গ্রুপ অ্যান্টি-লিংক *চালু*!",
+      "disabled": "❌ এই গ্রুপে গ্রুপ অ্যান্টি-লিংক *বন্ধ*।",
       "settingsHint": "⚙️ সেটিংস:\n• antilinkgp {{punishment}} {{delete}}\n• antilinkgp {{punishment}} {{ban}}\n• antilinkgp {{text}} <বার্তা>",
-      "punishmentUpdated": "✅ Group anti-link punishment updated to *{{value}}*.",
+      "punishmentUpdated": "✅ গ্রুপ অ্যান্টি-লিংক শাস্তি *{{value}}*-এ আপডেট হয়েছে।",
       "invalidPunishment": "❌ ব্যবহার করুন: antilinkgp {{punishment}} {{delete}} | {{ban}}",
-      "textUpdated": "✅ Group anti-link text updated!\n\n{{text}}",
+      "textUpdated": "✅ গ্রুপ অ্যান্টি-লিংক টেক্সট আপডেট হয়েছে!\n\n{{text}}",
       "textHeader": "╭─「 *ANTILINK বার্তা* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n│\n╰─ ব্যবহার: antilinkgp {{text}} <বার্তা>",
       "usage": "╭─「 *ANTILINKGP* 」\n│\n│ antilinkgp\n│ antilinkgp {{punishment}} {{delete}}\n│ antilinkgp {{punishment}} {{ban}}\n│ antilinkgp {{text}} <বার্তা>",
       "params": "@ধরন → শনাক্ত হওয়া লিংকের ধরন"
     },
     "antilinkch": {
-      "enabled": "✅ Channel anti-link *enabled* in this group!",
-      "disabled": "❌ Channel anti-link *disabled* in this group.",
+      "enabled": "✅ এই গ্রুপে চ্যানেল অ্যান্টি-লিংক *চালু*!",
+      "disabled": "❌ এই গ্রুপে চ্যানেল অ্যান্টি-লিংক *বন্ধ*।",
       "settingsHint": "⚙️ সেটিংস:\n• antilinkch {{punishment}} {{delete}}\n• antilinkch {{punishment}} {{ban}}\n• antilinkch {{text}} <বার্তা>",
-      "punishmentUpdated": "✅ Channel anti-link punishment updated to *{{value}}*.",
+      "punishmentUpdated": "✅ চ্যানেল অ্যান্টি-লিংক শাস্তি *{{value}}*-এ আপডেট হয়েছে।",
       "invalidPunishment": "❌ ব্যবহার করুন: antilinkch {{punishment}} {{delete}} | {{ban}}",
-      "textUpdated": "✅ Channel anti-link text updated!\n\n{{text}}",
+      "textUpdated": "✅ চ্যানেল অ্যান্টি-লিংক টেক্সট আপডেট হয়েছে!\n\n{{text}}",
       "textHeader": "╭─「 *ANTILINK বার্তা* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n│\n╰─ ব্যবহার: antilinkch {{text}} <বার্তা>",
       "usage": "╭─「 *ANTILINKCH* 」\n│\n│ antilinkch\n│ antilinkch {{punishment}} {{delete}}\n│ antilinkch {{punishment}} {{ban}}\n│ antilinkch {{text}} <বার্তা>",
       "params": "@ধরন → শনাক্ত হওয়া লিংকের ধরন"
@@ -440,73 +455,74 @@
       "punished": "🚫 @{{user}} কে {{seconds}}s এ {{count}} stealth messages পাঠানোর জন্য সরানো হয়েছে।"
     },
     "bemvindo": {
-      "enabled": "✅ Welcome *enabled* in this group!",
-      "disabled": "❌ Welcome *disabled* in this group."
+      "enabled": "✅ এই গ্রুপে স্বাগতম *চালু*!",
+      "disabled": "❌ এই গ্রুপে স্বাগতম *বন্ধ*।"
     },
     "gp": {
       "usage": "╭─「 *GROUP* 」\n│\n│ ✦ gp {{open}} → গ্রুপ খুলুন\n│ ✦ gp {{close}} → গ্রুপ বন্ধ করুন\n\n╰─",
-      "closed": "🔒 Group closed! Only admins can send messages.",
-      "opened": "🔓 Group opened! Everyone can send messages."
+      "closed": "🔒 গ্রুপ বন্ধ! শুধু অ্যাডমিনরা বার্তা পাঠাতে পারবেন।",
+      "opened": "🔓 গ্রুপ খোলা! সবাই বার্তা পাঠাতে পারবেন।"
     },
     "kick": {
       "noMention": "❌ Mention the user you want to remove.\n\nUsage: kick @ব্যবহারকারী",
-      "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
-      "success": "✅ User removed successfully!",
-      "error": "❌ Error removing user: {{error}}"
+      "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
+      "success": "✅ ব্যবহারকারী সফলভাবে সরানো হয়েছে!",
+      "error": "❌ ব্যবহারকারী সরাতে ত্রুটি: {{error}}"
     },
     "promote": {
       "noMention": "❌ Mention the user you want to promote.\n\nUsage: promote @ব্যবহারকারী",
-      "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
-      "success": "✅ User promoted to administrator!",
-      "error": "❌ Error promoting user: {{error}}"
+      "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
+      "success": "✅ ব্যবহারকারীকে অ্যাডমিন করা হয়েছে!",
+      "error": "❌ অ্যাডমিন করতে ত্রুটি: {{error}}"
     },
     "demote": {
       "noMention": "❌ Mention the administrator you want to demote.\n\nUsage: demote @ব্যবহারকারী",
-      "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
-      "success": "✅ Administrator demoted to regular member!",
-      "error": "❌ Error demoting administrator: {{error}}"
+      "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
+      "success": "✅ অ্যাডমিনকে সাধারণ সদস্য করা হয়েছে!",
+      "error": "❌ অ্যাডমিন সরাতে ত্রুটি: {{error}}"
     },
     "nomegp": {
-      "noArgs": "❌ Provide the new name.\n\nUsage: nomegp <name>",
-      "success": "✅ Group name changed to *{{name}}*!"
+      "noArgs": "❌ নতুন নাম দিন।\n\nব্যবহার: nomegp <নাম>",
+      "success": "✅ গ্রুপের নাম *{{name}}*-এ পরিবর্তন হয়েছে!"
     },
     "descgp": {
-      "noArgs": "❌ Provide the new description.\n\nUsage: descgp <description>",
-      "success": "✅ Group description updated!"
+      "noArgs": "❌ নতুন বিবরণ দিন।\n\nব্যবহার: descgp <বিবরণ>",
+      "success": "✅ গ্রুপের বিবরণ আপডেট হয়েছে!"
     },
     "legendabv": {
       "params": "@ব্যবহারকারী → ব্যবহারকারীকে মেনশন করে\n│ @নাম → ব্যবহারকারীর নাম\n│ @গ্রুপ → গ্রুপের নাম\n│ @মোট → মোট সদস্য\n│ @বিবরণ → গ্রুপের বর্ণনা",
-      "header": "╭─「 *WELCOME CAPTION* 」\n│\n│ *Available parameters:*\n│ {{params}}\n│\n│ *Current caption:*\n│ {{current}}\n│\n╰─ Use: legendabv <text>",
-      "updated": "✅ Welcome caption updated!\n\n{{text}}"
+      "header": "╭─「 *স্বাগতম ক্যাপশন* 」\n│\n│ *উপলব্ধ প্যারামিটার:*\n│ {{params}}\n│\n│ *বর্তমান ক্যাপশন:*\n│ {{current}}\n│\n╰─ ব্যবহার: legendabv <টেক্সট>",
+      "updated": "✅ স্বাগতম ক্যাপশন আপডেট হয়েছে!\n\n{{text}}"
     },
     "midiabv": {
-      "removed": "✅ Welcome media removed.",
+      "removed": "✅ স্বাগতম মিডিয়া সরানো হয়েছে।",
       "noMedia": "╭─「 *WELCOME MEDIA* 」\n│\n│ ✦ স্থিতি: {{status}}\n\n│ একটি ছবি বা ভিডিও পাঠান, অথবা তাতে reply করুন।\n│ ভিডিও: সর্বোচ্চ ১৫ সেকেন্ড (gif হিসেবে পাঠানো হবে)。\nসরাতে: midiabv {{off}}\n\n╰─",
-      "statusVideo": "Video 🎥 ✅",
-      "statusImage": "Image 🖼️ ✅",
-      "statusNone": "No media ❌",
-      "videoTooLong": "❌ The video is {{seconds}}s long. Maximum allowed: {{max}}s.",
-      "successVideo": "✅ Welcome video configured!",
-      "successImage": "✅ Welcome photo configured!"
+      "statusVideo": "ভিডিও 🎥 ✅",
+      "statusImage": "ছবি 🖼️ ✅",
+      "statusNone": "কোনো মিডিয়া নেই ❌",
+      "videoTooLong": "❌ ভিডিও {{seconds}}স দীর্ঘ। সর্বোচ্চ: {{max}}স।",
+      "successVideo": "✅ স্বাগতম ভিডিও সেট হয়েছে!",
+      "successImage": "✅ স্বাগতম ছবি সেট হয়েছে!"
     },
     "cmdnf": {
       "params": "@ব্যবহারকারী → ব্যবহারকারীকে মেনশন করে\n│ @নাম → ব্যবহারকারীর নাম\n│ @কমান্ড → লেখা কমান্ড\n│ @মিল → সবচেয়ে কাছের কমান্ড\n│ @সাদৃশ্য → মিলের শতাংশ\n│ @প্রিফিক্স → বর্তমান প্রিফিক্স\n│ @বট → বটের নাম",
       "header": "╭─「 *CMDNF* 」\n│\n│ *বর্তমান মোড:* {{mode}}\n│ *বর্তমান বার্তা:* {{text}}\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *ব্যবহার:*\n│ cmdnf {{modeWord}} {{textWord}}\n│ cmdnf {{modeWord}} {{mentionWord}}\n│ cmdnf {{textWord}} <বার্তা>\n\n╰─",
       "invalidMode": "❌ cmdnf {{mode}} {{text}} | {{mention}}",
-      "modeUpdated": "✅ Command not found mode updated to *{{mode}}*.",
+      "modeUpdated": "✅ কমান্ড-না-পাওয়া মোড *{{mode}}*-এ আপডেট হয়েছে।",
       "textHeader": "╭─「 *CMDNF {{textWord}}* 」\n│\n│ *উপলভ্য প্লেসহোল্ডার:*\n│ {{params}}\n│\n│ *বর্তমান বার্তা:*\n│ {{current}}\n\n╰─ cmdnf {{textWord}} <বার্তা>",
-      "textUpdated": "✅ Command not found text updated!\n\n{{text}}",
+      "textUpdated": "✅ কমান্ড-না-পাওয়া টেক্সট আপডেট হয়েছে!\n\n{{text}}",
       "usage": "╭─「 *CMDNF* 」\n│\n│ cmdnf {{mode}} {{text}}\n│ cmdnf {{mode}} {{mention}}\n│ cmdnf {{text}} <বার্তা>"
     },
     "eval": {
-      "noArgs": "❌ Usage: eval <code>",
-      "success": "╭─「 *EVAL RESULT* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *OUTPUT* 」\n│\n{{output}}\n│\n╰─ Executed successfully.",
-      "error": "╭─「 *EVAL ERROR* 」\n│\n│ ✦ Code: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ Execution error."
+      "noArgs": "❌ ব্যবহার: eval <কোড>",
+      "success": "╭─「 *EVAL ফলাফল* 」\n│\n│ ✦ কোড: {{code}}\n│\n├─「 *আউটপুট* 」\n│\n{{output}}\n│\n╰─ সফলভাবে চালানো হয়েছে।",
+      "error": "╭─「 *EVAL ত্রুটি* 」\n│\n│ ✦ কোড: {{code}}\n│\n├─「 *ERROR* 」\n│\n│ {{error}}\n│\n╰─ চালানোর ত্রুটি।",
+      "tooLong": "❌ কোড {{max}} অক্ষরের সীমা অতিক্রম করেছে।"
     },
     "idioma": {
       "current": "🌐 বর্তমান মূল ভাষা: *{{language}}*\n\nব্যবহার: bhasha <{{options}}>",
-      "updated": "✅ Global language updated to *{{language}}*.",
-      "invalid": "❌ Invalid language. Use: {{optionsList}}",
+      "updated": "✅ গ্লোবাল ভাষা *{{language}}*-এ আপডেট হয়েছে।",
+      "invalid": "❌ অবৈধ ভাষা। ব্যবহার করুন: {{optionsList}}",
       "i18nAliases": {
         "pt": [
           "idioma",
@@ -544,62 +560,57 @@
       }
     },
     "nomebot": {
-      "current": "🤖 Current bot name: *{{value}}*\n\nUsage: nomebot <new name>",
-      "invalid": "❌ Provide a valid bot name.",
-      "updated": "✅ Bot name updated to *{{value}}*."
+      "current": "🤖 বর্তমান বটের নাম: *{{value}}*\n\nব্যবহার: nomebot <নতুন নাম>",
+      "invalid": "❌ একটি বৈধ বটের নাম দিন।",
+      "updated": "✅ বটের নাম *{{value}}*-এ আপডেট হয়েছে।"
     },
     "nomedono": {
-      "current": "👑 Current owner name: *{{value}}*\n\nUsage: nomedono <new name>",
-      "invalid": "❌ Provide a valid owner name.",
-      "updated": "✅ Owner name updated to *{{value}}*."
+      "current": "👑 বর্তমান মালিকের নাম: *{{value}}*\n\nব্যবহার: nomedono <নতুন নাম>",
+      "invalid": "❌ একটি বৈধ মালিকের নাম দিন।",
+      "updated": "✅ মালিকের নাম *{{value}}*-এ আপডেট হয়েছে।"
     },
     "numerodono": {
-      "current": "📱 Current owner number: *{{value}}*\n\nUsage: numerodono <5511999999999>",
-      "invalid": "❌ Provide a valid number with country code.",
-      "updated": "✅ Owner number updated to *{{value}}*.\nSaved LID: {{lid}}",
-      "updatedNoLid": "✅ Owner number updated to *{{value}}*.\n⚠️ I could not resolve the new LID right now; the previous LID was kept until it can be updated."
+      "current": "📱 বর্তমান মালিকের নম্বর: *{{value}}*\n\nব্যবহার: numerodono <5511999999999>",
+      "invalid": "❌ দেশের কোডসহ একটি বৈধ নম্বর দিন।",
+      "updated": "✅ মালিকের নম্বর *{{value}}*-এ আপডেট হয়েছে।\nসংরক্ষিত LID: {{lid}}",
+      "updatedNoLid": "✅ মালিকের নম্বর *{{value}}*-এ আপডেট হয়েছে।\n⚠️ এখন নতুন LID সমাধান করা যায়নি; আপডেট না হওয়া পর্যন্ত আগের LID রাখা হয়েছে।"
     },
     "prefixo": {
       "current": "⌨️ বর্তমান প্রিফিক্স: *{{value}}*\n\nব্যবহার: prefix <নতুন প্রিফিক্স>",
-      "invalid": "❌ Use a prefix without spaces and up to 5 characters.",
-      "updated": "✅ Prefix updated to *{{value}}*."
-    },
-    "apikey": {
-      "current": "🔑 API key সেট আছে: *{{value}}*\n\nব্যবহার: apikey <মান>\nমুছতে: apikey {{off}}",
-      "updated": "✅ API key updated successfully.",
-      "cleared": "✅ API key removed successfully."
+      "invalid": "❌ স্পেস ছাড়া এবং সর্বোচ্চ ৫ অক্ষরের প্রিফিক্স ব্যবহার করুন।",
+      "updated": "✅ প্রিফিক্স *{{value}}*-এ আপডেট হয়েছে।"
     },
     "autoupdate": {
       "current": "♻️ বর্তমান স্বয়ংক্রিয় আপডেট: *{{value}}*\n\nব্যবহার: autoupdate <{{on}}|{{off}}>",
       "invalid": "❌ ব্যবহার করুন: autoupdate {{on}} | {{off}}",
-      "updated": "✅ Auto update updated to *{{value}}*."
+      "updated": "✅ স্বয়ংক্রিয় আপডেট *{{value}}*-এ আপডেট হয়েছে।"
     },
     "antipv": {
-      "enabled": "✅ Anti-private enabled. The bot will ignore private messages from non-owners.",
-      "disabled": "✅ Anti-private disabled. The bot will respond in private again."
+      "enabled": "✅ অ্যান্টি-প্রাইভেট চালু। বট মালিক নন এমনদের ব্যক্তিগত বার্তা উপেক্ষা করবে।",
+      "disabled": "✅ অ্যান্টি-প্রাইভেট বন্ধ। বট আবার ব্যক্তিগতে উত্তর দেবে।"
     },
     "statusbot": {
-      "text": "╭─「 *BOT STATUS* 」\n│\n│ bot: {{bot}}\n│ owner: {{owner}}\n│ number: {{ownerNumber}}\n│ jid: {{user}}\n│ global prefix: {{prefix}}\n│ language: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-private: {{antiPrivate}}\n│ saved groups: {{groups}}\n│ bangp groups: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
+      "text": "╭─「 *বট স্ট্যাটাস* 」\n│\n│ বট: {{bot}}\n│ মালিক: {{owner}}\n│ নম্বর: {{ownerNumber}}\n│ jid: {{user}}\n│ গ্লোবাল প্রিফিক্স: {{prefix}}\n│ ভাষা: {{language}}\n│ স্বয়ংক্রিয় আপডেট: {{autoUpdate}}\n│ অ্যান্টি-প্রাইভেট: {{antiPrivate}}\n│ সংরক্ষিত গ্রুপ: {{groups}}\n│ bangp গ্রুপ: {{bannedGroups}}\n│ ব্লক করা ব্যবহারকারী: {{blockedUsers}}\n│ ব্লক করা কমান্ড: {{blockedCommands}}\n│ আপটাইম: {{uptime}}\n│\n╰─"
     },
     "debug": {
       "enabled": "✅ মেসেজ debug চালু হয়েছে। সব message event টার্মিনালে log হবে।",
       "disabled": "✅ মেসেজ debug বন্ধ হয়েছে।"
     },
     "restart": {
-      "restarting": "♻️ Restarting the bot..."
+      "restarting": "♻️ বট পুনরায় চালু হচ্ছে..."
     },
     "join": {
-      "invalid": "❌ Send a valid WhatsApp invite link.\n\nUsage: join https://chat.whatsapp.com/...",
-      "success": "✅ Invite accepted. Joining the group...",
-      "error": "❌ Error while joining the group: {{error}}"
+      "invalid": "❌ একটি বৈধ WhatsApp ইনভাইট লিংক পাঠান।\n\nব্যবহার: join https://chat.whatsapp.com/...",
+      "success": "✅ ইনভাইট গ্রহণ করা হয়েছে। গ্রুপে যোগ দিচ্ছে...",
+      "error": "❌ গ্রুপে যোগ দিতে ত্রুটি: {{error}}"
     },
     "leavegp": {
-      "confirm": "👋 Leaving this group..."
+      "confirm": "👋 এই গ্রুপ ছেড়ে যাচ্ছে..."
     },
     "idiomagp": {
       "current": "🌐 গ্রুপের ভাষা: *{{language}}*\n(মূল: {{global}})\n\nব্যবহার: groupbhasha <{{options}}|{{reset}}>",
-      "updated": "✅ Group language updated to *{{language}}*.",
-      "reset": "✅ Group language reset to global (*{{language}}*).",
+      "updated": "✅ গ্রুপের ভাষা *{{language}}*-এ আপডেট হয়েছে।",
+      "reset": "✅ গ্রুপের ভাষা গ্লোবাল-এ রিসেট (*{{language}}*)।",
       "invalid": "❌ অবৈধ ভাষা। ব্যবহার করুন: {{optionsList}} (অথবা মূল ভাষার জন্য \"{{reset}}\")",
       "i18nAliases": {
         "pt": [
@@ -635,103 +646,151 @@
       }
     },
     "soadmin": {
-      "enabled": "✅ Only admins can use commands in this group now.",
-      "disabled": "✅ Regular members can use commands in this group again."
+      "enabled": "✅ এখন এই গ্রুপে শুধু অ্যাডমিনরা কমান্ড ব্যবহার করতে পারবেন।",
+      "disabled": "✅ এই গ্রুপে সাধারণ সদস্যরা আবার কমান্ড ব্যবহার করতে পারবেন।"
     },
     "modobn": {
-      "enabled": "✅ Fun mode enabled in this group!",
-      "disabled": "❌ Fun mode disabled in this group."
+      "enabled": "✅ এই গ্রুপে মজার মোড চালু!",
+      "disabled": "❌ এই গ্রুপে মজার মোড বন্ধ।"
     },
     "setprefixgp": {
       "current": "⌨️ বর্তমান প্রিফিক্স: *{{value}}*\nবিশ্বব্যাপী প্রিফিক্স: *{{global}}*\n\nব্যবহার: setprefixgp <নতুন প্রিফিক্স>\nফিরিয়ে দিতে: setprefixgp {{reset}}",
-      "invalid": "❌ Use a prefix without spaces and up to 5 characters.",
-      "updated": "✅ This group's prefix was updated to *{{value}}*.",
-      "reset": "✅ This group's prefix was reset to the global one (*{{value}}*)."
+      "invalid": "❌ স্পেস ছাড়া এবং সর্বোচ্চ ৫ অক্ষরের প্রিফিক্স ব্যবহার করুন।",
+      "updated": "✅ এই গ্রুপের প্রিফিক্স *{{value}}*-এ আপডেট হয়েছে।",
+      "reset": "✅ এই গ্রুপের প্রিফিক্স গ্লোবাল-এ রিসেট (*{{value}}*)।"
     },
     "bangp": {
-      "alreadyActive": "❌ This group is already in bangp mode.",
-      "enabled": "✅ Bangp enabled in this group.\nReason: {{reason}}"
+      "alreadyActive": "❌ এই গ্রুপ ইতিমধ্যে bangp মোডে আছে।",
+      "enabled": "✅ এই গ্রুপে bangp চালু।\nকারণ: {{reason}}"
     },
     "unbangp": {
-      "notActive": "❌ This group is not in bangp mode.",
-      "disabled": "✅ Bangp removed. The bot is active again in this group."
+      "notActive": "❌ এই গ্রুপ bangp মোডে নেই।",
+      "disabled": "✅ bangp সরানো হয়েছে। বট আবার সক্রিয়।"
     },
     "listbangp": {
-      "empty": "❌ No groups are in bangp mode.",
-      "header": "╭─「 *LISTBANGP* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "empty": "❌ কোনো গ্রুপ bangp মোডে নেই।",
+      "header": "╭─「 *LISTBANGP* 」\n│\n│ মোট: {{total}}\n│\n{{items}}\n│\n╰─",
       "reasonLabel": "কারণ",
       "sinceLabel": "থেকে"
     },
     "blockuser": {
       "noMention": "❌ Mention a user.\n\nUsage: blockuser @ব্যবহারকারী [30m|12h|7d] [reason]",
-      "lidFailed": "❌ Could not resolve the mentioned user's LID.",
-      "ownerBypass": "❌ The owner cannot be blocked.",
-      "alreadyBlocked": "❌ This user is already blocked.",
-      "permanent": "permanent",
-      "success": "✅ User {{user}} blocked.\nExpires: {{expires}}\nReason: {{reason}}"
+      "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
+      "ownerBypass": "❌ মালিককে ব্লক করা যায় না।",
+      "alreadyBlocked": "❌ এই ব্যবহারকারী ইতিমধ্যে ব্লক।",
+      "permanent": "স্থায়ী",
+      "success": "✅ ব্যবহারকারী {{user}} ব্লক।\nমেয়াদ: {{expires}}\nকারণ: {{reason}}"
     },
     "unblockuser": {
       "noMention": "❌ Mention a user.\n\nUsage: unblockuser @ব্যবহারকারী",
-      "lidFailed": "❌ Could not resolve the mentioned user's LID.",
-      "notBlocked": "❌ This user is not blocked.",
-      "success": "✅ User {{user}} unblocked."
+      "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
+      "notBlocked": "❌ এই ব্যবহারকারী ব্লক নন।",
+      "success": "✅ ব্যবহারকারী {{user}} আনব্লক।"
     },
     "listblock": {
-      "empty": "❌ No users are blocked.",
-      "header": "╭─「 *LISTBLOCK* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─",
+      "empty": "❌ কোনো ব্যবহারকারী ব্লক নেই।",
+      "header": "╭─「 *LISTBLOCK* 」\n│\n│ মোট: {{total}}\n│\n{{items}}\n│\n╰─",
       "expiresLabel": "মেয়াদ",
       "reasonLabel": "কারণ"
     },
     "blockcmd": {
-      "noArgs": "❌ Usage: blockcmd <command>",
-      "notFound": "❌ Command '{{command}}' does not exist.",
-      "alreadyBlocked": "❌ Command '{{command}}' is already blocked.",
-      "success": "✅ Command '{{command}}' was blocked."
+      "noArgs": "❌ ব্যবহার: blockcmd <কমান্ড>",
+      "notFound": "❌ কমান্ড '{{command}}' নেই।",
+      "alreadyBlocked": "❌ কমান্ড '{{command}}' ইতিমধ্যে ব্লক।",
+      "success": "✅ কমান্ড '{{command}}' ব্লক করা হয়েছে।"
     },
     "unblockcmd": {
-      "noArgs": "❌ Usage: unblockcmd <command>",
-      "notFound": "❌ Command '{{command}}' does not exist.",
-      "notBlocked": "❌ Command '{{command}}' is not blocked.",
-      "success": "✅ Command '{{command}}' was unblocked."
+      "noArgs": "❌ ব্যবহার: unblockcmd <কমান্ড>",
+      "notFound": "❌ কমান্ড '{{command}}' নেই।",
+      "notBlocked": "❌ কমান্ড '{{command}}' ব্লক নয়।",
+      "success": "✅ কমান্ড '{{command}}' আনব্লক করা হয়েছে।"
     },
     "listblockcmd": {
-      "empty": "❌ No commands are blocked.",
-      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ total: {{total}}\n│\n{{items}}\n│\n╰─"
+      "empty": "❌ কোনো কমান্ড ব্লক নেই।",
+      "header": "╭─「 *LISTBLOCKCMD* 」\n│\n│ মোট: {{total}}\n│\n{{items}}\n│\n╰─"
     },
     "antimidia": {
-      "blocked": "🚫 {{user}}, messages of type *{{type}}* are not allowed in this group.",
+      "blocked": "🚫 {{user}}, এই গ্রুপে *{{type}}* ধরনের বার্তা অনুমোদিত নয়।",
       "types": {
-        "loc": "location",
-        "audio": "audio",
-        "foto": "image",
-        "video": "video",
-        "doc": "document",
-        "lista": "list"
+        "loc": "লোকেশন",
+        "audio": "অডিও",
+        "foto": "ছবি",
+        "video": "ভিডিও",
+        "doc": "ডকুমেন্ট",
+        "lista": "তালিকা"
       }
     },
     "antiloc": {
-      "enabled": "✅ Anti-location enabled in this group!",
-      "disabled": "❌ Anti-location disabled in this group."
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-লোকেশন চালু!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-লোকেশন বন্ধ।"
     },
     "antiaudio": {
-      "enabled": "✅ Anti-audio enabled in this group!",
-      "disabled": "❌ Anti-audio disabled in this group."
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-অডিও চালু!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-অডিও বন্ধ।"
     },
     "antifoto": {
-      "enabled": "✅ Anti-image enabled in this group!",
-      "disabled": "❌ Anti-image disabled in this group."
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-ছবি চালু!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-ছবি বন্ধ।"
     },
     "antivideo": {
-      "enabled": "✅ Anti-video enabled in this group!",
-      "disabled": "❌ Anti-video disabled in this group."
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-ভিডিও চালু!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-ভিডিও বন্ধ।"
     },
     "antidoc": {
-      "enabled": "✅ Anti-document enabled in this group!",
-      "disabled": "❌ Anti-document disabled in this group."
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-ডকুমেন্ট চালু!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-ডকুমেন্ট বন্ধ।"
     },
     "antilista": {
-      "enabled": "✅ Anti-list enabled in this group!",
-      "disabled": "❌ Anti-list disabled in this group."
+      "enabled": "✅ এই গ্রুপে অ্যান্টি-তালিকা চালু!",
+      "disabled": "❌ এই গ্রুপে অ্যান্টি-তালিকা বন্ধ।"
+    },
+    "apk": {
+      "usage": "╭─「 *APK MOD* 」\n│\n│ ✦ ব্যবহার:\n│   {{prefix}}apk <অ্যাপের নাম>\n│\n╰─ উদাহরণ:\n   {{prefix}}apk minecraft",
+      "searching": "🔍 Modyolo-তে খোঁজা হচ্ছে...",
+      "noResults": "❌ *{{query}}*-এর জন্য কোনো ফলাফল পাওয়া যায়নি",
+      "error": "❌ অনুরোধ প্রক্রিয়া করতে ব্যর্থ",
+      "select": "📱 *ফলাফল - {{query}}*",
+      "selectApp": "অ্যাপ নম্বর টাইপ করুন:",
+      "selectVersion": "ভার্শন নম্বর টাইপ করুন:",
+      "versionsTitle": "📦 *ভার্শন - {{name}}*",
+      "invalidOption": "❌ অবৈধ অপশন! তালিকা থেকে একটি নম্বর লিখুন।",
+      "invalidRange": "❌ অবৈধ অপশন! 1 থেকে {{max}} পর্যন্ত একটি নম্বর লিখুন",
+      "fetchError": "❌ অ্যাপ তথ্য আনা যায়নি",
+      "downloadError": "❌ ডাউনলোড লিংক পাওয়া যায়নি",
+      "downloadReady": "✅ *{{name}}*\n\n🔗 {{url}}",
+      "downloadReadyVersion": "✅ *{{name}} {{version}}*\n\n📦 {{size}}\n\n🔗 {{url}}",
+      "labelVersion": "ভার্শন",
+      "labelMod": "মড",
+      "labelSize": "সাইজ",
+      "labelPublisher": "ডেভেলপার",
+      "labelGenre": "ধরন"
+    },
+    "fun": {
+      "menuHint": "│  ⚠️ মজার মোড চালু থাকতে হবে (modobn)",
+      "modobnRequired": "❌ এই গ্রুপে মজার মোড চালু নেই।\nচালু করুন: modobn",
+      "percentResult": "📊 {{user}}-এর *{{level}}%* {{trait}}! 🔥",
+      "rankHeader": "📊 *{{trait}} র‍্যাঙ্কিং*:",
+      "rankItem": "🏅 *#{{pos}}* - {{user}}",
+      "rankNotEnough": "❌ র‍্যাঙ্কিংয়ের জন্য সদস্য কম (ন্যূনতম {{min}})।",
+      "interactionUsage": "❌ কাউকে উল্লেখ করুন বা কোনো বার্তার উত্তর দিন।\nউদাহরণ: {{command}} @ব্যবহারকারী",
+      "interactionSelf": "❌ আপনি নিজের উপর এটি ব্যবহার করতে পারবেন না!",
+      "interactionGeneric": "{{from}} {{to}}-এর উপর *{{action}}* ব্যবহার করেছে!",
+      "interactions": {
+        "chute": "{{from}} {{to}}-কে লাথি মেরেছে! 🦵",
+        "tapa": "{{from}} {{to}}-কে চড় মেরেছে! 👋",
+        "soco": "{{from}} {{to}}-কে ঘুষি মেরেছে! 👊",
+        "beijo": "{{from}} {{to}}-কে চুমু দিয়েছে! 😘",
+        "abraco": "{{from}} {{to}}-কে জড়িয়ে ধরেছে! 🤗",
+        "mata": "{{from}} {{to}}-কে মেরে ফেলেছে! 💀",
+        "sexo": "{{from}} {{to}}-এর সাথে যৌন সম্পর্ক করেছে! 🔥",
+        "goza": "{{from}} {{to}}-এর উপর বীর্যপাত করেছে! 💦",
+        "mamar": "{{from}} {{to}}-কে চুষেছে! 👅",
+        "cafune": "{{from}} {{to}}-এর মাথা আদর করেছে! ✨",
+        "morder": "{{from}} {{to}}-কে কামড়েছে! 🦷",
+        "lamber": "{{from}} {{to}}-কে চেটেছে! 👅",
+        "explodir": "{{from}} {{to}}-কে বিস্ফোরিত করেছে! 💥",
+        "tomate": "{{from}} {{to}}-এর দিকে টমেটো ছুড়েছে! 🍅"
+      }
     }
   },
   "group": {
@@ -742,9 +801,9 @@
       "defaultText": "🚫 @ব্যবহারকারী, এই গ্রুপে লিংক অনুমোদিত নয়।",
       "defaultGroupText": "🚫 @ব্যবহারকারী, এই গ্রুপে গ্রুপ লিংক অনুমোদিত নয়।",
       "defaultChannelText": "🚫 @ব্যবহারকারী, এই গ্রুপে চ্যানেল লিংক অনুমোদিত নয়।",
-      "typeLink": "link",
-      "typeGroupLink": "group link",
-      "typeChannelLink": "channel link"
+      "typeLink": "লিংক",
+      "typeGroupLink": "গ্রুপ লিংক",
+      "typeChannelLink": "চ্যানেল লিংক"
     }
   },
   "owner": {
