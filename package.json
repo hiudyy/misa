@@ -1,6 +1,6 @@
 {
   "name": "misa-bot",
-  "version": "beta-0.0.7",
+  "version": "0.0.1",
   "description": "Misa — modular WhatsApp Multi-Device bot (Baileys, TypeScript, i18n)",
   "main": "dist/index.js",
   "scripts": {
