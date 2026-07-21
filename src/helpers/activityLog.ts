@@ -10,6 +10,8 @@ export const PREVIEW_MAX_LENGTH = 80;
 
 type ActivityTranslator = (key: string, vars?: Record<string, string>) => string;
 
+export type CaptionMediaKind = "image" | "video";
+
 export function truncatePreview(text: string, maxLength = PREVIEW_MAX_LENGTH): string {
   const collapsed = text.replace(/\s+/g, " ").trim();
   if (collapsed.length <= maxLength) return collapsed;
@@ -33,18 +35,40 @@ export function getActivityDestination(
   return groupCache.get(from)?.subject?.trim() || t("logs.activity.unknownGroup");
 }
 
+/** When body text comes from an image/video caption. */
+export function getCaptionMediaKind(message: proto.IWebMessageInfo): CaptionMediaKind | null {
+  const msg = message.message;
+  if (!msg) return null;
+
+  const imageCaption = msg.imageMessage?.caption?.trim();
+  if (imageCaption) return "image";
+
+  const videoCaption = msg.videoMessage?.caption?.trim();
+  if (videoCaption) return "video";
+
+  return null;
+}
+
+function withCaptionTag(preview: string, kind: CaptionMediaKind | null, t: ActivityTranslator): string {
+  if (!kind || !preview) return preview;
+  const tag = kind === "image" ? t("logs.activity.image") : t("logs.activity.video");
+  return `${tag} ${preview}`;
+}
+
 export function getActivityPreview(
   message: proto.IWebMessageInfo,
   body: string,
   t: ActivityTranslator,
 ): string {
   const truncated = truncatePreview(body);
-  if (truncated) return truncated;
+  if (truncated) {
+    return withCaptionTag(truncated, getCaptionMediaKind(message), t);
+  }
 
   if (message.message?.stickerMessage) return t("logs.activity.sticker");
+  if (message.message?.imageMessage) return t("logs.activity.imageOnly");
+  if (message.message?.videoMessage) return t("logs.activity.videoOnly");
   if (
-    message.message?.imageMessage ||
-    message.message?.videoMessage ||
     message.message?.audioMessage ||
     message.message?.documentMessage ||
     message.message?.documentWithCaptionMessage
@@ -102,8 +126,10 @@ export function logCommandActivity(params: {
   t: ActivityTranslator;
 }): void {
   const user = getActivityUserName(params.message, params.sender);
-  const commandPreview = truncatePreview(
-    [params.prefix + params.commandName, ...params.args].join(" "),
+  const commandPreview = withCaptionTag(
+    truncatePreview([params.prefix + params.commandName, ...params.args].join(" ")),
+    getCaptionMediaKind(params.message),
+    params.t,
   );
   const line = formatActivityLine(params.isGroup, params.from, user, commandPreview, params.t);
   log.activity("CMD", line);

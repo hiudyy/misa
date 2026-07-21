@@ -79,7 +79,11 @@
       "privateLabel": "private",
       "sticker": "sticker",
       "media": "media",
-      "unknownGroup": "group"
+      "unknownGroup": "group",
+      "image": "(image)",
+      "video": "(video)",
+      "imageOnly": "(image)",
+      "videoOnly": "(video)"
     }
   },
   "errors": {

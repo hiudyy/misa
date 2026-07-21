@@ -79,7 +79,11 @@
       "privateLabel": "निजी",
       "sticker": "स्टिकर",
       "media": "मीडिया",
-      "unknownGroup": "समूह"
+      "unknownGroup": "समूह",
+      "image": "(छवि)",
+      "video": "(वीडियो)",
+      "imageOnly": "(छवि)",
+      "videoOnly": "(वीडियो)"
     }
   },
   "errors": {

@@ -79,7 +79,11 @@
       "privateLabel": "خاص",
       "sticker": "ملصق",
       "media": "وسائط",
-      "unknownGroup": "مجموعة"
+      "unknownGroup": "مجموعة",
+      "image": "(صورة)",
+      "video": "(فيديو)",
+      "imageOnly": "(صورة)",
+      "videoOnly": "(فيديو)"
     }
   },
   "errors": {

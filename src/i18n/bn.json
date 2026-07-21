@@ -79,7 +79,11 @@
       "privateLabel": "প্রাইভেট",
       "sticker": "স্টিকার",
       "media": "মিডিয়া",
-      "unknownGroup": "গ্রুপ"
+      "unknownGroup": "গ্রুপ",
+      "image": "(ছবি)",
+      "video": "(ভিডিও)",
+      "imageOnly": "(ছবি)",
+      "videoOnly": "(ভিডিও)"
     }
   },
   "errors": {

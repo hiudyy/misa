@@ -79,7 +79,11 @@
       "privateLabel": "privado",
       "sticker": "figurinha",
       "media": "mídia",
-      "unknownGroup": "grupo"
+      "unknownGroup": "grupo",
+      "image": "(imagem)",
+      "video": "(vídeo)",
+      "imageOnly": "(imagem)",
+      "videoOnly": "(vídeo)"
     }
   },
   "errors": {

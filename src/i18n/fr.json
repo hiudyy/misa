@@ -77,9 +77,13 @@
       "group": "{{user}} → {{group}}  ·  {{preview}}",
       "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
       "privateLabel": "privé",
-      "sticker": "sticker",
+      "sticker": "autocollant",
       "media": "média",
-      "unknownGroup": "groupe"
+      "unknownGroup": "groupe",
+      "image": "(image)",
+      "video": "(vidéo)",
+      "imageOnly": "(image)",
+      "videoOnly": "(vidéo)"
     }
   },
   "errors": {

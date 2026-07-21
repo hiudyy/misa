@@ -79,7 +79,11 @@
       "privateLabel": "pribadi",
       "sticker": "stiker",
       "media": "media",
-      "unknownGroup": "grup"
+      "unknownGroup": "grup",
+      "image": "(gambar)",
+      "video": "(video)",
+      "imageOnly": "(gambar)",
+      "videoOnly": "(video)"
     }
   },
   "errors": {

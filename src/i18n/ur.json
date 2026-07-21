@@ -79,7 +79,11 @@
       "privateLabel": "نجی",
       "sticker": "اسٹیکر",
       "media": "میڈیا",
-      "unknownGroup": "گروپ"
+      "unknownGroup": "گروپ",
+      "image": "(تصویر)",
+      "video": "(ویڈیو)",
+      "imageOnly": "(تصویر)",
+      "videoOnly": "(ویڈیو)"
     }
   },
   "errors": {

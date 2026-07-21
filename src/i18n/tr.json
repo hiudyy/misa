@@ -77,9 +77,13 @@
       "group": "{{user}} → {{group}}  ·  {{preview}}",
       "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
       "privateLabel": "özel",
-      "sticker": "sticker",
+      "sticker": "çıkartma",
       "media": "medya",
-      "unknownGroup": "grup"
+      "unknownGroup": "grup",
+      "image": "(görsel)",
+      "video": "(video)",
+      "imageOnly": "(görsel)",
+      "videoOnly": "(video)"
     }
   },
   "errors": {

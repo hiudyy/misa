@@ -21,6 +21,10 @@ const t = (key: string, vars?: Record<string, string>) => {
     "logs.activity.sticker": "figurinha",
     "logs.activity.media": "mídia",
     "logs.activity.unknownGroup": "grupo",
+    "logs.activity.image": "(imagem)",
+    "logs.activity.video": "(vídeo)",
+    "logs.activity.imageOnly": "(imagem)",
+    "logs.activity.videoOnly": "(vídeo)",
   };
   let text = map[key] ?? key;
   for (const [name, value] of Object.entries(vars ?? {})) {
@@ -70,7 +74,26 @@ describe("activityLog", () => {
     );
     assert.strictEqual(
       getActivityPreview({ message: { imageMessage: {} } } as proto.IWebMessageInfo, "", t),
-      "mídia",
+      "(imagem)",
+    );
+  });
+
+  it("prefixes caption text with image/video tags", () => {
+    assert.strictEqual(
+      getActivityPreview(
+        { message: { imageMessage: { caption: "oi gente" } } } as proto.IWebMessageInfo,
+        "oi gente",
+        t,
+      ),
+      "(imagem) oi gente",
+    );
+    assert.strictEqual(
+      getActivityPreview(
+        { message: { videoMessage: { caption: "!ping" } } } as proto.IWebMessageInfo,
+        "!ping",
+        t,
+      ),
+      "(vídeo) !ping",
     );
   });
 });
