@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "গ্রুপ {{groupId}}-এ antilink বার্তা মুছতে ব্যর্থ: {{error}}",
     "antilinkBanFailed": "গ্রুপ {{groupId}}-এ {{sender}}-কে ব্যান করতে ব্যর্থ: {{error}}",
     "antistealthDeleteFailed": "গ্রুপ {{groupId}}-এ antistealth বার্তা মুছতে ব্যর্থ: {{error}}",
-    "antistealthRemoveFailed": "গ্রুপ {{groupId}} থেকে {{sender}}-কে সরাতে ব্যর্থ: {{error}}"
+    "antistealthRemoveFailed": "গ্রুপ {{groupId}} থেকে {{sender}}-কে সরাতে ব্যর্থ: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "প্রাইভেট",
+      "sticker": "স্টিকার",
+      "media": "মিডিয়া",
+      "unknownGroup": "গ্রুপ"
+    }
   },
   "errors": {
     "ownerOnly": "❌ এই কমান্ড শুধু বটের মালিকের জন্য।",

@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "Antilink-Nachricht in Gruppe {{groupId}} konnte nicht gelöscht werden: {{error}}",
     "antilinkBanFailed": "{{sender}} in Gruppe {{groupId}} konnte nicht gebannt werden: {{error}}",
     "antistealthDeleteFailed": "Antistealth-Nachricht in Gruppe {{groupId}} konnte nicht gelöscht werden: {{error}}",
-    "antistealthRemoveFailed": "{{sender}} konnte nicht aus Gruppe {{groupId}} entfernt werden: {{error}}"
+    "antistealthRemoveFailed": "{{sender}} konnte nicht aus Gruppe {{groupId}} entfernt werden: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "privat",
+      "sticker": "Sticker",
+      "media": "Medien",
+      "unknownGroup": "Gruppe"
+    }
   },
   "errors": {
     "ownerOnly": "❌ Dieser Befehl ist nur für den Bot-Besitzer.",

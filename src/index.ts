@@ -24,6 +24,7 @@ import { recordGroupActivity } from "./helpers/groupActivity.js";
 import { getDisconnectStatusCode, shouldReconnectFromStatus } from "./helpers/reconnect.js";
 import { tryHandleApkReply } from "./helpers/apkReply.js";
 import { resolveCommandPrefix } from "./helpers/resolveCommandPrefix.js";
+import { logCommandActivity, logMessageActivity } from "./helpers/activityLog.js";
 import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
@@ -144,6 +145,15 @@ async function setupMessageHandler(
     if (!isCommandMessage) {
       const locale = await resolveLocale(from);
       const sessionT = createTranslator(locale);
+      const activityT = createTranslator(runtimeConfig.language || "pt");
+      logMessageActivity({
+        message: message as proto.IWebMessageInfo,
+        from,
+        sender,
+        isGroup,
+        body,
+        t: activityT,
+      });
       await tryHandleApkReply({
         misa,
         from,
@@ -230,6 +240,17 @@ async function setupMessageHandler(
     }
 
     try {
+      const activityT = createTranslator(runtimeConfig.language || "pt");
+      logCommandActivity({
+        message: message as proto.IWebMessageInfo,
+        from,
+        sender,
+        isGroup,
+        prefix,
+        commandName,
+        args,
+        t: activityT,
+      });
       await command.execute({
         misa,
         message: message as proto.IWebMessageInfo,

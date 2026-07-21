@@ -39,6 +39,8 @@ const icons: Record<string, string> = {
   error:   "✖",
 };
 
+export type ActivityKind = "MSG" | "CMD";
+
 export const log = {
   info(scope: string, message: string): void {
     console.log(`${timestamp()} ${paint(icons.info, "cyan")}  ${paint(scope, "cyan", "bold")} ${paint("›", "gray")} ${message}`);
@@ -55,6 +57,19 @@ export const log = {
   error(scope: string, message: string, error?: unknown): void {
     console.error(`${timestamp()} ${paint(icons.error, "red")}  ${paint(scope, "red", "bold")} ${paint("›", "gray")} ${message}`);
     if (error) console.error(paint(String(error), "gray"));
+  },
+
+  activity(kind: ActivityKind, message: string): void {
+    if (kind === "CMD") {
+      console.log(
+        `${timestamp()} ${paint(icons.success, "green")}  ${paint("CMD", "green", "bold")} ${paint("›", "gray")} ${message}`,
+      );
+      return;
+    }
+
+    console.log(
+      `${timestamp()} ${paint(icons.info, "magenta")}  ${paint("MSG", "magenta", "bold")} ${paint("›", "gray")} ${paint(message, "gray")}`,
+    );
   },
 
   box(scope: string, title: string, rows: string[], color: Color = "cyan"): void {

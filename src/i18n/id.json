@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "Gagal menghapus pesan antilink di grup {{groupId}}: {{error}}",
     "antilinkBanFailed": "Gagal memblokir {{sender}} di grup {{groupId}}: {{error}}",
     "antistealthDeleteFailed": "Gagal menghapus pesan antistealth di grup {{groupId}}: {{error}}",
-    "antistealthRemoveFailed": "Gagal mengeluarkan {{sender}} dari grup {{groupId}}: {{error}}"
+    "antistealthRemoveFailed": "Gagal mengeluarkan {{sender}} dari grup {{groupId}}: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "pribadi",
+      "sticker": "stiker",
+      "media": "media",
+      "unknownGroup": "grup"
+    }
   },
   "errors": {
     "ownerOnly": "❌ Perintah ini hanya untuk pemilik bot.",

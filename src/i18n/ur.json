@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "گروپ {{groupId}} میں antilink پیغام حذف کرنے میں ناکام: {{error}}",
     "antilinkBanFailed": "گروپ {{groupId}} میں {{sender}} کو بین کرنے میں ناکام: {{error}}",
     "antistealthDeleteFailed": "گروپ {{groupId}} میں antistealth پیغام حذف کرنے میں ناکام: {{error}}",
-    "antistealthRemoveFailed": "گروپ {{groupId}} سے {{sender}} کو ہٹانے میں ناکام: {{error}}"
+    "antistealthRemoveFailed": "گروپ {{groupId}} سے {{sender}} کو ہٹانے میں ناکام: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "نجی",
+      "sticker": "اسٹیکر",
+      "media": "میڈیا",
+      "unknownGroup": "گروپ"
+    }
   },
   "errors": {
     "ownerOnly": "❌ یہ کمانڈ صرف بوٹ کے مالک کے لیے ہے۔",

@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "ग्रुप {{groupId}} में antilink संदेश हटाने में विफल: {{error}}",
     "antilinkBanFailed": "ग्रुप {{groupId}} में {{sender}} को बैन करने में विफल: {{error}}",
     "antistealthDeleteFailed": "ग्रुप {{groupId}} में antistealth संदेश हटाने में विफल: {{error}}",
-    "antistealthRemoveFailed": "ग्रुप {{groupId}} से {{sender}} को हटाने में विफल: {{error}}"
+    "antistealthRemoveFailed": "ग्रुप {{groupId}} से {{sender}} को हटाने में विफल: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "निजी",
+      "sticker": "स्टिकर",
+      "media": "मीडिया",
+      "unknownGroup": "समूह"
+    }
   },
   "errors": {
     "ownerOnly": "❌ यह कमांड केवल बॉट के मालिक के लिए है।",

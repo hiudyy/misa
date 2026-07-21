@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "{{groupId}} grubunda antilink mesajı silinemedi: {{error}}",
     "antilinkBanFailed": "{{groupId}} grubunda {{sender}} yasaklanamadı: {{error}}",
     "antistealthDeleteFailed": "{{groupId}} grubunda antistealth mesajı silinemedi: {{error}}",
-    "antistealthRemoveFailed": "{{sender}} {{groupId}} grubundan çıkarılamadı: {{error}}"
+    "antistealthRemoveFailed": "{{sender}} {{groupId}} grubundan çıkarılamadı: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "özel",
+      "sticker": "sticker",
+      "media": "medya",
+      "unknownGroup": "grup"
+    }
   },
   "errors": {
     "ownerOnly": "❌ Bu komut yalnızca bot sahibi içindir.",

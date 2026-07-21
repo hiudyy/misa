@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "Error al borrar mensaje antilink en el grupo {{groupId}}: {{error}}",
     "antilinkBanFailed": "Error al banear a {{sender}} en el grupo {{groupId}}: {{error}}",
     "antistealthDeleteFailed": "Error al borrar mensaje antistealth en el grupo {{groupId}}: {{error}}",
-    "antistealthRemoveFailed": "Error al expulsar a {{sender}} del grupo {{groupId}}: {{error}}"
+    "antistealthRemoveFailed": "Error al expulsar a {{sender}} del grupo {{groupId}}: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "privado",
+      "sticker": "sticker",
+      "media": "media",
+      "unknownGroup": "grupo"
+    }
   },
   "errors": {
     "ownerOnly": "❌ Este comando es solo para el dueño del bot.",

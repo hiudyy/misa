@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "Échec de la suppression du message antilink dans le groupe {{groupId}} : {{error}}",
     "antilinkBanFailed": "Échec du bannissement de {{sender}} dans le groupe {{groupId}} : {{error}}",
     "antistealthDeleteFailed": "Échec de la suppression du message antistealth dans le groupe {{groupId}} : {{error}}",
-    "antistealthRemoveFailed": "Échec du retrait de {{sender}} du groupe {{groupId}} : {{error}}"
+    "antistealthRemoveFailed": "Échec du retrait de {{sender}} du groupe {{groupId}} : {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "privé",
+      "sticker": "sticker",
+      "media": "média",
+      "unknownGroup": "groupe"
+    }
   },
   "errors": {
     "ownerOnly": "❌ Cette commande est réservée au propriétaire du bot.",

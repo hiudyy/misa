@@ -72,7 +72,15 @@
     "antilinkDeleteFailed": "فشل حذف رسالة antilink في المجموعة {{groupId}}: {{error}}",
     "antilinkBanFailed": "فشل حظر {{sender}} في المجموعة {{groupId}}: {{error}}",
     "antistealthDeleteFailed": "فشل حذف رسالة antistealth في المجموعة {{groupId}}: {{error}}",
-    "antistealthRemoveFailed": "فشل إزالة {{sender}} من المجموعة {{groupId}}: {{error}}"
+    "antistealthRemoveFailed": "فشل إزالة {{sender}} من المجموعة {{groupId}}: {{error}}",
+    "activity": {
+      "group": "{{user}} → {{group}}  ·  {{preview}}",
+      "private": "{{user}} → {{privateLabel}}  ·  {{preview}}",
+      "privateLabel": "خاص",
+      "sticker": "ملصق",
+      "media": "وسائط",
+      "unknownGroup": "مجموعة"
+    }
   },
   "errors": {
     "ownerOnly": "❌ هذا الأمر مخصص لمالك البوت فقط.",
