@@ -13,7 +13,7 @@ const numerodonoCommand: Command = {
   description: "Updates the owner number in the bot config",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     const config = await getBotConfig();
 
     if (args.length === 0) {
@@ -25,7 +25,7 @@ const numerodonoCommand: Command = {
       return;
     }
 
-    const ownerNumber = args.join("").replace(/\D/g, "");
+    const ownerNumber = rawArgs.replace(/\D/g, "");
     if (ownerNumber.length < 7) {
       await misa.sendMessage(from, { text: t("commands.numerodono.invalid") }, { quoted: message as WAMessage });
       return;

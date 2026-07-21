@@ -18,7 +18,7 @@ const playCommand: Command = {
   aliases: ["p"],
   description: "Searches for a song on YouTube and sends the audio",
   category: "all",
-  async execute({ misa, message, from, args, t, locale }) {
+  async execute({ misa, message, from, args, rawArgs, t, locale }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
@@ -28,7 +28,7 @@ const playCommand: Command = {
       return;
     }
 
-    const query = args.join(" ").trim();
+    const query = rawArgs.trim();
     await misa.sendMessage(from, { text: t("commands.play.searching") }, { quoted: message as WAMessage });
 
     try {

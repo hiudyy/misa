@@ -57,7 +57,7 @@ const evalCommand: Command = {
   description: "Runs JavaScript code (DANGEROUS - owner only)",
   category: "all",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
@@ -67,7 +67,7 @@ const evalCommand: Command = {
       return;
     }
 
-    const code = args.join(" ");
+    const code = rawArgs;
 
     if (code.length > MAX_CODE_LENGTH) {
       await misa.sendMessage(

@@ -12,7 +12,7 @@ const hidetagCommand: Command = {
   category: "grupo",
   groupOnly: true,
   adminOnly: true,
-  async execute({ misa, message, from, args, groupCache, t }) {
+  async execute({ misa, message, from, args, rawArgs, groupCache, t }) {
     const groupMeta = await groupCache.ensure(from, misa);
 
     if (!groupMeta) {
@@ -28,7 +28,7 @@ const hidetagCommand: Command = {
     }
 
     const msg = message.message;
-    const caption = args.length > 0 ? args.join(" ") : "";
+    const caption = args.length > 0 ? rawArgs : "";
 
     // Check for quoted message
     const quotedMsg = msg?.extendedTextMessage?.contextInfo?.quotedMessage;

@@ -15,7 +15,7 @@ const legendabvCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args, t, locale }) {
+  async execute({ misa, message, from, args, rawArgs, t, locale }) {
     const words = getLocalizedCommandWordVars(locale);
     if (args.length === 0) {
       const config = await getGroup(from);
@@ -33,7 +33,7 @@ const legendabvCommand: Command = {
       return;
     }
 
-    const legenda = args.join(" ");
+    const legenda = rawArgs;
     const current = await getGroup(from);
     await saveGroup(from, { bemvindo: { ...current.bemvindo, legenda } });
 

@@ -18,7 +18,7 @@ const playvidCommand: Command = {
   aliases: ["pv", "playvideo", "videoplay"],
   description: "Searches for a video on YouTube and sends it",
   category: "all",
-  async execute({ misa, message, from, args, t, locale }) {
+  async execute({ misa, message, from, args, rawArgs, t, locale }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
@@ -28,7 +28,7 @@ const playvidCommand: Command = {
       return;
     }
 
-    const query = args.join(" ").trim();
+    const query = rawArgs.trim();
     await misa.sendMessage(from, { text: t("commands.playvid.searching") }, { quoted: message as WAMessage });
 
     try {

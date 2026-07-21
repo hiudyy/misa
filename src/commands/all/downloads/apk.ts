@@ -25,8 +25,8 @@ const apkCommand: Command = {
   },
   description: "Downloads a modified APK from Modyolo",
   category: "all",
-  async execute({ misa, message, from, sender, args, prefix, t }) {
-    const query = args.join(" ").trim();
+  async execute({ misa, message, from, sender, args, rawArgs, prefix, t }) {
+    const query = rawArgs.trim();
 
     if (!query) {
       await misa.sendMessage(

@@ -13,7 +13,7 @@ const nomeGpCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
@@ -23,7 +23,7 @@ const nomeGpCommand: Command = {
       return;
     }
 
-    const novoNome = args.join(" ");
+    const novoNome = rawArgs;
     await misa.groupUpdateSubject(from, novoNome);
     await misa.sendMessage(
       from,

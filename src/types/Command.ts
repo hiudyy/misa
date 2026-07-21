@@ -16,6 +16,8 @@ export interface CommandContext {
   misa: WASocket;
   message: proto.IWebMessageInfo;
   args: string[];
+  /** Texto bruto após o nome do comando, preservando quebras de linha */
+  rawArgs: string;
   prefix: string;
   commandName: string;
   sender: string;

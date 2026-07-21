@@ -14,14 +14,14 @@ const bangpCommand: Command = {
   category: "geral",
   ownerOnly: true,
   groupOnly: true,
-  async execute({ misa, message, from, args, sender, t }) {
+  async execute({ misa, message, from, args, rawArgs, sender, t }) {
     const current = await getGroup(from);
     if (current.botBan.ativo) {
       await misa.sendMessage(from, { text: t("commands.bangp.alreadyActive") }, { quoted: message as WAMessage });
       return;
     }
 
-    const reason = args.join(" ").trim();
+    const reason = rawArgs.trim();
     await setGroupBan(from, sender, reason);
 
     await misa.sendMessage(

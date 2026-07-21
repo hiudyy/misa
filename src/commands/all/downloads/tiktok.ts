@@ -58,7 +58,7 @@ const tiktokCommand: Command = {
   aliases: ["ttk", "tt"],
   description: "Downloads TikTok videos or searches by term",
   category: "all",
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     if (args.length === 0) {
       await misa.sendMessage(from, {
         text: t("commands.tiktok.usage"),
@@ -66,7 +66,7 @@ const tiktokCommand: Command = {
       return;
     }
 
-    const input = args.join(" ");
+    const input = rawArgs;
 
     if (isValidTiktokURL(input)) {
       await misa.sendMessage(from, { text: t("commands.tiktok.downloading") }, { quoted: message as WAMessage });

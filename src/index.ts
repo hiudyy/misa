@@ -165,8 +165,12 @@ async function setupMessageHandler(
       return;
     }
 
-    const [rawCommandName, ...args] = body.slice(prefix.length).trim().split(/\s+/);
-    const commandName = rawCommandName?.toLowerCase();
+    const afterPrefix = body.slice(prefix.length).trimStart();
+    const commandMatch = /^(\S+)([\s\S]*)$/.exec(afterPrefix);
+    const rawCommandName = commandMatch?.[1] ?? "";
+    const rawArgs = (commandMatch?.[2] ?? "").replace(/^\s+/, "");
+    const args = rawArgs.length > 0 ? rawArgs.split(/\s+/).filter(Boolean) : [];
+    const commandName = rawCommandName.toLowerCase();
 
     if (!commandName) return;
 
@@ -255,6 +259,7 @@ async function setupMessageHandler(
         misa,
         message: message as proto.IWebMessageInfo,
         args,
+        rawArgs,
         prefix,
         commandName,
         sender,

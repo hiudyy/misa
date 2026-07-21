@@ -11,7 +11,7 @@ const adminsCommand: Command = {
   description: "Mentions all group admins",
   category: "grupo",
   groupOnly: true,
-  async execute({ misa, message, from, args, groupCache, t }) {
+  async execute({ misa, message, from, args, rawArgs, groupCache, t }) {
     const groupMeta = await groupCache.ensure(from, misa);
 
     if (!groupMeta) {
@@ -27,7 +27,7 @@ const adminsCommand: Command = {
     }
 
     const mencoes = admins.map((a) => `@${a.id.split("@")[0]}`).join(" ");
-    const texto = args.length > 0 ? args.join(" ") : t("commands.admins.called");
+    const texto = args.length > 0 ? rawArgs : t("commands.admins.called");
 
     await misa.sendMessage(
       from,

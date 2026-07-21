@@ -16,7 +16,7 @@ const pinterestCommand: Command = {
   aliases: ["pin", "pint"],
   description: "Downloads Pinterest images or searches by term",
   category: "all",
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     if (args.length === 0) {
       await misa.sendMessage(from, {
         text: t("commands.pinterest.usage"),
@@ -24,7 +24,7 @@ const pinterestCommand: Command = {
       return;
     }
 
-    const input = args.join(" ");
+    const input = rawArgs;
 
     if (isValidPinURL(input)) {
       await misa.sendMessage(from, { text: t("commands.pinterest.downloading") }, { quoted: message as WAMessage });

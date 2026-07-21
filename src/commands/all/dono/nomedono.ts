@@ -12,7 +12,7 @@ const nomedonoCommand: Command = {
   description: "Updates the owner name in the bot config",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     const config = await getBotConfig();
 
     if (args.length === 0) {
@@ -24,7 +24,7 @@ const nomedonoCommand: Command = {
       return;
     }
 
-    const ownerName = args.join(" ").trim();
+    const ownerName = rawArgs.trim();
     if (!ownerName) {
       await misa.sendMessage(from, { text: t("commands.nomedono.invalid") }, { quoted: message as WAMessage });
       return;

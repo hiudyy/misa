@@ -18,8 +18,8 @@ const joinCommand: Command = {
   description: "Makes the bot join a group via invite link",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
-    const link = args.join(" ").trim();
+  async execute({ misa, message, from, args, rawArgs, t }) {
+    const link = rawArgs.trim();
     const code = INVITE_RE.exec(link)?.[1];
 
     if (!code) {

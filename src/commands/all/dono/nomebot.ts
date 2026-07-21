@@ -12,7 +12,7 @@ const nomebotCommand: Command = {
   description: "Updates the bot name",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t }) {
+  async execute({ misa, message, from, args, rawArgs, t }) {
     const config = await getBotConfig();
 
     if (args.length === 0) {
@@ -24,7 +24,7 @@ const nomebotCommand: Command = {
       return;
     }
 
-    const botName = args.join(" ").trim();
+    const botName = rawArgs.trim();
     if (!botName) {
       await misa.sendMessage(from, { text: t("commands.nomebot.invalid") }, { quoted: message as WAMessage });
       return;

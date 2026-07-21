@@ -4,6 +4,7 @@
  */
 import { WAMessage } from "baileys";
 import { getLocalizedCommandWordVars, getLocalizedToken, resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
+import { textAfterTokens } from "../../../helpers/commandText.js";
 import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
@@ -13,7 +14,7 @@ const cmdnfCommand: Command = {
   description: "Configures the command-not-found message",
   category: "all",
   ownerOnly: true,
-  async execute({ misa, message, from, args, t, locale }) {
+  async execute({ misa, message, from, args, rawArgs, t, locale }) {
     const config = await getOwnerConfig();
     const words = getLocalizedCommandWordVars(locale);
     const currentMode = config.comandoNaoEncontrado.modo === "mencao"
@@ -82,7 +83,7 @@ const cmdnfCommand: Command = {
         return;
       }
 
-      config.comandoNaoEncontrado.texto = args.slice(1).join(" ");
+      config.comandoNaoEncontrado.texto = textAfterTokens(rawArgs, 1);
       await saveOwnerConfig(config);
 
       await misa.sendMessage(

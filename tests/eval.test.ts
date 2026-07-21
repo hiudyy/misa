@@ -33,11 +33,13 @@ async function runEval(args: string[]): Promise<{ messages: ReturnType<typeof cr
   const misa = createMockMisa();
   const message = createMockMessage();
   const t = createTranslator("pt");
+  const rawArgs = args.join(" ");
 
   await evalCommand.execute({
     misa: misa as unknown as import("baileys").WASocket,
     message,
     args,
+    rawArgs,
     prefix: "!",
     commandName: "eval",
     sender: "12345@s.whatsapp.net",

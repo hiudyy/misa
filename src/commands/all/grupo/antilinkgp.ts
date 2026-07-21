@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { AntiLinkPunicao, getGroup, saveGroup } from "../../../database/groupDB.js";
 import { getLocalizedCommandWordVars, resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
+import { textAfterTokens } from "../../../helpers/commandText.js";
 import { Command } from "../../../types/Command.js";
 
 const antilinkgpCommand: Command = {
@@ -15,7 +16,7 @@ const antilinkgpCommand: Command = {
   groupOnly: true,
   adminOnly: true,
   botAdminRequired: true,
-  async execute({ misa, message, from, args, t, locale }) {
+  async execute({ misa, message, from, args, rawArgs, t, locale }) {
     const config = await getGroup(from);
     const words = getLocalizedCommandWordVars(locale);
 
@@ -72,7 +73,7 @@ const antilinkgpCommand: Command = {
         return;
       }
 
-      const texto = args.slice(1).join(" ");
+      const texto = textAfterTokens(rawArgs, 1);
       await saveGroup(from, { antilinkgp: { ...config.antilinkgp, texto } });
       await misa.sendMessage(
         from,

@@ -6,6 +6,7 @@ import { WAMessage } from "baileys";
 import { toLID } from "../../../helpers/toLID.js";
 import { extractMentionedUser, cleanupExpiredBlockedUsers, findBlockedUser } from "../../../helpers/ownerRestrictions.js";
 import { formatExpiresAt, isDurationToken, parseDurationMs } from "../../../helpers/parseDuration.js";
+import { textAfterTokens } from "../../../helpers/commandText.js";
 import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
@@ -15,7 +16,7 @@ const blockuserCommand: Command = {
   description: "Blocks a user globally on the bot",
   category: "geral",
   ownerOnly: true,
-  async execute({ misa, message, from, args, sender, t, locale }) {
+  async execute({ misa, message, from, args, rawArgs, sender, t, locale }) {
     const mentioned = extractMentionedUser(message);
     if (!mentioned) {
       await misa.sendMessage(from, { text: t("commands.blockuser.noMention") }, { quoted: message as WAMessage });
@@ -47,7 +48,7 @@ const blockuserCommand: Command = {
     const durationMs = isDurationToken(durationArg) ? parseDurationMs(durationArg!) : null;
     const expiresAt = durationMs ? new Date(Date.now() + durationMs).toISOString() : null;
     const reasonIndex = durationMs ? baseIndex + 1 : baseIndex;
-    const reason = args.slice(reasonIndex).join(" ").trim() || null;
+    const reason = textAfterTokens(rawArgs, reasonIndex).trim() || null;
 
     config.blockedUsers = [
       ...activeUsers,
