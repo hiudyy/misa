@@ -21,7 +21,11 @@
 
 **Misa** é um bot avançado e modular para **WhatsApp**, construído inteiramente em **TypeScript** com a biblioteca **Baileys** (Multi-Device).
 
-Ela foi pensada para ser simples de instalar, fácil de manter e pronta para crescer com a sua comunidade. Com suporte nativo a internacionalização (i18n), a Misa já fala **Português, Inglês, Espanhol, Indonésio, Árabe, Francês, Hindi, Urdu, Alemão, Turco e Bengali**. Projeto criado pela [Cognima](https://cognima.com.br/urls).
+Ela foi pensada para ser simples de instalar, fácil de manter e pronta para crescer com a sua comunidade. Com suporte nativo a internacionalização (i18n), a Misa já fala **Português, Inglês, Espanhol, Indonésio, Árabe, Francês, Hindi, Urdu, Alemão, Turco e Bengali**. Projeto criado por [Hiudy](https://github.com/hiudyy).
+
+## Palavras-chave
+
+bot whatsapp, bot de whatsapp, baileys, multi-device, multidispositivo, typescript, nodejs, chatbot, automação, figurinha, figurinhas, sticker, download, youtube, tiktok, instagram, pinterest, apk, i18n, multilíngue, anti-link, moderação de grupo, open source, misa bot, wa bot, pairing code, qr code
 
 ## 🌐 Um bot realmente internacionalizado
 
@@ -439,7 +443,11 @@ Grupo oficial no WhatsApp: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](ht
 
 **Misa** एक उन्नत और मॉड्यूलर **WhatsApp** बॉट है, जिसे पूरी तरह **TypeScript** और **Baileys** (Multi-Device) लाइब्रेरी के साथ बनाया गया है।
 
-इसे इस तरह डिज़ाइन किया गया है कि इंस्टॉल करना आसान हो, संभालना आसान हो, और समुदाय बढ़ने पर भी यह आराम से स्केल कर सके। i18n सपोर्ट की वजह से Misa अब **Portuguese, English, Spanish, Indonesian, Arabic, French, Hindi, Urdu, German, Turkish और Bengali** में काम कर सकती है। यह प्रोजेक्ट [Cognima](https://cognima.com.br/urls) द्वारा बनाया गया है।
+इसे इस तरह डिज़ाइन किया गया है कि इंस्टॉल करना आसान हो, संभालना आसान हो, और समुदाय बढ़ने पर भी यह आराम से स्केल कर सके। i18n सपोर्ट की वजह से Misa अब **Portuguese, English, Spanish, Indonesian, Arabic, French, Hindi, Urdu, German, Turkish और Bengali** में काम कर सकती है। यह प्रोजेक्ट [Hiudy](https://github.com/hiudyy) द्वारा बनाया गया है।
+
+## खोजशब्द
+
+व्हाट्सएप बॉट, whatsapp bot, baileys, multi-device, typescript, nodejs, chatbot, ऑटोमेशन, स्टिकर, डाउनलोड, youtube, tiktok, instagram, pinterest, apk, i18n, बहुभाषी, ग्रुप मॉडरेशन, anti-link, open source, misa bot, qr code, pairing code
 
 ## 🌐 सच में बहुभाषी बॉट
 
@@ -831,7 +839,11 @@ export default meuComando;
 
 **Misa** ایک جدید اور ماڈیولر **WhatsApp** بوٹ ہے، جسے مکمل طور پر **TypeScript** اور **Baileys** (Multi-Device) لائبریری کے ساتھ بنایا گیا ہے۔
 
-اسے اس طرح ڈیزائن کیا گیا ہے کہ انسٹال کرنا آسان ہو، سنبھالنا آسان ہو، اور کمیونٹی کے بڑھنے کے ساتھ آرام سے اسکیل کر سکے۔ i18n سپورٹ کی وجہ سے Misa اب **Portuguese, English, Spanish, Indonesian, Arabic, French, Hindi, Urdu, German, Turkish اور Bengali** میں کام کر سکتی ہے۔ یہ پروجیکٹ [Cognima](https://cognima.com.br/urls) نے بنایا ہے۔
+اسے اس طرح ڈیزائن کیا گیا ہے کہ انسٹال کرنا آسان ہو، سنبھالنا آسان ہو، اور کمیونٹی کے بڑھنے کے ساتھ آرام سے اسکیل کر سکے۔ i18n سپورٹ کی وجہ سے Misa اب **Portuguese, English, Spanish, Indonesian, Arabic, French, Hindi, Urdu, German, Turkish اور Bengali** میں کام کر سکتی ہے۔ یہ پروجیکٹ [Hiudy](https://github.com/hiudyy) نے بنایا ہے۔
+
+## کلیدی الفاظ
+
+واٹس ایپ بوٹ, whatsapp bot, baileys, multi-device, typescript, nodejs, chatbot, آٹومیشن, اسٹیکر, ڈاؤن لوڈ, youtube, tiktok, instagram, pinterest, apk, i18n, کثیر لسانی, گروپ ماڈریشن, anti-link, open source, misa bot, qr code, pairing code
 
 ## 🌐 واقعی کثیر لسانی بوٹ
 
@@ -1223,7 +1235,11 @@ export default meuComando;
 
 **Misa** is an advanced and modular **WhatsApp** bot built entirely in **TypeScript** with the **Baileys** (Multi-Device) library.
 
-It was designed to be easy to install, easy to maintain, and ready to scale with your community. With native internationalization (i18n), Misa already supports **Portuguese, English, Spanish, Indonesian, Arabic, French, Hindi, Urdu, German, Turkish, and Bengali**. Created by [Cognima](https://cognima.com.br/urls).
+It was designed to be easy to install, easy to maintain, and ready to scale with your community. With native internationalization (i18n), Misa already supports **Portuguese, English, Spanish, Indonesian, Arabic, French, Hindi, Urdu, German, Turkish, and Bengali**. Created by [Hiudy](https://github.com/hiudyy).
+
+## Keywords
+
+whatsapp bot, baileys, multi-device, whatsapp md, typescript, nodejs, chatbot, automation, sticker, stickers, download, youtube, tiktok, instagram, pinterest, apk, i18n, multilingual, group moderation, anti-link, open source, misa bot, wa bot, qr code, pairing code, media downloader
 
 ## 🌐 A truly internationalized bot
 
@@ -1641,7 +1657,11 @@ Official WhatsApp group: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](http
 
 **Misa** es un bot avanzado y modular para **WhatsApp**, construido completamente en **TypeScript** con la biblioteca **Baileys** (Multi-Device).
 
-Está diseñado para ser fácil de instalar, fácil de mantener y listo para crecer junto con tu comunidad. Con soporte nativo de internacionalización (i18n), Misa ya habla **Portugués, Inglés, Español, Indonesio, Árabe, Francés, Hindi, Urdu, Alemán, Turco y Bengalí**. Creado por [Cognima](https://cognima.com.br/urls).
+Está diseñado para ser fácil de instalar, fácil de mantener y listo para crecer junto con tu comunidad. Con soporte nativo de internacionalización (i18n), Misa ya habla **Portugués, Inglés, Español, Indonesio, Árabe, Francés, Hindi, Urdu, Alemán, Turco y Bengalí**. Creado por [Hiudy](https://github.com/hiudyy).
+
+## Palabras clave
+
+bot whatsapp, bot de whatsapp, baileys, multi-device, multidispositivo, typescript, nodejs, chatbot, automatización, pegatina, pegatinas, sticker, descarga, youtube, tiktok, instagram, pinterest, apk, i18n, multilingüe, anti-link, moderación de grupo, open source, misa bot, código qr, pairing code
 
 ## 🌐 Un bot realmente internacionalizado
 
@@ -2035,7 +2055,11 @@ Grupo oficial de WhatsApp: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](ht
 
 **Misa** adalah bot canggih dan modular untuk **WhatsApp**, dibangun sepenuhnya dengan **TypeScript** menggunakan library **Baileys** (Multi-Device).
 
-Bot ini dirancang agar mudah dipasang, mudah dipelihara, dan siap berkembang bersama komunitas Anda. Dengan dukungan internasionalisasi (i18n) bawaan, Misa sudah mendukung **Portugis, Inggris, Spanyol, Indonesia, Arab, Prancis, Hindi, Urdu, Jerman, Turki, dan Bengali**. Dibuat oleh [Cognima](https://cognima.com.br/urls).
+Bot ini dirancang agar mudah dipasang, mudah dipelihara, dan siap berkembang bersama komunitas Anda. Dengan dukungan internasionalisasi (i18n) bawaan, Misa sudah mendukung **Portugis, Inggris, Spanyol, Indonesia, Arab, Prancis, Hindi, Urdu, Jerman, Turki, dan Bengali**. Dibuat oleh [Hiudy](https://github.com/hiudyy).
+
+## Kata kunci
+
+bot whatsapp, baileys, multi-device, typescript, nodejs, chatbot, otomatisasi, stiker, unduhan, youtube, tiktok, instagram, pinterest, apk, i18n, multibahasa, anti-link, moderasi grup, open source, misa bot, kode qr, pairing code
 
 ## 🌐 Bot yang benar-benar terinternasionalisasi
 
@@ -2429,7 +2453,11 @@ Grup WhatsApp resmi: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://
 
 **Misa** est un bot **WhatsApp** avancé et modulaire, développé entièrement en **TypeScript** avec la bibliothèque **Baileys** (Multi-Device).
 
-Il a été conçu pour être simple à installer, facile à maintenir et prêt à évoluer avec votre communauté. Grâce à son système natif d'internationalisation (i18n), Misa prend déjà en charge le **portugais, l'anglais, l'espagnol, l'indonésien, l'arabe et le français**. Créé par [Cognima](https://cognima.com.br/urls).
+Il a été conçu pour être simple à installer, facile à maintenir et prêt à évoluer avec votre communauté. Grâce à son système natif d'internationalisation (i18n), Misa prend déjà en charge le **portugais, l'anglais, l'espagnol, l'indonésien, l'arabe et le français**. Créé par [Hiudy](https://github.com/hiudyy).
+
+## Mots-clés
+
+bot whatsapp, baileys, multi-device, typescript, nodejs, chatbot, automatisation, sticker, autocollant, téléchargement, youtube, tiktok, instagram, pinterest, apk, i18n, multilingue, anti-link, modération de groupe, open source, misa bot, qr code, pairing code
 
 ## 🌐 Un bot vraiment internationalisé
 
@@ -2823,7 +2851,11 @@ Groupe WhatsApp officiel : [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](ht
 
 **Misa** هو بوت **WhatsApp** متقدم ومرن، مبني بالكامل باستخدام **TypeScript** ومكتبة **Baileys** (Multi-Device).
 
-تم تصميمه ليكون سهل التثبيت وسهل الصيانة وقابلا للتوسع مع نمو مجتمعك. بفضل دعم التدويل (i18n) المدمج، يدعم Misa حاليا **البرتغالية والإنجليزية والإسبانية والإندونيسية والعربية والفرنسية والهندية والأردية والألمانية والتركية والبنغالية**. المشروع من تطوير [Cognima](https://cognima.com.br/urls).
+تم تصميمه ليكون سهل التثبيت وسهل الصيانة وقابلا للتوسع مع نمو مجتمعك. بفضل دعم التدويل (i18n) المدمج، يدعم Misa حاليا **البرتغالية والإنجليزية والإسبانية والإندونيسية والعربية والفرنسية والهندية والأردية والألمانية والتركية والبنغالية**. المشروع من تطوير [Hiudy](https://github.com/hiudyy).
+
+## كلمات مفتاحية
+
+بوت واتساب, روبوت واتساب, whatsapp bot, baileys, multi-device, typescript, nodejs, chatbot, أتمتة, ملصق, تحميل, youtube, tiktok, instagram, pinterest, apk, i18n, متعدد اللغات, anti-link, إدارة المجموعات, open source, misa bot, qr code, pairing code
 
 ## 🌐 بوت متعدد اللغات بشكل حقيقي
 
@@ -3217,7 +3249,11 @@ export default meuComando;
 
 **Misa** ist ein fortschrittlicher und modularer **WhatsApp**-Bot, der vollständig in **TypeScript** mit der Bibliothek **Baileys** (Multi-Device) entwickelt wurde.
 
-Misa wurde so entwickelt, dass Installation und Wartung unkompliziert bleiben und der Bot mit Ihrer Community mitwachsen kann. Dank nativer Internationalisierung (i18n) unterstützt Misa bereits **Portugiesisch, Englisch, Spanisch, Indonesisch, Arabisch, Französisch, Hindi, Urdu, Deutsch, Türkisch und Bengalisch**. Entwickelt von [Cognima](https://cognima.com.br/urls).
+Misa wurde so entwickelt, dass Installation und Wartung unkompliziert bleiben und der Bot mit Ihrer Community mitwachsen kann. Dank nativer Internationalisierung (i18n) unterstützt Misa bereits **Portugiesisch, Englisch, Spanisch, Indonesisch, Arabisch, Französisch, Hindi, Urdu, Deutsch, Türkisch und Bengalisch**. Entwickelt von [Hiudy](https://github.com/hiudyy).
+
+## Stichwörter
+
+whatsapp bot, baileys, multi-device, typescript, nodejs, chatbot, automatisierung, sticker, aufkleber, download, youtube, tiktok, instagram, pinterest, apk, i18n, mehrsprachig, anti-link, gruppenmoderation, open source, misa bot, qr-code, pairing code
 
 ## 🌐 Ein wirklich internationalisierter Bot
 
@@ -3612,7 +3648,11 @@ Offizielle WhatsApp-Gruppe: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](h
 
 **Misa**, **Baileys** (Çoklu Cihaz) kitaplığıyla tamamen **TypeScript** ile oluşturulmuş gelişmiş ve modüler bir **WhatsApp** botudur.
 
-Misa; kurulumu kolay, bakımı rahat ve topluluğunuz büyüdükçe sorunsuzca ölçeklenebilecek şekilde tasarlandı. Yerleşik uluslararasılaştırma (i18n) desteği sayesinde Misa şu anda **Portekizce, İngilizce, İspanyolca, Endonezce, Arapça, Fransızca, Hintçe, Urduca, Almanca, Türkçe ve Bengalceyi** destekliyor. Proje [Cognima](https://cognima.com.br/urls) tarafından geliştirildi.
+Misa; kurulumu kolay, bakımı rahat ve topluluğunuz büyüdükçe sorunsuzca ölçeklenebilecek şekilde tasarlandı. Yerleşik uluslararasılaştırma (i18n) desteği sayesinde Misa şu anda **Portekizce, İngilizce, İspanyolca, Endonezce, Arapça, Fransızca, Hintçe, Urduca, Almanca, Türkçe ve Bengalceyi** destekliyor. Proje [Hiudy](https://github.com/hiudyy) tarafından geliştirildi.
+
+## Anahtar kelimeler
+
+whatsapp bot, baileys, multi-device, typescript, nodejs, chatbot, otomasyon, çıkartma, sticker, indirme, youtube, tiktok, instagram, pinterest, apk, i18n, çok dilli, anti-link, grup moderasyonu, open source, misa bot, qr kod, pairing code
 
 ## 🌐 Gerçek anlamda uluslararasılaşmış bir bot
 
@@ -4007,7 +4047,11 @@ Resmi WhatsApp grubu: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https:/
 
 **Misa** হলো **WhatsApp**-এর জন্য একটি উন্নত ও মডুলার বট, যা পুরোপুরি **TypeScript** এবং **Baileys** (Multi-Device) লাইব্রেরি দিয়ে তৈরি।
 
-এটি এমনভাবে তৈরি করা হয়েছে যাতে ইনস্টল করা সহজ হয়, রক্ষণাবেক্ষণ সহজ থাকে, আর আপনার কমিউনিটির সঙ্গে সঙ্গে সহজে বড় হতে পারে। বিল্ট-ইন আন্তর্জাতিকীকরণ (i18n) থাকার কারণে Misa এখন **Português, English, Español, Bahasa Indonesia, العربية, Français, हिन्दी, اردو, Deutsch, Türkçe** এবং **বাংলা** সমর্থন করে। প্রজেক্টটি তৈরি করেছে [Cognima](https://cognima.com.br/urls)।
+এটি এমনভাবে তৈরি করা হয়েছে যাতে ইনস্টল করা সহজ হয়, রক্ষণাবেক্ষণ সহজ থাকে, আর আপনার কমিউনিটির সঙ্গে সঙ্গে সহজে বড় হতে পারে। বিল্ট-ইন আন্তর্জাতিকীকরণ (i18n) থাকার কারণে Misa এখন **Português, English, Español, Bahasa Indonesia, العربية, Français, हिन्दी, اردو, Deutsch, Türkçe** এবং **বাংলা** সমর্থন করে। প্রজেক্টটি তৈরি করেছে [Hiudy](https://github.com/hiudyy)।
+
+## কীওয়ার্ড
+
+হোয়াটসঅ্যাপ বট, whatsapp bot, baileys, multi-device, typescript, nodejs, chatbot, অটোমেশন, স্টিকার, ডাউনলোড, youtube, tiktok, instagram, pinterest, apk, i18n, বহুভাষিক, anti-link, গ্রুপ মডারেশন, open source, misa bot, qr code, pairing code
 
 ## 🌐 সত্যিকারের বহুভাষিক বট
 

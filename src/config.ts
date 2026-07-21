@@ -21,7 +21,7 @@ export type BotConfig = {
 
 const defaultConfig: BotConfig = {
   botName: "Misa",
-  ownerName: "Cognima / Hiudy",
+  ownerName: "Hiudy",
   prefix: "!",
   ownerNumber: "",
   autoUpdate: false,
