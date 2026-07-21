@@ -36,15 +36,20 @@ const files = (await readdir(i18nDir))
   .sort();
 
 if (files.length === 0) {
-  throw new Error("Nenhum arquivo de locale encontrado em src/i18n.");
+  throw new Error("No locale files found in src/i18n.");
 }
+
+/** Menu command aliases must be Latin (digits/_/- ok); no Arabic/Indic scripts. */
+const LATIN_ALIAS = /^[\p{Script=Latin}\p{Nd}_-]+$/u;
 
 const locales = await Promise.all(
   files.map(async (file) => {
     const raw = await readFile(path.join(i18nDir, file), "utf8");
+    const data = JSON.parse(raw);
     return {
       file,
-      keys: new Set(flattenKeys(JSON.parse(raw)).sort()),
+      data,
+      keys: new Set(flattenKeys(data).sort()),
     };
   }),
 );
@@ -52,15 +57,32 @@ const locales = await Promise.all(
 const [base, ...rest] = locales;
 let hasMismatch = false;
 
+for (const locale of locales) {
+  const cmds = locale.data?.commands?.menu?.cmds ?? {};
+  const nonLatin = Object.entries(cmds).filter(
+    ([, value]) => typeof value !== "string" || !LATIN_ALIAS.test(value),
+  );
+
+  if (nonLatin.length) {
+    hasMismatch = true;
+    console.error(
+      `\n${locale.file}: commands.menu.cmds must use Latin aliases (no native scripts):`,
+    );
+    for (const [key, value] of nonLatin) {
+      console.error(`  ${key}: ${JSON.stringify(value)}`);
+    }
+  }
+}
+
 for (const locale of rest) {
   const missing = [...base.keys].filter((key) => !locale.keys.has(key));
   const extra = [...locale.keys].filter((key) => !base.keys.has(key));
 
   if (missing.length || extra.length) {
     hasMismatch = true;
-    console.error(`\n${locale.file} está inconsistente com ${base.file}.`);
-    if (missing.length) console.error(`Faltando (${missing.length}): ${missing.join(", ")}`);
-    if (extra.length) console.error(`Extras (${extra.length}): ${extra.join(", ")}`);
+    console.error(`\n${locale.file} is inconsistent with ${base.file}.`);
+    if (missing.length) console.error(`Missing (${missing.length}): ${missing.join(", ")}`);
+    if (extra.length) console.error(`Extra (${extra.length}): ${extra.join(", ")}`);
   }
 
   const missingCommandAliases = commandNames.filter(
@@ -70,7 +92,7 @@ for (const locale of rest) {
   if (missingCommandAliases.length) {
     hasMismatch = true;
     console.error(
-      `\n${locale.file} está sem aliases traduzidos em commands.menu.cmds para: ${missingCommandAliases.join(", ")}`,
+      `\n${locale.file} is missing translated aliases in commands.menu.cmds for: ${missingCommandAliases.join(", ")}`,
     );
   }
 }
@@ -82,7 +104,7 @@ const missingBaseCommandAliases = commandNames.filter(
 if (missingBaseCommandAliases.length) {
   hasMismatch = true;
   console.error(
-    `\n${base.file} está sem aliases traduzidos em commands.menu.cmds para: ${missingBaseCommandAliases.join(", ")}`,
+    `\n${base.file} is missing translated aliases in commands.menu.cmds for: ${missingBaseCommandAliases.join(", ")}`,
   );
 }
 
@@ -90,4 +112,4 @@ if (hasMismatch) {
   process.exit(1);
 }
 
-console.log(`Locales validados com sucesso: ${files.join(", ")}`);
+console.log(`Locales validated successfully: ${files.join(", ")}`);
