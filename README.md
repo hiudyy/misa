@@ -4,11 +4,8 @@
 
 <br />
 
-<a href="https://chat.whatsapp.com/IZRLPKgiDk6JLaNktVPE4M">
+<a href="https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX">
   <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="WhatsApp" />
-</a>
-<a href="https://discord.gg/HhfnR7BSnS">
-  <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" />
 </a>
 
 <br /><br />
@@ -31,7 +28,7 @@ Ela foi pensada para ser simples de instalar, fácil de manter e pronta para cre
 A Misa não traduz só o menu. A proposta aqui é ter uma experiência multilíngue de verdade, do início ao fim.
 
 - **Idiomas nativos:** suporte completo a **Português (PT)**, **Inglês (EN)**, **Espanhol (ES)**, **Indonésio (ID)**, **Árabe (AR)**, **Francês (FR)**, **Hindi (HI)**, **Urdu (UR)**, **Alemão (DE)**, **Turco (TR)** e **Bengali (BN)**.
-- **Tradução completa:** terminal, mensagens de anti-link, logs internos, erros de API, fluxos de conexão e painéis interativos acompanham o idioma configurado.
+- **Tradução completa:** terminal, mensagens de anti-link, logs internos, fluxos de conexão e painéis interativos acompanham o idioma configurado.
 - **Aliases dinâmicos:** os próprios comandos podem se adaptar ao idioma. Em vez de usar `!nomegp`, o usuário pode usar o alias equivalente no idioma ativo.
 - **Idioma por grupo:** além do idioma global, cada grupo pode ter sua própria língua.
 
@@ -87,7 +84,6 @@ Escolha `Configurar bot` e preencha:
 - Nome do dono
 - Prefixo
 - Número do dono com DDI
-- API key da Misaka
 - Atualização automática
 - Idioma do bot (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -279,7 +275,7 @@ No console do painel:
 npm start
 ```
 
-Escolha `Configurar bot`. As perguntas (idioma, prefixo, API, etc.) aparecem em linhas separadas para melhorar a leitura em painéis como Pterodactyl.
+Escolha `Configurar bot`. As perguntas (idioma, prefixo, etc.) aparecem em linhas separadas para melhorar a leitura em painéis como Pterodactyl.
 
 ### 5. Comando de inicialização
 
@@ -300,6 +296,140 @@ Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code o
 
 </details>
 <br>
+
+<details>
+<summary><strong>Para desenvolvedores</strong></summary>
+
+## Para desenvolvedores
+
+Esta seção explica como contribuir com o código da Misa, adicionar comandos e manter o i18n completo nos **11 idiomas**.
+
+### Visão geral
+
+- **Stack:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Persistência:** arquivos JSON em `dados/` (sem banco de dados)
+- **i18n:** `src/i18n/*.json` — locales: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Comandos:** carregados dinamicamente de `src/commands/` (um arquivo pode exportar `Command` ou `Command[]`)
+
+### Scripts úteis
+
+| Comando | Função |
+|---------|--------|
+| `npm start` | Menu interativo (configurar / iniciar) |
+| `npm run start:fast` | Inicia o bot direto |
+| `npm run build` | Compila TypeScript (`tsc`) |
+| `npm test` | Roda a suíte de testes |
+| `npm run check:i18n` | Valida que **todos** os locales têm as mesmas chaves e aliases de comando |
+| `npm run test:i18n` | Testa tokens/aliases localizados |
+
+O CI do repositório espera, em ordem: `check:i18n` → `test` → `build`.
+
+### Estrutura importante
+
+```text
+src/
+  commands/all/<categoria>/   # comandos (geral, downloads, dono, grupo, brincadeiras…)
+  helpers/                    # utilitários reutilizáveis
+  i18n/                       # traduções (11 JSON + index)
+  types/Command.ts            # contrato do comando e CommandContext
+  handlers/                   # commandHandler, eventos
+dados/                        # sessão, grupos, config do dono (não commitar sessão)
+```
+
+Campos principais de um comando (`src/types/Command.ts`):
+
+- `name`, `aliases`, `i18nAliases` (aliases por idioma)
+- `description` (metadado; pode ficar em inglês)
+- `category`, flags (`ownerOnly`, `groupOnly`, `adminOnly`, …)
+- `execute(ctx)` — use sempre `ctx.t(...)` para texto visível ao usuário
+
+### Regra de ouro do i18n
+
+Ao adicionar ou alterar **qualquer** texto de runtime (mensagem do bot, menu, erro, log traduzido):
+
+1. Crie a chave em **todos** os 11 arquivos `src/i18n/*.json` com a **mesma árvore** de chaves.
+2. Se criou um arquivo de comando novo (ex.: `meucomando.ts`), adicione `commands.menu.cmds.meucomando` em **todos** os locales — o script `check:i18n` exige isso.
+3. Traduza de verdade. **Não deixe inglês** nos locales que não são `en.json`.
+4. No código, use `t("chave.aninhada", { var: "valor" })` e `{{var}}` nos JSON. Evite hardcode de texto para o usuário.
+5. Rode `npm run check:i18n` antes do PR. Se faltar chave ou alias, o script falha.
+6. Quando fizer sentido, use `i18nAliases` para o usuário digitar o comando no idioma ativo.
+
+**PRs que adicionam string só em `pt`/`en` serão rejeitados.** O padrão do projeto é traduzir já nos 11 idiomas.
+
+### Como adicionar um comando
+
+1. Crie `src/commands/all/<categoria>/meucomando.ts`.
+2. Exporte `default` como `Command` ou `Command[]`.
+3. Toda mensagem ao usuário via `t(...)`.
+4. Atualize os **11** JSON em `src/i18n/` (textos + `commands.menu.cmds.meucomando`).
+5. Se o menu listar o comando, atualize o arquivo de menu correspondente.
+6. Rode: `npm run check:i18n && npm test && npm run build`.
+
+Exemplo mínimo:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+No JSON (exemplo em `pt.json`):
+
+```json
+{
+  "commands": {
+    "menu": {
+      "cmds": {
+        "meucomando": "meucomando"
+      }
+    },
+    "meucomando": {
+      "ok": "Pronto, {{name}}!"
+    }
+  }
+}
+```
+
+Repita a mesma estrutura em `en.json`, `es.json`, `ar.json`, etc., com o texto traduzido.
+
+### Como ajudar
+
+- Corrigir bugs, melhorar testes, traduzir strings incompletas, documentar, adicionar comandos úteis.
+- Prefira PRs **pequenos e focados** (mais fáceis de revisar).
+- Discuta ideias no grupo do WhatsApp do projeto antes de mudanças muito grandes.
+- **Não** commite: sessão (`dados/misa-qr/`), secrets, `.env`, backups pessoais.
+
+### Checklist antes do PR
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Novas chaves i18n nos **11** locales (sem inglês nos não-`en`)
+- [ ] `commands.menu.cmds.<arquivo>` presente em todos os locales
+- [ ] Sem arquivos sensíveis no commit
+
+### Comunidade
+
+Grupo oficial no WhatsApp: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -316,7 +446,7 @@ Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code o
 Misa सिर्फ मेनू का अनुवाद नहीं करती। इसका लक्ष्य शुरू से अंत तक एक पूरा बहुभाषी अनुभव देना है।
 
 - **मूल भाषाएँ:** **Portuguese (PT)**, **English (EN)**, **Spanish (ES)**, **Indonesian (ID)**, **Arabic (AR)**, **French (FR)**, **Hindi (HI)**, **Urdu (UR)**, **German (DE)**, **Turkish (TR)** और **Bengali (BN)** का पूरा समर्थन।
-- **पूरा अनुवाद:** टर्मिनल अलर्ट, anti-link संदेश, आंतरिक लॉग्स, API errors, connection setup और interactive panels सब चुनी गई भाषा का पालन करते हैं।
+- **पूरा अनुवाद:** टर्मिनल अलर्ट, anti-link संदेश, आंतरिक लॉग्स, connection setup और interactive panels सब चुनी गई भाषा का पालन करते हैं।
 - **डायनेमिक aliases:** कमांड के alias भी चुनी गई भाषा के अनुसार बदल सकते हैं।
 - **प्रत्येक समूह के लिए अलग भाषा:** global भाषा के अलावा हर समूह अपनी अलग भाषा चुन सकता है।
 
@@ -372,7 +502,6 @@ npm start
 - मालिक का नाम
 - प्रीफ़िक्स
 - देश कोड सहित मालिक का नंबर
-- Misaka API key
 - स्वचालित अपडेट
 - बॉट की भाषा (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -562,7 +691,7 @@ npm install
 npm start
 ```
 
-`बॉट सेट करें` चुनें। भाषा, prefix, API आदि से जुड़े सवाल अलग-अलग लाइनों में दिखेंगे, जिससे Pterodactyl जैसे panels में पढ़ना आसान हो जाता है।
+`बॉट सेट करें` चुनें। भाषा, prefix आदि से जुड़े सवाल अलग-अलग लाइनों में दिखेंगे, जिससे Pterodactyl जैसे panels में पढ़ना आसान हो जाता है।
 
 ### 5. स्टार्टअप कमांड
 
@@ -583,6 +712,116 @@ npm run start:fast
 
 </details>
 <br>
+
+<details>
+<summary><strong>डेवलपर्स के लिए</strong></summary>
+
+## डेवलपर्स के लिए
+
+यह खंड बताता है कि Misa के कोड में कैसे योगदान करें, कमांड कैसे जोड़ें, और **11 भाषाओं** में i18n कैसे पूरा रखें।
+
+### अवलोकन
+
+- **स्टैक:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **स्टोरेज:** `dados/` में JSON फ़ाइलें (कोई डेटाबेस नहीं)
+- **i18n:** `src/i18n/*.json` — भाषाएँ: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **कमांड:** `src/commands/` से डायनामिक लोड (`Command` या `Command[]`)
+
+### उपयोगी स्क्रिप्ट
+
+| कमांड | काम |
+|-------|-----|
+| `npm start` | इंटरैक्टिव मेनू (कॉन्फ़िगर / शुरू) |
+| `npm run start:fast` | बॉट सीधे शुरू करता है |
+| `npm run build` | TypeScript कंपाइल (`tsc`) |
+| `npm test` | टेस्ट सूट चलाता है |
+| `npm run check:i18n` | सुनिश्चित करता है कि **सभी** भाषाओं में समान कुंजियाँ और कमांड उपनाम हों |
+| `npm run test:i18n` | स्थानीय टोकन/उपनाम टेस्ट करता है |
+
+CI क्रम: `check:i18n` → `test` → `build`.
+
+### महत्वपूर्ण संरचना
+
+```text
+src/
+  commands/all/<श्रेणी>/      # कमांड
+  helpers/                    # सहायक यूटिलिटी
+  i18n/                       # अनुवाद (11 JSON + index)
+  types/Command.ts            # कमांड कॉन्ट्रैक्ट और CommandContext
+  handlers/                   # commandHandler, इवेंट
+dados/                        # सेशन, ग्रुप, ओनर कॉन्फ़िग (सेशन कमिट न करें)
+```
+
+मुख्य फ़ील्ड: `name`, `aliases`, `i18nAliases`, `description` (मेटाडेटा; अंग्रेज़ी ठीक है), `category`, फ़्लैग और `execute(ctx)` — उपयोगकर्ता टेक्स्ट के लिए हमेशा `ctx.t(...)`।
+
+### i18n का सुनहरा नियम
+
+किसी भी **रनटाइम** टेक्स्ट को जोड़ते/बदलते समय:
+
+1. कुंजी **सभी 11** `src/i18n/*.json` फ़ाइलों में **एक जैसी कुंजी-वृक्ष** के साथ बनाएँ।
+2. नई कमांड फ़ाइल पर `commands.menu.cmds.<फ़ाइल>` **हर** भाषा में जोड़ें।
+3. सही अनुवाद करें। गैर-`en` भाषाओं में **अंग्रेज़ी न छोड़ें**।
+4. कोड में `t("कुंजी", { var: "मान" })` और JSON में `{{var}}`।
+5. PR से पहले `npm run check:i18n` चलाएँ।
+6. जरूरत हो तो `i18nAliases` उपयोग करें।
+
+**केवल `pt`/`en` में स्ट्रिंग जोड़ने वाले PR अस्वीकार होंगे।** मानक: शुरू से ही 11 भाषाओं में अनुवाद।
+
+### कमांड कैसे जोड़ें
+
+1. `src/commands/all/<श्रेणी>/meracommand.ts` बनाएँ।
+2. `default` को `Command` या `Command[]` के रूप में निर्यात करें।
+3. उपयोगकर्ता संदेश केवल `t(...)` से।
+4. **11** JSON अपडेट करें (टेक्स्ट + `commands.menu.cmds.<फ़ाइल>`).
+5. मेनू में सूची हो तो मेनू फ़ाइल अपडेट करें।
+6. चलाएँ: `npm run check:i18n && npm test && npm run build`.
+
+न्यूनतम उदाहरण:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### कैसे मदद करें
+
+- बग ठीक करें, टेस्ट सुधारें, अनुवाद पूरे करें, डॉक्स, उपयोगी कमांड।
+- **छोटे, केंद्रित** PR बेहतर हैं।
+- बड़े आइडिया पहले प्रोजेक्ट के WhatsApp ग्रुप में चर्चा करें।
+- **कमिट न करें:** सेशन (`dados/misa-qr/`), सीक्रेट, `.env`, निजी बैकअप।
+
+### PR से पहले चेकलिस्ट
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] नई i18n कुंजियाँ **11** भाषाओं में (`en` के बाहर अंग्रेज़ी नहीं)
+- [ ] हर भाषा में `commands.menu.cmds.<फ़ाइल>`
+- [ ] कमिट में संवेदनशील फ़ाइलें नहीं
+
+### समुदाय
+
+आधिकारिक WhatsApp ग्रुप: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -599,7 +838,7 @@ npm run start:fast
 Misa صرف مینو کا ترجمہ نہیں کرتی۔ اس کا مقصد شروع سے آخر تک مکمل کثیر لسانی تجربہ دینا ہے۔
 
 - **اصل زبانیں:** **Portuguese (PT)**، **English (EN)**، **Spanish (ES)**، **Indonesian (ID)**، **Arabic (AR)**، **French (FR)**، **Hindi (HI)**، **Urdu (UR)**، **German (DE)**، **Turkish (TR)** اور **Bengali (BN)** کا مکمل سپورٹ۔
-- **مکمل ترجمہ:** ٹرمینل alerts، anti-link پیغامات، اندرونی logs، API errors، connection setup اور interactive panels سب منتخب زبان کے مطابق ہوتے ہیں۔
+- **مکمل ترجمہ:** ٹرمینل alerts، anti-link پیغامات، اندرونی logs، connection setup اور interactive panels سب منتخب زبان کے مطابق ہوتے ہیں۔
 - **ڈائنامک aliases:** کمانڈ alias بھی منتخب زبان کے مطابق بدل سکتے ہیں۔
 - **ہر گروپ کے لیے الگ زبان:** global زبان کے علاوہ ہر گروپ اپنی الگ زبان رکھ سکتا ہے۔
 
@@ -655,7 +894,6 @@ npm start
 - مالک کا نام
 - پریفکس
 - ملک کے کوڈ کے ساتھ مالک کا نمبر
-- Misaka API key
 - خودکار اپ ڈیٹ
 - بوٹ کی زبان (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -845,7 +1083,7 @@ npm install
 npm start
 ```
 
-`بوٹ سیٹ کریں` منتخب کریں۔ زبان، prefix، API وغیرہ کے سوالات الگ الگ لائنوں میں نظر آئیں گے، جس سے Pterodactyl جیسے panels میں پڑھنا آسان ہو جاتا ہے۔
+`بوٹ سیٹ کریں` منتخب کریں۔ زبان، prefix وغیرہ کے سوالات الگ الگ لائنوں میں نظر آئیں گے، جس سے Pterodactyl جیسے panels میں پڑھنا آسان ہو جاتا ہے۔
 
 ### 5. اسٹارٹ اپ کمانڈ
 
@@ -866,6 +1104,116 @@ npm run start:fast
 
 </details>
 <br>
+
+<details>
+<summary><strong>ڈویلپرز کے لیے</strong></summary>
+
+## ڈویلپرز کے لیے
+
+یہ حصہ بتاتا ہے کہ Misa کے کوڈ میں کیسے تعاون کریں، کمانڈز کیسے شامل کریں، اور **11 زبانوں** میں i18n مکمل کیسے رکھیں۔
+
+### جائزہ
+
+- **اسٹیک:** Node.js 22+، TypeScript (ESM)، Baileys (WhatsApp Multi-Device)
+- **اسٹوریج:** `dados/` میں JSON فائلیں (کوئی ڈیٹا بیس نہیں)
+- **i18n:** `src/i18n/*.json` — زبانیں: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **کمانڈز:** `src/commands/` سے ڈائنامک لوڈ (`Command` یا `Command[]`)
+
+### مفید اسکرپٹس
+
+| کمانڈ | کام |
+|-------|-----|
+| `npm start` | انٹرایکٹو مینو (ترتیب / شروع) |
+| `npm run start:fast` | بوٹ سیدھا شروع کرتا ہے |
+| `npm run build` | TypeScript کمپائل (`tsc`) |
+| `npm test` | ٹیسٹ سوٹ چلاتا ہے |
+| `npm run check:i18n` | یقینی بناتا ہے کہ **تمام** زبانوں میں ایک جیسے کیز اور کمانڈ عرف ہوں |
+| `npm run test:i18n` | مقامی ٹوکن/عرف ٹیسٹ کرتا ہے |
+
+CI ترتیب: `check:i18n` → `test` → `build`.
+
+### اہم ساخت
+
+```text
+src/
+  commands/all/<زمرہ>/        # کمانڈز
+  helpers/                    # مددگار یوٹیلٹیز
+  i18n/                       # ترجمے (11 JSON + index)
+  types/Command.ts            # کمانڈ کنٹریکٹ اور CommandContext
+  handlers/                   # commandHandler، ایونٹس
+dados/                        # سیشن، گروپس، اونر کنفگ (سیشن کمٹ نہ کریں)
+```
+
+اہم فیلڈز: `name`, `aliases`, `i18nAliases`, `description` (میٹاڈیٹا؛ انگریزی ٹھیک ہے)، `category`, فلیگز اور `execute(ctx)` — صارف کے متن کے لیے ہمیشہ `ctx.t(...)`.
+
+### i18n کا سنہری اصول
+
+کسی بھی **رن ٹائم** متن کو شامل/تبدیل کرتے وقت:
+
+1. کی **تمام 11** `src/i18n/*.json` فائلوں میں **ایک جیسی کی-ٹری** کے ساتھ بنائیں۔
+2. نئی کمانڈ فائل پر `commands.menu.cmds.<فائل>` **ہر** زبان میں شامل کریں۔
+3. اصل ترجمہ کریں۔ غیر-`en` زبانوں میں **انگریزی نہ چھوڑیں**۔
+4. کوڈ میں `t("کی", { var: "قدر" })` اور JSON میں `{{var}}`.
+5. PR سے پہلے `npm run check:i18n` چلائیں۔
+6. ضرورت ہو تو `i18nAliases` استعمال کریں۔
+
+**صرف `pt`/`en` میں سٹرنگ والے PR مسترد ہوں گے۔** معیار: شروع سے ہی 11 زبانوں میں ترجمہ۔
+
+### کمانڈ کیسے شامل کریں
+
+1. `src/commands/all/<زمرہ>/mericommand.ts` بنائیں۔
+2. `default` کو `Command` یا `Command[]` کے طور پر ایکسپورٹ کریں۔
+3. صارف کے پیغامات صرف `t(...)` سے۔
+4. **11** JSON اپڈیٹ کریں (متن + `commands.menu.cmds.<فائل>`)۔
+5. مینو میں فہرست ہو تو مینو فائل اپڈیٹ کریں۔
+6. چلائیں: `npm run check:i18n && npm test && npm run build`.
+
+کم از کم مثال:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### کیسے مدد کریں
+
+- بگز ٹھیک کریں، ٹیسٹ بہتر کریں، ترجمے مکمل کریں، دستاویزات، مفید کمانڈز۔
+- **چھوٹے، مرکوز** PR بہتر ہیں۔
+- بڑے آئیڈیاز پہلے پروجیکٹ کے WhatsApp گروپ میں بات کریں۔
+- **کمٹ نہ کریں:** سیشن (`dados/misa-qr/`)، راز، `.env`، ذاتی بیک اپ۔
+
+### PR سے پہلے چیک لسٹ
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] نئی i18n کیز **11** زبانوں میں (`en` کے باہر انگریزی نہیں)
+- [ ] ہر زبان میں `commands.menu.cmds.<فائل>`
+- [ ] کمٹ میں حساس فائلیں نہیں
+
+### کمیونٹی
+
+سرکاری WhatsApp گروپ: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -882,7 +1230,7 @@ It was designed to be easy to install, easy to maintain, and ready to scale with
 Misa does not just translate the menu. The goal is to deliver a fully multilingual experience from end to end.
 
 - **Native languages:** full support for **Portuguese (PT)**, **English (EN)**, **Spanish (ES)**, **Indonesian (ID)**, **Arabic (AR)**, **French (FR)**, **Hindi (HI)**, **Urdu (UR)**, **German (DE)**, **Turkish (TR)**, and **Bengali (BN)**.
-- **Complete translation:** terminal alerts, anti-link messages, internal logs, API errors, connection setup flows, and interactive panels all follow the configured language.
+- **Complete translation:** terminal alerts, anti-link messages, internal logs, connection setup flows, and interactive panels all follow the configured language.
 - **Dynamic aliases:** command aliases can adapt to the selected language too.
 - **Per-group language:** besides the global language, each group can define its own language.
 
@@ -938,7 +1286,6 @@ Choose `Configure bot` and fill in:
 - Owner name
 - Prefix
 - Owner number with country code
-- Misaka API key
 - Auto update
 - Bot language (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -1130,7 +1477,7 @@ In the panel console:
 npm start
 ```
 
-Choose `Configure bot`. The questions (language, prefix, API, etc.) appear on separate lines for better readability in panels such as Pterodactyl.
+Choose `Configure bot`. The questions (language, prefix, etc.) appear on separate lines for better readability in panels such as Pterodactyl.
 
 ### 5. Startup command
 
@@ -1151,6 +1498,140 @@ If you still do not have a session, run `npm start` first to configure QR Code o
 
 </details>
 <br>
+
+<details>
+<summary><strong>For developers</strong></summary>
+
+## For developers
+
+This section explains how to contribute to Misa, add commands, and keep i18n complete across **all 11 languages**.
+
+### Overview
+
+- **Stack:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Persistence:** JSON files under `dados/` (no database)
+- **i18n:** `src/i18n/*.json` — locales: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Commands:** loaded dynamically from `src/commands/` (a file may export `Command` or `Command[]`)
+
+### Useful scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm start` | Interactive menu (configure / start) |
+| `npm run start:fast` | Start the bot directly |
+| `npm run build` | Compile TypeScript (`tsc`) |
+| `npm test` | Run the test suite |
+| `npm run check:i18n` | Ensure **all** locales share the same keys and command aliases |
+| `npm run test:i18n` | Test localized tokens/aliases |
+
+CI runs, in order: `check:i18n` → `test` → `build`.
+
+### Important structure
+
+```text
+src/
+  commands/all/<category>/    # commands (geral, downloads, dono, grupo, brincadeiras…)
+  helpers/                    # reusable utilities
+  i18n/                       # translations (11 JSON + index)
+  types/Command.ts            # command contract and CommandContext
+  handlers/                   # commandHandler, events
+dados/                        # session, groups, owner config (do not commit session)
+```
+
+Main command fields (`src/types/Command.ts`):
+
+- `name`, `aliases`, `i18nAliases` (per-locale aliases)
+- `description` (metadata; English is fine)
+- `category`, flags (`ownerOnly`, `groupOnly`, `adminOnly`, …)
+- `execute(ctx)` — always use `ctx.t(...)` for user-visible text
+
+### Golden rule of i18n
+
+When adding or changing **any** runtime string (bot message, menu, error, translated log):
+
+1. Add the key in **all** 11 `src/i18n/*.json` files with the **same key tree**.
+2. If you create a new command file (e.g. `mycommand.ts`), add `commands.menu.cmds.mycommand` in **every** locale — required by `check:i18n`.
+3. Translate for real. **Do not leave English** in non-`en` locales.
+4. In code, use `t("nested.key", { var: "value" })` and `{{var}}` in JSON. Avoid hardcoding user-facing text.
+5. Run `npm run check:i18n` before opening a PR. Missing keys or command aliases fail the script.
+6. When it makes sense, use `i18nAliases` so users can type the command in the active language.
+
+**PRs that add strings only in `pt`/`en` will be rejected.** The project standard is to translate into all 11 languages up front.
+
+### How to add a command
+
+1. Create `src/commands/all/<category>/mycommand.ts`.
+2. Export `default` as `Command` or `Command[]`.
+3. Send user messages only via `t(...)`.
+4. Update all **11** files in `src/i18n/` (texts + `commands.menu.cmds.mycommand`).
+5. If a menu lists the command, update that menu file.
+6. Run: `npm run check:i18n && npm test && npm run build`.
+
+Minimal example:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+JSON example (`en.json`):
+
+```json
+{
+  "commands": {
+    "menu": {
+      "cmds": {
+        "meucomando": "mycommand"
+      }
+    },
+    "meucomando": {
+      "ok": "Done, {{name}}!"
+    }
+  }
+}
+```
+
+Repeat the same structure in every other locale with a proper translation.
+
+### How to help
+
+- Fix bugs, improve tests, complete translations, improve docs, add useful commands.
+- Prefer **small, focused** PRs (easier to review).
+- Discuss large ideas in the project's WhatsApp group first.
+- **Do not** commit: session (`dados/misa-qr/`), secrets, `.env`, personal backups.
+
+### PR checklist
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] New i18n keys in **all 11** locales (no English leftovers outside `en`)
+- [ ] `commands.menu.cmds.<file>` present in every locale
+- [ ] No sensitive files in the commit
+
+### Community
+
+Official WhatsApp group: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -1167,7 +1648,7 @@ Está diseñado para ser fácil de instalar, fácil de mantener y listo para cre
 Misa no se limita a traducir el menú. La idea es ofrecer una experiencia multilingüe de verdad, de principio a fin.
 
 - **Idiomas nativos:** soporte completo para **Portugués (PT)**, **Inglés (EN)**, **Español (ES)**, **Indonesio (ID)**, **Árabe (AR)**, **Francés (FR)**, **Hindi (HI)**, **Urdu (UR)**, **Alemán (DE)**, **Turco (TR)** y **Bengalí (BN)**.
-- **Traducción completa:** alertas de terminal, mensajes de anti-link, logs internos, errores de API, flujos de conexión y paneles interactivos siguen el idioma configurado.
+- **Traducción completa:** alertas de terminal, mensajes de anti-link, logs internos, flujos de conexión y paneles interactivos siguen el idioma configurado.
 - **Alias dinámicos:** los alias de los comandos también pueden adaptarse al idioma seleccionado.
 - **Idioma por grupo:** además del idioma global, cada grupo puede tener su propio idioma.
 
@@ -1223,7 +1704,6 @@ Elige `Configurar bot` y completa:
 - Nombre del dueño
 - Prefijo
 - Número del dueño con código de país
-- API key de Misaka
 - Actualización automática
 - Idioma del bot (`pt`, `es`, `en`, `id`, `ar`, `fr`)
 
@@ -1415,7 +1895,7 @@ En la consola del panel:
 npm start
 ```
 
-Elige `Configurar bot`. Las preguntas (idioma, prefijo, API, etc.) aparecen en líneas separadas para mejorar la lectura en paneles como Pterodactyl.
+Elige `Configurar bot`. Las preguntas (idioma, prefijo, etc.) aparecen en líneas separadas para mejorar la lectura en paneles como Pterodactyl.
 
 ### 5. Comando de inicialización
 
@@ -1436,6 +1916,116 @@ Si todavía no tienes una sesión, ejecuta primero `npm start` para configurar Q
 
 </details>
 <br>
+
+<details>
+<summary><strong>Para desarrolladores</strong></summary>
+
+## Para desarrolladores
+
+Esta sección explica cómo contribuir al código de Misa, agregar comandos y mantener el i18n completo en los **11 idiomas**.
+
+### Visión general
+
+- **Stack:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Persistencia:** archivos JSON en `dados/` (sin base de datos)
+- **i18n:** `src/i18n/*.json` — locales: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Comandos:** cargados dinámicamente desde `src/commands/` (un archivo puede exportar `Command` o `Command[]`)
+
+### Scripts útiles
+
+| Comando | Función |
+|---------|---------|
+| `npm start` | Menú interactivo (configurar / iniciar) |
+| `npm run start:fast` | Inicia el bot directamente |
+| `npm run build` | Compila TypeScript (`tsc`) |
+| `npm test` | Ejecuta la suite de pruebas |
+| `npm run check:i18n` | Valida que **todos** los locales tengan las mismas claves y alias de comando |
+| `npm run test:i18n` | Prueba tokens/alias localizados |
+
+La CI espera, en orden: `check:i18n` → `test` → `build`.
+
+### Estructura importante
+
+```text
+src/
+  commands/all/<categoria>/   # comandos
+  helpers/                    # utilidades
+  i18n/                       # traducciones (11 JSON + index)
+  types/Command.ts            # contrato del comando y CommandContext
+  handlers/                   # commandHandler, eventos
+dados/                        # sesión, grupos, config del dueño (no subir la sesión)
+```
+
+Campos principales (`src/types/Command.ts`): `name`, `aliases`, `i18nAliases`, `description` (metadato; puede estar en inglés), `category`, flags y `execute(ctx)` — usa siempre `ctx.t(...)` para texto al usuario.
+
+### Regla de oro del i18n
+
+Al agregar o cambiar **cualquier** texto de runtime:
+
+1. Crea la clave en **los 11** archivos `src/i18n/*.json` con el **mismo árbol** de claves.
+2. Si creas un archivo de comando nuevo, agrega `commands.menu.cmds.<archivo>` en **todos** los locales (`check:i18n` lo exige).
+3. Traduce de verdad. **No dejes inglés** en locales que no sean `en.json`.
+4. En el código usa `t("clave", { var: "valor" })` y `{{var}}` en los JSON.
+5. Ejecuta `npm run check:i18n` antes del PR.
+6. Usa `i18nAliases` cuando tenga sentido.
+
+**Los PR que agreguen strings solo en `pt`/`en` serán rechazados.** El estándar es traducir ya en los 11 idiomas.
+
+### Cómo agregar un comando
+
+1. Crea `src/commands/all/<categoria>/micomando.ts`.
+2. Exporta `default` como `Command` o `Command[]`.
+3. Mensajes al usuario solo con `t(...)`.
+4. Actualiza los **11** JSON (textos + `commands.menu.cmds.<archivo>`).
+5. Si el menú lista el comando, actualízalo.
+6. Ejecuta: `npm run check:i18n && npm test && npm run build`.
+
+Ejemplo mínimo:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### Cómo ayudar
+
+- Corregir bugs, mejorar pruebas, completar traducciones, documentar, agregar comandos útiles.
+- Prefiere PR **pequeños y enfocados**.
+- Habla ideas grandes en el grupo de WhatsApp del proyecto.
+- **No** subas: sesión (`dados/misa-qr/`), secretos, `.env`, backups personales.
+
+### Checklist antes del PR
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Nuevas claves i18n en los **11** locales (sin inglés fuera de `en`)
+- [ ] `commands.menu.cmds.<archivo>` en todos los locales
+- [ ] Sin archivos sensibles en el commit
+
+### Comunidad
+
+Grupo oficial de WhatsApp: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -1452,7 +2042,7 @@ Bot ini dirancang agar mudah dipasang, mudah dipelihara, dan siap berkembang ber
 Misa tidak hanya menerjemahkan menu. Tujuannya adalah memberikan pengalaman multibahasa yang utuh dari awal sampai akhir.
 
 - **Bahasa native:** dukungan penuh untuk **Portugis (PT)**, **Inggris (EN)**, **Spanyol (ES)**, **Indonesia (ID)**, **Arab (AR)**, dan **Prancis (FR)**.
-- **Terjemahan lengkap:** pesan terminal, anti-link, log internal, error API, alur koneksi, dan panel interaktif mengikuti bahasa yang dipilih.
+- **Terjemahan lengkap:** pesan terminal, anti-link, log internal, alur koneksi, dan panel interaktif mengikuti bahasa yang dipilih.
 - **Alias dinamis:** alias perintah juga bisa menyesuaikan dengan bahasa aktif.
 - **Bahasa per grup:** selain bahasa global, setiap grup juga bisa punya bahasanya sendiri.
 
@@ -1508,7 +2098,6 @@ Pilih `Konfigurasi bot` dan isi:
 - Nama pemilik
 - Prefiks
 - Nomor pemilik dengan kode negara
-- Kunci API Misaka
 - Pembaruan otomatis
 - Bahasa bot (`pt`, `es`, `en`, `id`, `ar`, `fr`)
 
@@ -1700,7 +2289,7 @@ Di konsol panel:
 npm start
 ```
 
-Pilih `Konfigurasi bot`. Pertanyaan konfigurasi (bahasa, prefiks, API, dll.) akan muncul di baris terpisah agar lebih mudah dibaca di panel seperti Pterodactyl.
+Pilih `Konfigurasi bot`. Pertanyaan konfigurasi (bahasa, prefiks, dll.) akan muncul di baris terpisah agar lebih mudah dibaca di panel seperti Pterodactyl.
 
 ### 5. Perintah startup
 
@@ -1721,6 +2310,116 @@ Jika Anda belum memiliki sesi, jalankan `npm start` terlebih dahulu untuk mengat
 
 </details>
 <br>
+
+<details>
+<summary><strong>Untuk pengembang</strong></summary>
+
+## Untuk pengembang
+
+Bagian ini menjelaskan cara berkontribusi ke kode Misa, menambah perintah, dan menjaga i18n lengkap di **11 bahasa**.
+
+### Ringkasan
+
+- **Stack:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Penyimpanan:** file JSON di `dados/` (tanpa database)
+- **i18n:** `src/i18n/*.json` — locale: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Perintah:** dimuat dinamis dari `src/commands/` (satu file bisa mengekspor `Command` atau `Command[]`)
+
+### Skrip berguna
+
+| Perintah | Fungsi |
+|----------|--------|
+| `npm start` | Menu interaktif (konfigurasi / mulai) |
+| `npm run start:fast` | Menjalankan bot langsung |
+| `npm run build` | Mengompilasi TypeScript (`tsc`) |
+| `npm test` | Menjalankan rangkaian tes |
+| `npm run check:i18n` | Memastikan **semua** locale punya kunci dan alias perintah yang sama |
+| `npm run test:i18n` | Menguji token/alias terlokalisasi |
+
+CI berjalan berurutan: `check:i18n` → `test` → `build`.
+
+### Struktur penting
+
+```text
+src/
+  commands/all/<kategori>/    # perintah
+  helpers/                    # utilitas
+  i18n/                       # terjemahan (11 JSON + index)
+  types/Command.ts            # kontrak perintah dan CommandContext
+  handlers/                   # commandHandler, event
+dados/                        # sesi, grup, config pemilik (jangan commit sesi)
+```
+
+Field utama: `name`, `aliases`, `i18nAliases`, `description` (metadata; boleh bahasa Inggris), `category`, flag, dan `execute(ctx)` — selalu pakai `ctx.t(...)` untuk teks pengguna.
+
+### Aturan emas i18n
+
+Saat menambah atau mengubah **teks runtime apa pun**:
+
+1. Buat kunci di **semua** 11 file `src/i18n/*.json` dengan **pohon kunci yang sama**.
+2. Jika membuat file perintah baru, tambahkan `commands.menu.cmds.<namafile>` di **semua** locale.
+3. Terjemahkan sungguhan. **Jangan sisakan bahasa Inggris** di locale selain `en.json`.
+4. Di kode, gunakan `t("kunci", { var: "nilai" })` dan `{{var}}` di JSON.
+5. Jalankan `npm run check:i18n` sebelum PR.
+6. Gunakan `i18nAliases` bila masuk akal.
+
+**PR yang hanya menambah string di `pt`/`en` akan ditolak.** Standar proyek: terjemahkan ke 11 bahasa sejak awal.
+
+### Cara menambah perintah
+
+1. Buat `src/commands/all/<kategori>/perintahku.ts`.
+2. Ekspor `default` sebagai `Command` atau `Command[]`.
+3. Pesan ke pengguna hanya lewat `t(...)`.
+4. Perbarui **11** JSON (teks + `commands.menu.cmds.<namafile>`).
+5. Jika menu menampilkan perintah, perbarui file menu.
+6. Jalankan: `npm run check:i18n && npm test && npm run build`.
+
+Contoh minimal:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### Cara membantu
+
+- Perbaiki bug, tingkatkan tes, lengkapi terjemahan, dokumentasi, perintah berguna.
+- Lebih baik PR **kecil dan terfokus**.
+- Diskusikan ide besar di grup WhatsApp proyek.
+- **Jangan** commit: sesi (`dados/misa-qr/`), rahasia, `.env`, backup pribadi.
+
+### Checklist sebelum PR
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Kunci i18n baru di **11** locale (tanpa sisa Inggris di luar `en`)
+- [ ] `commands.menu.cmds.<file>` ada di semua locale
+- [ ] Tidak ada file sensitif di commit
+
+### Komunitas
+
+Grup WhatsApp resmi: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -1737,7 +2436,7 @@ Il a été conçu pour être simple à installer, facile à maintenir et prêt �
 Misa ne se contente pas de traduire le menu. L'objectif est d'offrir une expérience multilingue cohérente d'un bout à l'autre du projet.
 
 - **Langues natives :** prise en charge complète du **portugais (PT)**, de l'**anglais (EN)**, de l'**espagnol (ES)**, de l'**indonésien (ID)**, de l'**arabe (AR)** et du **français (FR)**.
-- **Traduction complète :** alertes du terminal, messages anti-lien, journaux internes, erreurs API, étapes de connexion et panneaux interactifs suivent la langue configurée.
+- **Traduction complète :** alertes du terminal, messages anti-lien, journaux internes, étapes de connexion et panneaux interactifs suivent la langue configurée.
 - **Alias dynamiques :** les alias de commandes peuvent eux aussi s'adapter à la langue choisie.
 - **Langue par groupe :** en plus de la langue globale, chaque groupe peut définir sa propre langue.
 
@@ -1793,7 +2492,6 @@ Choisissez l'option de configuration du bot et remplissez :
 - Nom du propriétaire
 - Préfixe
 - Numéro du propriétaire avec indicatif pays
-- Clé API Misaka
 - Mise à jour automatique
 - Langue du bot (`pt`, `es`, `en`, `id`, `ar`, `fr`)
 
@@ -1985,7 +2683,7 @@ Dans la console du panneau :
 npm start
 ```
 
-Choisissez l'option de configuration du bot. Les questions (langue, préfixe, API, etc.) apparaissent sur des lignes séparées pour être plus lisibles sur des panneaux comme Pterodactyl.
+Choisissez l'option de configuration du bot. Les questions (langue, préfixe, etc.) apparaissent sur des lignes séparées pour être plus lisibles sur des panneaux comme Pterodactyl.
 
 ### 5. Commande de démarrage
 
@@ -2006,6 +2704,116 @@ Si vous n'avez pas encore de session, lancez d'abord `npm start` pour configurer
 
 </details>
 <br>
+
+<details>
+<summary><strong>Pour les développeurs</strong></summary>
+
+## Pour les développeurs
+
+Cette section explique comment contribuer au code de Misa, ajouter des commandes et maintenir l'i18n complet dans les **11 langues**.
+
+### Vue d'ensemble
+
+- **Stack :** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Persistance :** fichiers JSON dans `dados/` (sans base de données)
+- **i18n :** `src/i18n/*.json` — locales : `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Commandes :** chargées dynamiquement depuis `src/commands/` (un fichier peut exporter `Command` ou `Command[]`)
+
+### Scripts utiles
+
+| Commande | Rôle |
+|----------|------|
+| `npm start` | Menu interactif (configurer / démarrer) |
+| `npm run start:fast` | Démarre le bot directement |
+| `npm run build` | Compile TypeScript (`tsc`) |
+| `npm test` | Lance la suite de tests |
+| `npm run check:i18n` | Vérifie que **toutes** les locales ont les mêmes clés et alias |
+| `npm run test:i18n` | Teste les tokens/alias localisés |
+
+La CI attend, dans l'ordre : `check:i18n` → `test` → `build`.
+
+### Structure importante
+
+```text
+src/
+  commands/all/<categorie>/   # commandes
+  helpers/                    # utilitaires
+  i18n/                       # traductions (11 JSON + index)
+  types/Command.ts            # contrat de commande et CommandContext
+  handlers/                   # commandHandler, événements
+dados/                        # session, groupes, config propriétaire (ne pas committer la session)
+```
+
+Champs principaux : `name`, `aliases`, `i18nAliases`, `description` (métadonnée ; l'anglais est OK), `category`, flags et `execute(ctx)` — utilisez toujours `ctx.t(...)` pour le texte utilisateur.
+
+### Règle d'or de l'i18n
+
+Lors de l'ajout ou de la modification de **tout** texte runtime :
+
+1. Créez la clé dans **les 11** fichiers `src/i18n/*.json` avec le **même arbre** de clés.
+2. Si vous créez un nouveau fichier de commande, ajoutez `commands.menu.cmds.<fichier>` dans **toutes** les locales.
+3. Traduisez vraiment. **Ne laissez pas d'anglais** dans les locales autres que `en.json`.
+4. Dans le code, utilisez `t("cle", { var: "valeur" })` et `{{var}}` dans les JSON.
+5. Lancez `npm run check:i18n` avant la PR.
+6. Utilisez `i18nAliases` quand c'est pertinent.
+
+**Les PR qui n'ajoutent des chaînes qu'en `pt`/`en` seront refusées.** La norme du projet est de traduire dans les 11 langues dès le départ.
+
+### Comment ajouter une commande
+
+1. Créez `src/commands/all/<categorie>/macommande.ts`.
+2. Exportez `default` comme `Command` ou `Command[]`.
+3. Messages utilisateur uniquement via `t(...)`.
+4. Mettez à jour les **11** JSON (textes + `commands.menu.cmds.<fichier>`).
+5. Si le menu liste la commande, mettez-le à jour.
+6. Exécutez : `npm run check:i18n && npm test && npm run build`.
+
+Exemple minimal :
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### Comment aider
+
+- Corriger des bugs, améliorer les tests, compléter les traductions, documenter, ajouter des commandes utiles.
+- Préférez des PR **petites et ciblées**.
+- Discutez les grandes idées dans le groupe WhatsApp du projet.
+- **Ne committez pas :** session (`dados/misa-qr/`), secrets, `.env`, sauvegardes personnelles.
+
+### Checklist avant la PR
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Nouvelles clés i18n dans les **11** locales (pas d'anglais hors de `en`)
+- [ ] `commands.menu.cmds.<fichier>` présent partout
+- [ ] Aucun fichier sensible dans le commit
+
+### Communauté
+
+Groupe WhatsApp officiel : [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -2022,7 +2830,7 @@ Si vous n'avez pas encore de session, lancez d'abord `npm start` pour configurer
 Misa لا يترجم القائمة فقط، بل يقدّم تجربة متعددة اللغات من البداية إلى النهاية.
 
 - **اللغات المدعومة أصلا:** دعم كامل لـ **البرتغالية (PT)** و**الإنجليزية (EN)** و**الإسبانية (ES)** و**الإندونيسية (ID)** و**العربية (AR)** و**الفرنسية (FR)** و**الهندية (HI)** و**الأردية (UR)** و**الألمانية (DE)** و**التركية (TR)** و**البنغالية (BN)**.
-- **ترجمة كاملة:** تنبيهات الطرفية، ورسائل منع الروابط، والسجلات الداخلية، وأخطاء API، وخطوات الاتصال، واللوحات التفاعلية تتبع اللغة المختارة.
+- **ترجمة كاملة:** تنبيهات الطرفية، ورسائل منع الروابط، والسجلات الداخلية، وخطوات الاتصال، واللوحات التفاعلية تتبع اللغة المختارة.
 - **أسماء بديلة ديناميكية:** يمكن أيضا لأسماء الأوامر البديلة أن تتكيف مع اللغة النشطة.
 - **لغة مستقلة لكل مجموعة:** بالإضافة إلى اللغة العامة، يمكن لكل مجموعة تحديد لغتها الخاصة.
 
@@ -2078,7 +2886,6 @@ npm start
 - اسم المالك
 - البادئة
 - رقم المالك مع كود الدولة
-- مفتاح API الخاص بـ Misaka
 - التحديث التلقائي
 - لغة البوت (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -2270,7 +3077,7 @@ npm install
 npm start
 ```
 
-اختر `إعداد البوت`. ستظهر أسئلة الإعداد مثل اللغة والبادئة وAPI وغيرها في أسطر منفصلة لتكون القراءة أوضح داخل لوحات مثل Pterodactyl.
+اختر `إعداد البوت`. ستظهر أسئلة الإعداد مثل اللغة والبادئة وغيرها في أسطر منفصلة لتكون القراءة أوضح داخل لوحات مثل Pterodactyl.
 
 ### 5. أمر التشغيل
 
@@ -2291,6 +3098,116 @@ npm run start:fast
 
 </details>
 <br>
+
+<details>
+<summary><strong>للمطورين</strong></summary>
+
+## للمطورين
+
+يشرح هذا القسم كيفية المساهمة في كود Misa وإضافة الأوامر والحفاظ على الترجمة كاملة في **11 لغة**.
+
+### نظرة عامة
+
+- **التقنية:** Node.js 22+، TypeScript (ESM)، Baileys (WhatsApp Multi-Device)
+- **التخزين:** ملفات JSON في `dados/` (بدون قاعدة بيانات)
+- **الترجمة:** `src/i18n/*.json` — اللغات: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **الأوامر:** تُحمَّل ديناميكيا من `src/commands/` (يمكن للملف تصدير `Command` أو `Command[]`)
+
+### أوامر مفيدة
+
+| الأمر | الوظيفة |
+|-------|---------|
+| `npm start` | قائمة تفاعلية (تهيئة / تشغيل) |
+| `npm run start:fast` | تشغيل البوت مباشرة |
+| `npm run build` | تجميع TypeScript (`tsc`) |
+| `npm test` | تشغيل الاختبارات |
+| `npm run check:i18n` | التحقق من أن **كل** اللغات تملك نفس المفاتيح والأسماء البديلة |
+| `npm run test:i18n` | اختبار الرموز/الأسماء البديلة المترجمة |
+
+يعمل CI بالترتيب: `check:i18n` → `test` → `build`.
+
+### البنية المهمة
+
+```text
+src/
+  commands/all/<فئة>/         # الأوامر
+  helpers/                    # أدوات مساعدة
+  i18n/                       # الترجمات (11 JSON + index)
+  types/Command.ts            # عقد الأمر و CommandContext
+  handlers/                   # معالج الأوامر والأحداث
+dados/                        # الجلسة والمجموعات وإعدادات المالك (لا ترفع الجلسة)
+```
+
+الحقول الرئيسية: `name`, `aliases`, `i18nAliases`, `description` (بيانات وصفية؛ الإنجليزية مقبولة)، `category`, الأعلام و `execute(ctx)` — استخدم دائما `ctx.t(...)` لنص المستخدم.
+
+### القاعدة الذهبية للترجمة
+
+عند إضافة أو تغيير **أي** نص يظهر للمستخدم:
+
+1. أنشئ المفتاح في **جميع** ملفات `src/i18n/*.json` الـ 11 بنفس شجرة المفاتيح.
+2. إذا أنشأت ملف أمر جديد فأضف `commands.menu.cmds.<الملف>` في **كل** اللغات.
+3. ترجم فعليا. **لا تترك إنجليزية** في اللغات غير `en.json`.
+4. في الكود استخدم `t("مفتاح", { var: "قيمة" })` وفي JSON استخدم `{{var}}`.
+5. شغّل `npm run check:i18n` قبل طلب الدمج.
+6. استخدم `i18nAliases` عند الحاجة.
+
+**طلبات الدمج التي تضيف نصوصا في `pt`/`en` فقط ستُرفض.** المعيار: الترجمة إلى 11 لغة من البداية.
+
+### كيفية إضافة أمر
+
+1. أنشئ `src/commands/all/<فئة>/امري.ts`.
+2. صدّر `default` كـ `Command` أو `Command[]`.
+3. رسائل المستخدم عبر `t(...)` فقط.
+4. حدّث ملفات JSON الـ **11** (النصوص + `commands.menu.cmds.<الملف>`).
+5. إذا كانت القائمة تعرض الأمر فحدّث ملف القائمة.
+6. نفّذ: `npm run check:i18n && npm test && npm run build`.
+
+مثال مبسط:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### كيف تساعد
+
+- إصلاح الأخطاء، تحسين الاختبارات، إكمال الترجمات، التوثيق، أوامر مفيدة.
+- فضّل طلبات دمج **صغيرة ومركّزة**.
+- ناقش الأفكار الكبيرة في مجموعة واتساب المشروع أولا.
+- **لا ترفع:** الجلسة (`dados/misa-qr/`)، الأسرار، `.env`، نسخ احتياطية شخصية.
+
+### قائمة تحقق قبل طلب الدمج
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] مفاتيح ترجمة جديدة في اللغات الـ **11** (بلا إنجليزية خارج `en`)
+- [ ] وجود `commands.menu.cmds.<ملف>` في كل لغة
+- [ ] لا ملفات حساسة في الـ commit
+
+### المجتمع
+
+مجموعة واتساب الرسمية: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 
 <details>
@@ -2307,7 +3224,7 @@ Misa wurde so entwickelt, dass Installation und Wartung unkompliziert bleiben un
 Misa übersetzt nicht nur das Menü. Ziel ist ein wirklich durchgängiges mehrsprachiges Erlebnis.
 
 - **Nativ unterstützte Sprachen:** volle Unterstützung für **Portugiesisch (PT)**, **Englisch (EN)**, **Spanisch (ES)**, **Indonesisch (ID)**, **Arabisch (AR)**, **Französisch (FR)**, **Hindi (HI)**, **Urdu (UR)**, **Deutsch (DE)**, **Türkisch (TR)** und **Bengalisch (BN)**.
-- **Vollständige Übersetzung:** Terminalhinweise, Anti-Link-Nachrichten, interne Logs, API-Fehler, Verbindungsabläufe und interaktive Panels folgen der eingestellten Sprache.
+- **Vollständige Übersetzung:** Terminalhinweise, Anti-Link-Nachrichten, interne Logs, Verbindungsabläufe und interaktive Panels folgen der eingestellten Sprache.
 - **Dynamische Aliase:** Auch Befehlsaliase passen sich automatisch an die aktive Sprache an.
 - **Sprache pro Gruppe:** Zusätzlich zur globalen Sprache kann jede Gruppe eine eigene Sprache festlegen.
 
@@ -2363,7 +3280,6 @@ Wählen Sie `Bot konfigurieren` und tragen Sie Folgendes ein:
 - Name des Besitzers
 - Präfix
 - Besitzernummer mit Ländercode
-- Misaka-API-Schlüssel
 - Automatische Aktualisierung
 - Bot-Sprache (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -2555,7 +3471,7 @@ In der Panel-Konsole:
 npm start
 ```
 
-Wählen Sie `Bot konfigurieren`. Die Fragen zu Sprache, Präfix, API usw. erscheinen jeweils in einer eigenen Zeile, damit sie sich in Panels wie Pterodactyl besser lesen lassen.
+Wählen Sie `Bot konfigurieren`. Die Fragen zu Sprache, Präfix usw. erscheinen jeweils in einer eigenen Zeile, damit sie sich in Panels wie Pterodactyl besser lesen lassen.
 
 ### 5. Startbefehl
 
@@ -2576,6 +3492,116 @@ Wenn Sie immer noch keine Sitzung haben, führen Sie zuerst `npm start` aus, um 
 
 </details>
 
+
+<details>
+<summary><strong>Für Entwickler</strong></summary>
+
+## Für Entwickler
+
+Dieser Abschnitt erklärt, wie Sie zum Code von Misa beitragen, Befehle hinzufügen und i18n in allen **11 Sprachen** vollständig halten.
+
+### Überblick
+
+- **Stack:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Persistenz:** JSON-Dateien unter `dados/` (keine Datenbank)
+- **i18n:** `src/i18n/*.json` — Locales: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Befehle:** dynamisch aus `src/commands/` geladen (eine Datei kann `Command` oder `Command[]` exportieren)
+
+### Nützliche Skripte
+
+| Befehl | Zweck |
+|--------|-------|
+| `npm start` | Interaktives Menü (konfigurieren / starten) |
+| `npm run start:fast` | Startet den Bot direkt |
+| `npm run build` | Kompiliert TypeScript (`tsc`) |
+| `npm test` | Führt die Testsuite aus |
+| `npm run check:i18n` | Prüft, dass **alle** Locales dieselben Schlüssel und Befehlsalias haben |
+| `npm run test:i18n` | Testet lokalisierte Tokens/Alias |
+
+CI läuft in dieser Reihenfolge: `check:i18n` → `test` → `build`.
+
+### Wichtige Struktur
+
+```text
+src/
+  commands/all/<kategorie>/   # Befehle
+  helpers/                    # Hilfsfunktionen
+  i18n/                       # Übersetzungen (11 JSON + index)
+  types/Command.ts            # Befehlsvertrag und CommandContext
+  handlers/                   # commandHandler, Events
+dados/                        # Sitzung, Gruppen, Owner-Config (Sitzung nicht committen)
+```
+
+Hauptfelder: `name`, `aliases`, `i18nAliases`, `description` (Metadaten; Englisch ist OK), `category`, Flags und `execute(ctx)` — immer `ctx.t(...)` für sichtbaren Text verwenden.
+
+### Goldene Regel der i18n
+
+Beim Hinzufügen oder Ändern **jedes** Runtime-Texts:
+
+1. Schlüssel in **allen** 11 Dateien `src/i18n/*.json` mit dem **gleichen Schlüsselbaum** anlegen.
+2. Bei neuer Befehlsdatei `commands.menu.cmds.<datei>` in **allen** Locales hinzufügen.
+3. Wirklich übersetzen. **Kein Englisch** in Nicht-`en`-Locales hinterlassen.
+4. Im Code `t("schluessel", { var: "wert" })` und in JSON `{{var}}` verwenden.
+5. Vor dem PR `npm run check:i18n` ausführen.
+6. `i18nAliases` nutzen, wenn sinnvoll.
+
+**PRs, die Strings nur in `pt`/`en` hinzufügen, werden abgelehnt.** Standard: sofort in alle 11 Sprachen übersetzen.
+
+### Befehl hinzufügen
+
+1. `src/commands/all/<kategorie>/meinbefehl.ts` erstellen.
+2. `default` als `Command` oder `Command[]` exportieren.
+3. Nutzernachrichten nur über `t(...)`.
+4. Alle **11** JSON aktualisieren (Texte + `commands.menu.cmds.<datei>`).
+5. Menüdatei aktualisieren, falls der Befehl gelistet wird.
+6. Ausführen: `npm run check:i18n && npm test && npm run build`.
+
+Minimalbeispiel:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### Mithelfen
+
+- Bugs beheben, Tests verbessern, Übersetzungen vervollständigen, Docs, nützliche Befehle.
+- Lieber **kleine, fokussierte** PRs.
+- Große Ideen zuerst in der WhatsApp-Gruppe des Projekts besprechen.
+- **Nicht committen:** Sitzung (`dados/misa-qr/`), Secrets, `.env`, persönliche Backups.
+
+### Checkliste vor dem PR
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Neue i18n-Schlüssel in **allen 11** Locales (kein Englisch außerhalb von `en`)
+- [ ] `commands.menu.cmds.<datei>` in jedem Locale
+- [ ] Keine sensiblen Dateien im Commit
+
+### Community
+
+Offizielle WhatsApp-Gruppe: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 <br>
 
@@ -2593,7 +3619,7 @@ Misa; kurulumu kolay, bakımı rahat ve topluluğunuz büyüdükçe sorunsuzca �
 Misa sadece menüyü çevirmekle kalmaz. Amaç, baştan sona gerçekten çok dilli bir deneyim sunmaktır.
 
 - **Yerel dil desteği:** **Portekizce (PT)**, **İngilizce (EN)**, **İspanyolca (ES)**, **Endonezce (ID)**, **Arapça (AR)**, **Fransızca (FR)**, **Hintçe (HI)**, **Urduca (UR)**, **Almanca (DE)**, **Türkçe (TR)** ve **Bengalce (BN)** için tam destek.
-- **Tam çeviri:** Terminal uyarıları, anti-link mesajları, dahili günlükler, API hataları, bağlantı akışları ve etkileşimli paneller yapılandırılan dili takip eder.
+- **Tam çeviri:** Terminal uyarıları, anti-link mesajları, dahili günlükler, bağlantı akışları ve etkileşimli paneller yapılandırılan dili takip eder.
 - **Dinamik takma adlar:** Komut takma adları da etkin dile göre uyarlanabilir.
 - **Grup başına dil:** Genel dilin yanında her grup kendi dilini ayrı olarak belirleyebilir.
 
@@ -2649,7 +3675,6 @@ npm start
 - Sahibinin adı
 - Önek
 - Ülke koduyla birlikte sahip numarası
-- Misaka API anahtarı
 - Otomatik güncelleme
 - Bot dili (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -2841,7 +3866,7 @@ Panel konsolunda:
 npm start
 ```
 
-`Botu yapılandır` seçeneğini seçin. Dil, önek, API gibi ayar soruları ayrı satırlarda gösterilir; bu da Pterodactyl benzeri panellerde okumayı kolaylaştırır.
+`Botu yapılandır` seçeneğini seçin. Dil, önek gibi ayar soruları ayrı satırlarda gösterilir; bu da Pterodactyl benzeri panellerde okumayı kolaylaştırır.
 
 ### 5. Başlatma komutu
 
@@ -2862,6 +3887,116 @@ Hala bir oturumunuz yoksa QR Kodunu veya eşleştirme kodunu yapılandırmak iç
 
 </details>
 
+
+<details>
+<summary><strong>Geliştiriciler için</strong></summary>
+
+## Geliştiriciler için
+
+Bu bölüm Misa koduna nasıl katkıda bulunacağınızı, komut eklemeyi ve i18n'i **11 dilde** eksiksiz tutmayı açıklar.
+
+### Genel bakış
+
+- **Yığın:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **Kalıcılık:** `dados/` altında JSON dosyaları (veritabanı yok)
+- **i18n:** `src/i18n/*.json` — yerel ayarlar: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **Komutlar:** `src/commands/` içinden dinamik yüklenir (bir dosya `Command` veya `Command[]` dışa aktarabilir)
+
+### Yararlı komutlar
+
+| Komut | Amaç |
+|-------|------|
+| `npm start` | Etkileşimli menü (yapılandır / başlat) |
+| `npm run start:fast` | Botu doğrudan başlatır |
+| `npm run build` | TypeScript derler (`tsc`) |
+| `npm test` | Test paketini çalıştırır |
+| `npm run check:i18n` | **Tüm** yerel ayarların aynı anahtarlara ve komut takma adlarına sahip olduğunu doğrular |
+| `npm run test:i18n` | Yerelleştirilmiş jeton/takma adları test eder |
+
+CI sırası: `check:i18n` → `test` → `build`.
+
+### Önemli yapı
+
+```text
+src/
+  commands/all/<kategori>/    # komutlar
+  helpers/                    # yardımcılar
+  i18n/                       # çeviriler (11 JSON + index)
+  types/Command.ts            # komut sözleşmesi ve CommandContext
+  handlers/                   # commandHandler, olaylar
+dados/                        # oturum, gruplar, sahip yapılandırması (oturumu commit etmeyin)
+```
+
+Ana alanlar: `name`, `aliases`, `i18nAliases`, `description` (üst veri; İngilizce olabilir), `category`, bayraklar ve `execute(ctx)` — kullanıcı metni için her zaman `ctx.t(...)` kullanın.
+
+### i18n altın kuralı
+
+Herhangi bir **çalışma zamanı** metni eklerken veya değiştirirken:
+
+1. Anahtarı **11** `src/i18n/*.json` dosyasının hepsinde **aynı anahtar ağacı** ile oluşturun.
+2. Yeni komut dosyası oluşturursanız, `commands.menu.cmds.<dosya>` ekleyin — `check:i18n` bunu zorunlu kılar.
+3. Gerçekten çevirin. `en.json` dışındaki yerel ayarlarda **İngilizce bırakmayın**.
+4. Kodda `t("anahtar", { var: "deger" })`, JSON'da `{{var}}` kullanın.
+5. PR öncesi `npm run check:i18n` çalıştırın.
+6. Anlamlıysa `i18nAliases` kullanın.
+
+**Yalnızca `pt`/`en` içinde dize ekleyen PR'ler reddedilir.** Proje standardı: baştan 11 dile çevirmek.
+
+### Komut nasıl eklenir
+
+1. `src/commands/all/<kategori>/komutum.ts` oluşturun.
+2. `default` olarak `Command` veya `Command[]` dışa aktarın.
+3. Kullanıcı mesajları yalnızca `t(...)` ile.
+4. **11** JSON'u güncelleyin (metinler + `commands.menu.cmds.<dosya>`).
+5. Menü komutu listeliyorsa menü dosyasını güncelleyin.
+6. Çalıştırın: `npm run check:i18n && npm test && npm run build`.
+
+Minimal örnek:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### Nasıl yardımcı olunur
+
+- Hata düzeltme, testleri iyileştirme, çevirileri tamamlama, belgeleme, yararlı komutlar.
+- **Küçük ve odaklı** PR'leri tercih edin.
+- Büyük fikirleri önce projenin WhatsApp grubunda tartışın.
+- **Commit etmeyin:** oturum (`dados/misa-qr/`), gizli bilgiler, `.env`, kişisel yedekler.
+
+### PR öncesi kontrol listesi
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Yeni i18n anahtarları **11** yerelde ( `en` dışında İngilizce kalıntısı yok)
+- [ ] Her yerelde `commands.menu.cmds.<dosya>`
+- [ ] Commit'te hassas dosya yok
+
+### Topluluk
+
+Resmi WhatsApp grubu: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
+
 </details>
 <br>
 
@@ -2879,7 +4014,7 @@ Hala bir oturumunuz yoksa QR Kodunu veya eşleştirme kodunu yapılandırmak iç
 Misa শুধু মেনু অনুবাদ করে না। লক্ষ্য হলো শুরু থেকে শেষ পর্যন্ত সত্যিকারের বহুভাষিক অভিজ্ঞতা দেওয়া।
 
 - **নেটিভ ভাষা:** **Português (PT)**, **English (EN)**, **Español (ES)**, **Bahasa Indonesia (ID)**, **العربية (AR)**, **Français (FR)**, **हिन्दी (HI)**, **اردو (UR)**, **Deutsch (DE)**, **Türkçe (TR)** এবং **বাংলা (BN)**-এর পূর্ণ সমর্থন।
-- **সম্পূর্ণ অনুবাদ:** টার্মিনাল বার্তা, anti-link সতর্কতা, অভ্যন্তরীণ লগ, API ত্রুটি, সংযোগের ধাপ এবং ইন্টারঅ্যাকটিভ প্যানেল সবই কনফিগার করা ভাষা অনুসরণ করে।
+- **সম্পূর্ণ অনুবাদ:** টার্মিনাল বার্তা, anti-link সতর্কতা, অভ্যন্তরীণ লগ, সংযোগের ধাপ এবং ইন্টারঅ্যাকটিভ প্যানেল সবই কনফিগার করা ভাষা অনুসরণ করে।
 - **ডায়নামিক অ্যালিয়াস:** কমান্ডের অ্যালিয়াসও নির্বাচিত ভাষার সঙ্গে মানিয়ে নিতে পারে।
 - **প্রতি-গ্রুপ ভাষা:** গ্লোবাল ভাষার পাশাপাশি প্রতিটি গ্রুপ নিজের আলাদা ভাষা ঠিক করতে পারে।
 
@@ -2935,7 +4070,6 @@ npm start
 - মালিকের নাম
 - প্রিফিক্স
 - কান্ট্রি কোড-সহ মালিকের নম্বর
-- Misaka API key
 - স্বয়ংক্রিয় আপডেট
 - বটের ভাষা (`pt`, `es`, `en`, `id`, `ar`, `fr`, `hi`, `ur`, `de`, `tr`, `bn`)
 
@@ -3127,7 +4261,7 @@ npm install
 npm start
 ```
 
-`বট কনফিগার করুন` নির্বাচন করুন। ভাষা, প্রিফিক্স, API ইত্যাদির প্রশ্নগুলো আলাদা লাইনে আসবে, তাই Pterodactyl-এর মতো প্যানেলে পড়তে সুবিধা হবে।
+`বট কনফিগার করুন` নির্বাচন করুন। ভাষা, প্রিফিক্স ইত্যাদির প্রশ্নগুলো আলাদা লাইনে আসবে, তাই Pterodactyl-এর মতো প্যানেলে পড়তে সুবিধা হবে।
 
 ### 5. স্টার্টআপ কমান্ড
 
@@ -3145,6 +4279,117 @@ npm run start:fast
 - `dados/misa-qr/`: WhatsApp সেশন
 - `dados/grupos/`: গ্রুপ কনফিগারেশন
 - `dados/owner/config.json`: মালিকের মাধ্যমে করা কনফিগারেশন
+
+</details>
+
+<details>
+<summary><strong>ডেভেলপারদের জন্য</strong></summary>
+
+## ডেভেলপারদের জন্য
+
+এই অংশে বলা হয়েছে কীভাবে Misa-র কোডে অবদান রাখবেন, কমান্ড যোগ করবেন এবং **১১টি ভাষায়** i18n সম্পূর্ণ রাখবেন।
+
+### সংক্ষিপ্ত পরিচিতি
+
+- **স্ট্যাক:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
+- **স্টোরেজ:** `dados/`-এ JSON ফাইল (কোনো ডাটাবেস নেই)
+- **i18n:** `src/i18n/*.json` — ভাষা: `ar`, `bn`, `de`, `en`, `es`, `fr`, `hi`, `id`, `pt`, `tr`, `ur`
+- **কমান্ড:** `src/commands/` থেকে ডায়নামিক লোড (`Command` বা `Command[]`)
+
+### দরকারি স্ক্রিপ্ট
+
+| কমান্ড | কাজ |
+|--------|-----|
+| `npm start` | ইন্টারঅ্যাকটিভ মেনু (কনফিগার / শুরু) |
+| `npm run start:fast` | বট সরাসরি চালায় |
+| `npm run build` | TypeScript কম্পাইল (`tsc`) |
+| `npm test` | টেস্ট স্যুট চালায় |
+| `npm run check:i18n` | নিশ্চিত করে **সব** ভাষায় একই কী ও কমান্ড উপনাম আছে |
+| `npm run test:i18n` | লোকালাইজড টোকেন/উপনাম টেস্ট করে |
+
+CI ক্রম: `check:i18n` → `test` → `build`.
+
+### গুরুত্বপূর্ণ কাঠামো
+
+```text
+src/
+  commands/all/<বিভাগ>/       # কমান্ড
+  helpers/                    # সহায়ক ইউটিলিটি
+  i18n/                       # অনুবাদ (১১ JSON + index)
+  types/Command.ts            # কমান্ড কন্ট্রাক্ট ও CommandContext
+  handlers/                   # commandHandler, ইভেন্ট
+dados/                        # সেশন, গ্রুপ, মালিক কনফিগ (সেশন কমিট করবেন না)
+```
+
+প্রধান ফিল্ড: `name`, `aliases`, `i18nAliases`, `description` (মেটাডেটা; ইংরেজি ঠিক আছে), `category`, ফ্ল্যাগ এবং `execute(ctx)` — ব্যবহারকারীর টেক্সটের জন্য সবসময় `ctx.t(...)`.
+
+### i18n-এর সোনালি নিয়ম
+
+যেকোনো **রানটাইম** টেক্সট যোগ/পরিবর্তন করার সময়:
+
+1. কী **সব ১১টি** `src/i18n/*.json` ফাইলে **একই কী-ট্রি** দিয়ে তৈরি করুন।
+2. নতুন কমান্ড ফাইলে `commands.menu.cmds.<ফাইল>` **প্রতিটি** ভাষায় যোগ করুন।
+3. আসল অনুবাদ করুন। `en` ছাড়া অন্য ভাষায় **ইংরেজি রেখে যাবেন না**।
+4. কোডে `t("কী", { var: "মান" })` এবং JSON-এ `{{var}}`.
+5. PR-এর আগে `npm run check:i18n` চালান।
+6. প্রয়োজন হলে `i18nAliases` ব্যবহার করুন।
+
+**শুধু `pt`/`en`-এ স্ট্রিং যোগ করা PR বাতিল হবে।** মানদণ্ড: শুরু থেকেই ১১ ভাষায় অনুবাদ।
+
+### কমান্ড কীভাবে যোগ করবেন
+
+1. `src/commands/all/<বিভাগ>/amarcommand.ts` তৈরি করুন।
+2. `default` হিসেবে `Command` বা `Command[]` এক্সপোর্ট করুন।
+3. ব্যবহারকারীর বার্তা শুধু `t(...)` দিয়ে।
+4. **১১টি** JSON আপডেট করুন (টেক্সট + `commands.menu.cmds.<ফাইল>`)।
+5. মেনুতে তালিকা থাকলে মেনু ফাইল আপডেট করুন।
+6. চালান: `npm run check:i18n && npm test && npm run build`.
+
+ন্যূনতম উদাহরণ:
+
+```ts
+import { Command } from "../../../types/Command.js";
+
+const meuComando: Command = {
+  name: "meucomando",
+  aliases: ["atalho"],
+  i18nAliases: {
+    en: ["mycommand"],
+    es: ["micomando"],
+  },
+  description: "Short description in English (metadata only)",
+  category: "geral",
+  async execute({ misa, message, from, t }) {
+    await misa.sendMessage(from, {
+      text: t("commands.meucomando.ok", { name: "Misa" }),
+    }, { quoted: message });
+  },
+};
+
+export default meuComando;
+```
+
+### কীভাবে সাহায্য করবেন
+
+- বাগ ঠিক করুন, টেস্ট উন্নত করুন, অনুবাদ সম্পূর্ণ করুন, ডকুমেন্টেশন, দরকারি কমান্ড।
+- **ছোট, কেন্দ্রীভূত** PR ভালো।
+- বড় আইডিয়া আগে প্রজেক্টের WhatsApp গ্রুপে আলোচনা করুন।
+- **কমিট করবেন না:** সেশন (`dados/misa-qr/`), সিক্রেট, `.env`, ব্যক্তিগত ব্যাকআপ।
+
+### PR-এর আগে চেকলিস্ট
+
+- [ ] `npm run check:i18n`
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] নতুন i18n কী **১১** ভাষায় (`en` ছাড়া ইংরেজি নেই)
+- [ ] প্রতিটি ভাষায় `commands.menu.cmds.<ফাইল>`
+- [ ] কমিটে সংবেদনশীল ফাইল নেই
+
+### কমিউনিটি
+
+অফিসিয়াল WhatsApp গ্রুপ: [https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX](https://chat.whatsapp.com/FgHq7kbmJLKBmEVaX1FrwX)
+
+</details>
 
 </details>
 <br>
