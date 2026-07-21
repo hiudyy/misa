@@ -5,7 +5,7 @@
  * Fallbacks: traits sem mídia própria reutilizam um arquivo local existente.
  */
 
-/** trait -> chave em games.media.json → games */
+/** trait -> arquivo em assets/fun/games (sem extensão) */
 export const GAMES_MEDIA_FALLBACKS: Record<string, string> = {
   inteligente: "nerd",
   pirocudo: "gostoso",
@@ -194,7 +194,7 @@ export const GAMES_MEDIA_FALLBACKS: Record<string, string> = {
   seria: "nerd",
 };
 
-/** rank command -> chave em games.media.json → ranks (ou games via prefix) */
+/** rank command -> arquivo em assets/fun/ranks (ou games via prefix) */
 export const RANKS_MEDIA_FALLBACKS: Record<string, string> = {
   rankinteligente: "ranknerd",
   rankrico: "rankgostoso",

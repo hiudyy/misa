@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promises as fs } from "node:fs";
+import { readdirSync } from "node:fs";
 import {
   GAMES2_MEDIA_KEYS,
   GAMES_MEDIA_FALLBACKS,
@@ -15,31 +16,63 @@ import {
 const require = createRequire(import.meta.url);
 const funDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "assets", "fun");
 
-type MediaEntry = {
-  image?: { path: string };
-  video?: { path: string };
-};
+const IMAGE_EXTS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const VIDEO_EXTS = new Set([".mp4", ".webm", ".mov"]);
 
-type MediaManifest = {
-  games: Record<string, MediaEntry>;
-  ranks: Record<string, MediaEntry>;
-  games2: Record<string, MediaEntry>;
-};
+type MediaHit = { type: "image" | "video"; relativePath: string };
 
 let maleTexts: Record<string, string> | null = null;
 let femaleTexts: Record<string, string> | null = null;
 let rankHeaders: Record<string, string> | null = null;
-let media: MediaManifest | null = null;
+const sectionIndex = new Map<string, Map<string, MediaHit>>();
 
 function loadJson<T>(fileName: string): T {
   return require(path.join(funDir, fileName)) as T;
 }
 
-function ensureLoaded(): void {
+function ensureTextsLoaded(): void {
   if (!maleTexts) maleTexts = loadJson("gamestext.json");
   if (!femaleTexts) femaleTexts = loadJson("gamestext2.json");
   if (!rankHeaders) rankHeaders = loadJson("ranks.json");
-  if (!media) media = loadJson("games.media.json");
+}
+
+function indexSection(section: "games" | "ranks" | "games2"): Map<string, MediaHit> {
+  const cached = sectionIndex.get(section);
+  if (cached) return cached;
+
+  const map = new Map<string, MediaHit>();
+  const dir = path.join(funDir, section);
+  let entries: string[] = [];
+  try {
+    entries = readdirSync(dir);
+  } catch {
+    sectionIndex.set(section, map);
+    return map;
+  }
+
+  for (const fileName of entries) {
+    const ext = path.extname(fileName).toLowerCase();
+    const base = path.basename(fileName, path.extname(fileName));
+    if (!base) continue;
+
+    let type: "image" | "video" | null = null;
+    if (IMAGE_EXTS.has(ext)) type = "image";
+    else if (VIDEO_EXTS.has(ext)) type = "video";
+    if (!type) continue;
+
+    map.set(base, { type, relativePath: path.join(section, fileName) });
+  }
+
+  sectionIndex.set(section, map);
+  return map;
+}
+
+function lookupKey(
+  section: "games" | "ranks" | "games2",
+  key: string,
+): MediaHit | undefined {
+  if (!key) return undefined;
+  return indexSection(section).get(key);
 }
 
 export function formatFunTemplate(template: string, nome: string, level: string | number): string {
@@ -47,39 +80,35 @@ export function formatFunTemplate(template: string, nome: string, level: string 
 }
 
 export function getPercentText(trait: string, nome: string, level: number, fallback: string): string {
-  ensureLoaded();
+  ensureTextsLoaded();
   const template = maleTexts?.[trait] ?? femaleTexts?.[trait];
   if (!template) return fallback;
   return formatFunTemplate(template, nome, level);
 }
 
 export function getRankHeader(commandName: string, fallback: string): string {
-  ensureLoaded();
+  ensureTextsLoaded();
   return rankHeaders?.[commandName] ?? fallback;
 }
 
 function resolveEntry(
   section: "games" | "ranks" | "games2",
   key: string,
-): MediaEntry | undefined {
-  ensureLoaded();
-  if (!media) return undefined;
-
+): MediaHit | undefined {
   if (section === "games") {
-    return media.games[key] ?? media.games[GAMES_MEDIA_FALLBACKS[key] ?? ""];
+    return lookupKey("games", key) ?? lookupKey("games", GAMES_MEDIA_FALLBACKS[key] ?? "");
   }
 
   if (section === "ranks") {
     const fallback = RANKS_MEDIA_FALLBACKS[key];
-    if (media.ranks[key]) return media.ranks[key];
-    if (fallback && media.ranks[fallback]) return media.ranks[fallback];
-    // ranks sem arte própria: tenta imagem do trait base em games
+    if (lookupKey("ranks", key)) return lookupKey("ranks", key);
+    if (fallback && lookupKey("ranks", fallback)) return lookupKey("ranks", fallback);
     const trait = key.replace(/^rank/, "");
-    return media.games[trait] ?? media.games[GAMES_MEDIA_FALLBACKS[trait] ?? ""];
+    return lookupKey("games", trait) ?? lookupKey("games", GAMES_MEDIA_FALLBACKS[trait] ?? "");
   }
 
   const mediaKey = GAMES2_MEDIA_KEYS[key] ?? key;
-  return media.games2[mediaKey] ?? media.games2[key];
+  return lookupKey("games2", mediaKey) ?? lookupKey("games2", key);
 }
 
 export function resolveFunMediaPath(
@@ -88,14 +117,7 @@ export function resolveFunMediaPath(
 ): { type: "image" | "video"; absolutePath: string } | null {
   const entry = resolveEntry(section, key);
   if (!entry) return null;
-
-  if (entry.image?.path) {
-    return { type: "image", absolutePath: path.join(funDir, entry.image.path) };
-  }
-  if (entry.video?.path) {
-    return { type: "video", absolutePath: path.join(funDir, entry.video.path) };
-  }
-  return null;
+  return { type: entry.type, absolutePath: path.join(funDir, entry.relativePath) };
 }
 
 export async function readFunMedia(
@@ -116,7 +138,6 @@ export async function readFunMedia(
 
 /** Quantos traits de porcentagem resolvem para alguma mídia local (direto ou fallback). */
 export function countPercentTraitsWithMedia(traits: string[]): { withMedia: number; total: number } {
-  ensureLoaded();
   let withMedia = 0;
   for (const trait of traits) {
     if (resolveEntry("games", trait)) withMedia += 1;

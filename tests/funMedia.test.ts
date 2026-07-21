@@ -47,14 +47,10 @@ describe("funMedia", () => {
     await fs.access(media!.absolutePath);
   });
 
-  it("has media manifest with local paths only", async () => {
-    const raw = JSON.parse(await fs.readFile(path.join(funDir, "games.media.json"), "utf8")) as {
-      games: Record<string, { image?: { path?: string; url?: string } }>;
-    };
-    for (const entry of Object.values(raw.games)) {
-      assert.ok(entry.image?.path || entry.video?.path);
-      assert.strictEqual(entry.image?.url, undefined);
-    }
+  it("ships local media files under assets/fun", async () => {
+    const gamesDir = path.join(funDir, "games");
+    const files = await fs.readdir(gamesDir);
+    assert.ok(files.some((name) => name.endsWith(".jpg") || name.endsWith(".webp")));
   });
 
   it("covers all percent traits via direct media or fallback", () => {
