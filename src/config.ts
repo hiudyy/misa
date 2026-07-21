@@ -6,8 +6,8 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { log } from "./logger.js";
-import { DEFAULT_LOCALE, t } from "./i18n/index.js";
 import type { Locale } from "./i18n/index.js";
+import { DEFAULT_LOCALE, t, isValidLocale } from "./i18n/index.js";
 
 export type BotConfig = {
   botName: string;
@@ -59,6 +59,12 @@ export async function getBotConfig(): Promise<BotConfig> {
     ...defaultConfig,
     ...config,
   };
+}
+
+/** True only if config.json exists and has an explicit valid language field. */
+export async function isLanguageConfigured(): Promise<boolean> {
+  const config = await readConfigFile(configPath);
+  return Boolean(config && typeof config.language === "string" && isValidLocale(config.language));
 }
 
 export async function saveBotConfig(config: BotConfig): Promise<void> {

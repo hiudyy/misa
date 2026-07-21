@@ -5,7 +5,7 @@
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import packageInfo from "../package.json" with { type: "json" };
-import { getBotConfig, saveBotConfig, type BotConfig } from "./config.js";
+import { getBotConfig, saveBotConfig, isLanguageConfigured, type BotConfig } from "./config.js";
 import { startBot } from "./index.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
@@ -16,7 +16,10 @@ import {
   getGlobalLocale,
   getLocaleCodes,
   getLocaleLabel,
+  getLocaleMetadata,
   isValidLocale,
+  SUPPORTED_LOCALES,
+  type Locale,
 } from "./i18n/index.js";
 
 const shouldAnimate = output.isTTY;
@@ -75,6 +78,47 @@ function keepOrUpdate(answer: string, currentValue: string): string {
 async function askInput(rl: readline.Interface, label: string): Promise<string> {
   console.log(label);
   return rl.question(paint("  › ", "cyan", "bold"));
+}
+
+/**
+ * Universal first-run language picker (no i18n — works before any locale is set).
+ */
+async function askInitialLanguage(rl: readline.Interface): Promise<Locale> {
+  clearTerminal();
+
+  console.log([
+    "",
+    paint("  ╭─────────────────────────────────────────────╮", "cyan"),
+    paint("  │", "cyan") + paint("         Language / Idioma / Langue          ", "white", "bold") + paint("│", "cyan"),
+    paint("  ├─────────────────────────────────────────────┤", "cyan"),
+    paint("  │", "cyan") + paint("  Select your language (number or code)      ", "gray") + paint("│", "cyan"),
+    paint("  ╰─────────────────────────────────────────────╯", "cyan"),
+    "",
+  ].join("\n"));
+
+  SUPPORTED_LOCALES.forEach((locale, index) => {
+    const meta = getLocaleMetadata(locale);
+    const num = String(index + 1).padStart(2, " ");
+    console.log(`   ${paint(num, "cyan", "bold")}  ${meta.nativeName} ${paint(`(${locale})`, "gray")}`);
+  });
+  console.log("");
+
+  while (true) {
+    const answer = (await rl.question(paint("  › ", "cyan", "bold"))).trim().toLowerCase();
+    if (!answer) {
+      console.log(paint("  Enter a number or language code (e.g. en, pt, es).", "yellow"));
+      continue;
+    }
+
+    const asNumber = Number.parseInt(answer, 10);
+    if (Number.isFinite(asNumber) && asNumber >= 1 && asNumber <= SUPPORTED_LOCALES.length) {
+      return SUPPORTED_LOCALES[asNumber - 1]!;
+    }
+
+    if (isValidLocale(answer)) return answer;
+
+    console.log(paint(`  Invalid. Use 1-${SUPPORTED_LOCALES.length} or: ${getLocaleCodes()}`, "yellow"));
+  }
 }
 
 async function askBoolean(rl: readline.Interface, question: string, currentValue: boolean, t: any): Promise<boolean> {
@@ -207,6 +251,13 @@ async function main(): Promise<void> {
 
   try {
     let currentConfig = await getBotConfig();
+
+    if (!(await isLanguageConfigured())) {
+      const language = await askInitialLanguage(rl);
+      currentConfig = { ...currentConfig, language };
+      await saveBotConfig(currentConfig);
+    }
+
     const globalLocale = isValidLocale(currentConfig.language) ? currentConfig.language : DEFAULT_LOCALE;
     let t = createTranslator(globalLocale);
 
