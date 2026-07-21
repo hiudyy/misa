@@ -582,9 +582,19 @@
       "updatedNoLid": "✅ मालिक का नंबर *{{value}}* पर अपडेट किया गया।\n⚠️ अभी नया LID हल नहीं हो सका; पुराना LID तब तक रखा गया है जब तक अपडेट संभव न हो।"
     },
     "prefixo": {
-      "current": "⌨️ वर्तमान प्रीफ़िक्स: *{{value}}*\n\nउपयोग: prefix <नया प्रीफ़िक्स>",
-      "invalid": "❌ ऐसा प्रीफ़िक्स उपयोग करें जिसमें स्पेस न हों और अधिकतम 5 अक्षर हों।",
-      "updated": "✅ प्रीफ़िक्स *{{value}}* पर अपडेट किया गया।"
+      "current": "⌨️ पुराना प्रिफ़िक्स: *{{value}}*\n\nभाषा अनुसार प्रिफ़िक्स मैप:\n{{mapSection}}\n\nउपयोग:\n• prefixo <नया> — पुराना बदलें\n• prefixo set <locale> <prefix>\n• prefixo del <locale>\n• prefixo clear\n\nभाषाएँ: {{options}}",
+      "invalid": "❌ बिना स्पेस और अधिकतम 5 अक्षरों का प्रिफ़िक्स उपयोग करें।",
+      "updated": "✅ पुराना प्रिफ़िक्स *{{value}}* पर अपडेट हुआ।",
+      "mapEmpty": "_(बंद — कोई प्रविष्टि नहीं)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ उपयोग: prefixo set <locale> <prefix>\nभाषाएँ: {{options}}",
+      "setOk": "✅ मैप अपडेट: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ उपयोग: prefixo del <locale>\nभाषाएँ: {{options}}",
+      "delOk": "✅ मैप से हटाया: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) मैप में नहीं है।",
+      "clearOk": "✅ भाषा प्रिफ़िक्स मैप साफ़। केवल पुराना प्रिफ़िक्स सक्रिय है।",
+      "duplicate": "❌ प्रिफ़िक्स *{{prefix}}* पहले से {{locale}} (`{{code}}`) उपयोग कर रहा है।",
+      "invalidLocale": "❌ अमान्य भाषा। उपयोग करें: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ वर्तमान स्वचालित अपडेट: *{{value}}*\n\nउपयोग: autoupdate <{{on}}|{{off}}>",

@@ -13,6 +13,8 @@ export type BotConfig = {
   botName: string;
   ownerName: string;
   prefix: string;
+  /** Opt-in: locale → prefix. Empty/absent = only legacy prefix is active. */
+  prefixByLocale?: Partial<Record<Locale, string>>;
   ownerNumber: string;
   ownerLID?: string;
   autoUpdate: boolean;
@@ -23,6 +25,7 @@ const defaultConfig: BotConfig = {
   botName: "Misa",
   ownerName: "Hiudy",
   prefix: "!",
+  prefixByLocale: {},
   ownerNumber: "",
   autoUpdate: false,
   language: "pt",

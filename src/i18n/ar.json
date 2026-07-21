@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ تم تحديث رقم المالك إلى *{{value}}*.\n⚠️ لم أتمكن من تحديد LID الجديد الآن؛ تم الإبقاء على LID السابق حتى يمكن تحديثه."
     },
     "prefixo": {
-      "current": "⌨️ البادئة الحالية: *{{value}}*\n\nالاستخدام: بادئة <بادئة جديدة>",
-      "invalid": "❌ استخدم بادئة بدون مسافات وبحد أقصى 5 أحرف.",
-      "updated": "✅ تم تحديث البادئة إلى *{{value}}*."
+      "current": "⌨️ البادئة القديمة: *{{value}}*\n\nخريطة البادئة حسب اللغة:\n{{mapSection}}\n\nالاستخدام:\n• prefixo <جديد> — تغيير البادئة القديمة\n• prefixo set <locale> <بادئة>\n• prefixo del <locale>\n• prefixo clear\n\nاللغات: {{options}}",
+      "invalid": "❌ استخدم بادئة بلا مسافات وبحد أقصى 5 أحرف.",
+      "updated": "✅ تم تحديث البادئة القديمة إلى *{{value}}*.",
+      "mapEmpty": "_(معطّل — لا إدخالات)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ الاستخدام: prefixo set <locale> <بادئة>\nاللغات: {{options}}",
+      "setOk": "✅ تم تحديث الخريطة: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ الاستخدام: prefixo del <locale>\nاللغات: {{options}}",
+      "delOk": "✅ تمت الإزالة من الخريطة: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) غير موجود في الخريطة.",
+      "clearOk": "✅ تم مسح خريطة البادئات. البادئة القديمة فقط نشطة.",
+      "duplicate": "❌ البادئة *{{prefix}}* مستخدمة بالفعل بواسطة {{locale}} (`{{code}}`).",
+      "invalidLocale": "❌ لغة غير صالحة. استخدم: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ التحديث التلقائي الحالي: *{{value}}*\n\nالاستخدام: autoupdate <{{on}}|{{off}}>",

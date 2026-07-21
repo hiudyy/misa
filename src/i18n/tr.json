@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ Sahip numarası *{{value}}* olarak güncellendi.\n⚠️ Yeni LID'i şimdi çözemedim; önceki LID güncellenene kadar tutuldu."
     },
     "prefixo": {
-      "current": "⌨️ Geçerli önek: *{{value}}*\n\nKullanım: prefix <yeni önek>",
-      "invalid": "❌ Boşluk içermeyen ve en fazla 5 karakterden oluşan bir önek kullanın.",
-      "updated": "✅ Önek *{{value}}* olarak güncellendi."
+      "current": "⌨️ Eski önek: *{{value}}*\n\nDile göre önek haritası:\n{{mapSection}}\n\nKullanım:\n• prefixo <yeni> — eski öneki değiştir\n• prefixo set <locale> <önek>\n• prefixo del <locale>\n• prefixo clear\n\nDiller: {{options}}",
+      "invalid": "❌ Boşluksuz ve en fazla 5 karakterlik bir önek kullanın.",
+      "updated": "✅ Eski önek *{{value}}* olarak güncellendi.",
+      "mapEmpty": "_(devre dışı — giriş yok)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ Kullanım: prefixo set <locale> <önek>\nDiller: {{options}}",
+      "setOk": "✅ Harita güncellendi: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Kullanım: prefixo del <locale>\nDiller: {{options}}",
+      "delOk": "✅ Haritadan kaldırıldı: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) haritada yok.",
+      "clearOk": "✅ Dil önek haritası temizlendi. Yalnızca eski önek etkin.",
+      "duplicate": "❌ *{{prefix}}* öneki zaten {{locale}} (`{{code}}`) tarafından kullanılıyor.",
+      "invalidLocale": "❌ Geçersiz dil. Kullanın: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Geçerli otomatik güncelleme: *{{value}}*\n\nKullanım: autoupdate <{{on}}|{{off}}>",

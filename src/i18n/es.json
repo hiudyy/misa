@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ Número del dueño actualizado a *{{value}}*.\n⚠️ No pude resolver el nuevo LID ahora; se mantuvo el LID anterior hasta poder actualizarlo."
     },
     "prefixo": {
-      "current": "⌨️ Prefijo actual: *{{value}}*\n\nUso: prefijo <nuevo prefijo>",
+      "current": "⌨️ Prefijo legado: *{{value}}*\n\nMapa por idioma:\n{{mapSection}}\n\nUso:\n• prefixo <nuevo> — cambia el legado\n• prefixo set <locale> <prefijo>\n• prefixo del <locale>\n• prefixo clear\n\nIdiomas: {{options}}",
       "invalid": "❌ Usa un prefijo sin espacios y de hasta 5 caracteres.",
-      "updated": "✅ Prefijo actualizado a *{{value}}*."
+      "updated": "✅ Prefijo legado actualizado a *{{value}}*.",
+      "mapEmpty": "_(desactivado — sin entradas)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ Uso: prefixo set <locale> <prefijo>\nIdiomas: {{options}}",
+      "setOk": "✅ Mapa actualizado: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Uso: prefixo del <locale>\nIdiomas: {{options}}",
+      "delOk": "✅ Eliminado del mapa: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) no está en el mapa.",
+      "clearOk": "✅ Mapa por idioma vaciado. Solo el prefijo legado está activo.",
+      "duplicate": "❌ El prefijo *{{prefix}}* ya lo usa {{locale}} (`{{code}}`).",
+      "invalidLocale": "❌ Idioma inválido. Usa: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Actualización automática actual: *{{value}}*\n\nUso: autoupdate <{{on}}|{{off}}>",

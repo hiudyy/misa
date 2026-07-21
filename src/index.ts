@@ -23,6 +23,7 @@ import { isMessageDebugEnabled, logMessageDebug } from "./helpers/messageDebug.j
 import { recordGroupActivity } from "./helpers/groupActivity.js";
 import { getDisconnectStatusCode, shouldReconnectFromStatus } from "./helpers/reconnect.js";
 import { tryHandleApkReply } from "./helpers/apkReply.js";
+import { resolveCommandPrefix } from "./helpers/resolveCommandPrefix.js";
 import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
@@ -62,7 +63,7 @@ async function setupMessageHandler(
     const isGroup = from.endsWith("@g.us");
     if (isGroup) await groupCache.ensure(from, misa);
     const groupConfig = isGroup ? await getGroup(from) : null;
-    const prefix = groupConfig?.prefix || runtimeConfig.prefix;
+    const fallbackPrefix = groupConfig?.prefix || runtimeConfig.prefix;
 
     const rawSender = (isGroup ? message.key.participant : message.key.remoteJid) || "";
     const senderLID = rawSender ? await toLID(rawSender, misa) : null;
@@ -114,7 +115,9 @@ async function setupMessageHandler(
       message.message.videoMessage?.caption ||
       "";
 
-    const isCommandMessage = body.startsWith(prefix);
+    const resolved = resolveCommandPrefix(body, runtimeConfig.prefixByLocale, fallbackPrefix);
+    const prefix = resolved.prefix;
+    const isCommandMessage = resolved.matched;
     if (isGroup) {
       const isStickerMessage = Boolean(message.message.stickerMessage);
       await recordGroupActivity(from, sender, isCommandMessage ? "command" : isStickerMessage ? "sticker" : "message")
@@ -158,7 +161,7 @@ async function setupMessageHandler(
     if (!commandName) return;
 
     const command = commandHandler.get(commandName);
-    const locale = await resolveLocale(from);
+    const locale = resolved.locale ?? (await resolveLocale(from));
     const cmdTranslator = createTranslator(locale);
 
     if (!command) {

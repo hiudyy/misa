@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ Owner number updated to *{{value}}*.\n⚠️ I could not resolve the new LID right now; the previous LID was kept until it can be updated."
     },
     "prefixo": {
-      "current": "⌨️ Current prefix: *{{value}}*\n\nUsage: prefix <new prefix>",
-      "invalid": "❌ Use a prefix without spaces and up to 5 characters.",
-      "updated": "✅ Prefix updated to *{{value}}*."
+      "current": "⌨️ Legacy prefix: *{{value}}*\n\nLocale prefix map:\n{{mapSection}}\n\nUsage:\n• prefix <new> — change legacy prefix\n• prefix set <locale> <prefix>\n• prefix del <locale>\n• prefix clear\n\nLocales: {{options}}",
+      "invalid": "❌ Use a prefix with no spaces and up to 5 characters.",
+      "updated": "✅ Legacy prefix updated to *{{value}}*.",
+      "mapEmpty": "_(disabled — no entries)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ Usage: prefix set <locale> <prefix>\nLocales: {{options}}",
+      "setOk": "✅ Map updated: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Usage: prefix del <locale>\nLocales: {{options}}",
+      "delOk": "✅ Removed from map: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) is not in the map.",
+      "clearOk": "✅ Locale prefix map cleared. Only the legacy prefix is active.",
+      "duplicate": "❌ Prefix *{{prefix}}* is already used by {{locale}} (`{{code}}`).",
+      "invalidLocale": "❌ Invalid language. Use: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Current auto update: *{{value}}*\n\nUsage: autoupdate <{{on}}|{{off}}>",

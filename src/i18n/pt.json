@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ Número do dono atualizado para *{{value}}*.\n⚠️ Não consegui resolver o novo LID agora; o LID anterior foi mantido até conseguir atualizar."
     },
     "prefixo": {
-      "current": "⌨️ Prefixo atual: *{{value}}*\n\nUso: prefixo <novo prefixo>",
+      "current": "⌨️ Prefixo legado: *{{value}}*\n\nMapa por idioma:\n{{mapSection}}\n\nUso:\n• prefixo <novo> — altera o legado\n• prefixo set <locale> <prefixo>\n• prefixo del <locale>\n• prefixo clear\n\nLocales: {{options}}",
       "invalid": "❌ Use um prefixo sem espaços e com até 5 caracteres.",
-      "updated": "✅ Prefixo atualizado para *{{value}}*."
+      "updated": "✅ Prefixo legado atualizado para *{{value}}*.",
+      "mapEmpty": "_(desativado — nenhuma entrada)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ Uso: prefixo set <locale> <prefixo>\nLocales: {{options}}",
+      "setOk": "✅ Mapa atualizado: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Uso: prefixo del <locale>\nLocales: {{options}}",
+      "delOk": "✅ Removido do mapa: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) não está no mapa.",
+      "clearOk": "✅ Mapa por idioma limpo. Só o prefixo legado está ativo.",
+      "duplicate": "❌ O prefixo *{{prefix}}* já está em uso por {{locale}} (`{{code}}`).",
+      "invalidLocale": "❌ Idioma inválido. Use: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Atualização automática atual: *{{value}}*\n\nUso: autoupdate <{{on}}|{{off}}>",

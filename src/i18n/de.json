@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ Besitzernummer aktualisiert auf *{{value}}*.\n⚠️ Ich konnte das neue LID jetzt nicht lösen; Der vorherige LID wurde beibehalten, bis er aktualisiert werden konnte."
     },
     "prefixo": {
-      "current": "⌨️ Aktuelles Präfix: *{{value}}*\n\nVerwendung: Präfix <neues Präfix>",
-      "invalid": "❌ Verwenden Sie prefixo ohne Leerzeichen und bis zu 5 Zeichen.",
-      "updated": "✅ Präfix aktualisiert auf *{{value}}*."
+      "current": "⌨️ Legacy-Präfix: *{{value}}*\n\nPräfix-Karte pro Sprache:\n{{mapSection}}\n\nNutzung:\n• prefixo <neu> — Legacy ändern\n• prefixo set <locale> <präfix>\n• prefixo del <locale>\n• prefixo clear\n\nLocales: {{options}}",
+      "invalid": "❌ Präfix ohne Leerzeichen und max. 5 Zeichen.",
+      "updated": "✅ Legacy-Präfix aktualisiert auf *{{value}}*.",
+      "mapEmpty": "_(deaktiviert — keine Einträge)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ Nutzung: prefixo set <locale> <präfix>\nLocales: {{options}}",
+      "setOk": "✅ Karte aktualisiert: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Nutzung: prefixo del <locale>\nLocales: {{options}}",
+      "delOk": "✅ Aus der Karte entfernt: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) steht nicht in der Karte.",
+      "clearOk": "✅ Sprach-Präfix-Karte geleert. Nur das Legacy-Präfix ist aktiv.",
+      "duplicate": "❌ Präfix *{{prefix}}* wird bereits von {{locale}} (`{{code}}`) verwendet.",
+      "invalidLocale": "❌ Ungültige Sprache. Verwenden Sie: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Aktuelle automatische Aktualisierung: *{{value}}*\n\nVerwendung: autoupdate <{{on}}|{{off}}>",

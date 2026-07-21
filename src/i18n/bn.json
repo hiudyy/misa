@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ মালিকের নম্বর *{{value}}*-এ আপডেট হয়েছে।\n⚠️ এখন নতুন LID সমাধান করা যায়নি; আপডেট না হওয়া পর্যন্ত আগের LID রাখা হয়েছে।"
     },
     "prefixo": {
-      "current": "⌨️ বর্তমান প্রিফিক্স: *{{value}}*\n\nব্যবহার: prefix <নতুন প্রিফিক্স>",
+      "current": "⌨️ পুরনো প্রিফিক্স: *{{value}}*\n\nভাষা অনুসারে প্রিফিক্স ম্যাপ:\n{{mapSection}}\n\nব্যবহার:\n• prefixo <নতুন> — পুরনো বদলান\n• prefixo set <locale> <prefix>\n• prefixo del <locale>\n• prefixo clear\n\nভাষা: {{options}}",
       "invalid": "❌ স্পেস ছাড়া এবং সর্বোচ্চ ৫ অক্ষরের প্রিফিক্স ব্যবহার করুন।",
-      "updated": "✅ প্রিফিক্স *{{value}}*-এ আপডেট হয়েছে।"
+      "updated": "✅ পুরনো প্রিফিক্স *{{value}}*-এ আপডেট হয়েছে।",
+      "mapEmpty": "_(বন্ধ — কোনো এন্ট্রি নেই)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ ব্যবহার: prefixo set <locale> <prefix>\nভাষা: {{options}}",
+      "setOk": "✅ ম্যাপ আপডেট: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ ব্যবহার: prefixo del <locale>\nভাষা: {{options}}",
+      "delOk": "✅ ম্যাপ থেকে সরানো: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) ম্যাপে নেই।",
+      "clearOk": "✅ ভাষা প্রিফিক্স ম্যাপ খালি। শুধু পুরনো প্রিফিক্স সক্রিয়।",
+      "duplicate": "❌ প্রিফিক্স *{{prefix}}* ইতিমধ্যে {{locale}} (`{{code}}`) ব্যবহার করছে।",
+      "invalidLocale": "❌ অবৈধ ভাষা। ব্যবহার করুন: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ বর্তমান স্বয়ংক্রিয় আপডেট: *{{value}}*\n\nব্যবহার: autoupdate <{{on}}|{{off}}>",

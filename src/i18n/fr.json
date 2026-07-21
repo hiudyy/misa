@@ -578,9 +578,19 @@
       "updatedNoLid": "✅ Numéro du propriétaire mis à jour vers *{{value}}*.\n⚠️ Je n'ai pas pu résoudre le nouveau LID pour l'instant ; l'ancien LID a été conservé en attendant la mise à jour."
     },
     "prefixo": {
-      "current": "⌨️ Préfixe actuel: *{{value}}*\n\nUtilisation : préfixe <nouveau préfixe>",
-      "invalid": "❌ Utilise un préfixe sans espaces et de 5 caractères maximum.",
-      "updated": "✅ Préfixe mis à jour vers *{{value}}*."
+      "current": "⌨️ Préfixe hérité : *{{value}}*\n\nCarte par langue :\n{{mapSection}}\n\nUsage :\n• prefixo <nouveau> — change le préfixe hérité\n• prefixo set <locale> <préfixe>\n• prefixo del <locale>\n• prefixo clear\n\nLocales : {{options}}",
+      "invalid": "❌ Utilisez un préfixe sans espaces et de 5 caractères max.",
+      "updated": "✅ Préfixe hérité mis à jour : *{{value}}*.",
+      "mapEmpty": "_(désactivé — aucune entrée)_",
+      "mapItem": "• {{locale}} (`{{code}}`) : *{{prefix}}*",
+      "setUsage": "❌ Usage : prefixo set <locale> <préfixe>\nLocales : {{options}}",
+      "setOk": "✅ Carte mise à jour : {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Usage : prefixo del <locale>\nLocales : {{options}}",
+      "delOk": "✅ Retiré de la carte : {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) n'est pas dans la carte.",
+      "clearOk": "✅ Carte par langue vidée. Seul le préfixe hérité est actif.",
+      "duplicate": "❌ Le préfixe *{{prefix}}* est déjà utilisé par {{locale}} (`{{code}}`).",
+      "invalidLocale": "❌ Langue invalide. Utilisez : {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Mise à jour automatique actuelle: *{{value}}*\n\nUtilisation : autoupdate <{{on}}|{{off}}>",

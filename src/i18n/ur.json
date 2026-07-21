@@ -582,9 +582,19 @@
       "updatedNoLid": "✅ مالک کا نمبر *{{value}}* پر اپڈیٹ کر دیا گیا۔\n⚠️ فی الحال نیا LID حل نہ ہو سکا؛ پرانا LID تب تک برقرار رکھا گیا ہے جب تک اپڈیٹ ممکن نہ ہو۔"
     },
     "prefixo": {
-      "current": "⌨️ موجودہ پریفکس: *{{value}}*\n\nاستعمال: prefix <نیا پریفکس>",
-      "invalid": "❌ ایسا پریفکس استعمال کریں جس میں spaces نہ ہوں اور زیادہ سے زیادہ 5 حروف ہوں۔",
-      "updated": "✅ پریفکس کو *{{value}}* پر اپڈیٹ کر دیا گیا۔"
+      "current": "⌨️ پرانا پریفکس: *{{value}}*\n\nزبان کے مطابق پریفکس نقشہ:\n{{mapSection}}\n\nاستعمال:\n• prefixo <نیا> — پرانا بدلیں\n• prefixo set <locale> <prefix>\n• prefixo del <locale>\n• prefixo clear\n\nزبانیں: {{options}}",
+      "invalid": "❌ بغیر اسپیس اور زیادہ سے زیادہ 5 حروف کا پریفکس استعمال کریں۔",
+      "updated": "✅ پرانا پریفکس *{{value}}* پر اپڈیٹ ہو گیا۔",
+      "mapEmpty": "_(غیر فعال — کوئی اندراج نہیں)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ استعمال: prefixo set <locale> <prefix>\nزبانیں: {{options}}",
+      "setOk": "✅ نقشہ اپڈیٹ: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ استعمال: prefixo del <locale>\nزبانیں: {{options}}",
+      "delOk": "✅ نقشے سے ہٹایا: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) نقشے میں نہیں۔",
+      "clearOk": "✅ زبان پریفکس نقشہ صاف۔ صرف پرانا پریفکس فعال ہے۔",
+      "duplicate": "❌ پریفکس *{{prefix}}* پہلے سے {{locale}} (`{{code}}`) استعمال کر رہا ہے۔",
+      "invalidLocale": "❌ غلط زبان۔ استعمال کریں: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ موجودہ خودکار اپ ڈیٹ: *{{value}}*\n\nاستعمال: autoupdate <{{on}}|{{off}}>",

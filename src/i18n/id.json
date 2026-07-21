@@ -576,9 +576,19 @@
       "updatedNoLid": "✅ Nomor pemilik diperbarui menjadi *{{value}}*.\n⚠️ Saya belum bisa menyelesaikan LID baru sekarang; LID lama dipertahankan sampai bisa diperbarui."
     },
     "prefixo": {
-      "current": "⌨️ Prefiks saat ini: *{{value}}*\n\nCara pakai: prefiks <prefiks baru>",
+      "current": "⌨️ Prefiks lama: *{{value}}*\n\nPeta prefiks per bahasa:\n{{mapSection}}\n\nPenggunaan:\n• prefixo <baru> — ubah prefiks lama\n• prefixo set <locale> <prefiks>\n• prefixo del <locale>\n• prefixo clear\n\nLocale: {{options}}",
       "invalid": "❌ Gunakan prefiks tanpa spasi dan maksimal 5 karakter.",
-      "updated": "✅ Prefiks diperbarui menjadi *{{value}}*."
+      "updated": "✅ Prefiks lama diperbarui ke *{{value}}*.",
+      "mapEmpty": "_(nonaktif — belum ada entri)_",
+      "mapItem": "• {{locale}} (`{{code}}`): *{{prefix}}*",
+      "setUsage": "❌ Penggunaan: prefixo set <locale> <prefiks>\nLocale: {{options}}",
+      "setOk": "✅ Peta diperbarui: {{locale}} (`{{code}}`) → *{{prefix}}*.",
+      "delUsage": "❌ Penggunaan: prefixo del <locale>\nLocale: {{options}}",
+      "delOk": "✅ Dihapus dari peta: {{locale}} (`{{code}}`).",
+      "delMissing": "❌ {{locale}} (`{{code}}`) tidak ada di peta.",
+      "clearOk": "✅ Peta prefiks per bahasa dikosongkan. Hanya prefiks lama yang aktif.",
+      "duplicate": "❌ Prefiks *{{prefix}}* sudah dipakai {{locale}} (`{{code}}`).",
+      "invalidLocale": "❌ Bahasa tidak valid. Gunakan: {{options}}"
     },
     "autoupdate": {
       "current": "♻️ Auto update saat ini: *{{value}}*\n\nCara pakai: autoupdate <{{on}}|{{off}}>",
