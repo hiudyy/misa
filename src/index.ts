@@ -5,7 +5,7 @@
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { proto } from "baileys";
+import { proto, WASocket } from "baileys";
 import { getBotConfig, saveBotConfig } from "./config.js";
 import { createConnection } from "./connection.js";
 import { paths } from "./config/paths.js";
@@ -21,6 +21,8 @@ import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBan
 import { applyMediaRestriction } from "./helpers/messageRestrictions.js";
 import { isMessageDebugEnabled, logMessageDebug } from "./helpers/messageDebug.js";
 import { recordGroupActivity } from "./helpers/groupActivity.js";
+import { getDisconnectStatusCode, shouldReconnectFromStatus } from "./helpers/reconnect.js";
+import { tryHandleApkReply } from "./helpers/apkReply.js";
 import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
@@ -31,42 +33,19 @@ import { resolveLocale, createTranslator } from "./i18n/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<void> {
-  const config = await getBotConfig();
-  const misa = await createConnection(authMode, phoneNumber);
+const MAX_RECONNECT_ATTEMPTS = 10;
+const INITIAL_RECONNECT_DELAY_MS = 2000;
+const MAX_RECONNECT_DELAY_MS = 60000;
 
-  const commandHandler = new CommandHandler();
-  const eventHandler = new EventHandler();
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-  await commandHandler.loadCommands(paths.commands);
-  await eventHandler.loadEvents(paths.events, misa);
-
-  misa.ev.on("connection.update", async (update) => {
-    if (update.connection === "open") {
-      const latestConfig = await getBotConfig();
-      // Buscar e salvar o LID do dono quando conectar
-      if (latestConfig.ownerNumber && !latestConfig.ownerLID) {
-        const tGlobal = createTranslator(latestConfig.language || "pt");
-        log.info("OWNER", tGlobal("logs.ownerLidFetching"));
-        const ownerLID = await toLID(latestConfig.ownerNumber, misa);
-        if (ownerLID) {
-          latestConfig.ownerLID = ownerLID;
-          await saveBotConfig(latestConfig);
-          log.success("OWNER", tGlobal("logs.ownerLidSaved", { lid: ownerLID }));
-        } else {
-          log.warn("OWNER", tGlobal("logs.ownerLidFailed"));
-        }
-      }
-    }
-
-    if (update.connection === "close") {
-      const shouldReconnect = !String(update.lastDisconnect?.error).includes("logged out");
-      if (shouldReconnect) {
-        await startBot(authMode, phoneNumber);
-      }
-    }
-  });
-
+async function setupMessageHandler(
+  misa: WASocket,
+  commandHandler: CommandHandler,
+  config: Awaited<ReturnType<typeof getBotConfig>>,
+): Promise<void> {
   misa.ev.on("messages.upsert", async (event) => {
     if (isMessageDebugEnabled()) logMessageDebug(event);
 
@@ -89,8 +68,8 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     const senderLID = rawSender ? await toLID(rawSender, misa) : null;
 
     if (!senderLID) {
-      const tGlobal = createTranslator(config.language || "pt");
-      log.warn("COMMAND", tGlobal("logs.commandIgnoredNoLid", { sender: rawSender || "remetente vazio" }));
+      const tGlobal = createTranslator(runtimeConfig.language || "pt");
+      log.warn("COMMAND", tGlobal("logs.commandIgnoredNoLid", { sender: rawSender || tGlobal("logs.emptySender") }));
       return;
     }
 
@@ -159,7 +138,19 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       }
     }
 
-    if (!isCommandMessage) return;
+    if (!isCommandMessage) {
+      const locale = await resolveLocale(from);
+      const sessionT = createTranslator(locale);
+      await tryHandleApkReply({
+        misa,
+        from,
+        sender,
+        body,
+        message: message as proto.IWebMessageInfo,
+        t: sessionT,
+      });
+      return;
+    }
 
     const [rawCommandName, ...args] = body.slice(prefix.length).trim().split(/\s+/);
     const commandName = rawCommandName?.toLowerCase();
@@ -258,10 +249,96 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
       await misa.sendMessage(from, { text: cmdTranslator("errors.commandExecution") });
     }
   });
+}
+
+async function runBotCycle(
+  authMode: "qr" | "pairing" = "qr",
+  phoneNumber?: string,
+  onConnected?: () => void,
+): Promise<boolean> {
+  const config = await getBotConfig();
+  const misa = await createConnection(authMode, phoneNumber);
+
+  const commandHandler = new CommandHandler();
+  const eventHandler = new EventHandler();
+
+  await commandHandler.loadCommands(paths.commands);
+  await eventHandler.loadEvents(paths.events, misa);
+
+  setupMessageHandler(misa, commandHandler, config);
 
   const globalLocale = await resolveLocale();
   const tGlobal = createTranslator(globalLocale);
   log.success(config.botName, tGlobal("logs.botStarted", { botName: config.botName }));
+
+  return new Promise<boolean>((resolve) => {
+    let settled = false;
+
+    const settle = (shouldReconnect: boolean) => {
+      if (settled) return;
+      settled = true;
+      resolve(shouldReconnect);
+    };
+
+    misa.ev.on("connection.update", async (update) => {
+      if (update.connection === "open") {
+        onConnected?.();
+        const latestConfig = await getBotConfig();
+        // Buscar e salvar o LID do dono quando conectar
+        if (latestConfig.ownerNumber && !latestConfig.ownerLID) {
+          const tOwner = createTranslator(latestConfig.language || "pt");
+          log.info("OWNER", tOwner("logs.ownerLidFetching"));
+          const ownerLID = await toLID(latestConfig.ownerNumber, misa);
+          if (ownerLID) {
+            latestConfig.ownerLID = ownerLID;
+            await saveBotConfig(latestConfig);
+            log.success("OWNER", tOwner("logs.ownerLidSaved", { lid: ownerLID }));
+          } else {
+            log.warn("OWNER", tOwner("logs.ownerLidFailed"));
+          }
+        }
+      }
+
+      if (update.connection === "close") {
+        const statusCode = getDisconnectStatusCode(update.lastDisconnect?.error);
+        settle(shouldReconnectFromStatus(statusCode));
+      }
+    });
+  });
+}
+
+export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<void> {
+  let attempt = 0;
+  const config = await getBotConfig();
+  const tGlobal = createTranslator(config.language || "pt");
+
+  while (attempt < MAX_RECONNECT_ATTEMPTS) {
+    const shouldReconnect = await runBotCycle(authMode, phoneNumber, () => {
+      // Conexão estável: zera o backoff para quedas futuras ao longo do tempo
+      attempt = 0;
+    });
+
+    if (!shouldReconnect) {
+      log.info("BOT", tGlobal("connection.noAutoReconnect"));
+      return;
+    }
+
+    attempt += 1;
+    if (attempt >= MAX_RECONNECT_ATTEMPTS) break;
+
+    const delay = Math.min(INITIAL_RECONNECT_DELAY_MS * 2 ** (attempt - 1), MAX_RECONNECT_DELAY_MS);
+    log.warn(
+      "BOT",
+      tGlobal("connection.reconnectAttempt", {
+        delay: String(delay),
+        attempt: String(attempt),
+        max: String(MAX_RECONNECT_ATTEMPTS),
+      }),
+    );
+    await sleep(delay);
+  }
+
+  log.error("BOT", tGlobal("connection.maxReconnectReached", { max: String(MAX_RECONNECT_ATTEMPTS) }));
 }
 
 const entryPointUrl = process.argv[1] ? fileURLToPath(import.meta.url) === path.resolve(process.argv[1]) : false;
@@ -277,7 +354,7 @@ if (entryPointUrl) {
   getBotConfig().then(async (config) => {
     tGlobal = createTranslator(config.language || "pt");
     botScope = config.botName;
-    
+
     if (config.autoUpdate && !args.includes("--no-update")) await runAutoUpdate();
     startBot(authMode, phone).catch((error) => {
       log.error(botScope, tGlobal("terminal.startFailed"), error);

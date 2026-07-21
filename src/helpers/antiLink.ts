@@ -23,8 +23,8 @@ function getDisplayName(message: proto.IWebMessageInfo): string {
   const pushName = message.pushName?.trim();
   if (pushName) return pushName;
 
-  const participant = message.key?.participant || message.participant || "usuario";
-  return participant.split("@")[0];
+  const participant = message.key?.participant || message.participant || "";
+  return participant.split("@")[0] || "?";
 }
 
 function buildPunishmentText(locale: Locale, template: string, sender: string, nome: string, grupo: string, tipo: string): string {
@@ -74,10 +74,9 @@ export async function applyAntiLink(
 
   const groupMeta = await misa.groupMetadata(groupId).catch(() => null);
   const nome = getDisplayName(message);
-  const grupo = groupMeta?.subject ?? "grupo";
-  const antiConfig = config[matched.key];
-  
   const { t } = await import("../i18n/index.js");
+  const grupo = groupMeta?.subject ?? t("common.none", locale);
+  const antiConfig = config[matched.key];
 
   // Tradução do tipo
   let tipoTraduzido: string = matched.tipo;
@@ -89,9 +88,11 @@ export async function applyAntiLink(
   let template = antiConfig.texto;
   if (matched.key === "antilink" && template === t("group.antilink.defaultText", "pt")) {
     template = t("group.antilink.defaultText", locale);
-  } else if (matched.key === "antilinkgp" && template === t("group.antilink.defaultGroupText", "pt")) {
+  }
+  if (matched.key === "antilinkgp" && template === t("group.antilink.defaultGroupText", "pt")) {
     template = t("group.antilink.defaultGroupText", locale);
-  } else if (matched.key === "antilinkch" && template === t("group.antilink.defaultChannelText", "pt")) {
+  }
+  if (matched.key === "antilinkch" && template === t("group.antilink.defaultChannelText", "pt")) {
     template = t("group.antilink.defaultChannelText", locale);
   }
 

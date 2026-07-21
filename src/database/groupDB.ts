@@ -5,7 +5,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { paths } from "../config/paths.js";
-import type { Locale } from "../i18n/index.js";
+import { DEFAULT_LOCALE, t, type Locale } from "../i18n/index.js";
 
 export type GroupData = {
   language?: Locale;
@@ -64,23 +64,23 @@ const DEFAULT: GroupData = {
   },
   bemvindo: {
     ativo: false,
-    legenda: "Seja bem-vindo(a), @usuario! 👋\nVocê é o membro de número @total do grupo *@grupo*.",
+    legenda: t("group.welcome.defaultLegend", DEFAULT_LOCALE),
     midia: null,
   },
   antilink: {
     ativo: false,
     punicao: "apagar",
-    texto: "🚫 @usuario, links não são permitidos neste grupo.",
+    texto: t("group.antilink.defaultText", DEFAULT_LOCALE),
   },
   antilinkgp: {
     ativo: false,
     punicao: "apagar",
-    texto: "🚫 @usuario, links de grupo não são permitidos neste grupo.",
+    texto: t("group.antilink.defaultGroupText", DEFAULT_LOCALE),
   },
   antilinkch: {
     ativo: false,
     punicao: "apagar",
-    texto: "🚫 @usuario, links de canal não são permitidos neste grupo.",
+    texto: t("group.antilink.defaultChannelText", DEFAULT_LOCALE),
   },
   antistealth: false,
 };

@@ -31,7 +31,7 @@ export type BlockedUserEntry = {
 const defaultOwnerConfig: OwnerConfig = {
   comandoNaoEncontrado: {
     modo: "texto",
-    texto: "❌ @usuario, o comando @comando não existe.\n\nTalvez você quis dizer: @parecido (@similaridade)\nUse @prefixomenu para ver os comandos.",
+    texto: t("owner.cmdnf.defaultText", DEFAULT_LOCALE),
   },
   antiPrivate: false,
   blockedUsers: [],
