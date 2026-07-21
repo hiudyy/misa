@@ -165,11 +165,6 @@ async function askBotConfig(rl: readline.Interface, t: any): Promise<void> {
     currentConfig.ownerNumber,
   );
 
-  console.log(`\n${t("terminal.config.apiKeyHint").replace("[CONFIG]", paint("[CONFIG]", "cyan")).replace("https://api.misaka.com.br", paint("https://api.misaka.com.br", "yellow"))}`);
-  const apiKey = keepOrUpdate(
-    await askInput(rl, `${t("terminal.config.apiKey")} [${currentConfig.apiKey ? t("terminal.config.configured") : t("terminal.config.notConfigured")}]`),
-    currentConfig.apiKey,
-  );
   const autoUpdate = await askBoolean(rl, t("terminal.config.autoUpdate"), currentConfig.autoUpdate, t);
   const currentLanguage = isValidLocale(currentConfig.language) ? currentConfig.language : DEFAULT_LOCALE;
   const rawLang = keepOrUpdate(
@@ -188,7 +183,6 @@ async function askBotConfig(rl: readline.Interface, t: any): Promise<void> {
     ownerName,
     prefix,
     ownerNumber,
-    apiKey,
     autoUpdate,
     language,
   };

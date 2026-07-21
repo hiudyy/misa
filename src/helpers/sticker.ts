@@ -9,6 +9,7 @@ import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
 import webp from "node-webpmux";
 import { WAMessage, WASocket } from "baileys";
 import { paths } from "../config/paths.js";
+import { ErrorCode } from "./localizeError.js";
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
@@ -47,12 +48,12 @@ async function getBuffer(url: string): Promise<Buffer> {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Falha ao baixar mídia (${response.status})`);
+    throw new Error(ErrorCode.STICKER_DOWNLOAD_FAILED);
   }
 
   const buffer = Buffer.from(await response.arrayBuffer());
   if (buffer.length === 0) {
-    throw new Error("Download vazio");
+    throw new Error(ErrorCode.STICKER_EMPTY_DOWNLOAD);
   }
 
   return buffer;
@@ -77,7 +78,7 @@ async function resolveInputToBuffer(input: StickerInput): Promise<Buffer> {
     return getBuffer(input.url);
   }
 
-  throw new Error("Entrada de sticker inválida");
+  throw new Error(ErrorCode.STICKER_INVALID_INPUT);
 }
 
 async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare = false): Promise<Buffer> {
@@ -128,7 +129,7 @@ async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare =
       await fs.unlink(outputPath).catch(() => undefined);
 
       if (result.length === 0) {
-        throw new Error("Conversão falhou: saída vazia");
+        throw new Error(ErrorCode.STICKER_CONVERSION_FAILED);
       }
 
       if (result.length <= maxSize || quality <= minQuality) {
@@ -193,7 +194,7 @@ export async function buildStickerBuffer(
   const buffer = await resolveInputToBuffer(input);
 
   if (buffer.length < 10) {
-    throw new Error("Buffer inválido/vazio");
+    throw new Error(ErrorCode.STICKER_INVALID_BUFFER);
   }
 
   const webpBuffer = await convertToWebp(buffer, type === "video", options?.forceSquare ?? false);

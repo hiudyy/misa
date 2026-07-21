@@ -6,26 +6,9 @@ import { downloadMediaMessage, WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { getBotConfig } from "../../../config.js";
 import { sendSticker } from "../../../helpers/sticker.js";
+import { localizeError } from "../../../helpers/localizeError.js";
 
 const MAX_VIDEO_SECONDS = 15;
-
-function getStickerErrorMessage(error: unknown, t: (key: string, vars?: Record<string, string>) => string): string {
-  if (!(error instanceof Error)) return t("commands.sticker.unknown");
-
-  const internalMessages = [
-    "Falha ao baixar mídia",
-    "Download vazio",
-    "Entrada de sticker inválida",
-    "Conversão falhou",
-    "Buffer inválido/vazio",
-  ];
-
-  if (internalMessages.some((message) => error.message.startsWith(message))) {
-    return t("commands.sticker.unknown");
-  }
-
-  return error.message;
-}
 
 export function createStickerCommand(
   name: "sticker" | "sticker2",
@@ -36,7 +19,7 @@ export function createStickerCommand(
   return {
     name,
     aliases,
-    description: "Cria figurinha de foto ou vídeo",
+    description: "Creates a sticker from a photo or video",
     category: "geral",
     async execute({ misa, message, from, t }) {
       const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
@@ -86,7 +69,7 @@ export function createStickerCommand(
           from,
           {
             text: t("commands.sticker.error", {
-              message: getStickerErrorMessage(error, t),
+              message: localizeError(error, t, "commands.sticker.unknown"),
             }),
           },
           { quoted: message as WAMessage },

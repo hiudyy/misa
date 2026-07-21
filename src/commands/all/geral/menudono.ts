@@ -10,7 +10,7 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 const menuDonoCommand: Command = {
   name: "menudono",
   aliases: ["mdono", "ownermenu", "menudueño"],
-  description: "Mostra os comandos do dono",
+  description: "Shows owner commands",
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, prefix, t }) {
@@ -29,7 +29,6 @@ const menuDonoCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.nomedono")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.numerodono")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.prefixo")}`,
-        `│  ♡ ${prefix}${t("commands.menu.cmds.apikey")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.autoupdate")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.antipv")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.statusbot")}`,

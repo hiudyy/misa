@@ -4,21 +4,17 @@
  */
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
-import { misakaAPI } from "../../../helpers/misakaAPI.js";
-
-type PinterestDownloadResponse = {
-  url: string;
-  type: "image" | "video";
-};
-
-type PinterestSearchResponse = {
-  images: string[];
-};
+import {
+  downloadPinterest,
+  isValidPinURL,
+  searchPinterest,
+} from "../../../helpers/pinterestDownload.js";
+import { localizeError } from "../../../helpers/localizeError.js";
 
 const pinterestCommand: Command = {
   name: "pinterest",
   aliases: ["pin", "pint"],
-  description: "Baixa imagens do Pinterest ou pesquisa por termo",
+  description: "Downloads Pinterest images or searches by term",
   category: "all",
   async execute({ misa, message, from, args, t }) {
     if (args.length === 0) {
@@ -29,19 +25,12 @@ const pinterestCommand: Command = {
     }
 
     const input = args.join(" ");
-    const isUrl = input.includes("pinterest.com") || input.includes("pin.it");
 
-    // Se for URL, faz download
-    if (isUrl) {
+    if (isValidPinURL(input)) {
       await misa.sendMessage(from, { text: t("commands.pinterest.downloading") }, { quoted: message as WAMessage });
 
       try {
-        const data = await misakaAPI<PinterestDownloadResponse>("/pinterest/download", { url: input }, t);
-
-        if (!data) {
-          await misa.sendMessage(from, { text: t("commands.pinterest.downloadFailed") }, { quoted: message as WAMessage });
-          return;
-        }
+        const data = await downloadPinterest(input);
 
         if (data.type === "video") {
           await misa.sendMessage(
@@ -66,7 +55,9 @@ const pinterestCommand: Command = {
         await misa.sendMessage(
           from,
           {
-            text: t("commands.pinterest.error", { message: error instanceof Error ? error.message : t("commands.pinterest.unknown") }),
+            text: t("commands.pinterest.error", {
+              message: localizeError(error, t, "commands.pinterest.unknown"),
+            }),
           },
           { quoted: message as WAMessage },
         );
@@ -74,13 +65,12 @@ const pinterestCommand: Command = {
       return;
     }
 
-    // Se não for URL, faz pesquisa
     await misa.sendMessage(from, { text: t("commands.pinterest.searching") }, { quoted: message as WAMessage });
 
     try {
-      const data = await misakaAPI<PinterestSearchResponse>("/pinterest/search", { q: input }, t);
+      const images = await searchPinterest(input);
 
-      if (!data || data.images.length === 0) {
+      if (images.length === 0) {
         await misa.sendMessage(from, { text: t("commands.pinterest.notFound") }, { quoted: message as WAMessage });
         return;
       }
@@ -88,38 +78,27 @@ const pinterestCommand: Command = {
       await misa.sendMessage(
         from,
         {
-          text: t("commands.pinterest.found", { count: String(data.images.length) }),
+          text: t("commands.pinterest.found", { count: String(images.length) }),
         },
         { quoted: message as WAMessage },
       );
 
-      // Envia até 5 imagens
-      const limit = Math.min(data.images.length, 5);
-      for (let i = 0; i < limit; i++) {
-        await misa.sendMessage(
-          from,
-          {
-            image: { url: data.images[i] },
-            caption: i === 0 ? t("commands.pinterest.searchCaption", { query: input }) : undefined,
-          },
-          { quoted: message as WAMessage },
-        );
-      }
-
-      if (data.images.length > 5) {
-        await misa.sendMessage(
-          from,
-          {
-            text: t("commands.pinterest.limited", { total: String(data.images.length), sent: "5" }),
-          },
-          { quoted: message as WAMessage },
-        );
-      }
+      const randomImg = images[Math.floor(Math.random() * images.length)];
+      await misa.sendMessage(
+        from,
+        {
+          image: { url: randomImg },
+          caption: t("commands.pinterest.searchCaption", { query: input }),
+        },
+        { quoted: message as WAMessage },
+      );
     } catch (error) {
       await misa.sendMessage(
         from,
         {
-          text: t("commands.pinterest.error", { message: error instanceof Error ? error.message : t("commands.pinterest.unknown") }),
+          text: t("commands.pinterest.error", {
+            message: localizeError(error, t, "commands.pinterest.unknown"),
+          }),
         },
         { quoted: message as WAMessage },
       );

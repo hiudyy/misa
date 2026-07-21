@@ -15,7 +15,6 @@ export type BotConfig = {
   prefix: string;
   ownerNumber: string;
   ownerLID?: string;
-  apiKey: string;
   autoUpdate: boolean;
   language: Locale;
 };
@@ -25,7 +24,6 @@ const defaultConfig: BotConfig = {
   ownerName: "Cognima / Hiudy",
   prefix: "!",
   ownerNumber: "",
-  apiKey: "",
   autoUpdate: false,
   language: "pt",
 };
