@@ -17,6 +17,7 @@ import { paths } from "./config/paths.js";
 import { groupCache } from "./cache/groupCache.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
+import { getDisconnectStatusCode, shouldReconnectFromStatus } from "./helpers/reconnect.js";
 import { getGlobalLocale, createTranslator } from "./i18n/index.js";
 
 const logger = pino({ level: "silent" });
@@ -29,76 +30,78 @@ type DisconnectInfo = {
 };
 
 function getDisconnectInfo(statusCode: number | undefined, t: any): DisconnectInfo {
+  const shouldReconnect = shouldReconnectFromStatus(statusCode);
+
   switch (statusCode) {
     case DisconnectReason.loggedOut:
       return {
         title: t("connection.disconnect.loggedOut.title"),
         description: t("connection.disconnect.loggedOut.description"),
         action: t("connection.disconnect.loggedOut.action"),
-        shouldReconnect: false,
+        shouldReconnect,
       };
     case DisconnectReason.forbidden:
       return {
         title: t("connection.disconnect.forbidden.title"),
         description: t("connection.disconnect.forbidden.description"),
         action: t("connection.disconnect.forbidden.action"),
-        shouldReconnect: false,
+        shouldReconnect,
       };
     case DisconnectReason.connectionLost:
       return {
         title: t("connection.disconnect.connectionLost.title"),
         description: t("connection.disconnect.connectionLost.description"),
         action: t("connection.disconnect.connectionLost.action"),
-        shouldReconnect: true,
+        shouldReconnect,
       };
     case DisconnectReason.multideviceMismatch:
       return {
         title: t("connection.disconnect.multideviceMismatch.title"),
         description: t("connection.disconnect.multideviceMismatch.description"),
         action: t("connection.disconnect.multideviceMismatch.action"),
-        shouldReconnect: false,
+        shouldReconnect,
       };
     case DisconnectReason.connectionClosed:
       return {
         title: t("connection.disconnect.connectionClosed.title"),
         description: t("connection.disconnect.connectionClosed.description"),
         action: t("connection.disconnect.connectionClosed.action"),
-        shouldReconnect: true,
+        shouldReconnect,
       };
     case DisconnectReason.connectionReplaced:
       return {
         title: t("connection.disconnect.connectionReplaced.title"),
         description: t("connection.disconnect.connectionReplaced.description"),
         action: t("connection.disconnect.connectionReplaced.action"),
-        shouldReconnect: false,
+        shouldReconnect,
       };
     case DisconnectReason.badSession:
       return {
         title: t("connection.disconnect.badSession.title"),
         description: t("connection.disconnect.badSession.description"),
         action: t("connection.disconnect.badSession.action", { authPath: paths.auth }),
-        shouldReconnect: false,
+        shouldReconnect,
       };
     case DisconnectReason.unavailableService:
       return {
         title: t("connection.disconnect.unavailableService.title"),
         description: t("connection.disconnect.unavailableService.description"),
         action: t("connection.disconnect.unavailableService.action"),
-        shouldReconnect: true,
+        shouldReconnect,
       };
     case DisconnectReason.restartRequired:
       return {
         title: t("connection.disconnect.restartRequired.title"),
         description: t("connection.disconnect.restartRequired.description"),
         action: t("connection.disconnect.restartRequired.action"),
-        shouldReconnect: true,
+        shouldReconnect,
       };
     default:
       return {
         title: t("connection.disconnect.default.title"),
         description: t("connection.disconnect.default.description"),
         action: t("connection.disconnect.default.action"),
-        shouldReconnect: true,
+        shouldReconnect,
       };
   }
 }
@@ -240,7 +243,7 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
     }
 
     if (connection === "close") {
-      const statusCode = (lastDisconnect?.error as { output?: { statusCode?: number } })?.output?.statusCode;
+      const statusCode = getDisconnectStatusCode(lastDisconnect?.error);
       const shouldReconnect = logDisconnect(statusCode, t);
 
       if (shouldReconnect) {

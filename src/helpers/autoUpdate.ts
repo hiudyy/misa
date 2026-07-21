@@ -13,17 +13,91 @@ import { getGlobalLocale, createTranslator } from "../i18n/index.js";
 const REPO_ZIP = "https://github.com/hiudyy/misa/archive/refs/heads/main.zip";
 const ZIP_PATH = path.join(paths.dados, "update.zip");
 const EXTRACT_PATH = path.join(paths.dados, "update-tmp");
+const BACKUPS_DIR = path.join(paths.dados, "backups");
+const MAX_BACKUPS = 5;
 
 async function cleanup(): Promise<void> {
   await fs.rm(ZIP_PATH, { force: true });
   await fs.rm(EXTRACT_PATH, { force: true, recursive: true });
 }
 
+async function cleanupBackup(backupDir: string): Promise<void> {
+  await fs.rm(backupDir, { force: true, recursive: true });
+}
+
+async function cleanupOldBackups(): Promise<void> {
+  try {
+    const entries = await fs.readdir(BACKUPS_DIR, { withFileTypes: true });
+    const backupDirs = entries
+      .filter((entry) => entry.isDirectory() && entry.name.startsWith("update-"))
+      .map((entry) => entry.name);
+
+    const toDelete = selectBackupsToDelete(backupDirs, MAX_BACKUPS);
+    for (const oldest of toDelete) {
+      await fs.rm(path.join(BACKUPS_DIR, oldest), { force: true, recursive: true });
+    }
+  } catch {
+    // diretório de backups pode não existir ainda
+  }
+}
+
+async function createBackup(): Promise<string> {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const backupDir = path.join(BACKUPS_DIR, `update-${timestamp}`);
+
+  await fs.mkdir(backupDir, { recursive: true });
+
+  const srcPath = path.join(paths.root, "src");
+  const packagePath = path.join(paths.root, "package.json");
+  const srcBackupPath = path.join(backupDir, "src");
+  const packageBackupPath = path.join(backupDir, "package.json");
+
+  try {
+    await fs.cp(srcPath, srcBackupPath, { recursive: true });
+  } catch {
+    // src pode não existir em cenários incomuns, ignora
+  }
+
+  try {
+    const packageContent = await fs.readFile(packagePath, "utf8");
+    await fs.writeFile(packageBackupPath, packageContent, "utf8");
+  } catch {
+    // package.json pode não existir, ignora
+  }
+
+  await cleanupOldBackups();
+  return backupDir;
+}
+
+async function restoreBackup(
+  backupDir: string,
+  t: (key: string, vars?: Record<string, string>) => string,
+): Promise<void> {
+  const srcBackupPath = path.join(backupDir, "src");
+  const packageBackupPath = path.join(backupDir, "package.json");
+  const srcPath = path.join(paths.root, "src");
+  const packagePath = path.join(paths.root, "package.json");
+
+  try {
+    await fs.rm(srcPath, { force: true, recursive: true });
+    await fs.cp(srcBackupPath, srcPath, { recursive: true });
+  } catch (error) {
+    log.error("UPDATE", t("update.restoreSrcFailed"), error);
+  }
+
+  try {
+    const packageContent = await fs.readFile(packageBackupPath, "utf8");
+    await fs.writeFile(packagePath, packageContent, "utf8");
+  } catch (error) {
+    log.error("UPDATE", t("update.restorePackageFailed"), error);
+  }
+}
+
 async function downloadFile(url: string, destination: string): Promise<void> {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Falha ao baixar atualização: HTTP ${response.status}`);
+    throw new Error(`UPDATE_DOWNLOAD_HTTP_${response.status}`);
   }
 
   const data = Buffer.from(await response.arrayBuffer());
@@ -34,7 +108,7 @@ function readUInt64LE(buffer: Buffer, offset: number): number {
   const value = buffer.readBigUInt64LE(offset);
 
   if (value > BigInt(Number.MAX_SAFE_INTEGER)) {
-    throw new Error("Arquivo ZIP grande demais para processar com segurança.");
+    throw new Error("UPDATE_ZIP_TOO_LARGE");
   }
 
   return Number(value);
@@ -49,7 +123,7 @@ function findEndOfCentralDirectory(zip: Buffer): number {
     if (zip.readUInt32LE(offset) === signature) return offset;
   }
 
-  throw new Error("Arquivo ZIP inválido: diretório central não encontrado.");
+  throw new Error("UPDATE_ZIP_EOCD_NOT_FOUND");
 }
 
 function getCentralDirectory(zip: Buffer): { offset: number; entries: number } {
@@ -63,12 +137,12 @@ function getCentralDirectory(zip: Buffer): { offset: number; entries: number } {
 
   const locatorOffset = eocdOffset - 20;
   if (locatorOffset < 0 || zip.readUInt32LE(locatorOffset) !== 0x07064b50) {
-    throw new Error("ZIP64 sem localizador válido.");
+    throw new Error("UPDATE_ZIP64_LOCATOR_INVALID");
   }
 
   const zip64EocdOffset = readUInt64LE(zip, locatorOffset + 8);
   if (zip.readUInt32LE(zip64EocdOffset) !== 0x06064b50) {
-    throw new Error("ZIP64 inválido: diretório central não encontrado.");
+    throw new Error("UPDATE_ZIP64_EOCD_INVALID");
   }
 
   return {
@@ -83,11 +157,20 @@ function safeExtractPath(destination: string, fileName: string): string {
   const destinationPath = path.resolve(destination);
 
   if (targetPath !== destinationPath && !targetPath.startsWith(`${destinationPath}${path.sep}`)) {
-    throw new Error(`Entrada insegura no ZIP: ${fileName}`);
+    throw new Error(`UPDATE_ZIP_UNSAFE_ENTRY:${fileName}`);
   }
 
   return targetPath;
 }
+
+/** Retorna nomes de backups antigos a remover, mantendo no máximo `maxBackups`. */
+export function selectBackupsToDelete(backupNames: string[], maxBackups: number): string[] {
+  const sorted = [...backupNames].filter((name) => name.startsWith("update-")).sort();
+  if (sorted.length <= maxBackups) return [];
+  return sorted.slice(0, sorted.length - maxBackups);
+}
+
+export { safeExtractPath, MAX_BACKUPS };
 
 async function extractZip(zipPath: string, destination: string): Promise<void> {
   const zip = await fs.readFile(zipPath);
@@ -98,7 +181,7 @@ async function extractZip(zipPath: string, destination: string): Promise<void> {
 
   for (let entryIndex = 0; entryIndex < centralDirectory.entries; entryIndex++) {
     if (zip.readUInt32LE(offset) !== 0x02014b50) {
-      throw new Error("Arquivo ZIP inválido: entrada do diretório central corrompida.");
+      throw new Error("UPDATE_ZIP_CENTRAL_CORRUPT");
     }
 
     const compressionMethod = zip.readUInt16LE(offset + 10);
@@ -118,7 +201,7 @@ async function extractZip(zipPath: string, destination: string): Promise<void> {
     }
 
     if (zip.readUInt32LE(localHeaderOffset) !== 0x04034b50) {
-      throw new Error(`Arquivo ZIP inválido: cabeçalho local ausente para ${fileName}.`);
+      throw new Error(`UPDATE_ZIP_LOCAL_HEADER_MISSING:${fileName}`);
     }
 
     const localFileNameSize = zip.readUInt16LE(localHeaderOffset + 26);
@@ -132,7 +215,7 @@ async function extractZip(zipPath: string, destination: string): Promise<void> {
     } else if (compressionMethod === 8) {
       fileData = inflateRawSync(compressedData);
     } else {
-      throw new Error(`Método de compressão ZIP não suportado (${compressionMethod}) em ${fileName}.`);
+      throw new Error(`UPDATE_ZIP_COMPRESSION_UNSUPPORTED:${compressionMethod}:${fileName}`);
     }
 
     await fs.mkdir(path.dirname(targetPath), { recursive: true });
@@ -146,6 +229,7 @@ export async function runAutoUpdate(): Promise<void> {
   const packagePath = path.join(paths.root, "package.json");
   const packageTmpPath = path.join(paths.root, "package.json.tmp");
   let packageBackup: string | null = null;
+  let backupDir: string | null = null;
 
   log.info("UPDATE", t("update.checking"));
 
@@ -155,6 +239,10 @@ export async function runAutoUpdate(): Promise<void> {
     } catch {
       packageBackup = null;
     }
+
+    log.info("UPDATE", t("update.creatingBackup"));
+    backupDir = await createBackup();
+    log.success("UPDATE", t("update.backupCreated", { path: backupDir }));
 
     await cleanup();
     await fs.mkdir(EXTRACT_PATH, { recursive: true });
@@ -202,6 +290,13 @@ export async function runAutoUpdate(): Promise<void> {
     process.exit(0);
   } catch (error) {
     log.error("UPDATE", t("update.failed"), error);
+
+    if (backupDir) {
+      log.warn("UPDATE", t("update.restoringBackup"));
+      await restoreBackup(backupDir, t);
+      log.info("UPDATE", t("update.backupRestored"));
+    }
+
     await fs.rm(packageTmpPath, { force: true });
     if (packageBackup !== null) {
       try {
