@@ -1,0 +1,418 @@
+{
+  "games": {
+    "gay": {
+      "image": {
+        "path": "games/gay.jpg"
+      }
+    },
+    "lesbica": {
+      "image": {
+        "path": "games/lesbica.jpg"
+      }
+    },
+    "burro": {
+      "image": {
+        "path": "games/burro.jpg"
+      }
+    },
+    "burra": {
+      "image": {
+        "path": "games/burra.jpg"
+      }
+    },
+    "otaku": {
+      "image": {
+        "path": "games/otaku.jpg"
+      }
+    },
+    "fiel": {
+      "image": {
+        "path": "games/fiel.jpg"
+      }
+    },
+    "infiel": {
+      "image": {
+        "path": "games/infiel.jpg"
+      }
+    },
+    "corno": {
+      "image": {
+        "path": "games/corno.jpg"
+      }
+    },
+    "corna": {
+      "image": {
+        "path": "games/corna.jpg"
+      }
+    },
+    "gado": {
+      "image": {
+        "path": "games/gado.jpg"
+      }
+    },
+    "gostoso": {
+      "image": {
+        "path": "games/gostoso.jpg"
+      }
+    },
+    "lindo": {
+      "image": {
+        "path": "games/lindo.jpg"
+      }
+    },
+    "feio": {
+      "image": {
+        "path": "games/feio.jpg"
+      }
+    },
+    "rico": {
+      "image": {
+        "path": "games/rico.jpg"
+      }
+    },
+    "pobre": {
+      "image": {
+        "path": "games/pobre.jpg"
+      }
+    },
+    "feia": {
+      "image": {
+        "path": "games/feia.jpg"
+      }
+    },
+    "rica": {
+      "image": {
+        "path": "games/rica.jpg"
+      }
+    },
+    "nazista": {
+      "image": {
+        "path": "games/nazista.jpg"
+      }
+    },
+    "ladrao": {
+      "image": {
+        "path": "games/ladrao.jpg"
+      }
+    },
+    "ladra": {
+      "image": {
+        "path": "games/ladra.jpg"
+      }
+    },
+    "vesgo": {
+      "image": {
+        "path": "games/vesgo.jpg"
+      }
+    },
+    "vesga": {
+      "image": {
+        "path": "games/vesga.jpg"
+      }
+    },
+    "bebado": {
+      "image": {
+        "path": "games/bebado.jpg"
+      }
+    },
+    "bebada": {
+      "image": {
+        "path": "games/bebada.jpg"
+      }
+    },
+    "racista": {
+      "image": {
+        "path": "games/racista.jpg"
+      }
+    },
+    "homofobico": {
+      "image": {
+        "path": "games/homofobico.jpg"
+      }
+    },
+    "machista": {
+      "image": {
+        "path": "games/machista.jpg"
+      }
+    },
+    "forte": {
+      "image": {
+        "path": "games/forte.jpg"
+      }
+    },
+    "fraco": {
+      "image": {
+        "path": "games/fraco.jpg"
+      }
+    },
+    "nerd": {
+      "image": {
+        "path": "games/nerd.webp"
+      }
+    },
+    "bolsonarista": {
+      "image": {
+        "path": "games/bolsonarista.jpg"
+      }
+    },
+    "petista": {
+      "image": {
+        "path": "games/petista.jpg"
+      }
+    },
+    "comunista": {
+      "image": {
+        "path": "games/comunista.jpg"
+      }
+    },
+    "lulista": {
+      "image": {
+        "path": "games/lulista.jpg"
+      }
+    },
+    "bandido": {
+      "image": {
+        "path": "games/bandido.jpg"
+      }
+    },
+    "vagabundo": {
+      "image": {
+        "path": "games/vagabundo.jpg"
+      }
+    },
+    "pilantra": {
+      "image": {
+        "path": "games/pilantra.jpg"
+      }
+    },
+    "mito": {
+      "image": {
+        "path": "games/mito.jpg"
+      }
+    },
+    "gostosa": {
+      "image": {
+        "path": "games/gostosa.jpg"
+      }
+    },
+    "charmoso": {
+      "image": {
+        "path": "games/charmoso.jpg"
+      }
+    }
+  },
+  "ranks": {
+    "rankgay": {
+      "image": {
+        "path": "ranks/rankgay.jpg"
+      }
+    },
+    "rankburro": {
+      "image": {
+        "path": "ranks/rankburro.jpg"
+      }
+    },
+    "rankotaku": {
+      "image": {
+        "path": "ranks/rankotaku.jpg"
+      }
+    },
+    "rankfiel": {
+      "image": {
+        "path": "ranks/rankfiel.jpg"
+      }
+    },
+    "rankinfiel": {
+      "image": {
+        "path": "ranks/rankinfiel.jpg"
+      }
+    },
+    "rankcorno": {
+      "image": {
+        "path": "ranks/rankcorno.jpg"
+      }
+    },
+    "rankgado": {
+      "image": {
+        "path": "ranks/rankgado.jpg"
+      }
+    },
+    "rankgostoso": {
+      "image": {
+        "path": "ranks/rankgostoso.jpg"
+      }
+    },
+    "rankforte": {
+      "image": {
+        "path": "ranks/rankforte.jpg"
+      }
+    },
+    "rankfraco": {
+      "image": {
+        "path": "ranks/rankfraco.jpg"
+      }
+    },
+    "ranknerd": {
+      "image": {
+        "path": "ranks/ranknerd.webp"
+      }
+    },
+    "ranklindo": {
+      "image": {
+        "path": "ranks/ranklindo.jpg"
+      }
+    },
+    "ranklesbica": {
+      "image": {
+        "path": "ranks/ranklesbica.jpg"
+      }
+    },
+    "rankcorna": {
+      "image": {
+        "path": "ranks/rankcorna.jpg"
+      }
+    },
+    "rankgada": {
+      "image": {
+        "path": "ranks/rankgada.jpg"
+      }
+    },
+    "rankgostosa": {
+      "image": {
+        "path": "ranks/rankgostosa.jpg"
+      }
+    }
+  },
+  "games2": {
+    "chutar": {
+      "video": {
+        "path": "games2/chutar.mp4"
+      }
+    },
+    "tapa": {
+      "video": {
+        "path": "games2/tapa.mp4"
+      }
+    },
+    "soco": {
+      "video": {
+        "path": "games2/soco.mp4"
+      }
+    },
+    "socar": {
+      "video": {
+        "path": "games2/socar.mp4"
+      }
+    },
+    "beijo": {
+      "video": {
+        "path": "games2/beijo.mp4"
+      }
+    },
+    "beijar": {
+      "video": {
+        "path": "games2/beijar.mp4"
+      }
+    },
+    "beijob": {
+      "video": {
+        "path": "games2/beijob.mp4"
+      }
+    },
+    "beijarb": {
+      "video": {
+        "path": "games2/beijarb.mp4"
+      }
+    },
+    "abraco": {
+      "video": {
+        "path": "games2/abraco.mp4"
+      }
+    },
+    "abracar": {
+      "video": {
+        "path": "games2/abracar.mp4"
+      }
+    },
+    "mata": {
+      "video": {
+        "path": "games2/mata.mp4"
+      }
+    },
+    "sexo": {
+      "video": {
+        "path": "games2/sexo.mp4"
+      }
+    },
+    "matar": {
+      "video": {
+        "path": "games2/matar.mp4"
+      }
+    },
+    "goza": {
+      "video": {
+        "path": "games2/goza.mp4"
+      }
+    },
+    "gozar": {
+      "video": {
+        "path": "games2/gozar.mp4"
+      }
+    },
+    "mamar": {
+      "video": {
+        "path": "games2/mamar.mp4"
+      }
+    },
+    "mamada": {
+      "video": {
+        "path": "games2/mamada.mp4"
+      }
+    },
+    "cafune": {
+      "video": {
+        "path": "games2/cafune.mp4"
+      }
+    },
+    "morder": {
+      "video": {
+        "path": "games2/morder.mp4"
+      }
+    },
+    "mordida": {
+      "video": {
+        "path": "games2/mordida.mp4"
+      }
+    },
+    "lamber": {
+      "video": {
+        "path": "games2/lamber.mp4"
+      }
+    },
+    "lambida": {
+      "video": {
+        "path": "games2/lambida.mp4"
+      }
+    },
+    "explodir": {
+      "video": {
+        "path": "games2/explodir.mp4"
+      }
+    },
+    "tomate": {
+      "video": {
+        "path": "games2/tomate.mp4"
+      }
+    },
+    "chute": {
+      "video": {
+        "path": "games2/chute.mp4"
+      }
+    },
+    "tapar": {
+      "video": {
+        "path": "games2/tapar.mp4"
+      }
+    }
+  }
+}

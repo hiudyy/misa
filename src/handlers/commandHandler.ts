@@ -20,22 +20,29 @@ export class CommandHandler {
 
     for (const file of commandFiles) {
       const imported = await import(pathToFileURL(path.resolve(file)).href);
-      const command: Command | undefined = imported.default ?? imported.command;
+      const raw = imported.default ?? imported.command ?? imported.commands;
+      const list: Command[] = Array.isArray(raw) ? raw : raw ? [raw] : [];
 
-      if (!command?.execute) {
+      if (list.length === 0) {
         log.warn("COMMAND", globalT("logs.commandInvalid", { file }));
         continue;
       }
 
-      const fallbackName = path.basename(file, path.extname(file));
-      const commandName = (command.name || fallbackName).toLowerCase();
-      const normalizedCommand = { ...command, name: commandName };
-      this.commands.set(commandName, normalizedCommand);
+      for (const command of list) {
+        if (!command?.execute) {
+          log.warn("COMMAND", globalT("logs.commandInvalid", { file }));
+          continue;
+        }
 
-      for (const alias of this.collectAliases(command)) {
-        this.commands.set(alias, normalizedCommand);
+        const fallbackName = path.basename(file, path.extname(file));
+        const commandName = (command.name || fallbackName).toLowerCase();
+        const normalizedCommand = { ...command, name: commandName };
+        this.commands.set(commandName, normalizedCommand);
+
+        for (const alias of this.collectAliases(command)) {
+          this.commands.set(alias, normalizedCommand);
+        }
       }
-
     }
   }
 

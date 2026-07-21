@@ -10,7 +10,7 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 const menuCommand: Command = {
   name: "menu",
   aliases: ["help", "ajuda", "comandos"],
-  description: "Mostra o menu principal",
+  description: "Shows the main menu",
   category: "geral",
   async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
@@ -24,6 +24,7 @@ const menuCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.menugeral")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menufig")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menudl")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.menubrincadeira")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menugrupo")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menuadm")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.menudono")}`,
