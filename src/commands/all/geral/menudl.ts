@@ -10,7 +10,7 @@ import { sendMenu } from "../../../helpers/sendMenu.js";
 const menuDlCommand: Command = {
   name: "menudl",
   aliases: ["menudownloads", "mdownloads", "dlmenu", "menudescargas"],
-  description: "Mostra os comandos de downloads",
+  description: "Shows download commands",
   category: "geral",
   async execute({ misa, message, from, prefix, t }) {
     const config = await getBotConfig();
@@ -29,6 +29,7 @@ const menuDlCommand: Command = {
         `│  ♡ ${prefix}${t("commands.menu.cmds.tiktok")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.instagram")}`,
         `│  ♡ ${prefix}${t("commands.menu.cmds.pinterest")}`,
+        `│  ♡ ${prefix}${t("commands.menu.cmds.apk")}`,
         "│",
         "‧₊˚ ────────────────˚₊‧",
       ].join("\n"),
