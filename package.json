@@ -7,6 +7,8 @@
     "build": "tsc",
     "check:i18n": "node scripts/check-i18n.mjs",
     "test:i18n": "tsx scripts/test-localized-tokens.ts",
+    "test": "node --test --import tsx tests/**/*.test.ts",
+    "test:watch": "node --test --import tsx --watch tests/**/*.test.ts",
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/start.ts",
     "start:fast": "tsx src/index.ts"
