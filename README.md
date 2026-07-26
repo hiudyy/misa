@@ -14,26 +14,6 @@
 
 </div>
 
-## Documentation / Documentação
-
-Quick start: `npm ci && npm run build && npm run doctor && npm start` (Node.js 22+). Docker: `docker compose run --rm misa npm start`, then `docker compose up -d`.
-
-| Language | Installation | Architecture | Configuration | Legal |
-|---|---|---|---|---|
-| Português | [Install](docs/pt/installation.md) | [Arquitetura](docs/pt/architecture.md) | [Configuração](docs/pt/configuration.md) | [Legal](docs/pt/legal.md) |
-| English | [Install](docs/en/installation.md) | [Architecture](docs/en/architecture.md) | [Configuration](docs/en/configuration.md) | [Legal](docs/en/legal.md) |
-| Español | [Instalación](docs/es/installation.md) | [Arquitectura](docs/es/architecture.md) | [Configuración](docs/es/configuration.md) | [Legal](docs/es/legal.md) |
-| Indonesia | [Instalasi](docs/id/installation.md) | [Arsitektur](docs/id/architecture.md) | [Konfigurasi](docs/id/configuration.md) | [Legal](docs/id/legal.md) |
-| العربية | [التثبيت](docs/ar/installation.md) | [البنية](docs/ar/architecture.md) | [الإعداد](docs/ar/configuration.md) | [قانوني](docs/ar/legal.md) |
-| Français | [Installation](docs/fr/installation.md) | [Architecture](docs/fr/architecture.md) | [Configuration](docs/fr/configuration.md) | [Juridique](docs/fr/legal.md) |
-| हिन्दी | [इंस्टॉलेशन](docs/hi/installation.md) | [आर्किटेक्चर](docs/hi/architecture.md) | [कॉन्फ़िगरेशन](docs/hi/configuration.md) | [कानूनी](docs/hi/legal.md) |
-| اردو | [انسٹالیشن](docs/ur/installation.md) | [آرکیٹیکچر](docs/ur/architecture.md) | [ترتیب](docs/ur/configuration.md) | [قانونی](docs/ur/legal.md) |
-| Deutsch | [Installation](docs/de/installation.md) | [Architektur](docs/de/architecture.md) | [Konfiguration](docs/de/configuration.md) | [Rechtliches](docs/de/legal.md) |
-| Türkçe | [Kurulum](docs/tr/installation.md) | [Mimari](docs/tr/architecture.md) | [Yapılandırma](docs/tr/configuration.md) | [Yasal](docs/tr/legal.md) |
-| বাংলা | [ইনস্টলেশন](docs/bn/installation.md) | [আর্কিটেকচার](docs/bn/architecture.md) | [কনফিগারেশন](docs/bn/configuration.md) | [আইনি](docs/bn/legal.md) |
-
-> Misa is not affiliated with WhatsApp or Meta. Automation can violate platform terms and may lead to account restrictions. Read [LEGAL.md](LEGAL.md) before use.
-
 <details>
 <summary><h2>🇧🇷 Português (Brasil)</h2></summary>
 
@@ -327,6 +307,8 @@ Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code o
 ## Para desenvolvedores
 
 Esta seção explica como contribuir com o código da Misa, adicionar comandos e manter o i18n completo nos **11 idiomas**.
+
+**Documentação técnica:** [Instalação](docs/pt/installation.md) · [Arquitetura](docs/pt/architecture.md) · [Configuração](docs/pt/configuration.md) · [Aviso legal](docs/pt/legal.md)
 
 ### Visão geral
 
@@ -748,6 +730,8 @@ npm run start:fast
 
 यह खंड बताता है कि Misa के कोड में कैसे योगदान करें, कमांड कैसे जोड़ें, और **11 भाषाओं** में i18n कैसे पूरा रखें।
 
+**तकनीकी दस्तावेज़:** [इंस्टॉलेशन](docs/hi/installation.md) · [आर्किटेक्चर](docs/hi/architecture.md) · [कॉन्फ़िगरेशन](docs/hi/configuration.md) · [कानूनी](docs/hi/legal.md)
+
 ### अवलोकन
 
 - **स्टैक:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
@@ -1143,6 +1127,8 @@ npm run start:fast
 ## ڈویلپرز کے لیے
 
 یہ حصہ بتاتا ہے کہ Misa کے کوڈ میں کیسے تعاون کریں، کمانڈز کیسے شامل کریں، اور **11 زبانوں** میں i18n مکمل کیسے رکھیں۔
+
+**تکنیکی دستاویزات:** [انسٹالیشن](docs/ur/installation.md) · [آرکیٹیکچر](docs/ur/architecture.md) · [ترتیب](docs/ur/configuration.md) · [قانونی](docs/ur/legal.md)
 
 ### جائزہ
 
@@ -1541,6 +1527,8 @@ If you still do not have a session, run `npm start` first to configure QR Code o
 ## For developers
 
 This section explains how to contribute to Misa, add commands, and keep i18n complete across **all 11 languages**.
+
+**Technical documentation:** [Installation](docs/en/installation.md) · [Architecture](docs/en/architecture.md) · [Configuration](docs/en/configuration.md) · [Legal notice](docs/en/legal.md)
 
 ### Overview
 
@@ -1964,6 +1952,8 @@ Si todavía no tienes una sesión, ejecuta primero `npm start` para configurar Q
 
 Esta sección explica cómo contribuir al código de Misa, agregar comandos y mantener el i18n completo en los **11 idiomas**.
 
+**Documentación técnica:** [Instalación](docs/es/installation.md) · [Arquitectura](docs/es/architecture.md) · [Configuración](docs/es/configuration.md) · [Aviso legal](docs/es/legal.md)
+
 ### Visión general
 
 - **Stack:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
@@ -2361,6 +2351,8 @@ Jika Anda belum memiliki sesi, jalankan `npm start` terlebih dahulu untuk mengat
 ## Untuk pengembang
 
 Bagian ini menjelaskan cara berkontribusi ke kode Misa, menambah perintah, dan menjaga i18n lengkap di **11 bahasa**.
+
+**Dokumentasi teknis:** [Instalasi](docs/id/installation.md) · [Arsitektur](docs/id/architecture.md) · [Konfigurasi](docs/id/configuration.md) · [Pemberitahuan hukum](docs/id/legal.md)
 
 ### Ringkasan
 
@@ -2760,6 +2752,8 @@ Si vous n'avez pas encore de session, lancez d'abord `npm start` pour configurer
 
 Cette section explique comment contribuer au code de Misa, ajouter des commandes et maintenir l'i18n complet dans les **11 langues**.
 
+**Documentation technique :** [Installation](docs/fr/installation.md) · [Architecture](docs/fr/architecture.md) · [Configuration](docs/fr/configuration.md) · [Avis juridique](docs/fr/legal.md)
+
 ### Vue d'ensemble
 
 - **Stack :** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
@@ -3158,6 +3152,8 @@ npm run start:fast
 
 يشرح هذا القسم كيفية المساهمة في كود Misa وإضافة الأوامر والحفاظ على الترجمة كاملة في **11 لغة**.
 
+**التوثيق التقني:** [التثبيت](docs/ar/installation.md) · [البنية](docs/ar/architecture.md) · [الإعداد](docs/ar/configuration.md) · [الإشعار القانوني](docs/ar/legal.md)
+
 ### نظرة عامة
 
 - **التقنية:** Node.js 22+، TypeScript (ESM)، Baileys (WhatsApp Multi-Device)
@@ -3555,6 +3551,8 @@ Wenn Sie immer noch keine Sitzung haben, führen Sie zuerst `npm start` aus, um 
 ## Für Entwickler
 
 Dieser Abschnitt erklärt, wie Sie zum Code von Misa beitragen, Befehle hinzufügen und i18n in allen **11 Sprachen** vollständig halten.
+
+**Technische Dokumentation:** [Installation](docs/de/installation.md) · [Architektur](docs/de/architecture.md) · [Konfiguration](docs/de/configuration.md) · [Rechtlicher Hinweis](docs/de/legal.md)
 
 ### Überblick
 
@@ -3955,6 +3953,8 @@ Hala bir oturumunuz yoksa QR Kodunu veya eşleştirme kodunu yapılandırmak iç
 
 Bu bölüm Misa koduna nasıl katkıda bulunacağınızı, komut eklemeyi ve i18n'i **11 dilde** eksiksiz tutmayı açıklar.
 
+**Teknik dokümantasyon:** [Kurulum](docs/tr/installation.md) · [Mimari](docs/tr/architecture.md) · [Yapılandırma](docs/tr/configuration.md) · [Yasal bildirim](docs/tr/legal.md)
+
 ### Genel bakış
 
 - **Yığın:** Node.js 22+, TypeScript (ESM), Baileys (WhatsApp Multi-Device)
@@ -4352,6 +4352,8 @@ npm run start:fast
 ## ডেভেলপারদের জন্য
 
 এই অংশে বলা হয়েছে কীভাবে Misa-র কোডে অবদান রাখবেন, কমান্ড যোগ করবেন এবং **১১টি ভাষায়** i18n সম্পূর্ণ রাখবেন।
+
+**প্রযুক্তিগত ডকুমেন্টেশন:** [ইনস্টলেশন](docs/bn/installation.md) · [আর্কিটেকচার](docs/bn/architecture.md) · [কনফিগারেশন](docs/bn/configuration.md) · [আইনি বিজ্ঞপ্তি](docs/bn/legal.md)
 
 ### সংক্ষিপ্ত পরিচিতি
 
