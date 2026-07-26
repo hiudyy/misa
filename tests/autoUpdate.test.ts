@@ -14,6 +14,7 @@ import {
   safeExtractPath,
   selectBackupsToDelete,
   shouldSpawnUpdateRestart,
+  syncGitCheckout,
 } from "../src/helpers/autoUpdate.js";
 
 type ZipEntry = { name: string; data: string | Buffer; declaredSize?: number };
@@ -178,6 +179,49 @@ describe("shouldSpawnUpdateRestart", () => {
     assert.equal(shouldSpawnUpdateRestart({ pm_id: "0" }), false);
     assert.equal(shouldSpawnUpdateRestart({ PM2_HOME: "/home/ubuntu/.pm2" }), false);
     assert.equal(shouldSpawnUpdateRestart({ NODE_APP_INSTANCE: "0" }), false);
+  });
+});
+
+describe("syncGitCheckout", () => {
+  const commit = "a".repeat(40);
+
+  it("skips installations without Git metadata", () => {
+    assert.equal(syncGitCheckout("/tmp/not-git", commit, { exists: () => false }), "skipped");
+  });
+
+  it("fetches and resets to the exact validated commit", () => {
+    const calls: string[][] = [];
+    const result = syncGitCheckout("/repo", commit, {
+      exists: () => true,
+      runGit(args) {
+        calls.push(args);
+        if (args[0] === "remote") return "upstream\norigin\n";
+        if (args[0] === "rev-parse") return `${commit}\n`;
+        return "";
+      },
+    });
+    assert.equal(result, "synced");
+    assert.deepEqual(calls, [
+      ["remote"],
+      ["fetch", "--quiet", "origin", "main"],
+      ["rev-parse", "FETCH_HEAD"],
+      ["reset", "--hard", commit],
+    ]);
+  });
+
+  it("refuses to reset when fetched main does not match the validated commit", () => {
+    const calls: string[][] = [];
+    const result = syncGitCheckout("/repo", commit, {
+      exists: () => true,
+      runGit(args) {
+        calls.push(args);
+        if (args[0] === "remote") return "origin\n";
+        if (args[0] === "rev-parse") return `${"b".repeat(40)}\n`;
+        return "";
+      },
+    });
+    assert.equal(result, "failed");
+    assert.equal(calls.some((args) => args[0] === "reset"), false);
   });
 });
 

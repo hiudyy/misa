@@ -4,7 +4,7 @@
  */
 import { createHash } from "node:crypto";
 import { execFileSync, spawn, spawnSync } from "node:child_process";
-import { constants } from "node:fs";
+import { constants, existsSync } from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { inflateRawSync } from "node:zlib";
@@ -46,7 +46,10 @@ export type AutoUpdateDependencies = {
   restart?: (root: string) => void;
   exit?: (code: number) => never | void;
   maxBackups?: number;
+  syncGit?: (root: string, commit: string) => GitSyncResult;
 };
+
+export type GitSyncResult = "synced" | "skipped" | "failed";
 
 function getLayout(root = paths.root, data = paths.dados): UpdateLayout {
   return {
@@ -69,6 +72,38 @@ function defaultRunCommand(command: string, args: string[], cwd: string): void {
 
 export function shouldSpawnUpdateRestart(env: NodeJS.ProcessEnv = process.env): boolean {
   return !("pm_id" in env || "PM2_HOME" in env || "NODE_APP_INSTANCE" in env);
+}
+
+type GitSyncDependencies = {
+  exists?: (path: string) => boolean;
+  runGit?: (args: string[], cwd: string) => string;
+};
+
+export function syncGitCheckout(
+  root: string,
+  commit: string,
+  dependencies: GitSyncDependencies = {},
+): GitSyncResult {
+  const exists = dependencies.exists ?? existsSync;
+  if (!exists(path.join(root, ".git"))) return "skipped";
+  const runGit = dependencies.runGit ?? ((args: string[], cwd: string) => execFileSync("git", args, {
+    cwd,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  }));
+
+  try {
+    const remotes = runGit(["remote"], root).split(/\s+/).filter(Boolean);
+    const remote = remotes.includes("origin") ? "origin" : remotes[0];
+    if (!remote) return "failed";
+    runGit(["fetch", "--quiet", remote, "main"], root);
+    const fetchedCommit = runGit(["rev-parse", "FETCH_HEAD"], root).trim().toLowerCase();
+    if (fetchedCommit !== commit.toLowerCase()) return "failed";
+    runGit(["reset", "--hard", commit], root);
+    return "synced";
+  } catch {
+    return "failed";
+  }
 }
 
 function defaultRestart(root: string): void {
@@ -327,6 +362,7 @@ export async function runAutoUpdate(dependencies: AutoUpdateDependencies = {}): 
   const restart = dependencies.restart ?? defaultRestart;
   const exit = dependencies.exit ?? ((code: number) => process.exit(code));
   const maxBackups = dependencies.maxBackups ?? MAX_BACKUPS;
+  const syncGit = dependencies.syncGit ?? syncGitCheckout;
   const locale = await getGlobalLocale();
   const t = createTranslator(locale);
   let backup: string | null = null;
@@ -364,6 +400,9 @@ export async function runAutoUpdate(dependencies: AutoUpdateDependencies = {}): 
     runner(npmExecutable(), ["ci"], root);
     approveScripts(root);
     runner(npmExecutable(), ["run", "test:dist"], root);
+    if (syncGit(root, commit) === "failed") {
+      log.warn("UPDATE", `GIT_CHECKOUT_SYNC_FAILED:${commit.slice(0, 12)}`);
+    }
     await writeJson(layout.state, { commit, archiveSha256, appliedAt: new Date().toISOString() });
     await cleanup(layout);
     log.success("UPDATE", t("update.done"));
