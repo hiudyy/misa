@@ -4,22 +4,20 @@
  */
 import { proto } from "baileys";
 import { getGroup, saveGroup } from "../database/groupDB.js";
-import { getOwnerConfig, saveOwnerConfig, type BlockedUserEntry } from "../ownerConfig.js";
+import { getOwnerConfig, updateOwnerConfig, type BlockedUserEntry } from "../ownerConfig.js";
+import { extractTargetUserJid } from "./targetUser.js";
 
 export async function cleanupExpiredBlockedUsers(): Promise<BlockedUserEntry[]> {
-  const config = await getOwnerConfig();
   const now = Date.now();
-  const active = config.blockedUsers.filter((entry) => {
-    if (!entry.expiresAt) return true;
-    const expiresAt = new Date(entry.expiresAt).getTime();
-    return Number.isNaN(expiresAt) || expiresAt > now;
-  });
-
-  if (active.length !== config.blockedUsers.length) {
-    await saveOwnerConfig({ ...config, blockedUsers: active });
-  }
-
-  return active;
+  const updated = await updateOwnerConfig((current) => ({
+    ...current,
+    blockedUsers: current.blockedUsers.filter((entry) => {
+      if (!entry.expiresAt) return true;
+      const expiresAt = new Date(entry.expiresAt).getTime();
+      return Number.isNaN(expiresAt) || expiresAt > now;
+    }),
+  }));
+  return updated.blockedUsers;
 }
 
 export async function isBlockedUser(userLID: string): Promise<boolean> {
@@ -60,9 +58,7 @@ export async function isGroupBanned(groupId: string): Promise<boolean> {
 }
 
 export function extractMentionedUser(message: proto.IWebMessageInfo): string | null {
-  const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
-  if (!mentionedIds || mentionedIds.length === 0) return null;
-  return mentionedIds[0] ?? null;
+  return extractTargetUserJid(message);
 }
 
 export function findBlockedUser(entries: BlockedUserEntry[], userLID: string): BlockedUserEntry | null {

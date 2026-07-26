@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { toLID } from "../../../helpers/toLID.js";
+import { extractTargetUserJid } from "../../../helpers/targetUser.js";
 
 const kickCommand: Command = {
   name: "kick",
@@ -15,9 +16,9 @@ const kickCommand: Command = {
   adminOnly: true,
   botAdminRequired: true,
   async execute({ misa, message, from, t }) {
-    const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
+    const targetJid = extractTargetUserJid(message);
     
-    if (!mentionedIds || mentionedIds.length === 0) {
+    if (!targetJid) {
       await misa.sendMessage(
         from,
         { text: t("commands.kick.noMention") },
@@ -26,7 +27,7 @@ const kickCommand: Command = {
       return;
     }
 
-    const userToKick = await toLID(mentionedIds[0], misa);
+    const userToKick = await toLID(targetJid, misa);
     if (!userToKick) {
       await misa.sendMessage(
         from,

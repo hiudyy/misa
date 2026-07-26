@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { toLID } from "../../../helpers/toLID.js";
+import { extractTargetUserJid } from "../../../helpers/targetUser.js";
 
 const demoteCommand: Command = {
   name: "demote",
@@ -15,9 +16,9 @@ const demoteCommand: Command = {
   adminOnly: true,
   botAdminRequired: true,
   async execute({ misa, message, from, t }) {
-    const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
+    const targetJid = extractTargetUserJid(message);
     
-    if (!mentionedIds || mentionedIds.length === 0) {
+    if (!targetJid) {
       await misa.sendMessage(
         from,
         { text: t("commands.demote.noMention") },
@@ -26,7 +27,7 @@ const demoteCommand: Command = {
       return;
     }
 
-    const userToDemote = await toLID(mentionedIds[0], misa);
+    const userToDemote = await toLID(targetJid, misa);
     if (!userToDemote) {
       await misa.sendMessage(
         from,

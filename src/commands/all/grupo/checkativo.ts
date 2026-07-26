@@ -6,6 +6,7 @@ import { WAMessage } from "baileys";
 import { getUserActivity } from "../../../helpers/groupActivity.js";
 import { toLID } from "../../../helpers/toLID.js";
 import { Command } from "../../../types/Command.js";
+import { extractTargetUserJid } from "../../../helpers/targetUser.js";
 
 const checkAtivoCommand: Command = {
   name: "checkativo",
@@ -14,8 +15,8 @@ const checkAtivoCommand: Command = {
   category: "grupo",
   groupOnly: true,
   async execute({ misa, message, from, sender, groupCache, t }) {
-    const mentioned = message.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0];
-    const target = mentioned ? await toLID(mentioned, misa) : sender;
+    const selected = extractTargetUserJid(message);
+    const target = selected ? await toLID(selected, misa) : sender;
 
     if (!target) {
       await misa.sendMessage(from, { text: t("commands.checkativo.lidFailed") }, { quoted: message as WAMessage });

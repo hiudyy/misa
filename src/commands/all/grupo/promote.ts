@@ -5,6 +5,7 @@
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
 import { toLID } from "../../../helpers/toLID.js";
+import { extractTargetUserJid } from "../../../helpers/targetUser.js";
 
 const promoteCommand: Command = {
   name: "promote",
@@ -15,9 +16,9 @@ const promoteCommand: Command = {
   adminOnly: true,
   botAdminRequired: true,
   async execute({ misa, message, from, t }) {
-    const mentionedIds = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
+    const targetJid = extractTargetUserJid(message);
     
-    if (!mentionedIds || mentionedIds.length === 0) {
+    if (!targetJid) {
       await misa.sendMessage(
         from,
         { text: t("commands.promote.noMention") },
@@ -26,7 +27,7 @@ const promoteCommand: Command = {
       return;
     }
 
-    const userToPromote = await toLID(mentionedIds[0], misa);
+    const userToPromote = await toLID(targetJid, misa);
     if (!userToPromote) {
       await misa.sendMessage(
         from,

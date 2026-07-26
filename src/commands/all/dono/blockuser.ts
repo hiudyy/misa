@@ -7,7 +7,7 @@ import { toLID } from "../../../helpers/toLID.js";
 import { extractMentionedUser, cleanupExpiredBlockedUsers, findBlockedUser } from "../../../helpers/ownerRestrictions.js";
 import { formatExpiresAt, isDurationToken, parseDurationMs } from "../../../helpers/parseDuration.js";
 import { textAfterTokens } from "../../../helpers/commandText.js";
-import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
+import { updateOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
 const blockuserCommand: Command = {
@@ -34,7 +34,6 @@ const blockuserCommand: Command = {
       return;
     }
 
-    const config = await getOwnerConfig();
     const activeUsers = await cleanupExpiredBlockedUsers();
     if (findBlockedUser(activeUsers, userLID)) {
       await misa.sendMessage(from, { text: t("commands.blockuser.alreadyBlocked") }, { quoted: message as WAMessage });
@@ -50,9 +49,11 @@ const blockuserCommand: Command = {
     const reasonIndex = durationMs ? baseIndex + 1 : baseIndex;
     const reason = textAfterTokens(rawArgs, reasonIndex).trim() || null;
 
-    config.blockedUsers = [
-      ...activeUsers,
-      {
+    await updateOwnerConfig((current) => ({
+      ...current,
+      blockedUsers: [
+        ...current.blockedUsers.filter((entry) => entry.lid !== userLID),
+        {
         lid: userLID,
         number: mentioned.replace(/\D/g, ""),
         name: message.pushName?.trim() || undefined,
@@ -60,10 +61,9 @@ const blockuserCommand: Command = {
         reason,
         createdAt: new Date().toISOString(),
         createdBy: sender,
-      },
-    ];
-
-    await saveOwnerConfig(config);
+        },
+      ],
+    }));
 
     await misa.sendMessage(
       from,

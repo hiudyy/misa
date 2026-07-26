@@ -5,7 +5,7 @@
 import { WAMessage } from "baileys";
 import { toLID } from "../../../helpers/toLID.js";
 import { extractMentionedUser, cleanupExpiredBlockedUsers } from "../../../helpers/ownerRestrictions.js";
-import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
+import { updateOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
 const unblockuserCommand: Command = {
@@ -27,7 +27,6 @@ const unblockuserCommand: Command = {
       return;
     }
 
-    const config = await getOwnerConfig();
     const activeUsers = await cleanupExpiredBlockedUsers();
     const nextUsers = activeUsers.filter((entry) => entry.lid !== userLID);
 
@@ -36,8 +35,10 @@ const unblockuserCommand: Command = {
       return;
     }
 
-    config.blockedUsers = nextUsers;
-    await saveOwnerConfig(config);
+    await updateOwnerConfig((current) => ({
+      ...current,
+      blockedUsers: current.blockedUsers.filter((entry) => entry.lid !== userLID),
+    }));
 
     await misa.sendMessage(
       from,

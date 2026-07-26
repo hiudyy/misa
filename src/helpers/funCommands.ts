@@ -20,6 +20,7 @@ import {
 } from "./funGames.js";
 import { getPercentText, getRankHeader, readFunMedia } from "./funMedia.js";
 import type { Command, CommandContext } from "../types/Command.js";
+import { extractTargetUserJid } from "./targetUser.js";
 
 async function ensureFunMode(ctx: CommandContext): Promise<boolean> {
   const group = await getGroup(ctx.from);
@@ -34,18 +35,14 @@ async function ensureFunMode(ctx: CommandContext): Promise<boolean> {
 }
 
 async function resolveTarget(ctx: CommandContext): Promise<string> {
-  const mentioned = ctx.message.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0];
-  if (!mentioned) return ctx.sender;
-  return (await toLID(mentioned, ctx.misa)) || ctx.sender;
+  const selected = extractTargetUserJid(ctx.message);
+  if (!selected) return ctx.sender;
+  return (await toLID(selected, ctx.misa)) || ctx.sender;
 }
 
 async function resolveInteractionTarget(ctx: CommandContext): Promise<string | null> {
-  const contextInfo = ctx.message.message?.extendedTextMessage?.contextInfo;
-  const mentioned = contextInfo?.mentionedJid?.[0];
-  if (mentioned) return (await toLID(mentioned, ctx.misa)) || mentioned;
-
-  const quotedParticipant = contextInfo?.participant;
-  if (quotedParticipant) return (await toLID(quotedParticipant, ctx.misa)) || quotedParticipant;
+  const selected = extractTargetUserJid(ctx.message);
+  if (selected) return (await toLID(selected, ctx.misa)) || selected;
 
   return null;
 }
