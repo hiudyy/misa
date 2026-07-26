@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "versiyon",
       "configure": "Botu yapılandır",
+      "advanced": "Gelişmiş yapılandırma",
       "start": "Botu başlat",
       "exit": "Çıkış",
       "chooseOption": "  › Bir seçenek seçin: "
@@ -33,7 +34,7 @@
       "header": "BOT'U YAPILANDIR",
       "pressEnter": "   Geçerli değeri korumak için Enter tuşuna basın  ",
       "saved": "AYARLAR KAYDEDİLDİ",
-      "fileUpdated": "   Güncellenen dosya: src/config.json        ",
+      "fileUpdated": "   Güncellenen dosya: dados/config.json      ",
       "botName": "Bot adı",
       "ownerName": "Sahibinin adı",
       "prefix": "Bot öneki",
@@ -45,6 +46,29 @@
       "configured": "yapılandırılmış",
       "boolPrompt": "(e/y/H)",
       "boolInvalid": "Evet için y/y, hayır için n veya devam etmek için Enter ile yanıt verin."
+    },
+    "advanced": {
+      "header": "GELİŞMİŞ YAPILANDIRMA",
+      "pressEnter": "Mevcut değeri korumak için Enter'a basın.",
+      "maxConcurrent": "Eşzamanlı medya işlemleri",
+      "maxPending": "Maksimum medya kuyruğu",
+      "timeout": "Toplam medya zaman aşımı",
+      "ffmpeg": "Eşzamanlı FFmpeg işlemleri",
+      "size": { "image": "Görsel sınırı", "audio": "Ses sınırı", "video": "Video sınırı", "document": "Belge sınırı", "sticker": "Sticker sınırı" },
+      "providerRetries": "YouTube sağlayıcısı başına deneme",
+      "retryDelay": "Denemeler arası bekleme",
+      "maxFailures": "Cooldown öncesi hata",
+      "cooldown": "Sağlayıcı cooldown süresi",
+      "logLevel": "Log seviyesi",
+      "maxBackups": "Güncelleme backup sayısı",
+      "jobs": "iş", "seconds": "saniye", "attempts": "deneme", "failures": "hata", "minutes": "dakika", "backups": "backup",
+      "invalidRange": "{{min}} ile {{max}} arasında bir tam sayı girin.",
+      "invalidLogLevel": "Geçersiz seviye. debug, info, warn, error veya silent kullanın.",
+      "summary": "İşlem özeti:",
+      "confirm": "Bu gelişmiş yapılandırma kaydedilsin mi?",
+      "cancelled": "Gelişmiş yapılandırma iptal edildi.",
+      "saved": "Gelişmiş yapılandırma kaydedildi.",
+      "restartRequired": "Yeni ayarları uygulamak için botu yeniden başlatın."
     },
     "connection": {
       "title": "BAĞLANTI YÖNTEMİ",
@@ -111,6 +135,13 @@
       "invalidInput": "Geçersiz sticker girişi.",
       "conversionFailed": "Dönüştürme başarısız.",
       "invalidBuffer": "Geçersiz veya boş buffer."
+    },
+    "media": {
+      "queued": "⏳ Medya işlemi sıraya alındı. Konum: {{position}}.",
+      "queueFull": "❌ Medya sırası dolu. Daha sonra tekrar deneyin.",
+      "timeout": "❌ Medya işlemi zaman aşımına uğradı.",
+      "tooLarge": "Dosya izin verilen boyut sınırını aşıyor.",
+      "aborted": "Medya işlemi iptal edildi."
     }
   },
   "connection": {
@@ -191,6 +222,7 @@
   },
   "update": {
     "checking": "Güncellemeler kontrol ediliyor...",
+    "upToDate": "Kurulum zaten güncel.",
     "downloading": "Güncelleme indiriliyor...",
     "extracting": "Çıkarılıyor...",
     "installingDeps": "Bağımlılıklar yükleniyor...",
@@ -477,19 +509,19 @@
       "opened": "🔓 Grubu açın! Herkes mesaj gönderebilir."
     },
     "kick": {
-      "noMention": "❌ Kaldırmak istediğiniz kullanıcıyı etiketleyin.\n\nKullanım: kick @kullanici",
+      "noMention": "❌ Kullanıcıyı etiketleyin veya mesajına yanıt verin.\n\nKullanım: kick @kullanici",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "success": "✅ Kullanıcı başarıyla kaldırıldı!",
       "error": "❌ Kullanıcı kaldırılırken hata oluştu: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Yönetici yapmak istediğiniz kullanıcıyı etiketleyin.\n\nKullanım: promote @kullanici",
+      "noMention": "❌ Kullanıcıyı etiketleyin veya mesajına yanıt verin.\n\nKullanım: promote @kullanici",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "success": "✅ Kullanıcı yöneticiliğe yükseltildi!",
       "error": "❌ Kullanıcı tanıtılırken hata oluştu: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Yetkisini almak istediğiniz yöneticiyi etiketleyin.\n\nKullanım: demote @kullanici",
+      "noMention": "❌ Yöneticiyi etiketleyin veya mesajına yanıt verin.\n\nKullanım: demote @kullanici",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "success": "✅ Yönetici normal üyeliğe indirildi!",
       "error": "❌ Yöneticinin rütbesi düşürülürken hata oluştu: {{error}}"
@@ -615,6 +647,10 @@
     "statusbot": {
       "text": "╭─「 *BOT DURUMU* 」\n│\n│ bot: {{bot}}\n│ sahip: {{owner}}\n│ numara: {{ownerNumber}}\n│ jid: {{user}}\n│ genel önek: {{prefix}}\n│ dil: {{language}}\n│ otomatik güncelleme: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ kayıtlı gruplar: {{groups}}\n│ bangp grupları: {{bannedGroups}}\n│ engellenen kullanıcılar: {{blockedUsers}}\n│ engellenen komutlar: {{blockedCommands}}\n│ çalışma süresi: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *SÜRÜM* 」\n│ uygulama: {{version}}\n│ commit: {{commit}}\n│ şema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *METRİKLER* 」\n│ mesajlar: {{messages}} · hatalar: {{messageErrors}}\n│ komutlar: {{commands}} · hatalar: {{commandErrors}} · reddedilen: {{denied}}\n│ medya ok/hata: {{mediaSuccess}}/{{mediaErrors}} · bayt: {{mediaBytes}}\n│ kuyruk aktif/bekleyen: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ önbellek isabeti: {{cacheRate}} · yeniden bağlantı: {{reconnects}}\n│ ortalama komut/medya: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ komut hataları: {{commandFailures}}\n│ sağlayıcı hataları: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ Mesaj debug aktif. Tüm mesaj olayları terminale yazdırılacak.",
       "disabled": "✅ Mesaj debug kapalı."
@@ -697,7 +733,7 @@
       "sinceLabel": "başlangıç"
     },
     "blockuser": {
-      "noMention": "❌ Kullanıcıdan bahsedin.\n\nKullanım: kullanıcıyı engelle @kullanıcı [30 dk|12 saat|7 gün] [sebep]",
+      "noMention": "❌ Kullanıcıyı etiketleyin veya mesajına yanıt verin.\n\nKullanım: kullanıcıyı engelle @kullanıcı [30 dk|12 saat|7 gün] [sebep]",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "ownerBypass": "❌ Sahip engellenemez.",
       "alreadyBlocked": "❌ Bu kullanıcı zaten engellendi.",
@@ -705,7 +741,7 @@
       "success": "✅ {{user}} kullanıcısı engellendi.\nSona erme tarihi: {{expires}}\nSebep: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Kullanıcıdan bahsedin.\n\nKullanım: kullanıcı @kullanıcının engellemesini kaldır",
+      "noMention": "❌ Kullanıcıyı etiketleyin veya mesajına yanıt verin.\n\nKullanım: kullanıcı @kullanıcının engellemesini kaldır",
       "lidFailed": "❌ Bahsedilen kullanıcı için LID çözümlenemiyor.",
       "notBlocked": "❌ Bu kullanıcı engellenmedi.",
       "success": "✅ {{user}} kullanıcısının kilidi açıldı."

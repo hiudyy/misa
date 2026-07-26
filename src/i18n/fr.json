@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "version",
       "configure": "Configurer le bot",
+      "advanced": "Configuration avancée",
       "start": "Démarrer le bot",
       "exit": "Quitter",
       "chooseOption": "  › Choisis une option : "
@@ -33,7 +34,7 @@
       "header": "CONFIGURER LE BOT",
       "pressEnter": "   Appuie sur Entrée pour garder la valeur actuelle  ",
       "saved": "CONFIGURATION ENREGISTRÉE",
-      "fileUpdated": "   Fichier mis à jour : src/config.json          ",
+      "fileUpdated": "   Fichier mis à jour : dados/config.json        ",
       "botName": "Nom du bot",
       "ownerName": "Nom du propriétaire",
       "prefix": "Préfixe du bot",
@@ -45,6 +46,29 @@
       "configured": "configurée",
       "boolPrompt": "(o/y/N)",
       "boolInvalid": "Réponds avec o/y pour oui, n pour non, ou Entrée pour conserver."
+    },
+    "advanced": {
+      "header": "CONFIGURATION AVANCÉE",
+      "pressEnter": "Appuyez sur Entrée pour garder chaque valeur actuelle.",
+      "maxConcurrent": "Opérations média simultanées",
+      "maxPending": "Taille maximale de la file média",
+      "timeout": "Délai total des médias",
+      "ffmpeg": "Processus FFmpeg simultanés",
+      "size": { "image": "Limite image", "audio": "Limite audio", "video": "Limite vidéo", "document": "Limite document", "sticker": "Limite sticker" },
+      "providerRetries": "Tentatives par provider YouTube",
+      "retryDelay": "Délai entre les tentatives",
+      "maxFailures": "Échecs avant cooldown",
+      "cooldown": "Cooldown du provider",
+      "logLevel": "Niveau de log",
+      "maxBackups": "Nombre de backups de mise à jour",
+      "jobs": "tâches", "seconds": "secondes", "attempts": "tentatives", "failures": "échecs", "minutes": "minutes", "backups": "backups",
+      "invalidRange": "Entrez un entier entre {{min}} et {{max}}.",
+      "invalidLogLevel": "Niveau invalide. Utilisez debug, info, warn, error ou silent.",
+      "summary": "Résumé des opérations :",
+      "confirm": "Enregistrer cette configuration avancée ?",
+      "cancelled": "Configuration avancée annulée.",
+      "saved": "Configuration avancée enregistrée.",
+      "restartRequired": "Redémarrez le bot pour appliquer les nouvelles opérations."
     },
     "connection": {
       "title": "MÉTHODE DE CONNEXION",
@@ -111,6 +135,13 @@
       "invalidInput": "Entrée de sticker invalide.",
       "conversionFailed": "Échec de la conversion.",
       "invalidBuffer": "Buffer invalide ou vide."
+    },
+    "media": {
+      "queued": "⏳ Opération média mise en attente. Position : {{position}}.",
+      "queueFull": "❌ La file média est pleine. Réessayez plus tard.",
+      "timeout": "❌ L'opération média a dépassé le délai.",
+      "tooLarge": "Le fichier dépasse la taille autorisée.",
+      "aborted": "L'opération média a été annulée."
     }
   },
   "connection": {
@@ -191,6 +222,7 @@
   },
   "update": {
     "checking": "Vérification des mises à jour...",
+    "upToDate": "L'installation est déjà à jour.",
     "downloading": "Téléchargement de la mise à jour...",
     "extracting": "Extraction...",
     "installingDeps": "Installation des dépendances...",
@@ -477,19 +509,19 @@
       "opened": "🔓 Groupe ouvert ! Tout le monde peut envoyer des messages."
     },
     "kick": {
-      "noMention": "❌ Mentionne l'utilisateur que tu veux retirer.\n\nUtilisation : kick @utilisateur",
+      "noMention": "❌ Mentionne l'utilisateur ou réponds à son message.\n\nUtilisation : kick @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "success": "✅ Utilisateur retiré avec succès !",
       "error": "❌ Erreur lors du retrait de l'utilisateur : {{error}}"
     },
     "promote": {
-      "noMention": "❌ Mentionne l'utilisateur que tu veux promouvoir.\n\nUtilisation : promote @utilisateur",
+      "noMention": "❌ Mentionne l'utilisateur ou réponds à son message.\n\nUtilisation : promote @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "success": "✅ Utilisateur promu administrateur !",
       "error": "❌ Erreur lors de la promotion de l'utilisateur : {{error}}"
     },
     "demote": {
-      "noMention": "❌ Mentionne l'administrateur que tu veux rétrograder.\n\nUtilisation : demote @utilisateur",
+      "noMention": "❌ Mentionne l'administrateur ou réponds à son message.\n\nUtilisation : demote @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "success": "✅ Administrateur rétrogradé au rang de membre !",
       "error": "❌ Erreur lors de la rétrogradation de l'administrateur : {{error}}"
@@ -617,6 +649,10 @@
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ propriétaire: {{owner}}\n│ numéro: {{ownerNumber}}\n│ jid: {{user}}\n│ préfixe global: {{prefix}}\n│ langue: {{language}}\n│ mise à jour auto: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ groupes enregistrés: {{groups}}\n│ groupes bangp: {{bannedGroups}}\n│ utilisateurs bloqués: {{blockedUsers}}\n│ commandes bloquées: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *VERSION* 」\n│ application : {{version}}\n│ commit : {{commit}}\n│ schéma : {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *MÉTRIQUES* 」\n│ messages : {{messages}} · erreurs : {{messageErrors}}\n│ commandes : {{commands}} · erreurs : {{commandErrors}} · refusées : {{denied}}\n│ médias ok/erreur : {{mediaSuccess}}/{{mediaErrors}} · octets : {{mediaBytes}}\n│ file active/en attente : {{active}}/{{pending}} · ffmpeg : {{ffmpeg}}\n│ cache hit : {{cacheRate}} · reconnexions : {{reconnects}}\n│ moyenne commande/média : {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu : {{rss}} / {{heap}} / {{cpu}}\n│ échecs commandes : {{commandFailures}}\n│ échecs providers : {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ Debug des messages activé. Tous les événements de message seront affichés dans le terminal.",
       "disabled": "✅ Debug des messages désactivé."
@@ -700,7 +736,7 @@
       "sinceLabel": "depuis"
     },
     "blockuser": {
-      "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : blockuser @utilisateur [30m|12h|7d] [raison]",
+      "noMention": "❌ Mentionne l'utilisateur ou réponds à son message.\n\nUtilisation : blockuser @utilisateur [30m|12h|7d] [raison]",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "ownerBypass": "❌ Le propriétaire ne peut pas être bloqué.",
       "alreadyBlocked": "❌ Cet utilisateur est déjà bloqué.",
@@ -708,7 +744,7 @@
       "success": "✅ Utilisateur {{user}} bloqué.\nExpire : {{expires}}\nRaison : {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Mentionne l'utilisateur.\n\nUtilisation : unblockuser @utilisateur",
+      "noMention": "❌ Mentionne l'utilisateur ou réponds à son message.\n\nUtilisation : unblockuser @utilisateur",
       "lidFailed": "❌ Impossible de résoudre le LID de l'utilisateur mentionné.",
       "notBlocked": "❌ Cet utilisateur n'est pas bloqué.",
       "success": "✅ Utilisateur {{user}} débloqué."

@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "संस्करण",
       "configure": "बॉट सेट करें",
+      "advanced": "उन्नत कॉन्फ़िगरेशन",
       "start": "बॉट शुरू करें",
       "exit": "बाहर निकलें",
       "chooseOption": "  › एक विकल्प चुनें: "
@@ -33,7 +34,7 @@
       "header": "बॉट कॉन्फ़िगर करें",
       "pressEnter": "   वर्तमान मान रखने के लिए Enter दबाएँ      ",
       "saved": "कॉन्फ़िगरेशन सहेज ली गई",
-      "fileUpdated": "   फ़ाइल अपडेट हुई: src/config.json          ",
+      "fileUpdated": "   फ़ाइल अपडेट हुई: dados/config.json        ",
       "botName": "बॉट का नाम",
       "ownerName": "मालिक का नाम",
       "prefix": "बॉट प्रीफ़िक्स",
@@ -45,6 +46,16 @@
       "configured": "कॉन्फ़िगर की गई",
       "boolPrompt": "(ह/y/N)",
       "boolInvalid": "हाँ के लिए ह/y, नहीं के लिए न, या वर्तमान मान रखने के लिए Enter दबाएँ।"
+    },
+    "advanced": {
+      "header": "उन्नत कॉन्फ़िगरेशन",
+      "pressEnter": "मौजूदा मान रखने के लिए Enter दबाएँ।",
+      "maxConcurrent": "एक साथ मीडिया कार्य", "maxPending": "अधिकतम मीडिया कतार", "timeout": "कुल मीडिया समय सीमा", "ffmpeg": "एक साथ FFmpeg प्रक्रियाएँ",
+      "size": { "image": "चित्र सीमा", "audio": "ऑडियो सीमा", "video": "वीडियो सीमा", "document": "दस्तावेज़ सीमा", "sticker": "स्टिकर सीमा" },
+      "providerRetries": "प्रति YouTube प्रदाता प्रयास", "retryDelay": "प्रयासों के बीच अंतराल", "maxFailures": "कूलडाउन से पहले विफलताएँ", "cooldown": "प्रदाता कूलडाउन", "logLevel": "लॉग स्तर", "maxBackups": "अपडेट बैकअप संख्या",
+      "jobs": "कार्य", "seconds": "सेकंड", "attempts": "प्रयास", "failures": "विफलताएँ", "minutes": "मिनट", "backups": "बैकअप",
+      "invalidRange": "{{min}} और {{max}} के बीच पूर्णांक दर्ज करें।", "invalidLogLevel": "अमान्य स्तर। debug, info, warn, error या silent उपयोग करें।",
+      "summary": "कार्य सारांश:", "confirm": "यह उन्नत कॉन्फ़िगरेशन सहेजें?", "cancelled": "उन्नत कॉन्फ़िगरेशन रद्द किया गया।", "saved": "उन्नत कॉन्फ़िगरेशन सहेजा गया।", "restartRequired": "नई सेटिंग लागू करने के लिए बॉट पुनः शुरू करें।"
     },
     "connection": {
       "title": "कनेक्शन का तरीका",
@@ -111,6 +122,13 @@
       "invalidInput": "अमान्य स्टिकर इनपुट।",
       "conversionFailed": "रूपांतरण विफल।",
       "invalidBuffer": "अमान्य या खाली बफ़र।"
+    },
+    "media": {
+      "queued": "⏳ मीडिया कार्य कतार में जोड़ा गया। स्थान: {{position}}।",
+      "queueFull": "❌ मीडिया कतार भरी हुई है। बाद में प्रयास करें।",
+      "timeout": "❌ मीडिया कार्य की समय सीमा समाप्त हो गई।",
+      "tooLarge": "फ़ाइल अनुमत आकार सीमा से बड़ी है।",
+      "aborted": "मीडिया कार्य रद्द कर दिया गया।"
     }
   },
   "connection": {
@@ -191,6 +209,7 @@
   },
   "update": {
     "checking": "अपडेट जाँची जा रही हैं...",
+    "upToDate": "इंस्टॉलेशन पहले से नवीनतम है।",
     "downloading": "अपडेट डाउनलोड की जा रही है...",
     "extracting": "निकाला जा रहा है...",
     "installingDeps": "निर्भरताएँ इंस्टॉल की जा रही हैं...",
@@ -477,19 +496,19 @@
       "opened": "🔓 समूह खुला है! सभी संदेश भेज सकते हैं।"
     },
     "kick": {
-      "noMention": "❌ जिस उपयोगकर्ता को हटाना है उसे टैग करें.\n\nउपयोग: kick @उपयोगकर्ता",
+      "noMention": "❌ उपयोगकर्ता को टैग करें या उसके संदेश का जवाब दें.\n\nउपयोग: kick @उपयोगकर्ता",
       "lidFailed": "❌ टैग किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "success": "✅ उपयोगकर्ता सफलतापूर्वक हटाया गया!",
       "error": "❌ उपयोगकर्ता हटाते समय त्रुटि: {{error}}"
     },
     "promote": {
-      "noMention": "❌ जिस उपयोगकर्ता को एडमिन बनाना है उसे टैग करें.\n\nउपयोग: promote @उपयोगकर्ता",
+      "noMention": "❌ उपयोगकर्ता को टैग करें या उसके संदेश का जवाब दें.\n\nउपयोग: promote @उपयोगकर्ता",
       "lidFailed": "❌ टैग किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "success": "✅ उपयोगकर्ता को एडमिन बनाया गया!",
       "error": "❌ उपयोगकर्ता को एडमिन बनाते समय त्रुटि: {{error}}"
     },
     "demote": {
-      "noMention": "❌ जिस एडमिन को पदावनत करना है उसे टैग करें.\n\nउपयोग: demote @उपयोगकर्ता",
+      "noMention": "❌ एडमिन को टैग करें या उसके संदेश का जवाब दें.\n\nउपयोग: demote @उपयोगकर्ता",
       "lidFailed": "❌ टैग किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "success": "✅ एडमिन को सामान्य सदस्य बना दिया गया!",
       "error": "❌ एडमिन को पदावनत करते समय त्रुटि: {{error}}"
@@ -621,6 +640,10 @@
     "statusbot": {
       "text": "╭─「 *बॉट स्थिति* 」\n│\n│ बॉट: {{bot}}\n│ मालिक: {{owner}}\n│ नंबर: {{ownerNumber}}\n│ jid: {{user}}\n│ वैश्विक प्रीफ़िक्स: {{prefix}}\n│ भाषा: {{language}}\n│ स्वचालित अपडेट: {{autoUpdate}}\n│ एंटी-प्राइवेट: {{antiPrivate}}\n│ सहेजे गए समूह: {{groups}}\n│ bangp समूह: {{bannedGroups}}\n│ ब्लॉक किए गए उपयोगकर्ता: {{blockedUsers}}\n│ ब्लॉक किए गए कमांड: {{blockedCommands}}\n│ चालू समय: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *संस्करण* 」\n│ एप्लिकेशन: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *मेट्रिक्स* 」\n│ संदेश: {{messages}} · त्रुटियाँ: {{messageErrors}}\n│ कमांड: {{commands}} · त्रुटियाँ: {{commandErrors}} · अस्वीकृत: {{denied}}\n│ मीडिया सफल/त्रुटि: {{mediaSuccess}}/{{mediaErrors}} · बाइट: {{mediaBytes}}\n│ कतार सक्रिय/प्रतीक्षा: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ कैश हिट: {{cacheRate}} · पुनः कनेक्शन: {{reconnects}}\n│ औसत कमांड/मीडिया: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ कमांड विफलताएँ: {{commandFailures}}\n│ प्रदाता विफलताएँ: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ संदेश debug चालू है। सभी message events terminal में log होंगे।",
       "disabled": "✅ संदेश debug बंद है।"
@@ -706,7 +729,7 @@
       "sinceLabel": "से"
     },
     "blockuser": {
-      "noMention": "❌ उपयोगकर्ता को टैग करें.\n\nउपयोग: blockuser @उपयोगकर्ता [30m|12h|7d] [कारण]",
+      "noMention": "❌ उपयोगकर्ता को टैग करें या उसके संदेश का जवाब दें.\n\nउपयोग: blockuser @उपयोगकर्ता [30m|12h|7d] [कारण]",
       "lidFailed": "❌ टैग किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "ownerBypass": "❌ मालिक को block नहीं किया जा सकता।",
       "alreadyBlocked": "❌ यह उपयोगकर्ता पहले से block है।",
@@ -714,7 +737,7 @@
       "success": "✅ उपयोगकर्ता {{user}} block किया गया।\nसमाप्ति: {{expires}}\nकारण: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ उपयोगकर्ता को टैग करें.\n\nउपयोग: unblockuser @उपयोगकर्ता",
+      "noMention": "❌ उपयोगकर्ता को टैग करें या उसके संदेश का जवाब दें.\n\nउपयोग: unblockuser @उपयोगकर्ता",
       "lidFailed": "❌ टैग किए गए उपयोगकर्ता का LID हल नहीं हो सका।",
       "notBlocked": "❌ यह उपयोगकर्ता block नहीं है।",
       "success": "✅ उपयोगकर्ता {{user}} unblock किया गया।"

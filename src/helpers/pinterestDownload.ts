@@ -3,6 +3,7 @@
  * @project Misa Bot
  */
 import { ErrorCode } from "./localizeError.js";
+import { metrics } from "../metrics.js";
 
 export type PinterestDownloadResult = {
   url: string;
@@ -29,15 +30,27 @@ const IMG_URL_REGEX = /"(https:\/\/i\.pinimg\.com\/[^"]+)"/g;
 
 const cache = new Map<string, CacheItem>();
 
+type RequestOptions = { signal?: AbortSignal; fetchImpl?: typeof fetch };
+
+function requestSignal(signal: AbortSignal | undefined, timeoutMs = REQUEST_TIMEOUT_MS): AbortSignal {
+  const timeout = AbortSignal.timeout(timeoutMs);
+  return signal ? AbortSignal.any([signal, timeout]) : timeout;
+}
+
 function getCache<T>(key: string): T | null {
   const item = cache.get(key);
-  if (!item) return null;
-
-  if (Date.now() - item.timestamp > CACHE_TTL_MS) {
-    cache.delete(key);
+  if (!item) {
+    metrics.recordCache("pinterest", false);
     return null;
   }
 
+  if (Date.now() - item.timestamp > CACHE_TTL_MS) {
+    cache.delete(key);
+    metrics.recordCache("pinterest", false);
+    return null;
+  }
+
+  metrics.recordCache("pinterest", true);
   return item.data as T;
 }
 
@@ -67,7 +80,7 @@ function upgradeImageQuality(imgURL: string): string {
 /**
  * Busca imagens no Pinterest (scraping da página de search).
  */
-export async function searchPinterest(query: string): Promise<string[]> {
+export async function searchPinterest(query: string, options: RequestOptions = {}): Promise<string[]> {
   const trimmed = query.trim();
   const cacheKey = `search:${trimmed.toLowerCase()}`;
   const cached = getCache<string[]>(cacheKey);
@@ -75,9 +88,9 @@ export async function searchPinterest(query: string): Promise<string[]> {
 
   const searchURL = `https://br.pinterest.com/search/pins/?q=${encodeURIComponent(trimmed)}`;
 
-  const response = await fetch(searchURL, {
+  const response = await (options.fetchImpl ?? fetch)(searchURL, {
     headers: { "User-Agent": MOBILE_UA },
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: requestSignal(options.signal),
   });
 
   if (!response.ok) {
@@ -100,15 +113,15 @@ export async function searchPinterest(query: string): Promise<string[]> {
   return limited;
 }
 
-async function resolveShortPinURL(pinURL: string): Promise<string> {
+async function resolveShortPinURL(pinURL: string, options: RequestOptions): Promise<string> {
   if (!pinURL.includes("pin.it")) return pinURL;
 
   try {
-    const response = await fetch(pinURL, {
+    const response = await (options.fetchImpl ?? fetch)(pinURL, {
       method: "GET",
       redirect: "manual",
       headers: { "User-Agent": DESKTOP_UA },
-      signal: AbortSignal.timeout(10_000),
+      signal: requestSignal(options.signal, 10_000),
     });
 
     const location = response.headers.get("location");
@@ -156,12 +169,12 @@ function pickBestImageURL(images: Record<string, { url?: string }>): string {
 /**
  * Baixa um pin específico (imagem ou vídeo) via PinResource do Pinterest.
  */
-export async function downloadPinterest(pinURL: string): Promise<PinterestDownloadResult> {
+export async function downloadPinterest(pinURL: string, options: RequestOptions = {}): Promise<PinterestDownloadResult> {
   const cacheKey = `download:${pinURL.trim()}`;
   const cached = getCache<PinterestDownloadResult>(cacheKey);
   if (cached) return cached;
 
-  let resolvedURL = await resolveShortPinURL(pinURL.trim());
+  let resolvedURL = await resolveShortPinURL(pinURL.trim(), options);
   const pinID = extractPinID(resolvedURL);
   if (!pinID) {
     throw new Error(ErrorCode.DOWNLOAD_PIN_ID);
@@ -181,9 +194,9 @@ export async function downloadPinterest(pinURL: string): Promise<PinterestDownlo
     `https://br.pinterest.com/resource/PinResource/get/?source_url=/pin/${pinID}/&data=` +
     encodeURIComponent(JSON.stringify(params));
 
-  const response = await fetch(apiURL, {
+  const response = await (options.fetchImpl ?? fetch)(apiURL, {
     headers: { "User-Agent": DESKTOP_UA },
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: requestSignal(options.signal),
   });
 
   if (!response.ok) {

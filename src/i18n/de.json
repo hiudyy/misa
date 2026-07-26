@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "Version",
       "configure": "Bot konfigurieren",
+      "advanced": "Erweiterte Konfiguration",
       "start": "Bot starten",
       "exit": "Ausstieg",
       "chooseOption": "  › Wählen Sie eine Option: "
@@ -33,7 +34,7 @@
       "header": "BOT KONFIGURIEREN",
       "pressEnter": "   Drücken Sie die Eingabetaste, um den aktuellen Wert beizubehalten  ",
       "saved": "EINSTELLUNGEN GESPEICHERT",
-      "fileUpdated": "   Aktualisierte Datei: src/config.json        ",
+      "fileUpdated": "   Aktualisierte Datei: dados/config.json      ",
       "botName": "Bot-Name",
       "ownerName": "Name des Besitzers",
       "prefix": "Bot-Präfix",
@@ -45,6 +46,29 @@
       "configured": "konfiguriert",
       "boolPrompt": "(j/j/n)",
       "boolInvalid": "Antworten Sie mit y/y für Ja, n für Nein oder Enter, um zu behalten."
+    },
+    "advanced": {
+      "header": "ERWEITERTE KONFIGURATION",
+      "pressEnter": "Drücke Enter, um den aktuellen Wert zu behalten.",
+      "maxConcurrent": "Gleichzeitige Medienvorgänge",
+      "maxPending": "Maximale Medienwarteschlange",
+      "timeout": "Gesamtes Medien-Zeitlimit",
+      "ffmpeg": "Gleichzeitige FFmpeg-Prozesse",
+      "size": { "image": "Bildlimit", "audio": "Audiolimit", "video": "Videolimit", "document": "Dokumentlimit", "sticker": "Stickerlimit" },
+      "providerRetries": "Versuche pro YouTube-Provider",
+      "retryDelay": "Pause zwischen Versuchen",
+      "maxFailures": "Fehler vor Cooldown",
+      "cooldown": "Provider-Cooldown",
+      "logLevel": "Log-Level",
+      "maxBackups": "Anzahl Update-Backups",
+      "jobs": "Jobs", "seconds": "Sekunden", "attempts": "Versuche", "failures": "Fehler", "minutes": "Minuten", "backups": "Backups",
+      "invalidRange": "Gib eine ganze Zahl zwischen {{min}} und {{max}} ein.",
+      "invalidLogLevel": "Ungültiges Level. Nutze debug, info, warn, error oder silent.",
+      "summary": "Betriebsübersicht:",
+      "confirm": "Diese erweiterte Konfiguration speichern?",
+      "cancelled": "Erweiterte Konfiguration abgebrochen.",
+      "saved": "Erweiterte Konfiguration gespeichert.",
+      "restartRequired": "Starte den Bot neu, um die neuen Einstellungen anzuwenden."
     },
     "connection": {
       "title": "VERBINDUNGSMETHODE",
@@ -111,6 +135,13 @@
       "invalidInput": "Ungültige Sticker-Eingabe.",
       "conversionFailed": "Konvertierung fehlgeschlagen.",
       "invalidBuffer": "Ungültiger oder leerer Buffer."
+    },
+    "media": {
+      "queued": "⏳ Medienvorgang eingereiht. Position: {{position}}.",
+      "queueFull": "❌ Die Medienwarteschlange ist voll. Versuche es später erneut.",
+      "timeout": "❌ Der Medienvorgang hat das Zeitlimit überschritten.",
+      "tooLarge": "Die Datei überschreitet das erlaubte Größenlimit.",
+      "aborted": "Der Medienvorgang wurde abgebrochen."
     }
   },
   "connection": {
@@ -191,6 +222,7 @@
   },
   "update": {
     "checking": "Suche nach Updates...",
+    "upToDate": "Die Installation ist bereits aktuell.",
     "downloading": "Update wird heruntergeladen...",
     "extracting": "Extrahieren...",
     "installingDeps": "Abhängigkeiten werden installiert...",
@@ -477,19 +509,19 @@
       "opened": "🔓 Offene Gruppe! Jeder kann Nachrichten senden."
     },
     "kick": {
-      "noMention": "❌ Erwähnen Sie den Benutzer, den Sie entfernen möchten.\n\nVerwendung: @nutzer kicken",
+      "noMention": "❌ Erwähne den Benutzer oder antworte auf seine Nachricht.\n\nVerwendung: @nutzer kicken",
       "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
       "success": "✅ Benutzer erfolgreich entfernt!",
       "error": "❌ Fehler beim Entfernen des Benutzers: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Erwähnen Sie den Benutzer, den Sie fördern möchten.\n\nVerwendung: @nutzer fördern",
+      "noMention": "❌ Erwähne den Benutzer oder antworte auf seine Nachricht.\n\nVerwendung: @nutzer fördern",
       "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
       "success": "✅ Benutzer zum Administrator befördert!",
       "error": "❌ Fehler beim Hochstufen des Benutzers: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Erwähnen Sie den Administrator, den Sie herabstufen möchten.\n\nVerwendung: @nutzer herabstufen",
+      "noMention": "❌ Erwähne den Administrator oder antworte auf seine Nachricht.\n\nVerwendung: @nutzer herabstufen",
       "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
       "success": "✅ Administrator zum regulären Mitglied herabgestuft!",
       "error": "❌ Fehler beim Herabstufen des Administrators: {{error}}"
@@ -615,6 +647,10 @@
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ Bot: {{bot}}\n│ Besitzer: {{owner}}\n│ Nummer: {{ownerNumber}}\n│ jid: {{user}}\n│ prefixo global: {{prefix}}\n│ idioma: {{language}}\n│ Automatische Aktualisierung: {{autoUpdate}}\n│ Anti-PV: {{antiPrivate}}\n│ gespeicherte Gruppen: {{groups}}\n│ Gruppen bangp: {{bannedGroups}}\n│ blockierte Benutzer: {{blockedUsers}}\n│ blockierte Befehle: {{blockedCommands}}\n│ Betriebszeit: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *VERSION* 」\n│ Anwendung: {{version}}\n│ Commit: {{commit}}\n│ Schema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *METRIKEN* 」\n│ Nachrichten: {{messages}} · Fehler: {{messageErrors}}\n│ Befehle: {{commands}} · Fehler: {{commandErrors}} · abgelehnt: {{denied}}\n│ Medien ok/Fehler: {{mediaSuccess}}/{{mediaErrors}} · Bytes: {{mediaBytes}}\n│ Warteschlange aktiv/offen: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ Cache-Treffer: {{cacheRate}} · Neuverbindungen: {{reconnects}}\n│ Mittel Befehl/Medien: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ Befehlsfehler: {{commandFailures}}\n│ Providerfehler: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ Nachrichten-Debug aktiviert. Alle Nachrichtenereignisse werden im Terminal geloggt.",
       "disabled": "✅ Nachrichten-Debug deaktiviert."
@@ -697,7 +733,7 @@
       "sinceLabel": "seit"
     },
     "blockuser": {
-      "noMention": "❌ Erwähnen Sie den Benutzer.\n\nVerwendung: blockuser @nutzer [30m|12h|7d] [Grund]",
+      "noMention": "❌ Erwähne den Benutzer oder antworte auf seine Nachricht.\n\nVerwendung: blockuser @nutzer [30m|12h|7d] [Grund]",
       "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
       "ownerBypass": "❌ Besitzer kann nicht blockiert werden.",
       "alreadyBlocked": "❌ Dieser Benutzer ist bereits blockiert.",
@@ -705,7 +741,7 @@
       "success": "✅ Benutzer {{user}} blockiert.\nLäuft ab: {{expires}}\nGrund: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Erwähnen Sie den Benutzer.\n\nVerwendung: entsperren Sie den Benutzer @Benutzer",
+      "noMention": "❌ Erwähne den Benutzer oder antworte auf seine Nachricht.\n\nVerwendung: entsperren Sie den Benutzer @Benutzer",
       "lidFailed": "❌ LID konnte für den genannten Benutzer nicht aufgelöst werden.",
       "notBlocked": "❌ Dieser Benutzer ist nicht blockiert.",
       "success": "✅ Benutzer {{user}} entsperrt."

@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "ورژن",
       "configure": "بوٹ سیٹ کریں",
+      "advanced": "اعلیٰ ترتیب",
       "start": "بوٹ شروع کریں",
       "exit": "باہر جائیں",
       "chooseOption": "  › ایک آپشن منتخب کریں: "
@@ -33,7 +34,7 @@
       "header": "بوٹ ترتیب دیں",
       "pressEnter": "   موجودہ قدر برقرار رکھنے کے لیے Enter دبائیں    ",
       "saved": "ترتیب محفوظ ہو گئی",
-      "fileUpdated": "   فائل اپڈیٹ ہو گئی: src/config.json         ",
+      "fileUpdated": "   فائل اپڈیٹ ہو گئی: dados/config.json       ",
       "botName": "بوٹ کا نام",
       "ownerName": "مالک کا نام",
       "prefix": "بوٹ پریفکس",
@@ -45,6 +46,16 @@
       "configured": "ترتیب دی گئی",
       "boolPrompt": "(ہ/y/N)",
       "boolInvalid": "ہاں کے لیے ہ/y، نہیں کے لیے ن، یا موجودہ قدر رکھنے کے لیے Enter دبائیں۔"
+    },
+    "advanced": {
+      "header": "اعلیٰ ترتیب",
+      "pressEnter": "موجودہ قدر رکھنے کے لیے Enter دبائیں۔",
+      "maxConcurrent": "بیک وقت میڈیا کارروائیاں", "maxPending": "میڈیا قطار کی زیادہ سے زیادہ حد", "timeout": "میڈیا کی کل وقت حد", "ffmpeg": "بیک وقت FFmpeg عمل",
+      "size": { "image": "تصویر کی حد", "audio": "آڈیو کی حد", "video": "ویڈیو کی حد", "document": "دستاویز کی حد", "sticker": "اسٹیکر کی حد" },
+      "providerRetries": "فی YouTube پرووائیڈر کوششیں", "retryDelay": "کوششوں کے درمیان وقفہ", "maxFailures": "کول ڈاؤن سے پہلے ناکامیاں", "cooldown": "پرووائیڈر کول ڈاؤن", "logLevel": "لاگ سطح", "maxBackups": "اپ ڈیٹ بیک اپ کی تعداد",
+      "jobs": "کام", "seconds": "سیکنڈ", "attempts": "کوششیں", "failures": "ناکامیاں", "minutes": "منٹ", "backups": "بیک اپ",
+      "invalidRange": "{{min}} اور {{max}} کے درمیان عدد درج کریں۔", "invalidLogLevel": "غلط سطح۔ debug، info، warn، error یا silent استعمال کریں۔",
+      "summary": "عملی خلاصہ:", "confirm": "یہ اعلیٰ ترتیب محفوظ کریں؟", "cancelled": "اعلیٰ ترتیب منسوخ ہو گئی۔", "saved": "اعلیٰ ترتیب محفوظ ہو گئی۔", "restartRequired": "نئی ترتیبات لاگو کرنے کے لیے بوٹ دوبارہ شروع کریں۔"
     },
     "connection": {
       "title": "کنیکشن کا طریقہ",
@@ -111,6 +122,13 @@
       "invalidInput": "غلط اسٹیکر ان پٹ۔",
       "conversionFailed": "تبدیلی ناکام۔",
       "invalidBuffer": "غلط یا خالی بفر۔"
+    },
+    "media": {
+      "queued": "⏳ میڈیا کارروائی قطار میں شامل ہو گئی۔ مقام: {{position}}۔",
+      "queueFull": "❌ میڈیا قطار بھری ہوئی ہے۔ بعد میں کوشش کریں۔",
+      "timeout": "❌ میڈیا کارروائی کا وقت ختم ہو گیا۔",
+      "tooLarge": "فائل اجازت شدہ سائز سے بڑی ہے۔",
+      "aborted": "میڈیا کارروائی منسوخ کر دی گئی۔"
     }
   },
   "connection": {
@@ -191,6 +209,7 @@
   },
   "update": {
     "checking": "اپڈیٹس چیک کی جا رہی ہیں...",
+    "upToDate": "انسٹالیشن پہلے ہی تازہ ترین ہے۔",
     "downloading": "اپڈیٹ ڈاؤن لوڈ کی جا رہی ہے...",
     "extracting": "نکالا جا رہا ہے...",
     "installingDeps": "انحصارات انسٹال کی جا رہی ہیں...",
@@ -477,19 +496,19 @@
       "opened": "🔓 گروپ کھلا ہے! سب لوگ پیغامات بھیج سکتے ہیں۔"
     },
     "kick": {
-      "noMention": "❌ جس صارف کو ہٹانا ہے اسے ٹیگ کریں.\n\nاستعمال: kick @صارف",
+      "noMention": "❌ صارف کو ٹیگ کریں یا اس کے پیغام کا جواب دیں.\n\nاستعمال: kick @صارف",
       "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "success": "✅ صارف کامیابی سے ہٹا دیا گیا!",
       "error": "❌ صارف کو ہٹاتے وقت خرابی: {{error}}"
     },
     "promote": {
-      "noMention": "❌ جس صارف کو ایڈمن بنانا ہے اسے ٹیگ کریں.\n\nاستعمال: promote @صارف",
+      "noMention": "❌ صارف کو ٹیگ کریں یا اس کے پیغام کا جواب دیں.\n\nاستعمال: promote @صارف",
       "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "success": "✅ صارف کو ایڈمن بنا دیا گیا!",
       "error": "❌ صارف کو ایڈمن بناتے وقت خرابی: {{error}}"
     },
     "demote": {
-      "noMention": "❌ جس ایڈمن کو عہدے سے ہٹانا ہے اسے ٹیگ کریں.\n\nاستعمال: demote @صارف",
+      "noMention": "❌ ایڈمن کو ٹیگ کریں یا اس کے پیغام کا جواب دیں.\n\nاستعمال: demote @صارف",
       "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "success": "✅ ایڈمن کو عام رکن بنا دیا گیا!",
       "error": "❌ ایڈمن کو عہدے سے ہٹاتے وقت خرابی: {{error}}"
@@ -621,6 +640,10 @@
     "statusbot": {
       "text": "╭─「 *بوٹ کی حالت* 」\n│\n│ بوٹ: {{bot}}\n│ مالک: {{owner}}\n│ نمبر: {{ownerNumber}}\n│ jid: {{user}}\n│ عالمی پریفکس: {{prefix}}\n│ زبان: {{language}}\n│ خودکار اپ ڈیٹ: {{autoUpdate}}\n│ اینٹی پرائیویٹ: {{antiPrivate}}\n│ محفوظ گروپس: {{groups}}\n│ bangp گروپس: {{bannedGroups}}\n│ بلاک کیے گئے صارفین: {{blockedUsers}}\n│ بلاک کیے گئے کمانڈز: {{blockedCommands}}\n│ چلنے کا وقت: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *ورژن* 」\n│ ایپ: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *میٹرکس* 」\n│ پیغامات: {{messages}} · غلطیاں: {{messageErrors}}\n│ کمانڈز: {{commands}} · غلطیاں: {{commandErrors}} · مسترد: {{denied}}\n│ میڈیا کامیاب/غلطی: {{mediaSuccess}}/{{mediaErrors}} · بائٹس: {{mediaBytes}}\n│ قطار فعال/منتظر: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ کیش ہٹ: {{cacheRate}} · دوبارہ رابطے: {{reconnects}}\n│ اوسط کمانڈ/میڈیا: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ کمانڈ ناکامیاں: {{commandFailures}}\n│ پرووائیڈر ناکامیاں: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ میسج debug فعال ہے۔ تمام message events ٹرمینل میں log ہوں گے۔",
       "disabled": "✅ میسج debug غیر فعال ہے۔"
@@ -706,7 +729,7 @@
       "sinceLabel": "سے"
     },
     "blockuser": {
-      "noMention": "❌ صارف کو ٹیگ کریں.\n\nاستعمال: blockuser @صارف [30m|12h|7d] [وجہ]",
+      "noMention": "❌ صارف کو ٹیگ کریں یا اس کے پیغام کا جواب دیں.\n\nاستعمال: blockuser @صارف [30m|12h|7d] [وجہ]",
       "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "ownerBypass": "❌ مالک کو block نہیں کیا جا سکتا۔",
       "alreadyBlocked": "❌ یہ صارف پہلے سے block ہے۔",
@@ -714,7 +737,7 @@
       "success": "✅ صارف {{user}} block کر دیا گیا۔\nاختتام: {{expires}}\nوجہ: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ صارف کو ٹیگ کریں.\n\nاستعمال: unblockuser @صارف",
+      "noMention": "❌ صارف کو ٹیگ کریں یا اس کے پیغام کا جواب دیں.\n\nاستعمال: unblockuser @صارف",
       "lidFailed": "❌ ٹیگ کیے گئے صارف کا LID حل نہ ہو سکا۔",
       "notBlocked": "❌ یہ صارف block نہیں ہے۔",
       "success": "✅ صارف {{user}} unblock کر دیا گیا۔"

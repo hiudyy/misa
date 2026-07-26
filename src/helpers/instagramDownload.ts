@@ -3,6 +3,7 @@
  * @project Misa Bot
  */
 import { ErrorCode } from "./localizeError.js";
+import { metrics } from "../metrics.js";
 
 export type InstagramMedia = {
   type: "video" | "image";
@@ -30,15 +31,27 @@ const INSTAGRAM_URL_REGEX =
 
 const cache = new Map<string, CacheItem>();
 
+type RequestOptions = { signal?: AbortSignal; fetchImpl?: typeof fetch };
+
+function requestSignal(signal: AbortSignal | undefined, timeoutMs: number): AbortSignal {
+  const timeout = AbortSignal.timeout(timeoutMs);
+  return signal ? AbortSignal.any([signal, timeout]) : timeout;
+}
+
 function getCache(key: string): InstagramDownloadResult | null {
   const item = cache.get(key);
-  if (!item) return null;
-
-  if (Date.now() - item.timestamp > CACHE_TTL_MS) {
-    cache.delete(key);
+  if (!item) {
+    metrics.recordCache("instagram", false);
     return null;
   }
 
+  if (Date.now() - item.timestamp > CACHE_TTL_MS) {
+    cache.delete(key);
+    metrics.recordCache("instagram", false);
+    return null;
+  }
+
+  metrics.recordCache("instagram", true);
   return item.data;
 }
 
@@ -55,12 +68,12 @@ export function isValidInstagramURL(urlStr: string): boolean {
   return INSTAGRAM_URL_REGEX.test(urlStr.trim());
 }
 
-async function detectMediaType(mediaUrl: string): Promise<"video" | "image"> {
+async function detectMediaType(mediaUrl: string, options: RequestOptions): Promise<"video" | "image"> {
   try {
-    const response = await fetch(mediaUrl, {
+    const response = await (options.fetchImpl ?? fetch)(mediaUrl, {
       method: "HEAD",
       headers: { "User-Agent": USER_AGENT },
-      signal: AbortSignal.timeout(15_000),
+      signal: requestSignal(options.signal, 15_000),
     });
 
     const contentType = response.headers.get("content-type") ?? "";
@@ -75,7 +88,7 @@ async function detectMediaType(mediaUrl: string): Promise<"video" | "image"> {
 /**
  * Baixa mídias de um post/reel/IGTV do Instagram via nayan-video-downloader.
  */
-export async function downloadInstagram(igURL: string): Promise<InstagramDownloadResult> {
+export async function downloadInstagram(igURL: string, options: RequestOptions = {}): Promise<InstagramDownloadResult> {
   const trimmed = igURL.trim();
   const cacheKey = `download:${trimmed}`;
   const cached = getCache(cacheKey);
@@ -83,9 +96,9 @@ export async function downloadInstagram(igURL: string): Promise<InstagramDownloa
 
   const apiURL = `https://nayan-video-downloader.vercel.app/ndown?url=${encodeURIComponent(trimmed)}`;
 
-  const response = await fetch(apiURL, {
+  const response = await (options.fetchImpl ?? fetch)(apiURL, {
     headers: { "User-Agent": USER_AGENT },
-    signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS),
+    signal: requestSignal(options.signal, DOWNLOAD_TIMEOUT_MS),
   });
 
   if (!response.ok) {
@@ -107,7 +120,7 @@ export async function downloadInstagram(igURL: string): Promise<InstagramDownloa
     if (!mediaUrl || seen.has(mediaUrl)) continue;
     seen.add(mediaUrl);
 
-    const type = await detectMediaType(mediaUrl);
+    const type = await detectMediaType(mediaUrl, options);
     medias.push({ type, url: mediaUrl });
   }
 

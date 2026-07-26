@@ -3,6 +3,7 @@
  * @project Misa Bot
  */
 import { ErrorCode } from "./localizeError.js";
+import { metrics } from "../metrics.js";
 
 export type TiktokDownloadResult = {
   urls: string[];
@@ -27,15 +28,27 @@ const TIKTOK_URL_REGEX =
 
 const cache = new Map<string, CacheItem>();
 
+type RequestOptions = { signal?: AbortSignal; fetchImpl?: typeof fetch };
+
+function requestSignal(signal: AbortSignal | undefined): AbortSignal {
+  const timeout = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
+  return signal ? AbortSignal.any([signal, timeout]) : timeout;
+}
+
 function getCache(key: string): TiktokDownloadResult | null {
   const item = cache.get(key);
-  if (!item) return null;
-
-  if (Date.now() - item.timestamp > CACHE_TTL_MS) {
-    cache.delete(key);
+  if (!item) {
+    metrics.recordCache("tiktok", false);
     return null;
   }
 
+  if (Date.now() - item.timestamp > CACHE_TTL_MS) {
+    cache.delete(key);
+    metrics.recordCache("tiktok", false);
+    return null;
+  }
+
+  metrics.recordCache("tiktok", true);
   return item.data;
 }
 
@@ -55,7 +68,7 @@ export function isValidTiktokURL(urlStr: string): boolean {
 /**
  * Baixa vídeo/slideshow do TikTok via tikwm.com.
  */
-export async function downloadTiktok(tiktokURL: string): Promise<TiktokDownloadResult> {
+export async function downloadTiktok(tiktokURL: string, options: RequestOptions = {}): Promise<TiktokDownloadResult> {
   const trimmed = tiktokURL.trim();
   const cacheKey = `download:${trimmed}`;
   const cached = getCache(cacheKey);
@@ -63,13 +76,13 @@ export async function downloadTiktok(tiktokURL: string): Promise<TiktokDownloadR
 
   const apiURL = `https://www.tikwm.com/api/?url=${encodeURIComponent(trimmed)}`;
 
-  const response = await fetch(apiURL, {
+  const response = await (options.fetchImpl ?? fetch)(apiURL, {
     headers: {
       "User-Agent": USER_AGENT,
       Accept: "application/json, text/plain, */*",
       Referer: "https://www.tikwm.com/",
     },
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: requestSignal(options.signal),
   });
 
   if (!response.ok) {
@@ -116,7 +129,7 @@ export async function downloadTiktok(tiktokURL: string): Promise<TiktokDownloadR
 /**
  * Pesquisa vídeos no TikTok e retorna um resultado aleatório.
  */
-export async function searchTiktok(query: string): Promise<TiktokDownloadResult> {
+export async function searchTiktok(query: string, options: RequestOptions = {}): Promise<TiktokDownloadResult> {
   const trimmed = query.trim();
   const cacheKey = `search:${trimmed.toLowerCase()}`;
   const cached = getCache(cacheKey);
@@ -129,7 +142,7 @@ export async function searchTiktok(query: string): Promise<TiktokDownloadResult>
     HD: "1",
   });
 
-  const response = await fetch("https://www.tikwm.com/api/feed/search", {
+  const response = await (options.fetchImpl ?? fetch)("https://www.tikwm.com/api/feed/search", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -138,7 +151,7 @@ export async function searchTiktok(query: string): Promise<TiktokDownloadResult>
       Referer: "https://www.tikwm.com/",
     },
     body: form.toString(),
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: requestSignal(options.signal),
   });
 
   if (!response.ok) {

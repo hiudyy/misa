@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "version",
       "configure": "Configure bot",
+      "advanced": "Advanced configuration",
       "start": "Start bot",
       "exit": "Exit",
       "chooseOption": "  › Choose an option: "
@@ -33,7 +34,7 @@
       "header": "CONFIGURE BOT",
       "pressEnter": "   Press Enter to keep the current value     ",
       "saved": "CONFIGURATION SAVED",
-      "fileUpdated": "   File updated: src/config.json             ",
+      "fileUpdated": "   File updated: dados/config.json           ",
       "botName": "Bot name",
       "ownerName": "Owner name",
       "prefix": "Bot prefix",
@@ -45,6 +46,29 @@
       "configured": "configured",
       "boolPrompt": "(y/N)",
       "boolInvalid": "Answer with y/yes for yes, n for no, or Enter to keep."
+    },
+    "advanced": {
+      "header": "ADVANCED CONFIGURATION",
+      "pressEnter": "Press Enter to keep each current value.",
+      "maxConcurrent": "Concurrent media operations",
+      "maxPending": "Maximum media queue size",
+      "timeout": "Total media timeout",
+      "ffmpeg": "Concurrent FFmpeg processes",
+      "size": { "image": "Image limit", "audio": "Audio limit", "video": "Video limit", "document": "Document limit", "sticker": "Sticker limit" },
+      "providerRetries": "Attempts per YouTube provider",
+      "retryDelay": "Delay between attempts",
+      "maxFailures": "Failures before cooldown",
+      "cooldown": "Provider cooldown",
+      "logLevel": "Log level",
+      "maxBackups": "Update backup count",
+      "jobs": "jobs", "seconds": "seconds", "attempts": "attempts", "failures": "failures", "minutes": "minutes", "backups": "backups",
+      "invalidRange": "Enter an integer between {{min}} and {{max}}.",
+      "invalidLogLevel": "Invalid level. Use debug, info, warn, error, or silent.",
+      "summary": "Operations summary:",
+      "confirm": "Save this advanced configuration?",
+      "cancelled": "Advanced configuration cancelled.",
+      "saved": "Advanced configuration saved.",
+      "restartRequired": "Restart the bot to apply the new operations."
     },
     "connection": {
       "title": "CONNECTION METHOD",
@@ -111,6 +135,13 @@
       "invalidInput": "Invalid sticker input.",
       "conversionFailed": "Conversion failed.",
       "invalidBuffer": "Invalid or empty buffer."
+    },
+    "media": {
+      "queued": "⏳ Media operation queued. Position: {{position}}.",
+      "queueFull": "❌ The media queue is full. Try again later.",
+      "timeout": "❌ The media operation timed out.",
+      "tooLarge": "The file exceeds the allowed size limit.",
+      "aborted": "The media operation was cancelled."
     }
   },
   "connection": {
@@ -191,6 +222,7 @@
   },
   "update": {
     "checking": "Checking for updates...",
+    "upToDate": "The installation is already up to date.",
     "downloading": "Downloading update...",
     "extracting": "Extracting...",
     "installingDeps": "Installing dependencies...",
@@ -477,19 +509,19 @@
       "opened": "🔓 Group opened! Everyone can send messages."
     },
     "kick": {
-      "noMention": "❌ Mention the user you want to remove.\n\nUsage: kick @user",
+      "noMention": "❌ Mention the user or reply to their message.\n\nUsage: kick @user",
       "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
       "success": "✅ User removed successfully!",
       "error": "❌ Error removing user: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Mention the user you want to promote.\n\nUsage: promote @user",
+      "noMention": "❌ Mention the user or reply to their message.\n\nUsage: promote @user",
       "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
       "success": "✅ User promoted to administrator!",
       "error": "❌ Error promoting user: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Mention the administrator you want to demote.\n\nUsage: demote @user",
+      "noMention": "❌ Mention the administrator or reply to their message.\n\nUsage: demote @user",
       "lidFailed": "❌ Could not resolve the LID of the mentioned user.",
       "success": "✅ Administrator demoted to regular member!",
       "error": "❌ Error demoting administrator: {{error}}"
@@ -615,6 +647,10 @@
     "statusbot": {
       "text": "╭─「 *BOT STATUS* 」\n│\n│ bot: {{bot}}\n│ owner: {{owner}}\n│ number: {{ownerNumber}}\n│ jid: {{user}}\n│ global prefix: {{prefix}}\n│ language: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-private: {{antiPrivate}}\n│ saved groups: {{groups}}\n│ bangp groups: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *VERSION* 」\n│ application: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *METRICS* 」\n│ messages: {{messages}} · errors: {{messageErrors}}\n│ commands: {{commands}} · errors: {{commandErrors}} · denied: {{denied}}\n│ media ok/error: {{mediaSuccess}}/{{mediaErrors}} · bytes: {{mediaBytes}}\n│ queue active/pending: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · reconnects: {{reconnects}}\n│ avg command/media: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ command failures: {{commandFailures}}\n│ provider failures: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ Message debug enabled. Every message event will be logged in the terminal.",
       "disabled": "✅ Message debug disabled."
@@ -697,7 +733,7 @@
       "sinceLabel": "since"
     },
     "blockuser": {
-      "noMention": "❌ Mention a user.\n\nUsage: blockuser @user [30m|12h|7d] [reason]",
+      "noMention": "❌ Mention a user or reply to their message.\n\nUsage: blockuser @user [30m|12h|7d] [reason]",
       "lidFailed": "❌ Could not resolve the mentioned user's LID.",
       "ownerBypass": "❌ The owner cannot be blocked.",
       "alreadyBlocked": "❌ This user is already blocked.",
@@ -705,7 +741,7 @@
       "success": "✅ User {{user}} blocked.\nExpires: {{expires}}\nReason: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Mention a user.\n\nUsage: unblockuser @user",
+      "noMention": "❌ Mention a user or reply to their message.\n\nUsage: unblockuser @user",
       "lidFailed": "❌ Could not resolve the mentioned user's LID.",
       "notBlocked": "❌ This user is not blocked.",
       "success": "✅ User {{user}} unblocked."

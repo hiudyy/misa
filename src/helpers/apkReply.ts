@@ -11,6 +11,8 @@ import {
   shortenUrl,
 } from "./modyoloDownload.js";
 import { deleteApkSession, getApkSession, setApkSession } from "./apkSession.js";
+import { downloadToTemp } from "../media/downloadToTemp.js";
+import { runMediaJob } from "../media/runMediaJob.js";
 
 type Translator = (key: string, vars?: Record<string, string>) => string;
 
@@ -65,11 +67,14 @@ export async function tryHandleApkReply(params: {
       const infoMsg = buildModyoloAppInfoText(appInfo, t);
 
       if (imgURL) {
-        await misa.sendMessage(
-          from,
-          { image: { url: imgURL }, caption: infoMsg },
-          { quoted: message as WAMessage },
-        );
+        await runMediaJob({ misa, from, sender, kind: "apk-banner", t }, async (signal) => {
+          const media = await downloadToTemp({ url: imgURL, kind: "image", signal });
+          try {
+            await misa.sendMessage(from, { image: { url: media.path }, caption: infoMsg }, { quoted: message as WAMessage });
+          } finally {
+            await media.cleanup();
+          }
+        });
       } else {
         await sendText(misa, from, infoMsg, message);
       }

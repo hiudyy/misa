@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "الإصدار",
       "configure": "إعداد البوت",
+      "advanced": "الإعدادات المتقدمة",
       "start": "تشغيل البوت",
       "exit": "خروج",
       "chooseOption": "  › اختر خيارا: "
@@ -33,7 +34,7 @@
       "header": "إعداد البوت",
       "pressEnter": "   اضغط Enter للاحتفاظ بالقيمة الحالية     ",
       "saved": "تم حفظ الإعدادات",
-      "fileUpdated": "   تم تحديث الملف: src/config.json             ",
+      "fileUpdated": "   تم تحديث الملف: dados/config.json           ",
       "botName": "اسم البوت",
       "ownerName": "اسم المالك",
       "prefix": "بادئة البوت",
@@ -45,6 +46,16 @@
       "configured": "مضبوط",
       "boolPrompt": "(ن/y/N)",
       "boolInvalid": "أجب بـ ن/نعم للموافقة، ل/لا للرفض، أو اضغط Enter للاحتفاظ."
+    },
+    "advanced": {
+      "header": "الإعدادات المتقدمة",
+      "pressEnter": "اضغط Enter للاحتفاظ بكل قيمة حالية.",
+      "maxConcurrent": "عمليات الوسائط المتزامنة", "maxPending": "الحد الأقصى لطابور الوسائط", "timeout": "مهلة الوسائط الإجمالية", "ffmpeg": "عمليات FFmpeg المتزامنة",
+      "size": { "image": "حد الصور", "audio": "حد الصوت", "video": "حد الفيديو", "document": "حد المستندات", "sticker": "حد الملصقات" },
+      "providerRetries": "المحاولات لكل مزود YouTube", "retryDelay": "الفاصل بين المحاولات", "maxFailures": "الإخفاقات قبل التهدئة", "cooldown": "مدة تهدئة المزود", "logLevel": "مستوى السجل", "maxBackups": "عدد نسخ التحديث الاحتياطية",
+      "jobs": "مهام", "seconds": "ثوانٍ", "attempts": "محاولات", "failures": "إخفاقات", "minutes": "دقائق", "backups": "نسخ",
+      "invalidRange": "أدخل عددًا صحيحًا بين {{min}} و{{max}}.", "invalidLogLevel": "مستوى غير صالح. استخدم debug أو info أو warn أو error أو silent.",
+      "summary": "ملخص العمليات:", "confirm": "حفظ هذه الإعدادات المتقدمة؟", "cancelled": "تم إلغاء الإعدادات المتقدمة.", "saved": "تم حفظ الإعدادات المتقدمة.", "restartRequired": "أعد تشغيل البوت لتطبيق الإعدادات الجديدة."
     },
     "connection": {
       "title": "طريقة الاتصال",
@@ -111,6 +122,13 @@
       "invalidInput": "إدخال ملصق غير صالح.",
       "conversionFailed": "فشل التحويل.",
       "invalidBuffer": "Buffer غير صالح أو فارغ."
+    },
+    "media": {
+      "queued": "⏳ تمت إضافة عملية الوسائط إلى الطابور. الموضع: {{position}}.",
+      "queueFull": "❌ طابور الوسائط ممتلئ. حاول لاحقًا.",
+      "timeout": "❌ تجاوزت عملية الوسائط المهلة المحددة.",
+      "tooLarge": "يتجاوز الملف حد الحجم المسموح.",
+      "aborted": "تم إلغاء عملية الوسائط."
     }
   },
   "connection": {
@@ -191,6 +209,7 @@
   },
   "update": {
     "checking": "جارٍ التحقق من التحديثات...",
+    "upToDate": "التثبيت مُحدّث بالفعل.",
     "downloading": "جارٍ تنزيل التحديث...",
     "extracting": "جارٍ الاستخراج...",
     "installingDeps": "جارٍ تثبيت الاعتماديات...",
@@ -477,19 +496,19 @@
       "opened": "🔓 تم فتح المجموعة! يمكن للجميع إرسال الرسائل."
     },
     "kick": {
-      "noMention": "❌ قم بذكر المستخدم الذي تريد إزالته.\n\nالاستخدام: kick @مستخدم",
+      "noMention": "❌ اذكر المستخدم أو رد على رسالته.\n\nالاستخدام: kick @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "success": "✅ تمت إزالة المستخدم بنجاح!",
       "error": "❌ خطأ أثناء إزالة المستخدم: {{error}}"
     },
     "promote": {
-      "noMention": "❌ قم بذكر المستخدم الذي تريد ترقيته.\n\nالاستخدام: promote @مستخدم",
+      "noMention": "❌ اذكر المستخدم أو رد على رسالته.\n\nالاستخدام: promote @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "success": "✅ تمت ترقية المستخدم إلى مشرف!",
       "error": "❌ خطأ أثناء ترقية المستخدم: {{error}}"
     },
     "demote": {
-      "noMention": "❌ قم بذكر المشرف الذي تريد خفضه.\n\nالاستخدام: demote @مستخدم",
+      "noMention": "❌ اذكر المشرف أو رد على رسالته.\n\nالاستخدام: demote @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "success": "✅ تمت إعادة المشرف إلى عضو عادي!",
       "error": "❌ خطأ أثناء خفض المشرف: {{error}}"
@@ -615,6 +634,10 @@
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ owner: {{owner}}\n│ number: {{ownerNumber}}\n│ jid: {{user}}\n│ global prefix: {{prefix}}\n│ language: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-pv: {{antiPrivate}}\n│ saved groups: {{groups}}\n│ bangp groups: {{bannedGroups}}\n│ blocked users: {{blockedUsers}}\n│ blocked commands: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *الإصدار* 」\n│ التطبيق: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *المقاييس* 」\n│ الرسائل: {{messages}} · الأخطاء: {{messageErrors}}\n│ الأوامر: {{commands}} · الأخطاء: {{commandErrors}} · المرفوضة: {{denied}}\n│ الوسائط ناجح/خطأ: {{mediaSuccess}}/{{mediaErrors}} · البايتات: {{mediaBytes}}\n│ الطابور نشط/منتظر: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ إصابات التخزين: {{cacheRate}} · إعادة الاتصال: {{reconnects}}\n│ متوسط الأمر/الوسائط: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ فشل الأوامر: {{commandFailures}}\n│ فشل المزودين: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ تم تفعيل تصحيح الرسائل. سيتم تسجيل كل أحداث الرسائل في الطرفية.",
       "disabled": "✅ تم تعطيل تصحيح الرسائل."
@@ -697,7 +720,7 @@
       "sinceLabel": "منذ"
     },
     "blockuser": {
-      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: blockuser @مستخدم [30m|12h|7d] [motivo]",
+      "noMention": "❌ اذكر المستخدم أو رد على رسالته.\n\nالاستخدام: blockuser @مستخدم [30m|12h|7d] [motivo]",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "ownerBypass": "❌ لا يمكن حظر المالك.",
       "alreadyBlocked": "❌ هذا المستخدم محظور بالفعل.",
@@ -705,7 +728,7 @@
       "success": "✅ تم حظر المستخدم {{user}}.\nينتهي: {{expires}}\nالسبب: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ قم بذكر المستخدم.\n\nالاستخدام: unblockuser @مستخدم",
+      "noMention": "❌ اذكر المستخدم أو رد على رسالته.\n\nالاستخدام: unblockuser @مستخدم",
       "lidFailed": "❌ تعذر تحديد LID للمستخدم المذكور.",
       "notBlocked": "❌ هذا المستخدم غير محظور.",
       "success": "✅ تم إلغاء حظر المستخدم {{user}}."

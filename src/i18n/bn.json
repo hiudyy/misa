@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "সংস্করণ",
       "configure": "বট কনফিগার করুন",
+      "advanced": "উন্নত কনফিগারেশন",
       "start": "বট চালু করুন",
       "exit": "প্রস্থান",
       "chooseOption": "  › একটি বিকল্প বেছে নিন: "
@@ -33,7 +34,7 @@
       "header": "বট কনফিগার করুন",
       "pressEnter": "   বর্তমান মান রাখতে Enter চাপুন              ",
       "saved": "কনফিগারেশন সংরক্ষিত",
-      "fileUpdated": "   ফাইল আপডেট হয়েছে: src/config.json           ",
+      "fileUpdated": "   ফাইল আপডেট হয়েছে: dados/config.json         ",
       "botName": "বটের নাম",
       "ownerName": "মালিকের নাম",
       "prefix": "বট প্রিফিক্স",
@@ -45,6 +46,16 @@
       "configured": "কনফিগার করা হয়েছে",
       "boolPrompt": "(হ/y/N)",
       "boolInvalid": "হ্যাঁর জন্য হ/y, নার জন্য ন, অথবা রাখতে Enter চাপুন।"
+    },
+    "advanced": {
+      "header": "উন্নত কনফিগারেশন",
+      "pressEnter": "বর্তমান মান রাখতে Enter চাপুন।",
+      "maxConcurrent": "একসাথে মিডিয়া কাজ", "maxPending": "সর্বোচ্চ মিডিয়া সারি", "timeout": "মিডিয়ার মোট সময়সীমা", "ffmpeg": "একসাথে FFmpeg প্রসেস",
+      "size": { "image": "ছবির সীমা", "audio": "অডিও সীমা", "video": "ভিডিও সীমা", "document": "ডকুমেন্ট সীমা", "sticker": "স্টিকার সীমা" },
+      "providerRetries": "প্রতি YouTube প্রোভাইডার চেষ্টা", "retryDelay": "চেষ্টার মধ্যবর্তী বিরতি", "maxFailures": "কুলডাউনের আগে ব্যর্থতা", "cooldown": "প্রোভাইডার কুলডাউন", "logLevel": "লগ স্তর", "maxBackups": "আপডেট ব্যাকআপ সংখ্যা",
+      "jobs": "কাজ", "seconds": "সেকেন্ড", "attempts": "চেষ্টা", "failures": "ব্যর্থতা", "minutes": "মিনিট", "backups": "ব্যাকআপ",
+      "invalidRange": "{{min}} এবং {{max}}-এর মধ্যে পূর্ণসংখ্যা দিন।", "invalidLogLevel": "অবৈধ স্তর। debug, info, warn, error অথবা silent ব্যবহার করুন।",
+      "summary": "অপারেশন সারাংশ:", "confirm": "এই উন্নত কনফিগারেশন সংরক্ষণ করবেন?", "cancelled": "উন্নত কনফিগারেশন বাতিল হয়েছে।", "saved": "উন্নত কনফিগারেশন সংরক্ষিত হয়েছে।", "restartRequired": "নতুন সেটিং প্রয়োগ করতে বট পুনরায় চালু করুন।"
     },
     "connection": {
       "title": "সংযোগের পদ্ধতি",
@@ -111,6 +122,13 @@
       "invalidInput": "অবৈধ স্টিকার ইনপুট।",
       "conversionFailed": "রূপান্তর ব্যর্থ।",
       "invalidBuffer": "অবৈধ বা খালি বাফার।"
+    },
+    "media": {
+      "queued": "⏳ মিডিয়া কাজ সারিতে যোগ হয়েছে। অবস্থান: {{position}}।",
+      "queueFull": "❌ মিডিয়া সারি পূর্ণ। পরে আবার চেষ্টা করুন।",
+      "timeout": "❌ মিডিয়া কাজের সময়সীমা শেষ হয়েছে।",
+      "tooLarge": "ফাইল অনুমোদিত আকারের সীমা ছাড়িয়েছে।",
+      "aborted": "মিডিয়া কাজ বাতিল করা হয়েছে।"
     }
   },
   "connection": {
@@ -191,6 +209,7 @@
   },
   "update": {
     "checking": "আপডেট পরীক্ষা করা হচ্ছে...",
+    "upToDate": "ইনস্টলেশন ইতিমধ্যেই সর্বশেষ।",
     "downloading": "আপডেট ডাউনলোড করা হচ্ছে...",
     "extracting": "এক্সট্র্যাক্ট করা হচ্ছে...",
     "installingDeps": "ডিপেন্ডেন্সি ইনস্টল করা হচ্ছে...",
@@ -477,19 +496,19 @@
       "opened": "🔓 গ্রুপ খোলা! সবাই বার্তা পাঠাতে পারবেন।"
     },
     "kick": {
-      "noMention": "❌ Mention the user you want to remove.\n\nUsage: kick @ব্যবহারকারী",
+      "noMention": "❌ ব্যবহারকারীকে mention করুন অথবা তার বার্তার উত্তর দিন।\n\nUsage: kick @ব্যবহারকারী",
       "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
       "success": "✅ ব্যবহারকারী সফলভাবে সরানো হয়েছে!",
       "error": "❌ ব্যবহারকারী সরাতে ত্রুটি: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Mention the user you want to promote.\n\nUsage: promote @ব্যবহারকারী",
+      "noMention": "❌ ব্যবহারকারীকে mention করুন অথবা তার বার্তার উত্তর দিন।\n\nUsage: promote @ব্যবহারকারী",
       "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
       "success": "✅ ব্যবহারকারীকে অ্যাডমিন করা হয়েছে!",
       "error": "❌ অ্যাডমিন করতে ত্রুটি: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Mention the administrator you want to demote.\n\nUsage: demote @ব্যবহারকারী",
+      "noMention": "❌ অ্যাডমিনকে mention করুন অথবা তার বার্তার উত্তর দিন।\n\nUsage: demote @ব্যবহারকারী",
       "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
       "success": "✅ অ্যাডমিনকে সাধারণ সদস্য করা হয়েছে!",
       "error": "❌ অ্যাডমিন সরাতে ত্রুটি: {{error}}"
@@ -615,6 +634,10 @@
     "statusbot": {
       "text": "╭─「 *বট স্ট্যাটাস* 」\n│\n│ বট: {{bot}}\n│ মালিক: {{owner}}\n│ নম্বর: {{ownerNumber}}\n│ jid: {{user}}\n│ গ্লোবাল প্রিফিক্স: {{prefix}}\n│ ভাষা: {{language}}\n│ স্বয়ংক্রিয় আপডেট: {{autoUpdate}}\n│ অ্যান্টি-প্রাইভেট: {{antiPrivate}}\n│ সংরক্ষিত গ্রুপ: {{groups}}\n│ bangp গ্রুপ: {{bannedGroups}}\n│ ব্লক করা ব্যবহারকারী: {{blockedUsers}}\n│ ব্লক করা কমান্ড: {{blockedCommands}}\n│ আপটাইম: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *সংস্করণ* 」\n│ অ্যাপ: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *মেট্রিক্স* 」\n│ বার্তা: {{messages}} · ত্রুটি: {{messageErrors}}\n│ কমান্ড: {{commands}} · ত্রুটি: {{commandErrors}} · প্রত্যাখ্যাত: {{denied}}\n│ মিডিয়া সফল/ত্রুটি: {{mediaSuccess}}/{{mediaErrors}} · বাইট: {{mediaBytes}}\n│ সারি সক্রিয়/অপেক্ষা: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ ক্যাশ হিট: {{cacheRate}} · পুনঃসংযোগ: {{reconnects}}\n│ গড় কমান্ড/মিডিয়া: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ কমান্ড ব্যর্থতা: {{commandFailures}}\n│ প্রোভাইডার ব্যর্থতা: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ মেসেজ debug চালু হয়েছে। সব message event টার্মিনালে log হবে।",
       "disabled": "✅ মেসেজ debug বন্ধ হয়েছে।"
@@ -697,7 +720,7 @@
       "sinceLabel": "থেকে"
     },
     "blockuser": {
-      "noMention": "❌ Mention a user.\n\nUsage: blockuser @ব্যবহারকারী [30m|12h|7d] [reason]",
+      "noMention": "❌ ব্যবহারকারীকে mention করুন অথবা তার বার্তার উত্তর দিন।\n\nUsage: blockuser @ব্যবহারকারী [30m|12h|7d] [reason]",
       "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
       "ownerBypass": "❌ মালিককে ব্লক করা যায় না।",
       "alreadyBlocked": "❌ এই ব্যবহারকারী ইতিমধ্যে ব্লক।",
@@ -705,7 +728,7 @@
       "success": "✅ ব্যবহারকারী {{user}} ব্লক।\nমেয়াদ: {{expires}}\nকারণ: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Mention a user.\n\nUsage: unblockuser @ব্যবহারকারী",
+      "noMention": "❌ ব্যবহারকারীকে mention করুন অথবা তার বার্তার উত্তর দিন।\n\nUsage: unblockuser @ব্যবহারকারী",
       "lidFailed": "❌ উল্লেখিত ব্যবহারকারীর LID সমাধান করা যায়নি।",
       "notBlocked": "❌ এই ব্যবহারকারী ব্লক নন।",
       "success": "✅ ব্যবহারকারী {{user}} আনব্লক।"

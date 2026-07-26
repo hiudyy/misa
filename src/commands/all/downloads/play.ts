@@ -12,13 +12,15 @@ import {
   sanitizeYtFileName,
 } from "../../../helpers/youtubeDownload.js";
 import { ErrorCode, isErrorCode, localizeError } from "../../../helpers/localizeError.js";
+import { runMediaJob } from "../../../media/runMediaJob.js";
+import { downloadToTemp } from "../../../media/downloadToTemp.js";
 
 const playCommand: Command = {
   name: "play",
   aliases: ["p"],
   description: "Searches for a song on YouTube and sends the audio",
   category: "all",
-  async execute({ misa, message, from, args, rawArgs, t, locale }) {
+  async execute({ misa, message, from, sender, args, rawArgs, t, locale }) {
     if (args.length === 0) {
       await misa.sendMessage(
         from,
@@ -29,58 +31,57 @@ const playCommand: Command = {
     }
 
     const query = rawArgs.trim();
-    await misa.sendMessage(from, { text: t("commands.play.searching") }, { quoted: message as WAMessage });
+    await runMediaJob({ misa, from, sender, kind: "youtube-audio", t }, async (signal) => {
+      await misa.sendMessage(from, { text: t("commands.play.searching") }, { quoted: message as WAMessage });
+      let media: Awaited<ReturnType<typeof downloadYouTube>>["media"];
+      try {
+        const { videoURL, search } = await resolveYouTubeTarget(query, signal);
 
-    try {
-      const { videoURL, search } = await resolveYouTubeTarget(query);
-
-      if (search) {
-        await misa.sendMessage(
-          from,
-          {
-            image: { url: search.thumbnail },
-            caption: [
-              `🎵 *${search.title}*`,
+        if (search?.thumbnail) {
+          let thumbnail: Awaited<ReturnType<typeof downloadToTemp>> | undefined;
+          try {
+            thumbnail = await downloadToTemp({ url: search.thumbnail, kind: "image", signal });
+            await misa.sendMessage(from, {
+              image: { url: thumbnail.path },
+              caption: [
+               `🎵 *${search.title}*`,
               "",
               `👤 ${t("commands.play.channel")}: ${search.author}`,
               `⏱️ ${t("commands.play.duration")}: ${search.durationStr || formatYtDuration(search.duration)}`,
               `👀 ${t("commands.play.views")}: ${search.viewsStr || formatYtViews(search.views, locale)}`,
               "",
               t("commands.play.downloading"),
-            ].join("\n"),
-          },
-          { quoted: message as WAMessage },
-        );
-      } else {
-        await misa.sendMessage(from, { text: t("commands.play.downloading") }, { quoted: message as WAMessage });
-      }
+              ].join("\n"),
+            }, { quoted: message as WAMessage });
+          } catch {
+            await misa.sendMessage(from, { text: t("commands.play.downloading") }, { quoted: message as WAMessage });
+          } finally {
+            await thumbnail?.cleanup();
+          }
+        } else {
+          await misa.sendMessage(from, { text: t("commands.play.downloading") }, { quoted: message as WAMessage });
+        }
 
-      const audio = await downloadYouTube(videoURL, "mp3");
-      if (!audio.success || !audio.buffer) {
-        throw new Error(audio.error || t("commands.play.unknown"));
-      }
+        const audio = await downloadYouTube(videoURL, "mp3", { signal });
+        if (!audio.success || !audio.media) throw new Error(audio.error || t("commands.play.unknown"));
+        media = audio.media;
 
-      const title = audio.title || search?.title || t("common.file");
+        const title = audio.title || search?.title || t("common.file");
 
-      await misa.sendMessage(
-        from,
-        {
-          audio: audio.buffer,
+        await misa.sendMessage(from, {
+          audio: { url: media.path },
           mimetype: "audio/mpeg",
           fileName: `${sanitizeYtFileName(title, "audio")}.mp3`,
-        },
-        { quoted: message as WAMessage },
-      );
-    } catch (error) {
-      const msg =
-        isErrorCode(error, ErrorCode.INVALID_URL)
+        }, { quoted: message as WAMessage });
+      } catch (error) {
+        const msg = isErrorCode(error, ErrorCode.INVALID_URL)
           ? t("commands.ytmp3.invalidUrl")
-          : t("commands.play.error", {
-              message: localizeError(error, t, "commands.play.unknown"),
-            });
-
-      await misa.sendMessage(from, { text: msg }, { quoted: message as WAMessage });
-    }
+          : t("commands.play.error", { message: localizeError(error, t, "commands.play.unknown") });
+        await misa.sendMessage(from, { text: msg }, { quoted: message as WAMessage });
+      } finally {
+        await media?.cleanup();
+      }
+    });
   },
 };
 

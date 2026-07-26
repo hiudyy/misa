@@ -10,6 +10,8 @@ import webp from "node-webpmux";
 import { WAMessage, WASocket } from "baileys";
 import { paths } from "../config/paths.js";
 import { ErrorCode } from "./localizeError.js";
+import { downloadToTemp, assertMediaSize } from "../media/downloadToTemp.js";
+import { ffmpegLimiter } from "../media/ffmpegLimiter.js";
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
@@ -22,6 +24,7 @@ type SendStickerOptions = {
   packname?: string;
   author?: string;
   forceSquare?: boolean;
+  signal?: AbortSignal;
 };
 
 function detectImageExtension(buffer: Buffer): "png" | "jpg" | "webp" {
@@ -45,18 +48,12 @@ async function createTempFile(ext: string): Promise<string> {
 }
 
 async function getBuffer(url: string): Promise<Buffer> {
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(ErrorCode.STICKER_DOWNLOAD_FAILED);
+  const media = await downloadToTemp({ url, kind: "sticker" });
+  try {
+    return await fs.readFile(media.path);
+  } finally {
+    await media.cleanup();
   }
-
-  const buffer = Buffer.from(await response.arrayBuffer());
-  if (buffer.length === 0) {
-    throw new Error(ErrorCode.STICKER_EMPTY_DOWNLOAD);
-  }
-
-  return buffer;
 }
 
 async function resolveInputToBuffer(input: StickerInput): Promise<Buffer> {
@@ -81,7 +78,7 @@ async function resolveInputToBuffer(input: StickerInput): Promise<Buffer> {
   throw new Error(ErrorCode.STICKER_INVALID_INPUT);
 }
 
-async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare = false): Promise<Buffer> {
+async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare = false, signal?: AbortSignal): Promise<Buffer> {
   if (
     !isVideo &&
     mediaBuffer.subarray(0, 4).toString() === "RIFF" &&
@@ -103,6 +100,7 @@ async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare =
   let result = Buffer.alloc(0);
 
   try {
+    return await ffmpegLimiter.run(async () => {
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const outputPath = await createTempFile("webp");
       const outputOptions = [
@@ -117,11 +115,24 @@ async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare =
       ];
 
       await new Promise<void>((resolve, reject) => {
-        ffmpeg(inputPath)
+        const command = ffmpeg(inputPath)
           .outputOptions(outputOptions)
-          .format("webp")
-          .on("end", () => resolve())
-          .on("error", (error) => reject(error))
+          .format("webp");
+        const onAbort = () => {
+          command.kill("SIGKILL");
+          reject(signal?.reason ?? new Error(ErrorCode.MEDIA_ABORTED));
+        };
+        const cleanupListener = () => signal?.removeEventListener("abort", onAbort);
+        signal?.addEventListener("abort", onAbort, { once: true });
+        command
+          .on("end", () => {
+            cleanupListener();
+            resolve();
+          })
+          .on("error", (error) => {
+            cleanupListener();
+            reject(error);
+          })
           .save(outputPath);
       });
 
@@ -145,11 +156,11 @@ async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare =
         quality = Math.max(minQuality, quality - 10);
       }
     }
+    return result;
+    }, signal);
   } finally {
     await fs.unlink(inputPath).catch(() => undefined);
   }
-
-  return result;
 }
 
 async function writeExif(webpBuffer: Buffer, metadata: { packname?: string; author?: string }): Promise<Buffer> {
@@ -189,15 +200,16 @@ async function writeExif(webpBuffer: Buffer, metadata: { packname?: string; auth
 export async function buildStickerBuffer(
   input: StickerInput,
   type: StickerType,
-  options?: { packname?: string; author?: string; forceSquare?: boolean },
+  options?: { packname?: string; author?: string; forceSquare?: boolean; signal?: AbortSignal },
 ): Promise<Buffer> {
   const buffer = await resolveInputToBuffer(input);
+  assertMediaSize(buffer.length, "sticker");
 
   if (buffer.length < 10) {
     throw new Error(ErrorCode.STICKER_INVALID_BUFFER);
   }
 
-  const webpBuffer = await convertToWebp(buffer, type === "video", options?.forceSquare ?? false);
+  const webpBuffer = await convertToWebp(buffer, type === "video", options?.forceSquare ?? false, options?.signal);
   return writeExif(webpBuffer, { packname: options?.packname, author: options?.author });
 }
 

@@ -25,6 +25,7 @@
       "title": "{{botName}}",
       "version": "versi",
       "configure": "Konfigurasi bot",
+      "advanced": "Konfigurasi lanjutan",
       "start": "Mulai bot",
       "exit": "Keluar",
       "chooseOption": "  › Pilih opsi: "
@@ -33,7 +34,7 @@
       "header": "KONFIGURASI BOT",
       "pressEnter": "   Tekan Enter untuk mempertahankan nilai saat ini  ",
       "saved": "KONFIGURASI DISIMPAN",
-      "fileUpdated": "   File diperbarui: src/config.json              ",
+      "fileUpdated": "   File diperbarui: dados/config.json            ",
       "botName": "Nama bot",
       "ownerName": "Nama pemilik",
       "prefix": "Prefiks bot",
@@ -45,6 +46,29 @@
       "configured": "sudah dikonfigurasi",
       "boolPrompt": "(y/T)",
       "boolInvalid": "Jawab dengan y/ya untuk ya, t untuk tidak, atau Enter untuk mempertahankan."
+    },
+    "advanced": {
+      "header": "KONFIGURASI LANJUTAN",
+      "pressEnter": "Tekan Enter untuk mempertahankan nilai saat ini.",
+      "maxConcurrent": "Operasi media bersamaan",
+      "maxPending": "Ukuran maksimum antrean media",
+      "timeout": "Batas waktu total media",
+      "ffmpeg": "Proses FFmpeg bersamaan",
+      "size": { "image": "Batas gambar", "audio": "Batas audio", "video": "Batas video", "document": "Batas dokumen", "sticker": "Batas stiker" },
+      "providerRetries": "Percobaan per provider YouTube",
+      "retryDelay": "Jeda antar percobaan",
+      "maxFailures": "Kegagalan sebelum cooldown",
+      "cooldown": "Cooldown provider",
+      "logLevel": "Level log",
+      "maxBackups": "Jumlah backup pembaruan",
+      "jobs": "job", "seconds": "detik", "attempts": "percobaan", "failures": "kegagalan", "minutes": "menit", "backups": "backup",
+      "invalidRange": "Masukkan bilangan bulat antara {{min}} dan {{max}}.",
+      "invalidLogLevel": "Level tidak valid. Gunakan debug, info, warn, error, atau silent.",
+      "summary": "Ringkasan operasi:",
+      "confirm": "Simpan konfigurasi lanjutan ini?",
+      "cancelled": "Konfigurasi lanjutan dibatalkan.",
+      "saved": "Konfigurasi lanjutan disimpan.",
+      "restartRequired": "Mulai ulang bot untuk menerapkan operasi baru."
     },
     "connection": {
       "title": "METODE KONEKSI",
@@ -111,6 +135,13 @@
       "invalidInput": "Input stiker tidak valid.",
       "conversionFailed": "Konversi gagal.",
       "invalidBuffer": "Buffer tidak valid atau kosong."
+    },
+    "media": {
+      "queued": "⏳ Operasi media masuk antrean. Posisi: {{position}}.",
+      "queueFull": "❌ Antrean media penuh. Coba lagi nanti.",
+      "timeout": "❌ Operasi media melewati batas waktu.",
+      "tooLarge": "Berkas melebihi batas ukuran yang diizinkan.",
+      "aborted": "Operasi media dibatalkan."
     }
   },
   "connection": {
@@ -191,6 +222,7 @@
   },
   "update": {
     "checking": "Memeriksa pembaruan...",
+    "upToDate": "Instalasi sudah menggunakan versi terbaru.",
     "downloading": "Mengunduh pembaruan...",
     "extracting": "Mengekstrak...",
     "installingDeps": "Menginstal dependensi...",
@@ -266,7 +298,7 @@
         "tiktok": "tiktok",
         "instagram": "instagram",
         "pinterest": "pinterest",
-        "admins": "admin",
+        "admins": "admins",
         "rankativo": "rankactive",
         "rankinativo": "rankinactive",
         "checkativo": "checkactive",
@@ -477,19 +509,19 @@
       "opened": "🔓 Grup dibuka! Semua orang dapat mengirim pesan."
     },
     "kick": {
-      "noMention": "❌ Sebutkan pengguna yang ingin Anda keluarkan.\n\nPenggunaan: keluarkan @pengguna",
+      "noMention": "❌ Sebutkan pengguna atau balas pesannya.\n\nPenggunaan: keluarkan @pengguna",
       "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebutkan.",
       "success": "✅ Pengguna berhasil dikeluarkan!",
       "error": "❌ Kesalahan mengeluarkan pengguna: {{error}}"
     },
     "promote": {
-      "noMention": "❌ Sebutkan pengguna yang ingin Anda promosikan.\n\nPenggunaan: promosikan @pengguna",
+      "noMention": "❌ Sebutkan pengguna atau balas pesannya.\n\nPenggunaan: promosikan @pengguna",
       "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebutkan.",
       "success": "✅ Pengguna berhasil dipromosikan menjadi administrator!",
       "error": "❌ Kesalahan mempromosikan pengguna: {{error}}"
     },
     "demote": {
-      "noMention": "❌ Sebutkan administrator yang ingin Anda turunkan.\n\nPenggunaan: turunkan @pengguna",
+      "noMention": "❌ Sebutkan administrator atau balas pesannya.\n\nPenggunaan: turunkan @pengguna",
       "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebutkan.",
       "success": "✅ Administrator berhasil diturunkan menjadi anggota biasa!",
       "error": "❌ Kesalahan menurunkan administrator: {{error}}"
@@ -615,6 +647,10 @@
     "statusbot": {
       "text": "╭─「 *STATUS BOT* 」\n│\n│ bot: {{bot}}\n│ pemilik: {{owner}}\n│ nomor: {{ownerNumber}}\n│ jid: {{user}}\n│ prefiks global: {{prefix}}\n│ bahasa: {{language}}\n│ auto update: {{autoUpdate}}\n│ anti-private: {{antiPrivate}}\n│ grup tersimpan: {{groups}}\n│ grup bangp: {{bannedGroups}}\n│ pengguna diblokir: {{blockedUsers}}\n│ perintah diblokir: {{blockedCommands}}\n│ uptime: {{uptime}}\n│\n╰─"
     },
+    "statusVersion": { "text": "╭─「 *VERSI* 」\n│ aplikasi: {{version}}\n│ commit: {{commit}}\n│ skema: {{schema}}\n╰─" },
+    "statusMetrics": {
+      "text": "╭─「 *METRIK* 」\n│ pesan: {{messages}} · galat: {{messageErrors}}\n│ perintah: {{commands}} · galat: {{commandErrors}} · ditolak: {{denied}}\n│ media ok/galat: {{mediaSuccess}}/{{mediaErrors}} · byte: {{mediaBytes}}\n│ antrean aktif/tertunda: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · koneksi ulang: {{reconnects}}\n│ rata-rata perintah/media: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ kegagalan perintah: {{commandFailures}}\n│ kegagalan provider: {{providerFailures}}\n╰─"
+    },
     "debug": {
       "enabled": "✅ Debug pesan aktif. Semua event pesan akan dicatat di terminal.",
       "disabled": "✅ Debug pesan nonaktif."
@@ -697,7 +733,7 @@
       "sinceLabel": "sejak"
     },
     "blockuser": {
-      "noMention": "❌ Sebutkan pengguna.\n\nPenggunaan: blockuser @pengguna [30m|12h|7d] [alasan]",
+      "noMention": "❌ Sebutkan pengguna atau balas pesannya.\n\nPenggunaan: blockuser @pengguna [30m|12h|7d] [alasan]",
       "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebut.",
       "ownerBypass": "❌ Pemilik tidak dapat diblokir.",
       "alreadyBlocked": "❌ Pengguna ini sudah diblokir.",
@@ -705,7 +741,7 @@
       "success": "✅ Pengguna {{user}} diblokir.\nKedaluwarsa: {{expires}}\nAlasan: {{reason}}"
     },
     "unblockuser": {
-      "noMention": "❌ Sebutkan pengguna.\n\nPenggunaan: unblockuser @pengguna",
+      "noMention": "❌ Sebutkan pengguna atau balas pesannya.\n\nPenggunaan: unblockuser @pengguna",
       "lidFailed": "❌ Tidak dapat menyelesaikan LID pengguna yang disebut.",
       "notBlocked": "❌ Pengguna ini tidak diblokir.",
       "success": "✅ Pengguna {{user}} dibuka blokirnya."

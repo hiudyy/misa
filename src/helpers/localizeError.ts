@@ -18,6 +18,8 @@ export const ErrorCode = {
   STICKER_INVALID_INPUT: "STICKER_INVALID_INPUT",
   STICKER_CONVERSION_FAILED: "STICKER_CONVERSION_FAILED",
   STICKER_INVALID_BUFFER: "STICKER_INVALID_BUFFER",
+  MEDIA_DOWNLOAD_TOO_LARGE: "MEDIA_DOWNLOAD_TOO_LARGE",
+  MEDIA_ABORTED: "MEDIA_ABORTED",
   INVALID_URL: "invalid_url",
 } as const;
 
@@ -37,6 +39,8 @@ const CODE_TO_KEY: Record<string, string> = {
   [ErrorCode.STICKER_INVALID_INPUT]: "errors.sticker.invalidInput",
   [ErrorCode.STICKER_CONVERSION_FAILED]: "errors.sticker.conversionFailed",
   [ErrorCode.STICKER_INVALID_BUFFER]: "errors.sticker.invalidBuffer",
+  [ErrorCode.MEDIA_DOWNLOAD_TOO_LARGE]: "errors.media.tooLarge",
+  [ErrorCode.MEDIA_ABORTED]: "errors.media.aborted",
   [ErrorCode.INVALID_URL]: "errors.download.invalidUrl",
 };
 
