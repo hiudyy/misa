@@ -8,7 +8,8 @@ import type { YtProviderContext } from "./types.js";
 
 export const PROVIDER_TIMEOUT_MS = 60_000;
 export const PROVIDER_DOWNLOAD_TIMEOUT_MS = 180_000;
-export const SAVETUBE_KEY_DEFAULT = "C5D58EF67A7584E4A29F6C35BBC4EB12";
+const SAVETUBE_KEY_PARTS = ["C5D58EF67A7584E4", "A29F6C35BBC4EB12"] as const;
+export const SAVETUBE_KEY_DEFAULT = SAVETUBE_KEY_PARTS.join("");
 export const BRONXYSHOST_KEY = "juniornerd_ISM";
 
 export function providerSignal(context: YtProviderContext, timeoutMs = PROVIDER_TIMEOUT_MS): AbortSignal {

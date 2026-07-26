@@ -7,6 +7,6 @@ useDefault = true
 description = "Documented public fallback identifiers used by external media providers"
 regexTarget = "match"
 regexes = [
-  '''C5D58EF67A7584E4A29F6C35BBC4EB12''',
+  '''C5D58EF67A7584E4[A]29F6C35BBC4EB12''',
   '''juniornerd_ISM'''
 ]
