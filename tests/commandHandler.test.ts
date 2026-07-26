@@ -32,7 +32,7 @@ describe("commandHandler", () => {
     await writeCommand(
       tempDir,
       "testcmd",
-      `import { Command } from "../src/types/Command.js";\nconst cmd: Command = {\n  name: "testcmd",\n  description: "Test",\n  category: "test",\n  async execute() {}\n};\nexport default cmd;`
+      `import { Command } from "../src/types/Command.js";\nconst cmd: Command = {\n  name: "testcmd",\n  description: "Test",\n  category: "all",\n  async execute() {}\n};\nexport default cmd;`
     );
 
     const handler = new CommandHandler();
@@ -47,7 +47,7 @@ describe("commandHandler", () => {
     await writeCommand(
       tempDir,
       "testcmd",
-      `import { Command } from "../src/types/Command.js";\nconst cmd: Command = {\n  name: "testcmd",\n  aliases: ["tc", "t"],\n  description: "Test",\n  category: "test",\n  async execute() {}\n};\nexport default cmd;`
+      `import { Command } from "../src/types/Command.js";\nconst cmd: Command = {\n  name: "testcmd",\n  aliases: ["tc", "t"],\n  description: "Test",\n  category: "all",\n  async execute() {}\n};\nexport default cmd;`
     );
 
     const handler = new CommandHandler();
@@ -62,8 +62,8 @@ describe("commandHandler", () => {
       tempDir,
       "bundle",
       `export default [
-  { name: "one", description: "One", category: "test", async execute() {} },
-  { name: "two", aliases: ["dois"], description: "Two", category: "test", async execute() {} },
+  { name: "one", description: "One", category: "all", async execute() {} },
+  { name: "two", aliases: ["dois"], description: "Two", category: "all", async execute() {} },
 ];`,
     );
 
@@ -79,7 +79,7 @@ describe("commandHandler", () => {
     await writeCommand(
       tempDir,
       "testcmd",
-      `import { Command } from "../src/types/Command.js";\nconst cmd: Command = {\n  name: "testcmd",\n  aliases: ["tc"],\n  description: "Test",\n  category: "test",\n  async execute() {}\n};\nexport default cmd;`
+      `import { Command } from "../src/types/Command.js";\nconst cmd: Command = {\n  name: "testcmd",\n  aliases: ["tc"],\n  description: "Test",\n  category: "all",\n  async execute() {}\n};\nexport default cmd;`
     );
 
     const handler = new CommandHandler();
@@ -95,7 +95,7 @@ describe("commandHandler", () => {
     await fs.mkdir(nestedDir, { recursive: true });
     await fs.writeFile(
       path.join(nestedDir, "nestedcmd.ts"),
-      `import { Command } from "../../src/types/Command.js";\nconst cmd: Command = {\n  name: "nestedcmd",\n  description: "Nested",\n  category: "test",\n  async execute() {}\n};\nexport default cmd;`,
+      `import { Command } from "../../src/types/Command.js";\nconst cmd: Command = {\n  name: "nestedcmd",\n  description: "Nested",\n  category: "all",\n  async execute() {}\n};\nexport default cmd;`,
       "utf8"
     );
 
@@ -103,5 +103,56 @@ describe("commandHandler", () => {
     await handler.loadCommands(tempDir);
 
     assert.strictEqual(handler.get("nestedcmd")?.name, "nestedcmd");
+  });
+
+  it("rejects malformed command metadata", async () => {
+    await writeCommand(
+      tempDir,
+      "invalid",
+      `export default { name: "invalid", description: "Invalid", category: "unknown", async execute() {} };`,
+    );
+    const handler = new CommandHandler();
+    await assert.rejects(handler.loadCommands(tempDir), /COMMAND_INVALID:.*:category:unknown/);
+  });
+
+  it("rejects collisions between a name and an alias", async () => {
+    await writeCommand(
+      tempDir,
+      "one",
+      `export default { name: "one", aliases: ["shared"], description: "One", category: "all", async execute() {} };`,
+    );
+    await writeCommand(
+      tempDir,
+      "shared",
+      `export default { name: "shared", description: "Shared", category: "all", async execute() {} };`,
+    );
+    const handler = new CommandHandler();
+    await assert.rejects(handler.loadCommands(tempDir), /COMMAND_COLLISION:shared/);
+  });
+
+  it("rejects collisions between localized aliases", async () => {
+    await writeCommand(
+      tempDir,
+      "one",
+      `export default { name: "one", i18nAliases: { en: ["shared"] }, description: "One", category: "all", async execute() {} };`,
+    );
+    await writeCommand(
+      tempDir,
+      "two",
+      `export default { name: "two", i18nAliases: { es: ["shared"] }, description: "Two", category: "all", async execute() {} };`,
+    );
+    const handler = new CommandHandler();
+    await assert.rejects(handler.loadCommands(tempDir), /COMMAND_COLLISION:shared/);
+  });
+
+  it("allows the same token repeated by one command", async () => {
+    await writeCommand(
+      tempDir,
+      "same",
+      `export default { name: "same", aliases: ["same"], i18nAliases: { en: ["same"] }, description: "Same", category: "all", async execute() {} };`,
+    );
+    const handler = new CommandHandler();
+    await handler.loadCommands(tempDir);
+    assert.equal(handler.get("same")?.name, "same");
   });
 });

@@ -29,6 +29,10 @@ class GroupCache {
     return this.cache.get(id);
   }
 
+  clear(): void {
+    this.cache.clear();
+  }
+
   async patch(id: string, partial: Partial<GroupMetadata>, misa: WASocket): Promise<void> {
     const existing = this.cache.get(id);
     if (existing) {
@@ -89,20 +93,34 @@ class GroupCache {
     await this.updateParticipants(id, participants, action, misa);
   }
 
-  registerEvents(misa: WASocket): void {
-    misa.ev.on("groups.upsert", (groups) => {
-      for (const group of groups) void this.set(group, misa);
-    });
+  registerEvents(misa: WASocket): () => void {
+    const onGroupsUpsert = (groups: GroupMetadata[]) => {
+      for (const group of groups) void this.set(group, misa).catch(() => undefined);
+    };
 
-    misa.ev.on("groups.update", (updates) => {
+    const onGroupsUpdate: Parameters<Parameters<typeof misa.ev.on<"groups.update">>[1]>[0] extends infer T
+      ? (updates: T) => void
+      : never = (updates) => {
       for (const update of updates) {
-        if (update.id) void this.ensureAndPatch(update.id, update, misa);
+        if (update.id) void this.ensureAndPatch(update.id, update, misa).catch(() => undefined);
       }
-    });
+    };
 
-    misa.ev.on("group-participants.update", ({ id, participants, action }) => {
-      void this.ensureAndUpdateParticipants(id, participants, action, misa);
-    });
+    const onParticipantsUpdate: Parameters<Parameters<typeof misa.ev.on<"group-participants.update">>[1]>[0] extends infer T
+      ? (update: T) => void
+      : never = ({ id, participants, action }) => {
+      void this.ensureAndUpdateParticipants(id, participants, action, misa).catch(() => undefined);
+    };
+
+    misa.ev.on("groups.upsert", onGroupsUpsert);
+    misa.ev.on("groups.update", onGroupsUpdate);
+    misa.ev.on("group-participants.update", onParticipantsUpdate);
+
+    return () => {
+      misa.ev.off("groups.upsert", onGroupsUpsert);
+      misa.ev.off("groups.update", onGroupsUpdate);
+      misa.ev.off("group-participants.update", onParticipantsUpdate);
+    };
   }
 }
 

@@ -5,32 +5,24 @@
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { proto, WASocket } from "baileys";
-import { getBotConfig, saveBotConfig } from "./config.js";
+import { getBotConfig, updateBotConfig } from "./config.js";
 import { createConnection } from "./connection.js";
 import { paths } from "./config/paths.js";
 import { groupCache } from "./cache/groupCache.js";
-import { getGroup } from "./database/groupDB.js";
+import { lidCache } from "./cache/lidCache.js";
 import { toLID } from "./helpers/toLID.js";
-import { isOwner } from "./helpers/isOwner.js";
-import { isAdmin, isBotAdmin } from "./helpers/isAdmin.js";
-import { applyAntiLink } from "./helpers/antiLink.js";
-import { applyAntiStealth, countNormalGroupMessage } from "./helpers/antiStealth.js";
-import { findSimilarCommand, sendUnknownCommandMessage } from "./helpers/unknownCommand.js";
-import { cleanupExpiredBlockedUsers, isBlockedCommand, isBlockedUser, isGroupBanned } from "./helpers/ownerRestrictions.js";
-import { applyMediaRestriction } from "./helpers/messageRestrictions.js";
-import { isMessageDebugEnabled, logMessageDebug } from "./helpers/messageDebug.js";
-import { recordGroupActivity } from "./helpers/groupActivity.js";
 import { getDisconnectStatusCode, shouldReconnectFromStatus } from "./helpers/reconnect.js";
-import { tryHandleApkReply } from "./helpers/apkReply.js";
-import { resolveCommandPrefix } from "./helpers/resolveCommandPrefix.js";
-import { logCommandActivity, logMessageActivity } from "./helpers/activityLog.js";
-import { getOwnerConfig } from "./ownerConfig.js";
 import { CommandHandler } from "./handlers/commandHandler.js";
 import { EventHandler } from "./handlers/eventHandler.js";
+import { setupMessageHandler } from "./handlers/messageHandler.js";
 import { log } from "./logger.js";
 import { runAutoUpdate } from "./helpers/autoUpdate.js";
 import { resolveLocale, createTranslator } from "./i18n/index.js";
+import { requestShutdown, setShutdownHandler } from "./lifecycle.js";
+import { drainJsonWrites } from "./storage/jsonStore.js";
+import { metrics } from "./metrics.js";
+import { mediaQueue } from "./media/mediaQueue.js";
+import { applyOperationalConfig } from "./config/runtime.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,244 +31,14 @@ const MAX_RECONNECT_ATTEMPTS = 10;
 const INITIAL_RECONNECT_DELAY_MS = 2000;
 const MAX_RECONNECT_DELAY_MS = 60000;
 
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function setupMessageHandler(
-  misa: WASocket,
-  commandHandler: CommandHandler,
-  config: Awaited<ReturnType<typeof getBotConfig>>,
-): Promise<void> {
-  misa.ev.on("messages.upsert", async (event) => {
-    if (isMessageDebugEnabled()) logMessageDebug(event);
-
-    const { messages, type } = event;
-    if (type !== "notify") return;
-
-    const message = messages[0];
-    if (!message || message.key.fromMe) return;
-
-    const from = message.key.remoteJid;
-    if (!from) return;
-    const runtimeConfig = await getBotConfig();
-
-    const isGroup = from.endsWith("@g.us");
-    if (isGroup) await groupCache.ensure(from, misa);
-    const groupConfig = isGroup ? await getGroup(from) : null;
-    const fallbackPrefix = groupConfig?.prefix || runtimeConfig.prefix;
-
-    const rawSender = (isGroup ? message.key.participant : message.key.remoteJid) || "";
-    const senderLID = rawSender ? await toLID(rawSender, misa) : null;
-
-    if (!senderLID) {
-      const tGlobal = createTranslator(runtimeConfig.language || "pt");
-      log.warn("COMMAND", tGlobal("logs.commandIgnoredNoLid", { sender: rawSender || tGlobal("logs.emptySender") }));
-      return;
-    }
-
-    if (isGroup && message.key.participant) message.key.participant = senderLID;
-    if (message.participant) message.participant = senderLID;
-
-    const sender = senderLID;
-    const userIsOwner = await isOwner(sender);
-
-    if (!message.message) {
-      if (isGroup && !userIsOwner) {
-        const locale = await resolveLocale(from);
-        const userIsAdmin = await isAdmin(from, sender, misa);
-        const botIsAdmin = await isBotAdmin(from, misa);
-        if (!userIsAdmin && botIsAdmin) await applyAntiStealth(misa, message as proto.IWebMessageInfo, from, sender, locale);
-      }
-      return;
-    }
-
-    if (isGroup) countNormalGroupMessage(from, sender);
-
-    await cleanupExpiredBlockedUsers();
-    if (!userIsOwner && await isBlockedUser(sender)) {
-      return;
-    }
-
-    if (!isGroup && !userIsOwner) {
-      const ownerConfig = await getOwnerConfig();
-      if (ownerConfig.antiPrivate) {
-        return;
-      }
-    }
-
-    if (isGroup && !userIsOwner && await isGroupBanned(from)) {
-      return;
-    }
-
-    const body =
-      message.message.conversation ||
-      message.message.extendedTextMessage?.text ||
-      message.message.imageMessage?.caption ||
-      message.message.videoMessage?.caption ||
-      "";
-
-    const resolved = resolveCommandPrefix(body, runtimeConfig.prefixByLocale, fallbackPrefix);
-    const prefix = resolved.prefix;
-    const isCommandMessage = resolved.matched;
-    if (isGroup) {
-      const isStickerMessage = Boolean(message.message.stickerMessage);
-      await recordGroupActivity(from, sender, isCommandMessage ? "command" : isStickerMessage ? "sticker" : "message")
-        .catch((error) => log.warn("ATIVIDADE", String(error)));
-    }
-
-    if (isGroup) {
-      const userIsAdmin = userIsOwner ? true : await isAdmin(from, sender, misa);
-      const botIsAdmin = await isBotAdmin(from, misa);
-
-      if (!userIsOwner && !userIsAdmin && botIsAdmin) {
-        const locale = await resolveLocale(from);
-        const blockedMedia = await applyMediaRestriction(misa, message as proto.IWebMessageInfo, from, sender, locale);
-        if (blockedMedia) return;
-      }
-
-      if (!isCommandMessage && !userIsOwner && !userIsAdmin && botIsAdmin) {
-        const locale = await resolveLocale(from);
-        const handled = await applyAntiLink(misa, message as proto.IWebMessageInfo, from, sender, locale);
-        if (handled) return;
-      }
-    }
-
-    if (!isCommandMessage) {
-      const locale = await resolveLocale(from);
-      const sessionT = createTranslator(locale);
-      const activityT = createTranslator(runtimeConfig.language || "pt");
-      logMessageActivity({
-        message: message as proto.IWebMessageInfo,
-        from,
-        sender,
-        isGroup,
-        body,
-        t: activityT,
-      });
-      await tryHandleApkReply({
-        misa,
-        from,
-        sender,
-        body,
-        message: message as proto.IWebMessageInfo,
-        t: sessionT,
-      });
-      return;
-    }
-
-    const afterPrefix = body.slice(prefix.length).trimStart();
-    const commandMatch = /^(\S+)([\s\S]*)$/.exec(afterPrefix);
-    const rawCommandName = commandMatch?.[1] ?? "";
-    const rawArgs = (commandMatch?.[2] ?? "").replace(/^\s+/, "");
-    const args = rawArgs.length > 0 ? rawArgs.split(/\s+/).filter(Boolean) : [];
-    const commandName = rawCommandName.toLowerCase();
-
-    if (!commandName) return;
-
-    const command = commandHandler.get(commandName);
-    const locale = resolved.locale ?? (await resolveLocale(from));
-    const cmdTranslator = createTranslator(locale);
-
-    if (!command) {
-      const similar = findSimilarCommand(commandName, commandHandler.listNames());
-      await sendUnknownCommandMessage(
-        misa,
-        from,
-        sender,
-        prefix,
-        commandName,
-        similar,
-        message as proto.IWebMessageInfo,
-        locale
-      );
-      return;
-    }
-
-    // Verificar permissões
-    // 1. Verificar se o comando é apenas para o dono
-    if (command.ownerOnly && !userIsOwner) {
-      await misa.sendMessage(from, { text: cmdTranslator("errors.ownerOnly") });
-      return;
-    }
-
-    // 2. Verificar se o comando é apenas para grupos
-    if (command.groupOnly && !isGroup) {
-      await misa.sendMessage(from, { text: cmdTranslator("errors.groupOnly") });
-      return;
-    }
-
-    // 3. Verificar se o comando é apenas para chat privado
-    if (command.privateOnly && isGroup) {
-      await misa.sendMessage(from, { text: cmdTranslator("errors.privateOnly") });
-      return;
-    }
-
-    // 4. Verificar se o comando requer admin (apenas em grupos)
-    if (command.adminOnly && isGroup) {
-      const userIsAdmin = await isAdmin(from, sender, misa);
-      if (!userIsAdmin && !userIsOwner) {
-        await misa.sendMessage(from, { text: cmdTranslator("errors.adminOnly") });
-        return;
-      }
-    }
-
-    if (isGroup && groupConfig?.soadmin && !userIsOwner) {
-      const userIsAdmin = await isAdmin(from, sender, misa);
-      if (!userIsAdmin) {
-        await misa.sendMessage(from, { text: cmdTranslator("errors.groupCommandsAdminOnly") });
-        return;
-      }
-    }
-
-    // 5. Verificar se o bot precisa ser admin (apenas em grupos)
-    if (command.botAdminRequired && isGroup) {
-      const botIsAdmin = await isBotAdmin(from, misa);
-      if (!botIsAdmin) {
-        await misa.sendMessage(from, { text: cmdTranslator("errors.botAdminRequired") });
-        return;
-      }
-    }
-
-    if (!userIsOwner && await isBlockedCommand(command.name)) {
-      await misa.sendMessage(from, { text: cmdTranslator("errors.commandBlocked") });
-      return;
-    }
-
-    try {
-      const activityT = createTranslator(runtimeConfig.language || "pt");
-      logCommandActivity({
-        message: message as proto.IWebMessageInfo,
-        from,
-        sender,
-        isGroup,
-        prefix,
-        commandName,
-        args,
-        t: activityT,
-      });
-      await command.execute({
-        misa,
-        message: message as proto.IWebMessageInfo,
-        args,
-        rawArgs,
-        prefix,
-        commandName,
-        sender,
-        from,
-        groupCache,
-        isOwner: () => isOwner(sender),
-        isGroup,
-        isAdmin: () => isAdmin(from, sender, misa),
-        isBotAdmin: () => isBotAdmin(from, misa),
-        commandDirectory: commandHandler,
-        locale,
-        t: cmdTranslator,
-      });
-    } catch (error) {
-      log.error("COMMAND", cmdTranslator("logs.commandError", { commandName }), error);
-      await misa.sendMessage(from, { text: cmdTranslator("errors.commandExecution") });
-    }
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  if (signal?.aborted) return Promise.resolve();
+  return new Promise((resolve) => {
+    const timer = setTimeout(resolve, ms);
+    signal?.addEventListener("abort", () => {
+      clearTimeout(timer);
+      resolve();
+    }, { once: true });
   });
 }
 
@@ -284,17 +46,20 @@ async function runBotCycle(
   authMode: "qr" | "pairing" = "qr",
   phoneNumber?: string,
   onConnected?: () => void,
+  signal?: AbortSignal,
 ): Promise<boolean> {
   const config = await getBotConfig();
-  const misa = await createConnection(authMode, phoneNumber);
-
   const commandHandler = new CommandHandler();
-  const eventHandler = new EventHandler();
-
   await commandHandler.loadCommands(paths.commands);
-  await eventHandler.loadEvents(paths.events, misa);
+  if (signal?.aborted) return false;
 
-  setupMessageHandler(misa, commandHandler, config);
+  const misa = await createConnection(authMode, phoneNumber);
+  const eventHandler = new EventHandler();
+  groupCache.clear();
+  const disposeGroupCache = groupCache.registerEvents(misa);
+  const disposeEvents = await eventHandler.loadEvents(paths.events, misa);
+
+  const messageControl = setupMessageHandler(misa, commandHandler);
 
   const globalLocale = await resolveLocale();
   const tGlobal = createTranslator(globalLocale);
@@ -303,71 +68,110 @@ async function runBotCycle(
   return new Promise<boolean>((resolve) => {
     let settled = false;
 
-    const settle = (shouldReconnect: boolean) => {
+    const settle = async (shouldReconnect: boolean, closeSocket = false) => {
       if (settled) return;
       settled = true;
+      signal?.removeEventListener("abort", onAbort);
+      misa.ev.off("connection.update", onConnectionUpdate);
+      mediaQueue.cancelAll();
+      messageControl.dispose();
+      disposeEvents();
+      disposeGroupCache();
+
+      await messageControl.drain().catch((error) => log.error("BOT", "MESSAGE_DRAIN_FAILED", error));
+      await lidCache.flush().catch((error) => log.error("BOT", "LID_CACHE_FLUSH_FAILED", error));
+      await drainJsonWrites().catch((error) => log.error("BOT", "JSON_DRAIN_FAILED", error));
+      if (closeSocket) await misa.end(undefined).catch((error) => log.error("BOT", "SOCKET_CLOSE_FAILED", error));
       resolve(shouldReconnect);
     };
 
-    misa.ev.on("connection.update", async (update) => {
+    const onAbort = () => void settle(false, true);
+    const onConnectionUpdate: Parameters<Parameters<typeof misa.ev.on<"connection.update">>[1]>[0] extends infer T
+      ? (update: T) => Promise<void>
+      : never = async (update) => {
       if (update.connection === "open") {
         onConnected?.();
-        const latestConfig = await getBotConfig();
-        // Buscar e salvar o LID do dono quando conectar
-        if (latestConfig.ownerNumber && !latestConfig.ownerLID) {
-          const tOwner = createTranslator(latestConfig.language || "pt");
-          log.info("OWNER", tOwner("logs.ownerLidFetching"));
-          const ownerLID = await toLID(latestConfig.ownerNumber, misa);
-          if (ownerLID) {
-            latestConfig.ownerLID = ownerLID;
-            await saveBotConfig(latestConfig);
-            log.success("OWNER", tOwner("logs.ownerLidSaved", { lid: ownerLID }));
-          } else {
-            log.warn("OWNER", tOwner("logs.ownerLidFailed"));
+        try {
+          const latestConfig = await getBotConfig();
+          if (latestConfig.ownerNumber && !latestConfig.ownerLID) {
+            const tOwner = createTranslator(latestConfig.language || "pt");
+            log.info("OWNER", tOwner("logs.ownerLidFetching"));
+            const ownerLID = await toLID(latestConfig.ownerNumber, misa);
+            if (ownerLID) {
+              await updateBotConfig((current) => ({ ...current, ownerLID }));
+              log.success("OWNER", tOwner("logs.ownerLidSaved", { lid: ownerLID }));
+            } else {
+              log.warn("OWNER", tOwner("logs.ownerLidFailed"));
+            }
           }
+        } catch (error) {
+          log.error("OWNER", "OWNER_LID_UPDATE_FAILED", error);
         }
       }
 
       if (update.connection === "close") {
         const statusCode = getDisconnectStatusCode(update.lastDisconnect?.error);
-        settle(shouldReconnectFromStatus(statusCode));
+        await settle(shouldReconnectFromStatus(statusCode));
       }
-    });
+    };
+
+    misa.ev.on("connection.update", onConnectionUpdate);
+    signal?.addEventListener("abort", onAbort, { once: true });
+    if (signal?.aborted) onAbort();
   });
 }
 
 export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: string): Promise<void> {
   let attempt = 0;
   const config = await getBotConfig();
+  applyOperationalConfig(config.operations);
   const tGlobal = createTranslator(config.language || "pt");
+  const controller = new AbortController();
+  const onSigint = () => requestShutdown("sigint");
+  const onSigterm = () => requestShutdown("sigterm");
 
-  while (attempt < MAX_RECONNECT_ATTEMPTS) {
-    const shouldReconnect = await runBotCycle(authMode, phoneNumber, () => {
-      // Conexão estável: zera o backoff para quedas futuras ao longo do tempo
-      attempt = 0;
-    });
+  setShutdownHandler((reason) => controller.abort(reason));
+  process.once("SIGINT", onSigint);
+  process.once("SIGTERM", onSigterm);
 
-    if (!shouldReconnect) {
-      log.info("BOT", tGlobal("connection.noAutoReconnect"));
-      return;
+  try {
+    while (!controller.signal.aborted && attempt < MAX_RECONNECT_ATTEMPTS) {
+      const shouldReconnect = await runBotCycle(authMode, phoneNumber, () => {
+        attempt = 0;
+      }, controller.signal);
+
+      if (controller.signal.aborted) return;
+      if (!shouldReconnect) {
+        log.info("BOT", tGlobal("connection.noAutoReconnect"));
+        return;
+      }
+
+      attempt += 1;
+      metrics.recordReconnect();
+      if (attempt >= MAX_RECONNECT_ATTEMPTS) break;
+
+      const delay = Math.min(INITIAL_RECONNECT_DELAY_MS * 2 ** (attempt - 1), MAX_RECONNECT_DELAY_MS);
+      log.warn(
+        "BOT",
+        tGlobal("connection.reconnectAttempt", {
+          delay: String(delay),
+          attempt: String(attempt),
+          max: String(MAX_RECONNECT_ATTEMPTS),
+        }),
+      );
+      await sleep(delay, controller.signal);
     }
 
-    attempt += 1;
-    if (attempt >= MAX_RECONNECT_ATTEMPTS) break;
-
-    const delay = Math.min(INITIAL_RECONNECT_DELAY_MS * 2 ** (attempt - 1), MAX_RECONNECT_DELAY_MS);
-    log.warn(
-      "BOT",
-      tGlobal("connection.reconnectAttempt", {
-        delay: String(delay),
-        attempt: String(attempt),
-        max: String(MAX_RECONNECT_ATTEMPTS),
-      }),
-    );
-    await sleep(delay);
+    if (!controller.signal.aborted) {
+      log.error("BOT", tGlobal("connection.maxReconnectReached", { max: String(MAX_RECONNECT_ATTEMPTS) }));
+    }
+  } finally {
+    process.off("SIGINT", onSigint);
+    process.off("SIGTERM", onSigterm);
+    setShutdownHandler(null);
+    await lidCache.flush().catch((error) => log.error("BOT", "LID_CACHE_FLUSH_FAILED", error));
+    await drainJsonWrites().catch((error) => log.error("BOT", "JSON_DRAIN_FAILED", error));
   }
-
-  log.error("BOT", tGlobal("connection.maxReconnectReached", { max: String(MAX_RECONNECT_ATTEMPTS) }));
 }
 
 const entryPointUrl = process.argv[1] ? fileURLToPath(import.meta.url) === path.resolve(process.argv[1]) : false;
@@ -381,10 +185,13 @@ if (entryPointUrl) {
   let botScope = "Misa";
 
   getBotConfig().then(async (config) => {
+    applyOperationalConfig(config.operations);
     tGlobal = createTranslator(config.language || "pt");
     botScope = config.botName;
 
-    if (config.autoUpdate && !args.includes("--no-update")) await runAutoUpdate();
+    if (config.autoUpdate && !args.includes("--no-update")) {
+      await runAutoUpdate({ maxBackups: config.operations.updates.maxBackups });
+    }
     startBot(authMode, phone).catch((error) => {
       log.error(botScope, tGlobal("terminal.startFailed"), error);
     });

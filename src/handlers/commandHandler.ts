@@ -5,18 +5,63 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { SUPPORTED_LOCALES, createTranslator, getGlobalLocale, t } from "../i18n/index.js";
-import { log } from "../logger.js";
-import { Command } from "../types/Command.js";
+import { SUPPORTED_LOCALES, t } from "../i18n/index.js";
+import { COMMAND_CATEGORIES, Command } from "../types/Command.js";
+
+type RegisteredCommand = {
+  command: Command;
+  file: string;
+};
+
+function isToken(value: unknown): value is string {
+  return typeof value === "string" && Boolean(value.trim()) && !/\s/.test(value);
+}
+
+function assertCommand(value: unknown, file: string): asserts value is Command {
+  if (typeof value !== "object" || value === null) throw new Error(`COMMAND_INVALID:${file}:object`);
+  const command = value as Record<string, unknown>;
+  if (!isToken(command.name)) throw new Error(`COMMAND_INVALID:${file}:name`);
+  if (typeof command.description !== "string" || !command.description.trim()) {
+    throw new Error(`COMMAND_INVALID:${file}:description`);
+  }
+  if (typeof command.category !== "string" || !COMMAND_CATEGORIES.includes(command.category as Command["category"])) {
+    throw new Error(`COMMAND_INVALID:${file}:category:${String(command.category)}`);
+  }
+  if (typeof command.execute !== "function") throw new Error(`COMMAND_INVALID:${file}:execute`);
+
+  for (const flag of ["ownerOnly", "groupOnly", "privateOnly", "adminOnly", "botAdminRequired"] as const) {
+    if (command[flag] !== undefined && typeof command[flag] !== "boolean") {
+      throw new Error(`COMMAND_INVALID:${file}:${flag}`);
+    }
+  }
+
+  if (command.aliases !== undefined) {
+    if (!Array.isArray(command.aliases) || !command.aliases.every(isToken)) {
+      throw new Error(`COMMAND_INVALID:${file}:aliases`);
+    }
+  }
+
+  if (command.i18nAliases !== undefined) {
+    if (typeof command.i18nAliases !== "object" || command.i18nAliases === null) {
+      throw new Error(`COMMAND_INVALID:${file}:i18nAliases`);
+    }
+    for (const aliases of Object.values(command.i18nAliases)) {
+      if (!Array.isArray(aliases) || !aliases.every(isToken)) {
+        throw new Error(`COMMAND_INVALID:${file}:i18nAliases`);
+      }
+    }
+  }
+}
 
 export class CommandHandler {
   private readonly commands = new Map<string, Command>();
 
   async loadCommands(commandsDir: string): Promise<void> {
-    const globalLocale = await getGlobalLocale();
-    const globalT = createTranslator(globalLocale);
     const files = await this.walkDir(commandsDir);
-    const commandFiles = files.filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
+    const commandFiles = files
+      .filter((file) => file.endsWith(".ts") || file.endsWith(".js"))
+      .sort((a, b) => a.localeCompare(b));
+    const registry = new Map<string, RegisteredCommand>();
 
     for (const file of commandFiles) {
       const imported = await import(pathToFileURL(path.resolve(file)).href);
@@ -24,26 +69,23 @@ export class CommandHandler {
       const list: Command[] = Array.isArray(raw) ? raw : raw ? [raw] : [];
 
       if (list.length === 0) {
-        log.warn("COMMAND", globalT("logs.commandInvalid", { file }));
-        continue;
+        throw new Error(`COMMAND_INVALID:${file}:export`);
       }
 
       for (const command of list) {
-        if (!command?.execute) {
-          log.warn("COMMAND", globalT("logs.commandInvalid", { file }));
-          continue;
-        }
-
-        const fallbackName = path.basename(file, path.extname(file));
-        const commandName = (command.name || fallbackName).toLowerCase();
+        assertCommand(command, file);
+        const commandName = command.name.trim().toLowerCase();
         const normalizedCommand = { ...command, name: commandName };
-        this.commands.set(commandName, normalizedCommand);
+        this.register(registry, commandName, normalizedCommand, file);
 
         for (const alias of this.collectAliases(command)) {
-          this.commands.set(alias, normalizedCommand);
+          this.register(registry, alias, normalizedCommand, file);
         }
       }
     }
+
+    this.commands.clear();
+    for (const [token, registered] of registry) this.commands.set(token, registered.command);
   }
 
   get(commandName: string): Command | undefined {
@@ -90,6 +132,19 @@ export class CommandHandler {
 
     aliases.delete(command.name.toLowerCase());
     return [...aliases];
+  }
+
+  private register(registry: Map<string, RegisteredCommand>, token: string, command: Command, file: string): void {
+    const normalized = token.trim().toLowerCase();
+    const existing = registry.get(normalized);
+    if (!existing) {
+      registry.set(normalized, { command, file });
+      return;
+    }
+    if (existing.command === command) return;
+    throw new Error(
+      `COMMAND_COLLISION:${normalized}:${existing.command.name}:${existing.file}:${command.name}:${file}`,
+    );
   }
 
   private async walkDir(dir: string): Promise<string[]> {

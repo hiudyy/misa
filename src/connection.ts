@@ -14,7 +14,6 @@ import pino from "pino";
 import qrcode from "qrcode-terminal";
 import { getBotConfig } from "./config.js";
 import { paths } from "./config/paths.js";
-import { groupCache } from "./cache/groupCache.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
 import { getDisconnectStatusCode, shouldReconnectFromStatus } from "./helpers/reconnect.js";
@@ -192,7 +191,6 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
   });
 
   misa.ev.on("creds.update", saveCreds);
-  groupCache.registerEvents(misa);
 
   let pairingRequested = false;
 

@@ -3,6 +3,7 @@
  * @project Misa Bot
  */
 const colorEnabled = process.stdout.isTTY;
+import type { LogLevel } from "./config/operations.js";
 
 const colors = {
   reset: "\x1b[0m",
@@ -41,25 +42,57 @@ const icons: Record<string, string> = {
 
 export type ActivityKind = "MSG" | "CMD";
 
+const levelWeight: Record<LogLevel, number> = {
+  debug: 10,
+  info: 20,
+  warn: 30,
+  error: 40,
+  silent: 100,
+};
+
+let currentLevel: LogLevel = "info";
+
+export function setLogLevel(level: LogLevel): void {
+  currentLevel = level;
+}
+
+export function getLogLevel(): LogLevel {
+  return currentLevel;
+}
+
+function enabled(level: Exclude<LogLevel, "silent">): boolean {
+  return levelWeight[level] >= levelWeight[currentLevel];
+}
+
 export const log = {
+  debug(scope: string, message: string): void {
+    if (!enabled("debug")) return;
+    console.log(`${timestamp()} ${paint(icons.info, "gray")}  ${paint(scope, "gray", "bold")} ${paint("›", "gray")} ${paint(message, "gray")}`);
+  },
+
   info(scope: string, message: string): void {
+    if (!enabled("info")) return;
     console.log(`${timestamp()} ${paint(icons.info, "cyan")}  ${paint(scope, "cyan", "bold")} ${paint("›", "gray")} ${message}`);
   },
 
   success(scope: string, message: string): void {
+    if (!enabled("info")) return;
     console.log(`${timestamp()} ${paint(icons.success, "green")}  ${paint(scope, "green", "bold")} ${paint("›", "gray")} ${message}`);
   },
 
   warn(scope: string, message: string): void {
+    if (!enabled("warn")) return;
     console.log(`${timestamp()} ${paint(icons.warn, "yellow")}  ${paint(scope, "yellow", "bold")} ${paint("›", "gray")} ${message}`);
   },
 
   error(scope: string, message: string, error?: unknown): void {
+    if (!enabled("error")) return;
     console.error(`${timestamp()} ${paint(icons.error, "red")}  ${paint(scope, "red", "bold")} ${paint("›", "gray")} ${message}`);
     if (error) console.error(paint(String(error), "gray"));
   },
 
   activity(kind: ActivityKind, message: string): void {
+    if (!enabled("info")) return;
     if (kind === "CMD") {
       console.log(
         `${timestamp()} ${paint(icons.success, "green")}  ${paint("CMD", "green", "bold")} ${paint("›", "gray")} ${message}`,
@@ -73,6 +106,7 @@ export const log = {
   },
 
   box(scope: string, title: string, rows: string[], color: Color = "cyan"): void {
+    if (!enabled("info")) return;
     const width = Math.max(title.length, ...rows.map((r) => r.length), 46);
     const top    = paint("╭─", color) + paint(`[ ${scope} ]`, color, "bold") + paint("─".repeat(width - scope.length - 1) + "╮", color);
     const mid    = paint("├─", color) + paint("─".repeat(width + 2) + "┤", color);

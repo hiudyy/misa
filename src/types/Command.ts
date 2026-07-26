@@ -12,6 +12,9 @@ export interface CommandDirectory {
   listNames(): string[];
 }
 
+export const COMMAND_CATEGORIES = ["all", "geral", "grupo", "brincadeiras"] as const;
+export type CommandCategory = typeof COMMAND_CATEGORIES[number];
+
 export interface CommandContext {
   misa: WASocket;
   message: proto.IWebMessageInfo;
@@ -38,7 +41,7 @@ export interface Command {
   /** Aliases adicionais indexados por locale, registrados automaticamente */
   i18nAliases?: Partial<Record<Locale, string[]>>;
   description: string;
-  category: string;
+  category: CommandCategory;
   ownerOnly?: boolean;
   groupOnly?: boolean;
   privateOnly?: boolean;

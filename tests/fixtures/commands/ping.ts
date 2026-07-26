@@ -8,7 +8,7 @@ const pingCommand: Command = {
     es: ["latencia"],
   },
   description: "Ping command for tests",
-  category: "test",
+  category: "all",
   async execute({ misa, from }) {
     await misa.sendMessage(from, { text: "pong" });
   },

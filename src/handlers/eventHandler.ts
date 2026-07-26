@@ -11,13 +11,15 @@ import { log } from "../logger.js";
 import { Event } from "../types/Event.js";
 
 export class EventHandler {
-  async loadEvents(eventsDir: string, misa: WASocket): Promise<void> {
+  async loadEvents(eventsDir: string, misa: WASocket): Promise<() => void> {
     const globalLocale = await getGlobalLocale();
     const globalT = createTranslator(globalLocale);
     const files = await this.walkDir(eventsDir);
     const eventFiles = files.filter((file) => file.endsWith(".ts") || file.endsWith(".js"));
 
-    for (const file of eventFiles) {
+    const registered: Array<{ event: string; listener: (data: unknown) => Promise<void> }> = [];
+
+    for (const file of eventFiles.sort((a, b) => a.localeCompare(b))) {
       const imported = await import(pathToFileURL(path.resolve(file)).href);
       const event: Event | undefined = imported.default ?? imported.event;
 
@@ -26,14 +28,22 @@ export class EventHandler {
         continue;
       }
 
-      misa.ev.on(event.event as never, async (data: unknown) => {
+      const listener = async (data: unknown) => {
         try {
           await event.execute({ misa, data });
         } catch (error) {
           log.error("EVENT", globalT("logs.eventError", { name: event.name }), error);
         }
-      });
+      };
+      misa.ev.on(event.event as never, listener as never);
+      registered.push({ event: event.event, listener });
     }
+
+    return () => {
+      for (const registration of registered) {
+        misa.ev.off(registration.event as never, registration.listener as never);
+      }
+    };
   }
 
   private async walkDir(dir: string): Promise<string[]> {

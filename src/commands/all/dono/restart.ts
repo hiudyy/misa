@@ -2,8 +2,8 @@
  * @author Hiudy · github.com/hiudyy
  * @project Misa Bot
  */
-import process from "node:process";
 import { WAMessage } from "baileys";
+import { requestShutdown } from "../../../lifecycle.js";
 import { Command } from "../../../types/Command.js";
 
 const restartCommand: Command = {
@@ -19,7 +19,7 @@ const restartCommand: Command = {
   ownerOnly: true,
   async execute({ misa, message, from, t }) {
     await misa.sendMessage(from, { text: t("commands.restart.restarting") }, { quoted: message as WAMessage });
-    setTimeout(() => process.exit(0), 300);
+    setTimeout(() => requestShutdown("restart"), 300);
   },
 };
 
