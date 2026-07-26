@@ -74,7 +74,6 @@ export class MessageDispatcher {
         reject,
         timer: setTimeout(() => this.expire(task), this.queueTimeoutMs),
       };
-      task.timer.unref?.();
 
       if (this.active.size < this.maxConcurrent) this.start(task);
       else {
@@ -107,7 +106,6 @@ export class MessageDispatcher {
     });
     const timeout = new Promise<void>((_, reject) => {
       timer = setTimeout(() => reject(new MessageDispatcherError(MessageDispatcherCode.DRAIN_TIMEOUT)), timeoutMs);
-      timer.unref?.();
     });
     try {
       await Promise.race([idle, timeout]);
