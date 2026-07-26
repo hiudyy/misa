@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
+import { getOwnerConfig, updateOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
 const unblockcmdCommand: Command = {
@@ -33,8 +33,10 @@ const unblockcmdCommand: Command = {
       return;
     }
 
-    config.blockedCommands = nextCommands;
-    await saveOwnerConfig(config);
+    await updateOwnerConfig((current) => ({
+      ...current,
+      blockedCommands: current.blockedCommands.filter((name) => name !== command.name),
+    }));
 
     await misa.sendMessage(from, { text: t("commands.unblockcmd.success", { command: command.name }) }, { quoted: message as WAMessage });
   },

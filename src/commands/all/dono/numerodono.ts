@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getBotConfig, updateBotConfig } from "../../../config.js";
 import { toLID } from "../../../helpers/toLID.js";
 import { Command } from "../../../types/Command.js";
 
@@ -32,13 +32,11 @@ const numerodonoCommand: Command = {
     }
 
     const ownerLID = await toLID(ownerNumber, misa);
-    config.ownerNumber = ownerNumber;
-
-    if (ownerLID) {
-      config.ownerLID = ownerLID;
-    }
-
-    await saveBotConfig(config);
+    await updateBotConfig((current) => ({
+      ...current,
+      ownerNumber,
+      ...(ownerLID ? { ownerLID } : {}),
+    }));
 
     await misa.sendMessage(
       from,

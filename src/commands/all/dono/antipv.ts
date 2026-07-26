@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
+import { updateOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
 const antipvCommand: Command = {
@@ -18,9 +18,11 @@ const antipvCommand: Command = {
   category: "geral",
   ownerOnly: true,
   async execute({ misa, message, from, t }) {
-    const config = await getOwnerConfig();
-    const next = !config.antiPrivate;
-    await saveOwnerConfig({ ...config, antiPrivate: next });
+    let next = false;
+    await updateOwnerConfig((config) => {
+      next = !config.antiPrivate;
+      return { ...config, antiPrivate: next };
+    });
     await misa.sendMessage(from, { text: next ? t("commands.antipv.enabled") : t("commands.antipv.disabled") }, { quoted: message as WAMessage });
   },
 };

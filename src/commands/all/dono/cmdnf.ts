@@ -5,7 +5,7 @@
 import { WAMessage } from "baileys";
 import { getLocalizedCommandWordVars, getLocalizedToken, resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { textAfterTokens } from "../../../helpers/commandText.js";
-import { getOwnerConfig, saveOwnerConfig } from "../../../ownerConfig.js";
+import { getOwnerConfig, updateOwnerConfig } from "../../../ownerConfig.js";
 import { Command } from "../../../types/Command.js";
 
 const cmdnfCommand: Command = {
@@ -53,8 +53,10 @@ const cmdnfCommand: Command = {
         return;
       }
 
-      config.comandoNaoEncontrado.modo = modo;
-      await saveOwnerConfig(config);
+      await updateOwnerConfig((current) => ({
+        ...current,
+        comandoNaoEncontrado: { ...current.comandoNaoEncontrado, modo },
+      }));
 
       await misa.sendMessage(
         from,
@@ -83,12 +85,15 @@ const cmdnfCommand: Command = {
         return;
       }
 
-      config.comandoNaoEncontrado.texto = textAfterTokens(rawArgs, 1);
-      await saveOwnerConfig(config);
+      const texto = textAfterTokens(rawArgs, 1);
+      await updateOwnerConfig((current) => ({
+        ...current,
+        comandoNaoEncontrado: { ...current.comandoNaoEncontrado, texto },
+      }));
 
       await misa.sendMessage(
         from,
-        { text: t("commands.cmdnf.textUpdated", { text: config.comandoNaoEncontrado.texto }) },
+        { text: t("commands.cmdnf.textUpdated", { text: texto }) },
         { quoted: message as WAMessage },
       );
       return;

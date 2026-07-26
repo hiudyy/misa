@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getBotConfig, updateBotConfig } from "../../../config.js";
 import { getLocalizedCommandWordVars, resolveLocalizedToken } from "../../../helpers/localizedTokens.js";
 import { Command } from "../../../types/Command.js";
 
@@ -32,12 +32,12 @@ const autoupdateCommand: Command = {
       return;
     }
 
-    config.autoUpdate = value === "on";
-    await saveBotConfig(config);
+    const autoUpdate = value === "on";
+    await updateBotConfig((current) => ({ ...current, autoUpdate }));
 
     await misa.sendMessage(
       from,
-      { text: t("commands.autoupdate.updated", { value: config.autoUpdate ? t("common.enabled") : t("common.disabled") }) },
+      { text: t("commands.autoupdate.updated", { value: autoUpdate ? t("common.enabled") : t("common.disabled") }) },
       { quoted: message as WAMessage },
     );
   },

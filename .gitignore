@@ -9,6 +9,12 @@ dados/misa-qr/
 dados/grupos/
 dados/fotos/
 dados/cache/
+dados/owner/
+dados/atividade/
+dados/tmp/
+dados/backups/
+dados/update.zip
+dados/update-tmp/
 dados/bemvindo.json
 
 # Manter estrutura de dados
@@ -16,6 +22,10 @@ dados/bemvindo.json
 
 # Config com dados sensíveis
 src/config.json
+src/config.json.corrupt-*
+dados/config.json
+dados/config.json.corrupt-*
+dados/update-state.json
 
 # Cache npm local
 .npm-cache/
@@ -23,6 +33,8 @@ src/config.json
 # Logs
 *.log
 logs/
+.stryker-tmp/
+reports/mutation/
 
 # Ambiente
 .env

@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getBotConfig, updateBotConfig } from "../../../config.js";
 import { Command } from "../../../types/Command.js";
 import {
   getLocaleLabel,
@@ -107,8 +107,7 @@ const prefixoCommand: Command = {
       }
 
       map[localeArg] = prefix;
-      config.prefixByLocale = map;
-      await saveBotConfig(config);
+      await updateBotConfig((current) => ({ ...current, prefixByLocale: map }));
 
       await misa.sendMessage(
         from,
@@ -160,8 +159,7 @@ const prefixoCommand: Command = {
       }
 
       delete map[localeArg];
-      config.prefixByLocale = map;
-      await saveBotConfig(config);
+      await updateBotConfig((current) => ({ ...current, prefixByLocale: map }));
 
       await misa.sendMessage(
         from,
@@ -177,8 +175,7 @@ const prefixoCommand: Command = {
     }
 
     if (action === "clear") {
-      config.prefixByLocale = {};
-      await saveBotConfig(config);
+      await updateBotConfig((current) => ({ ...current, prefixByLocale: {} }));
       await misa.sendMessage(from, { text: t("commands.prefixo.clearOk") }, quoted);
       return;
     }
@@ -190,8 +187,7 @@ const prefixoCommand: Command = {
       return;
     }
 
-    config.prefix = prefix;
-    await saveBotConfig(config);
+    await updateBotConfig((current) => ({ ...current, prefix }));
 
     await misa.sendMessage(
       from,

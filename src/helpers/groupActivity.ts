@@ -2,9 +2,9 @@
  * @author Hiudy · github.com/hiudyy
  * @project Misa Bot
  */
-import { promises as fs } from "node:fs";
 import path from "node:path";
 import { paths } from "../config/paths.js";
+import { readJson, updateJson } from "../storage/jsonStore.js";
 
 export type ActivityStats = {
   messages: number;
@@ -30,7 +30,6 @@ const DEFAULT_STATS: ActivityStats = {
 };
 
 const activityDir = path.join(paths.dados, "atividade");
-const locks = new Map<string, Promise<unknown>>();
 
 function activityPath(groupId: string): string {
   return path.join(activityDir, `${groupId.replace("@g.us", "")}.json`);
@@ -49,33 +48,16 @@ function getTotal(stats: ActivityStats): number {
   return stats.messages + stats.commands + stats.stickers;
 }
 
-async function readActivity(groupId: string): Promise<ActivityData> {
-  try {
-    const raw = await fs.readFile(activityPath(groupId), "utf8");
-    const saved = JSON.parse(raw) as Partial<ActivityData>;
-    const users = Object.fromEntries(
-      Object.entries(saved.users ?? {}).map(([userId, stats]) => [userId, normalizeStats(stats)]),
-    );
-    return { users };
-  } catch {
-    return { users: {} };
-  }
+function normalizeActivity(value: unknown): ActivityData {
+  const input = typeof value === "object" && value !== null ? value as Partial<ActivityData> : {};
+  const users = typeof input.users === "object" && input.users !== null ? input.users : {};
+  return {
+    users: Object.fromEntries(Object.entries(users).map(([userId, stats]) => [userId, normalizeStats(stats)])),
+  };
 }
 
-async function writeActivity(groupId: string, data: ActivityData): Promise<void> {
-  await fs.mkdir(activityDir, { recursive: true });
-  await fs.writeFile(activityPath(groupId), `${JSON.stringify(data, null, 2)}\n`, "utf8");
-}
-
-async function withGroupLock<T>(groupId: string, action: () => Promise<T>): Promise<T> {
-  const previous = locks.get(groupId) ?? Promise.resolve();
-  const next = previous.catch(() => undefined).then(action);
-
-  locks.set(groupId, next.finally(() => {
-    if (locks.get(groupId) === next) locks.delete(groupId);
-  }));
-
-  return next;
+function readActivity(groupId: string): Promise<ActivityData> {
+  return readJson(activityPath(groupId), { defaultValue: { users: {} }, normalize: normalizeActivity });
 }
 
 export async function recordGroupActivity(
@@ -83,8 +65,7 @@ export async function recordGroupActivity(
   userId: string,
   type: "message" | "command" | "sticker",
 ): Promise<void> {
-  await withGroupLock(groupId, async () => {
-    const data = await readActivity(groupId);
+  await updateJson(activityPath(groupId), { defaultValue: { users: {} }, normalize: normalizeActivity }, async (data) => {
     const current = normalizeStats(data.users[userId]);
 
     if (type === "command") current.commands += 1;
@@ -93,7 +74,7 @@ export async function recordGroupActivity(
 
     current.lastAt = new Date().toISOString();
     data.users[userId] = current;
-    await writeActivity(groupId, data);
+    return data;
   });
 }
 

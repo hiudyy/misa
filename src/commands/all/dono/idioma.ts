@@ -4,7 +4,7 @@
  */
 import { WAMessage } from "baileys";
 import { Command } from "../../../types/Command.js";
-import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getBotConfig, updateBotConfig } from "../../../config.js";
 import {
   createTranslator,
   getGlobalLanguageAliases,
@@ -46,8 +46,7 @@ const idiomaCommand: Command = {
       return;
     }
 
-    config.language = newLang;
-    await saveBotConfig(config);
+    await updateBotConfig((current) => ({ ...current, language: newLang }));
 
     await misa.sendMessage(
       from,

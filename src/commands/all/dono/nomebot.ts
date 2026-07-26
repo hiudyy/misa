@@ -3,7 +3,7 @@
  * @project Misa Bot
  */
 import { WAMessage } from "baileys";
-import { getBotConfig, saveBotConfig } from "../../../config.js";
+import { getBotConfig, updateBotConfig } from "../../../config.js";
 import { Command } from "../../../types/Command.js";
 
 const nomebotCommand: Command = {
@@ -30,8 +30,7 @@ const nomebotCommand: Command = {
       return;
     }
 
-    config.botName = botName;
-    await saveBotConfig(config);
+    await updateBotConfig((current) => ({ ...current, botName }));
 
     await misa.sendMessage(
       from,

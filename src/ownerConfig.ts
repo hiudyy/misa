@@ -2,11 +2,9 @@
  * @author Hiudy · github.com/hiudyy
  * @project Misa Bot
  */
-import { promises as fs } from "node:fs";
 import { paths } from "./config/paths.js";
-import { getBotConfig } from "./config.js";
 import { DEFAULT_LOCALE, t } from "./i18n/index.js";
-import { log } from "./logger.js";
+import { readJson, updateJson, writeJson } from "./storage/jsonStore.js";
 
 export type OwnerConfig = {
   comandoNaoEncontrado: {
@@ -28,7 +26,7 @@ export type BlockedUserEntry = {
   createdBy: string;
 };
 
-const defaultOwnerConfig: OwnerConfig = {
+export const defaultOwnerConfig: OwnerConfig = {
   comandoNaoEncontrado: {
     modo: "texto",
     texto: t("owner.cmdnf.defaultText", DEFAULT_LOCALE),
@@ -38,64 +36,38 @@ const defaultOwnerConfig: OwnerConfig = {
   blockedCommands: [],
 };
 
-async function readOwnerConfigFile(): Promise<Partial<OwnerConfig> | null> {
-  try {
-    const rawConfig = await fs.readFile(paths.ownerConfig, "utf8");
-    return JSON.parse(rawConfig) as Partial<OwnerConfig>;
-  } catch (error) {
-    const nodeError = error as NodeJS.ErrnoException;
-    if (nodeError.code === "ENOENT") return null;
-
-    const config = await getBotConfig();
-    log.warn("OWNERCONFIG", t("logs.configReadFailed", config.language, { path: paths.ownerConfig }));
-    return null;
-  }
+function asObject(value: unknown): Record<string, unknown> {
+  return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
 }
 
-async function migrateLegacyOwnerConfigIfNeeded(): Promise<Partial<OwnerConfig> | null> {
-  const currentConfig = await readOwnerConfigFile();
-  if (currentConfig) return currentConfig;
-
-  const legacyConfig = await getBotConfig();
-  const legacyUnknown = (legacyConfig as Partial<OwnerConfig>).comandoNaoEncontrado;
-  if (!legacyUnknown) return null;
-
-  const migratedConfig: OwnerConfig = {
-    ...defaultOwnerConfig,
+export function normalizeOwnerConfig(value: unknown): OwnerConfig {
+  const input = asObject(value);
+  const unknownCommand = asObject(input.comandoNaoEncontrado);
+  return {
     comandoNaoEncontrado: {
-      ...defaultOwnerConfig.comandoNaoEncontrado,
-      ...legacyUnknown,
+      modo: unknownCommand.modo === "mencao" ? "mencao" : "texto",
+      texto: typeof unknownCommand.texto === "string" && unknownCommand.texto.trim()
+        ? unknownCommand.texto
+        : defaultOwnerConfig.comandoNaoEncontrado.texto,
     },
+    antiPrivate: typeof input.antiPrivate === "boolean" ? input.antiPrivate : false,
+    blockedUsers: normalizeBlockedUsers(input.blockedUsers),
+    blockedCommands: normalizeBlockedCommands(input.blockedCommands),
   };
-
-  await fs.mkdir(paths.owner, { recursive: true });
-  await fs.writeFile(paths.ownerConfig, `${JSON.stringify(migratedConfig, null, 2)}\n`, "utf8");
-  const config = await getBotConfig();
-  log.info("OWNERCONFIG", t("logs.configMigrated", config.language, { path: paths.ownerConfig }));
-
-  return migratedConfig;
 }
 
 export async function getOwnerConfig(): Promise<OwnerConfig> {
-  const config = await migrateLegacyOwnerConfigIfNeeded();
-
-  if (!config) return structuredClone(defaultOwnerConfig);
-
-  return {
-    ...defaultOwnerConfig,
-    ...config,
-    comandoNaoEncontrado: {
-      ...defaultOwnerConfig.comandoNaoEncontrado,
-      ...config.comandoNaoEncontrado,
-    },
-    blockedUsers: normalizeBlockedUsers(config.blockedUsers),
-    blockedCommands: normalizeBlockedCommands(config.blockedCommands),
-  };
+  return readJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig });
 }
 
 export async function saveOwnerConfig(config: OwnerConfig): Promise<void> {
-  await fs.mkdir(paths.owner, { recursive: true });
-  await fs.writeFile(paths.ownerConfig, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+  await writeJson(paths.ownerConfig, normalizeOwnerConfig(config));
+}
+
+export function updateOwnerConfig(
+  update: (current: OwnerConfig) => OwnerConfig | Promise<OwnerConfig>,
+): Promise<OwnerConfig> {
+  return updateJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig }, update);
 }
 
 function normalizeBlockedUsers(entries: unknown): BlockedUserEntry[] {
@@ -121,5 +93,7 @@ function normalizeBlockedUsers(entries: unknown): BlockedUserEntry[] {
 
 function normalizeBlockedCommands(entries: unknown): string[] {
   if (!Array.isArray(entries)) return [];
-  return entries.filter((entry): entry is string => typeof entry === "string").map((entry) => entry.toLowerCase());
+  return [...new Set(entries
+    .filter((entry): entry is string => typeof entry === "string" && Boolean(entry.trim()))
+    .map((entry) => entry.trim().toLowerCase()))];
 }

@@ -3,13 +3,21 @@
  * @project Misa Bot
  */
 import { promises as fs } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { paths } from "./config/paths.js";
 import { log } from "./logger.js";
 import type { Locale } from "./i18n/index.js";
 import { DEFAULT_LOCALE, t, isValidLocale } from "./i18n/index.js";
+import { readJson, updateJson, writeJson } from "./storage/jsonStore.js";
+import { isValidPrefixSymbol } from "./helpers/resolveCommandPrefix.js";
+import { CURRENT_CONFIG_SCHEMA_VERSION, migrateBotConfig } from "./config/migrations.js";
+import {
+  defaultOperationalConfig,
+  normalizeOperationalConfig,
+  type OperationalConfig,
+} from "./config/operations.js";
 
 export type BotConfig = {
+  schemaVersion: number;
   botName: string;
   ownerName: string;
   prefix: string;
@@ -19,9 +27,11 @@ export type BotConfig = {
   ownerLID?: string;
   autoUpdate: boolean;
   language: Locale;
+  operations: OperationalConfig;
 };
 
-const defaultConfig: BotConfig = {
+export const defaultConfig: BotConfig = {
+  schemaVersion: CURRENT_CONFIG_SCHEMA_VERSION,
   botName: "Misa",
   ownerName: "Hiudy",
   prefix: "!",
@@ -29,44 +39,89 @@ const defaultConfig: BotConfig = {
   ownerNumber: "",
   autoUpdate: false,
   language: "pt",
+  operations: structuredClone(defaultOperationalConfig),
 };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const configPath = path.join(__dirname, "config.json");
+function asObject(value: unknown): Record<string, unknown> {
+  return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
+}
 
-async function readConfigFile(filePath: string): Promise<Partial<BotConfig> | null> {
-  let config: Partial<BotConfig> | null = null;
+function normalizePrefixMap(value: unknown): BotConfig["prefixByLocale"] {
+  const input = asObject(value);
+  const result: BotConfig["prefixByLocale"] = {};
+  const used = new Set<string>();
+  for (const [locale, prefix] of Object.entries(input)) {
+    if (isValidLocale(locale) && typeof prefix === "string" && isValidPrefixSymbol(prefix) && !used.has(prefix)) {
+      result[locale] = prefix;
+      used.add(prefix);
+    }
+  }
+  return result;
+}
+
+export function normalizeBotConfig(value: unknown): BotConfig {
+  const input = migrateBotConfig(value);
+  return {
+    schemaVersion: CURRENT_CONFIG_SCHEMA_VERSION,
+    botName: typeof input.botName === "string" && input.botName.trim() ? input.botName : defaultConfig.botName,
+    ownerName: typeof input.ownerName === "string" && input.ownerName.trim() ? input.ownerName : defaultConfig.ownerName,
+    prefix: typeof input.prefix === "string" && isValidPrefixSymbol(input.prefix)
+      ? input.prefix
+      : defaultConfig.prefix,
+    prefixByLocale: normalizePrefixMap(input.prefixByLocale),
+    ownerNumber: typeof input.ownerNumber === "string" ? input.ownerNumber : defaultConfig.ownerNumber,
+    ...(typeof input.ownerLID === "string" && input.ownerLID ? { ownerLID: input.ownerLID } : {}),
+    autoUpdate: typeof input.autoUpdate === "boolean" ? input.autoUpdate : defaultConfig.autoUpdate,
+    language: typeof input.language === "string" && isValidLocale(input.language) ? input.language : defaultConfig.language,
+    operations: normalizeOperationalConfig(input.operations),
+  };
+}
+
+async function migrateLegacyConfig(): Promise<void> {
   try {
-    const rawConfig = await fs.readFile(filePath, "utf8");
-    config = JSON.parse(rawConfig) as Partial<BotConfig>;
-    return config;
-  } catch (error) {
-    const nodeError = error as NodeJS.ErrnoException;
-    if (nodeError.code === "ENOENT") return null;
+    await fs.access(paths.botConfig);
+    return;
+  } catch {
+    // O novo arquivo ainda nao existe.
+  }
 
-    log.warn("CONFIG", t("logs.configReadFailed", config?.language ?? DEFAULT_LOCALE, { path: filePath }));
-    return null;
+  try {
+    await fs.access(paths.legacyBotConfig);
+    const migrated = await readJson(paths.legacyBotConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig });
+    await writeJson(paths.botConfig, migrated);
+    await fs.rm(paths.legacyBotConfig, { force: true });
+    log.info("CONFIG", t("logs.configMigrated", migrated.language, { path: paths.botConfig }));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      log.warn("CONFIG", t("logs.configReadFailed", DEFAULT_LOCALE, { path: paths.legacyBotConfig }));
+    }
   }
 }
 
 export async function getBotConfig(): Promise<BotConfig> {
-  const config = await readConfigFile(configPath);
-
-  if (!config) return structuredClone(defaultConfig);
-
-  return {
-    ...defaultConfig,
-    ...config,
-  };
+  await migrateLegacyConfig();
+  return readJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig });
 }
 
 /** True only if config.json exists and has an explicit valid language field. */
 export async function isLanguageConfigured(): Promise<boolean> {
-  const config = await readConfigFile(configPath);
-  return Boolean(config && typeof config.language === "string" && isValidLocale(config.language));
+  await migrateLegacyConfig();
+  try {
+    const raw = JSON.parse(await fs.readFile(paths.botConfig, "utf8")) as { language?: unknown };
+    return typeof raw.language === "string" && isValidLocale(raw.language);
+  } catch {
+    return false;
+  }
 }
 
 export async function saveBotConfig(config: BotConfig): Promise<void> {
-  await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+  await writeJson(paths.botConfig, normalizeBotConfig(config));
 }
+
+export function updateBotConfig(update: (current: BotConfig) => BotConfig | Promise<BotConfig>): Promise<BotConfig> {
+  return updateJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig }, update);
+}
+
+export { CURRENT_CONFIG_SCHEMA_VERSION } from "./config/migrations.js";
+export { defaultOperationalConfig, normalizeOperationalConfig } from "./config/operations.js";
+export type { OperationalConfig, LogLevel } from "./config/operations.js";
