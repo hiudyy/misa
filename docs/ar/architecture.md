@@ -1,0 +1,21 @@
+<!-- locale: ar; docs-version: 1 -->
+# البنية
+
+المسار الرئيسي هو WhatsApp -> `MessageHandler` -> طابور لكل محادثة -> `messageProcessor` -> التفويض -> الأمر. تبقى رسائل المحادثة مرتبة، بينما تعمل محادثات مختلفة بالتوازي. تدخل المهام الثقيلة إلى `MediaQueue` التي تضبط التزامن وtimeout وFFmpeg.
+
+```mermaid
+flowchart LR
+ WA[WhatsApp] --> MH[MessageHandler]
+ MH --> CQ[Chat queue]
+ CQ --> MP[MessageProcessor]
+ MP --> A[Authorization]
+ A --> C[Command]
+ C --> MQ[MediaQueue]
+ MQ --> P[Providers/FFmpeg]
+```
+
+الأوامر في `src/commands`، والأحداث في `src/events`، وقواميس i18n في `src/i18n`، والتخزين الذري في `src/storage`. يقوم lifecycle بإزالة listeners وتفريغ الطوابير وإغلاق socket.
+
+يستخدم YouTube providers منفصلة مع retry وcooldown وfallback. التنزيل streaming. يحدد auto-update commit دقيقًا من `main`، ويفحص staging، وينشئ backup وrollback. يعرض `statusbot` المقاييس المجمعة.
+
+للتوسعة طبّق `Command` أو `Event` أو `YouTubeProvider`، وأضف مفاتيح إلى ملفات i18n الأحد عشر واختبارات في `tests/`، ثم شغّل `npm run verify`.

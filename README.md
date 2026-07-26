@@ -14,6 +14,26 @@
 
 </div>
 
+## Documentation / Documentação
+
+Quick start: `npm ci && npm run build && npm run doctor && npm start` (Node.js 22+). Docker: `docker compose run --rm misa npm start`, then `docker compose up -d`.
+
+| Language | Installation | Architecture | Configuration | Legal |
+|---|---|---|---|---|
+| Português | [Install](docs/pt/installation.md) | [Arquitetura](docs/pt/architecture.md) | [Configuração](docs/pt/configuration.md) | [Legal](docs/pt/legal.md) |
+| English | [Install](docs/en/installation.md) | [Architecture](docs/en/architecture.md) | [Configuration](docs/en/configuration.md) | [Legal](docs/en/legal.md) |
+| Español | [Instalación](docs/es/installation.md) | [Arquitectura](docs/es/architecture.md) | [Configuración](docs/es/configuration.md) | [Legal](docs/es/legal.md) |
+| Indonesia | [Instalasi](docs/id/installation.md) | [Arsitektur](docs/id/architecture.md) | [Konfigurasi](docs/id/configuration.md) | [Legal](docs/id/legal.md) |
+| العربية | [التثبيت](docs/ar/installation.md) | [البنية](docs/ar/architecture.md) | [الإعداد](docs/ar/configuration.md) | [قانوني](docs/ar/legal.md) |
+| Français | [Installation](docs/fr/installation.md) | [Architecture](docs/fr/architecture.md) | [Configuration](docs/fr/configuration.md) | [Juridique](docs/fr/legal.md) |
+| हिन्दी | [इंस्टॉलेशन](docs/hi/installation.md) | [आर्किटेक्चर](docs/hi/architecture.md) | [कॉन्फ़िगरेशन](docs/hi/configuration.md) | [कानूनी](docs/hi/legal.md) |
+| اردو | [انسٹالیشن](docs/ur/installation.md) | [آرکیٹیکچر](docs/ur/architecture.md) | [ترتیب](docs/ur/configuration.md) | [قانونی](docs/ur/legal.md) |
+| Deutsch | [Installation](docs/de/installation.md) | [Architektur](docs/de/architecture.md) | [Konfiguration](docs/de/configuration.md) | [Rechtliches](docs/de/legal.md) |
+| Türkçe | [Kurulum](docs/tr/installation.md) | [Mimari](docs/tr/architecture.md) | [Yapılandırma](docs/tr/configuration.md) | [Yasal](docs/tr/legal.md) |
+| বাংলা | [ইনস্টলেশন](docs/bn/installation.md) | [আর্কিটেকচার](docs/bn/architecture.md) | [কনফিগারেশন](docs/bn/configuration.md) | [আইনি](docs/bn/legal.md) |
+
+> Misa is not affiliated with WhatsApp or Meta. Automation can violate platform terms and may lead to account restrictions. Read [LEGAL.md](LEGAL.md) before use.
+
 <details>
 <summary><h2>🇧🇷 Português (Brasil)</h2></summary>
 
@@ -293,7 +313,7 @@ Se ainda não tiver sessão, rode primeiro `npm start` para configurar QR Code o
 
 ### 6. Arquivos importantes
 
-- `src/config.json`: configuração principal
+- `dados/config.json`: configuração principal
 - `dados/misa-qr/`: sessão do WhatsApp
 - `dados/grupos/`: configurações dos grupos
 - `dados/owner/config.json`: configurações feitas pelo dono via bot
@@ -713,7 +733,7 @@ npm run start:fast
 
 ### 6. महत्वपूर्ण फ़ाइलें
 
-- `src/config.json`: मुख्य कॉन्फ़िगरेशन
+- `dados/config.json`: मुख्य कॉन्फ़िगरेशन
 - `dados/misa-qr/`: WhatsApp सत्र
 - `dados/grupos/`: ग्रुप कॉन्फ़िगरेशन
 - `dados/owner/config.json`: मालिक द्वारा बॉट के अंदर से बदली गई सेटिंग्स
@@ -1109,7 +1129,7 @@ npm run start:fast
 
 ### 6. اہم فائلیں
 
-- `src/config.json`: مرکزی کنفیگریشن
+- `dados/config.json`: مرکزی کنفیگریشن
 - `dados/misa-qr/`: WhatsApp سیشن
 - `dados/grupos/`: گروپ کنفیگریشنز
 - `dados/owner/config.json`: owner کی طرف سے bot کے اندر سے بدلی گئی سیٹنگز
@@ -1507,7 +1527,7 @@ If you still do not have a session, run `npm start` first to configure QR Code o
 
 ### 6. Important files
 
-- `src/config.json`: main configuration
+- `dados/config.json`: main configuration
 - `dados/misa-qr/`: WhatsApp session
 - `dados/grupos/`: group configurations
 - `dados/owner/config.json`: configurations made by the owner through the bot
@@ -1929,7 +1949,7 @@ Si todavía no tienes una sesión, ejecuta primero `npm start` para configurar Q
 
 ### 6. Archivos importantes
 
-- `src/config.json`: configuración principal
+- `dados/config.json`: configuración principal
 - `dados/misa-qr/`: sesión de WhatsApp
 - `dados/grupos/`: configuraciones de los grupos
 - `dados/owner/config.json`: configuraciones realizadas por el dueño a través del bot
@@ -2327,7 +2347,7 @@ Jika Anda belum memiliki sesi, jalankan `npm start` terlebih dahulu untuk mengat
 
 ### 6. File penting
 
-- `src/config.json`: konfigurasi utama
+- `dados/config.json`: konfigurasi utama
 - `dados/misa-qr/`: sesi WhatsApp
 - `dados/grupos/`: konfigurasi grup
 - `dados/owner/config.json`: konfigurasi yang dilakukan pemilik melalui bot
@@ -2725,7 +2745,7 @@ Si vous n'avez pas encore de session, lancez d'abord `npm start` pour configurer
 
 ### 6. Fichiers importants
 
-- `src/config.json` : configuration principale
+- `dados/config.json` : configuration principale
 - `dados/misa-qr/` : session WhatsApp
 - `dados/grupos/` : configurations des groupes
 - `dados/owner/config.json` : configurations effectuées par le propriétaire via le bot
@@ -3123,7 +3143,7 @@ npm run start:fast
 
 ### 6. الملفات المهمة
 
-- `src/config.json`: الإعداد الرئيسي
+- `dados/config.json`: الإعداد الرئيسي
 - `dados/misa-qr/`: جلسة WhatsApp
 - `dados/grupos/`: إعدادات المجموعات
 - `dados/owner/config.json`: الإعدادات التي يجريها المالك عبر البوت
@@ -3521,7 +3541,7 @@ Wenn Sie immer noch keine Sitzung haben, führen Sie zuerst `npm start` aus, um 
 
 ### 6. Wichtige Dateien
 
-- `src/config.json`: Hauptkonfiguration
+- `dados/config.json`: Hauptkonfiguration
 - `dados/misa-qr/`: WhatsApp-Sitzung
 - `dados/grupos/`: Gruppenkonfigurationen
 - `dados/owner/config.json`: Vom Eigentümer über den Bot vorgenommene Konfigurationen
@@ -3920,7 +3940,7 @@ Hala bir oturumunuz yoksa QR Kodunu veya eşleştirme kodunu yapılandırmak iç
 
 ### 6. Önemli dosyalar
 
-- `src/config.json`: ana yapılandırma
+- `dados/config.json`: ana yapılandırma
 - `dados/misa-qr/`: WhatsApp oturumu
 - `dados/grupos/`: grup yapılandırmaları
 - `dados/owner/config.json`: sahibi tarafından bot aracılığıyla yapılan yapılandırmalar
@@ -4319,7 +4339,7 @@ npm run start:fast
 
 ### 6. গুরুত্বপূর্ণ ফাইল
 
-- `src/config.json`: মূল কনফিগারেশন
+- `dados/config.json`: মূল কনফিগারেশন
 - `dados/misa-qr/`: WhatsApp সেশন
 - `dados/grupos/`: গ্রুপ কনফিগারেশন
 - `dados/owner/config.json`: মালিকের মাধ্যমে করা কনফিগারেশন

@@ -20,11 +20,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit dependencies
+        run: npm audit
+
+      - name: Check documentation
+        run: npm run check:docs
+
       - name: Check i18n keys
         run: npm run check:i18n
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Run focused mutation tests
+        if: github.event_name == 'pull_request'
+        run: npm run test:mutation
 
       - name: Build
         run: npm run build
+
+      - name: Smoke test dist
+        run: npm run test:dist
+
+      - name: Validate Docker Compose
+        run: docker compose config
+
+      - name: Build Docker image
+        run: docker build --build-arg MISA_COMMIT_SHA=${GITHUB_SHA::12} .
