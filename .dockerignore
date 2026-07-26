@@ -1,0 +1,11 @@
+.git
+.github
+.kilo
+node_modules
+dist
+dados
+logs
+reports
+.stryker-tmp
+*.log
+.env*

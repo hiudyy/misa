@@ -1,17 +1,28 @@
 {
   "name": "misa-bot",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Misa — modular WhatsApp Multi-Device bot (Baileys, TypeScript, i18n)",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "node scripts/build.mjs",
+    "setup": "npm ci && npm run build && npm run doctor",
+    "doctor": "node scripts/doctor.mjs",
+    "verify": "npm run check:docs && npm run check:i18n && npm run test:coverage && npm run build && npm run test:dist",
     "check:i18n": "node scripts/check-i18n.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
     "test:i18n": "tsx scripts/test-localized-tokens.ts",
     "test": "node --test --import tsx tests/**/*.test.ts",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=70 --test-coverage-branches=75 --test-coverage-functions=55 --import tsx tests/**/*.test.ts",
+    "test:dist": "node scripts/smoke-dist.mjs",
+    "test:mutation": "stryker run",
     "test:watch": "node --test --import tsx --watch tests/**/*.test.ts",
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/start.ts",
-    "start:fast": "tsx src/index.ts"
+    "start:fast": "tsx src/index.ts",
+    "start:prod": "node dist/index.js"
   },
   "keywords": [
     "whatsapp",
@@ -106,10 +117,15 @@
     "qrcode-terminal": "^0.12.0"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/typescript-checker": "^9.6.1",
     "@types/node": "^22.15.17",
     "@types/qrcode-terminal": "^0.12.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "qs": "^6.15.3"
   },
   "type": "module"
 }

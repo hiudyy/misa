@@ -10,6 +10,9 @@ import { startBot } from "./index.js";
 import { log } from "./logger.js";
 import { hasValidSession } from "./helpers/hasValidSession.js";
 import { runAutoUpdate } from "./helpers/autoUpdate.js";
+import { applyOperationalConfig } from "./config/runtime.js";
+import { parseAdvancedInteger, parseLogLevel } from "./config/advanced.js";
+import type { LogLevel } from "./config/operations.js";
 import {
   createTranslator,
   DEFAULT_LOCALE,
@@ -173,6 +176,7 @@ function showMenu(t: any, botName: string): void {
     paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
     paint("  │", "magenta") + `   ${paint(" 1 ", "magenta", "bold")}  ${paint(t("terminal.menu.configure").padEnd(35), "white")}  ` + paint("│", "magenta"),
     paint("  │", "magenta") + `   ${paint(" 2 ", "magenta", "bold")}  ${paint(t("terminal.menu.start").padEnd(35), "white")}  ` + paint("│", "magenta"),
+    paint("  │", "magenta") + `   ${paint(" 3 ", "cyan", "bold")}  ${paint(t("terminal.menu.advanced").padEnd(35), "white")}  ` + paint("│", "magenta"),
     paint("  │", "magenta") + `   ${paint(" 0 ", "gray", "bold")}  ${paint(t("terminal.menu.exit").padEnd(35), "gray")}  ` + paint("│", "magenta"),
     paint("  │", "magenta") + "                                               " + paint("│", "magenta"),
     paint("  ╰─────────────────────────────────────────────╯", "magenta"),
@@ -246,11 +250,81 @@ async function askBotConfig(rl: readline.Interface, t: any): Promise<void> {
   clearTerminal();
 }
 
+async function askAdvancedInteger(
+  rl: readline.Interface,
+  t: any,
+  key: string,
+  current: number,
+  min: number,
+  max: number,
+  unit: string,
+): Promise<number> {
+  while (true) {
+    const answer = await askInput(rl, `${t(key)} [${current} ${unit}] (${min}-${max})`);
+    const value = parseAdvancedInteger(answer, current, min, max);
+    if (value !== null) return value;
+    log.warn("CONFIG", t("terminal.advanced.invalidRange", { min: String(min), max: String(max) }));
+  }
+}
+
+async function askAdvancedLogLevel(rl: readline.Interface, t: any, current: LogLevel): Promise<LogLevel> {
+  while (true) {
+    const answer = await askInput(rl, `${t("terminal.advanced.logLevel")} [${current}] (debug|info|warn|error|silent)`);
+    const value = parseLogLevel(answer, current);
+    if (value) return value;
+    log.warn("CONFIG", t("terminal.advanced.invalidLogLevel"));
+  }
+}
+
+async function askAdvancedConfig(rl: readline.Interface, t: any): Promise<void> {
+  const current = await getBotConfig();
+  const operations = structuredClone(current.operations);
+  clearTerminal();
+  console.log(`\n${paint(t("terminal.advanced.header"), "cyan", "bold")}\n${paint(t("terminal.advanced.pressEnter"), "gray")}\n`);
+
+  operations.media.maxConcurrent = await askAdvancedInteger(rl, t, "terminal.advanced.maxConcurrent", operations.media.maxConcurrent, 1, 16, t("terminal.advanced.jobs"));
+  operations.media.maxPending = await askAdvancedInteger(rl, t, "terminal.advanced.maxPending", operations.media.maxPending, 0, 1_000, t("terminal.advanced.jobs"));
+  operations.media.timeoutSeconds = await askAdvancedInteger(rl, t, "terminal.advanced.timeout", operations.media.timeoutSeconds, 1, 3_600, t("terminal.advanced.seconds"));
+  operations.media.ffmpegConcurrency = await askAdvancedInteger(rl, t, "terminal.advanced.ffmpeg", operations.media.ffmpegConcurrency, 1, 4, t("terminal.advanced.jobs"));
+
+  for (const kind of ["image", "audio", "video", "document", "sticker"] as const) {
+    operations.media.maxFileSizeMiB[kind] = await askAdvancedInteger(
+      rl,
+      t,
+      `terminal.advanced.size.${kind}`,
+      operations.media.maxFileSizeMiB[kind],
+      1,
+      2_048,
+      "MiB",
+    );
+  }
+
+  operations.youtube.providerRetries = await askAdvancedInteger(rl, t, "terminal.advanced.providerRetries", operations.youtube.providerRetries, 1, 10, t("terminal.advanced.attempts"));
+  operations.youtube.retryDelaySeconds = await askAdvancedInteger(rl, t, "terminal.advanced.retryDelay", operations.youtube.retryDelaySeconds, 0, 60, t("terminal.advanced.seconds"));
+  operations.youtube.maxFailures = await askAdvancedInteger(rl, t, "terminal.advanced.maxFailures", operations.youtube.maxFailures, 1, 20, t("terminal.advanced.failures"));
+  operations.youtube.cooldownMinutes = await askAdvancedInteger(rl, t, "terminal.advanced.cooldown", operations.youtube.cooldownMinutes, 0, 1_440, t("terminal.advanced.minutes"));
+  operations.logging.level = await askAdvancedLogLevel(rl, t, operations.logging.level);
+  operations.updates.maxBackups = await askAdvancedInteger(rl, t, "terminal.advanced.maxBackups", operations.updates.maxBackups, 1, 50, t("terminal.advanced.backups"));
+
+  console.log(`\n${paint(t("terminal.advanced.summary"), "white", "bold")}\n${JSON.stringify(operations, null, 2)}\n`);
+  const confirmed = await askBoolean(rl, t("terminal.advanced.confirm"), true, t);
+  if (!confirmed) {
+    log.info("CONFIG", t("terminal.advanced.cancelled"));
+    return;
+  }
+  await saveBotConfig({ ...current, operations });
+  log.success("CONFIG", t("terminal.advanced.saved"));
+  log.warn("CONFIG", t("terminal.advanced.restartRequired"));
+  await sleep(1_400);
+  clearTerminal();
+}
+
 async function main(): Promise<void> {
   const rl = readline.createInterface({ input, output });
 
   try {
     let currentConfig = await getBotConfig();
+    applyOperationalConfig(currentConfig.operations);
 
     if (!(await isLanguageConfigured())) {
       const language = await askInitialLanguage(rl);
@@ -263,7 +337,9 @@ async function main(): Promise<void> {
 
     await showIntro(t);
 
-    if (currentConfig.autoUpdate) await runAutoUpdate();
+    if (currentConfig.autoUpdate) {
+      await runAutoUpdate({ maxBackups: currentConfig.operations.updates.maxBackups });
+    }
 
     while (true) {
       showMenu(t, currentConfig.botName);
@@ -340,6 +416,12 @@ async function main(): Promise<void> {
         log.warn(currentConfig.botName, t("terminal.invalidOption"));
         await sleep(1000);
         clearTerminal();
+        continue;
+      }
+
+      if (option === "3") {
+        await askAdvancedConfig(rl, t);
+        currentConfig = await getBotConfig();
         continue;
       }
 

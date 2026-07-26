@@ -1,0 +1,13 @@
+services:
+  misa:
+    build:
+      context: .
+      args:
+        MISA_COMMIT_SHA: ${MISA_COMMIT_SHA:-unknown}
+    image: misa-bot:1.0.0
+    init: true
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    volumes:
+      - ./dados:/app/dados
