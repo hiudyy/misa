@@ -50,10 +50,13 @@
     "advanced": {
       "header": "اعلیٰ ترتیب",
       "pressEnter": "موجودہ قدر رکھنے کے لیے Enter دبائیں۔",
+      "messageConcurrent": "بیک وقت پراسیس ہونے والے پیغامات",
+      "messagePending": "زیادہ سے زیادہ منتظر پیغامات",
+      "messageTimeout": "پیغام قطار کی وقت حد",
       "maxConcurrent": "بیک وقت میڈیا کارروائیاں", "maxPending": "میڈیا قطار کی زیادہ سے زیادہ حد", "timeout": "میڈیا کی کل وقت حد", "ffmpeg": "بیک وقت FFmpeg عمل",
       "size": { "image": "تصویر کی حد", "audio": "آڈیو کی حد", "video": "ویڈیو کی حد", "document": "دستاویز کی حد", "sticker": "اسٹیکر کی حد" },
       "providerRetries": "فی YouTube پرووائیڈر کوششیں", "retryDelay": "کوششوں کے درمیان وقفہ", "maxFailures": "کول ڈاؤن سے پہلے ناکامیاں", "cooldown": "پرووائیڈر کول ڈاؤن", "logLevel": "لاگ سطح", "maxBackups": "اپ ڈیٹ بیک اپ کی تعداد",
-      "jobs": "کام", "seconds": "سیکنڈ", "attempts": "کوششیں", "failures": "ناکامیاں", "minutes": "منٹ", "backups": "بیک اپ",
+      "jobs": "کام", "messages": "پیغامات", "seconds": "سیکنڈ", "attempts": "کوششیں", "failures": "ناکامیاں", "minutes": "منٹ", "backups": "بیک اپ",
       "invalidRange": "{{min}} اور {{max}} کے درمیان عدد درج کریں۔", "invalidLogLevel": "غلط سطح۔ debug، info، warn، error یا silent استعمال کریں۔",
       "summary": "عملی خلاصہ:", "confirm": "یہ اعلیٰ ترتیب محفوظ کریں؟", "cancelled": "اعلیٰ ترتیب منسوخ ہو گئی۔", "saved": "اعلیٰ ترتیب محفوظ ہو گئی۔", "restartRequired": "نئی ترتیبات لاگو کرنے کے لیے بوٹ دوبارہ شروع کریں۔"
     },
@@ -128,7 +131,8 @@
       "queueFull": "❌ میڈیا قطار بھری ہوئی ہے۔ بعد میں کوشش کریں۔",
       "timeout": "❌ میڈیا کارروائی کا وقت ختم ہو گیا۔",
       "tooLarge": "فائل اجازت شدہ سائز سے بڑی ہے۔",
-      "aborted": "میڈیا کارروائی منسوخ کر دی گئی۔"
+      "aborted": "میڈیا کارروائی منسوخ کر دی گئی۔",
+      "failed": "میڈیا کارروائی ناکام ہوئی۔ دوبارہ کوشش کریں۔"
     }
   },
   "connection": {
@@ -642,7 +646,7 @@
     },
     "statusVersion": { "text": "╭─「 *ورژن* 」\n│ ایپ: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *میٹرکس* 」\n│ پیغامات: {{messages}} · غلطیاں: {{messageErrors}}\n│ کمانڈز: {{commands}} · غلطیاں: {{commandErrors}} · مسترد: {{denied}}\n│ میڈیا کامیاب/غلطی: {{mediaSuccess}}/{{mediaErrors}} · بائٹس: {{mediaBytes}}\n│ قطار فعال/منتظر: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ کیش ہٹ: {{cacheRate}} · دوبارہ رابطے: {{reconnects}}\n│ اوسط کمانڈ/میڈیا: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ کمانڈ ناکامیاں: {{commandFailures}}\n│ پرووائیڈر ناکامیاں: {{providerFailures}}\n╰─"
+      "text": "╭─「 *میٹرکس* 」\n│ پیغامات: {{messages}} · غلطیاں: {{messageErrors}}\n│ پراسیس فعال/منتظر: {{messageActive}}/{{messagePending}}\n│ خارج/ٹائم آؤٹ: {{messageDropped}}/{{messageTimeouts}}\n│ کمانڈز: {{commands}} · غلطیاں: {{commandErrors}} · مسترد: {{denied}}\n│ میڈیا کامیاب/غلطی: {{mediaSuccess}}/{{mediaErrors}} · بائٹس: {{mediaBytes}}\n│ قطار فعال/منتظر: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ کیش ہٹ: {{cacheRate}} · دوبارہ رابطے: {{reconnects}}\n│ اوسط کمانڈ/میڈیا: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ کمانڈ ناکامیاں: {{commandFailures}}\n│ پرووائیڈر ناکامیاں: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ میسج debug فعال ہے۔ تمام message events ٹرمینل میں log ہوں گے۔",

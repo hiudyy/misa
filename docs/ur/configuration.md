@@ -1,7 +1,9 @@
 <!-- locale: ur; docs-version: 1 -->
 # ترتیب
 
-واحد ذریعہ `dados/config.json` ہے۔ موجودہ `schemaVersion` 1 ہے۔ بغیر version file migrate ہوتی ہے؛ خراب JSON `.corrupt-*` میں محفوظ ہوتا ہے۔ مستقبل کا schema data بدلے بغیر startup روکتا ہے۔ Operational تبدیلی کے لیے restart ضروری ہے۔
+واحد ذریعہ `dados/config.json` ہے۔ موجودہ `schemaVersion` 2 ہے۔ بغیر version file migrate ہوتی ہے؛ خراب JSON `.corrupt-*` میں محفوظ ہوتا ہے۔ مستقبل کا schema data بدلے بغیر startup روکتا ہے۔ Operational تبدیلی کے لیے restart ضروری ہے۔
+
+`operations.messages` میں `maxConcurrent` (10، حد 1-50)، `maxPending` (200، حد 0-5000) اور `queueTimeoutSeconds` (60، حد 1-600) ہیں۔ Chats ترتیب وار نہیں؛ اضافی پیغامات global backlog میں انتظار کرتے ہیں۔
 
 Basic fields: `botName`, `ownerName`, `prefix`, `prefixByLocale`, `ownerNumber`, `autoUpdate`, `language`۔ `operations.media`: `maxConcurrent` 2، `maxPending` 20، `timeoutSeconds` 300، `ffmpegConcurrency` 1، اور `maxFileSizeMiB`: image 20، audio 40، video/document 80، sticker 20۔
 

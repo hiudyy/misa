@@ -42,6 +42,9 @@ export const defaultConfig: BotConfig = {
   operations: structuredClone(defaultOperationalConfig),
 };
 
+let botConfigCache: BotConfig | null = null;
+let botConfigLoad: Promise<BotConfig> | null = null;
+
 function asObject(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
 }
@@ -99,8 +102,16 @@ async function migrateLegacyConfig(): Promise<void> {
 }
 
 export async function getBotConfig(): Promise<BotConfig> {
-  await migrateLegacyConfig();
-  return readJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig });
+  if (botConfigCache) return structuredClone(botConfigCache);
+  botConfigLoad ??= (async () => {
+    await migrateLegacyConfig();
+    const config = await readJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig });
+    botConfigCache = structuredClone(config);
+    return config;
+  })().finally(() => {
+    botConfigLoad = null;
+  });
+  return structuredClone(await botConfigLoad);
 }
 
 /** True only if config.json exists and has an explicit valid language field. */
@@ -115,11 +126,20 @@ export async function isLanguageConfigured(): Promise<boolean> {
 }
 
 export async function saveBotConfig(config: BotConfig): Promise<void> {
-  await writeJson(paths.botConfig, normalizeBotConfig(config));
+  const normalized = normalizeBotConfig(config);
+  await writeJson(paths.botConfig, normalized);
+  botConfigCache = structuredClone(normalized);
 }
 
-export function updateBotConfig(update: (current: BotConfig) => BotConfig | Promise<BotConfig>): Promise<BotConfig> {
-  return updateJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig }, update);
+export async function updateBotConfig(update: (current: BotConfig) => BotConfig | Promise<BotConfig>): Promise<BotConfig> {
+  const updated = await updateJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig }, update);
+  botConfigCache = structuredClone(updated);
+  return structuredClone(updated);
+}
+
+export function clearBotConfigCache(): void {
+  botConfigCache = null;
+  botConfigLoad = null;
 }
 
 export { CURRENT_CONFIG_SCHEMA_VERSION } from "./config/migrations.js";

@@ -282,6 +282,9 @@ async function askAdvancedConfig(rl: readline.Interface, t: any): Promise<void> 
   clearTerminal();
   console.log(`\n${paint(t("terminal.advanced.header"), "cyan", "bold")}\n${paint(t("terminal.advanced.pressEnter"), "gray")}\n`);
 
+  operations.messages.maxConcurrent = await askAdvancedInteger(rl, t, "terminal.advanced.messageConcurrent", operations.messages.maxConcurrent, 1, 50, t("terminal.advanced.messages"));
+  operations.messages.maxPending = await askAdvancedInteger(rl, t, "terminal.advanced.messagePending", operations.messages.maxPending, 0, 5_000, t("terminal.advanced.messages"));
+  operations.messages.queueTimeoutSeconds = await askAdvancedInteger(rl, t, "terminal.advanced.messageTimeout", operations.messages.queueTimeoutSeconds, 1, 600, t("terminal.advanced.seconds"));
   operations.media.maxConcurrent = await askAdvancedInteger(rl, t, "terminal.advanced.maxConcurrent", operations.media.maxConcurrent, 1, 16, t("terminal.advanced.jobs"));
   operations.media.maxPending = await askAdvancedInteger(rl, t, "terminal.advanced.maxPending", operations.media.maxPending, 0, 1_000, t("terminal.advanced.jobs"));
   operations.media.timeoutSeconds = await askAdvancedInteger(rl, t, "terminal.advanced.timeout", operations.media.timeoutSeconds, 1, 3_600, t("terminal.advanced.seconds"));

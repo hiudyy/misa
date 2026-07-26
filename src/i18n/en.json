@@ -50,6 +50,9 @@
     "advanced": {
       "header": "ADVANCED CONFIGURATION",
       "pressEnter": "Press Enter to keep each current value.",
+      "messageConcurrent": "Messages processed concurrently",
+      "messagePending": "Maximum waiting messages",
+      "messageTimeout": "Message queue timeout",
       "maxConcurrent": "Concurrent media operations",
       "maxPending": "Maximum media queue size",
       "timeout": "Total media timeout",
@@ -61,7 +64,7 @@
       "cooldown": "Provider cooldown",
       "logLevel": "Log level",
       "maxBackups": "Update backup count",
-      "jobs": "jobs", "seconds": "seconds", "attempts": "attempts", "failures": "failures", "minutes": "minutes", "backups": "backups",
+      "jobs": "jobs", "messages": "messages", "seconds": "seconds", "attempts": "attempts", "failures": "failures", "minutes": "minutes", "backups": "backups",
       "invalidRange": "Enter an integer between {{min}} and {{max}}.",
       "invalidLogLevel": "Invalid level. Use debug, info, warn, error, or silent.",
       "summary": "Operations summary:",
@@ -141,7 +144,8 @@
       "queueFull": "❌ The media queue is full. Try again later.",
       "timeout": "❌ The media operation timed out.",
       "tooLarge": "The file exceeds the allowed size limit.",
-      "aborted": "The media operation was cancelled."
+      "aborted": "The media operation was cancelled.",
+      "failed": "The media operation failed. Try again."
     }
   },
   "connection": {
@@ -649,7 +653,7 @@
     },
     "statusVersion": { "text": "╭─「 *VERSION* 」\n│ application: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *METRICS* 」\n│ messages: {{messages}} · errors: {{messageErrors}}\n│ commands: {{commands}} · errors: {{commandErrors}} · denied: {{denied}}\n│ media ok/error: {{mediaSuccess}}/{{mediaErrors}} · bytes: {{mediaBytes}}\n│ queue active/pending: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · reconnects: {{reconnects}}\n│ avg command/media: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ command failures: {{commandFailures}}\n│ provider failures: {{providerFailures}}\n╰─"
+      "text": "╭─「 *METRICS* 」\n│ messages: {{messages}} · errors: {{messageErrors}}\n│ processing active/pending: {{messageActive}}/{{messagePending}}\n│ dropped/timeouts: {{messageDropped}}/{{messageTimeouts}}\n│ commands: {{commands}} · errors: {{commandErrors}} · denied: {{denied}}\n│ media ok/error: {{mediaSuccess}}/{{mediaErrors}} · bytes: {{mediaBytes}}\n│ queue active/pending: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · reconnects: {{reconnects}}\n│ avg command/media: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ command failures: {{commandFailures}}\n│ provider failures: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ Message debug enabled. Every message event will be logged in the terminal.",

@@ -1,12 +1,12 @@
 <!-- locale: es; docs-version: 1 -->
 # Arquitectura
 
-El flujo es WhatsApp -> `MessageHandler` -> cola por chat -> `messageProcessor` -> autorización -> comando. Un chat conserva orden y varios chats avanzan en paralelo. Las tareas pesadas entran en `MediaQueue`, que limita concurrencia, timeout y FFmpeg.
+El flujo es WhatsApp -> `MessageHandler` -> dispatcher global -> `messageProcessor` -> autorización -> comando. Hasta 10 mensajes avanzan en paralelo sin orden por chat; hasta 200 esperan. La mídia continúa en segundo plano mediante `MediaQueue`.
 
 ```mermaid
 flowchart LR
   WA[WhatsApp] --> MH[MessageHandler]
-  MH --> CQ[Cola por chat]
+  MH --> CQ[Dispatcher global]
   CQ --> MP[MessageProcessor]
   MP --> AUTH[Autorización]
   AUTH --> CMD[Comando]

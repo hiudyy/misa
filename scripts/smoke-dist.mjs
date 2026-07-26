@@ -23,8 +23,8 @@ if (paths.root !== root) throw new Error(`DIST_ROOT_INVALID:${paths.root}`);
 if (paths.botConfig !== path.join(root, "dados", "config.json")) throw new Error("DIST_CONFIG_PATH_INVALID");
 if (paths.commands !== path.join(dist, "commands")) throw new Error("DIST_COMMAND_PATH_INVALID");
 if (paths.assets !== path.join(dist, "assets")) throw new Error("DIST_ASSET_PATH_INVALID");
-if (packageInfo.version !== "1.0.0") throw new Error(`DIST_VERSION_INVALID:${packageInfo.version}`);
-if (CURRENT_CONFIG_SCHEMA_VERSION !== 1) throw new Error(`DIST_SCHEMA_INVALID:${CURRENT_CONFIG_SCHEMA_VERSION}`);
+if (packageInfo.version !== "1.1.0") throw new Error(`DIST_VERSION_INVALID:${packageInfo.version}`);
+if (CURRENT_CONFIG_SCHEMA_VERSION !== 2) throw new Error(`DIST_SCHEMA_INVALID:${CURRENT_CONFIG_SCHEMA_VERSION}`);
 
 const commands = new CommandHandler();
 await commands.loadCommands(paths.commands);

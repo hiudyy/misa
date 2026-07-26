@@ -50,6 +50,9 @@
     "advanced": {
       "header": "KONFIGURASI LANJUTAN",
       "pressEnter": "Tekan Enter untuk mempertahankan nilai saat ini.",
+      "messageConcurrent": "Pesan yang diproses bersamaan",
+      "messagePending": "Maksimum pesan menunggu",
+      "messageTimeout": "Batas waktu antrean pesan",
       "maxConcurrent": "Operasi media bersamaan",
       "maxPending": "Ukuran maksimum antrean media",
       "timeout": "Batas waktu total media",
@@ -61,7 +64,7 @@
       "cooldown": "Cooldown provider",
       "logLevel": "Level log",
       "maxBackups": "Jumlah backup pembaruan",
-      "jobs": "job", "seconds": "detik", "attempts": "percobaan", "failures": "kegagalan", "minutes": "menit", "backups": "backup",
+      "jobs": "job", "messages": "pesan", "seconds": "detik", "attempts": "percobaan", "failures": "kegagalan", "minutes": "menit", "backups": "backup",
       "invalidRange": "Masukkan bilangan bulat antara {{min}} dan {{max}}.",
       "invalidLogLevel": "Level tidak valid. Gunakan debug, info, warn, error, atau silent.",
       "summary": "Ringkasan operasi:",
@@ -141,7 +144,8 @@
       "queueFull": "❌ Antrean media penuh. Coba lagi nanti.",
       "timeout": "❌ Operasi media melewati batas waktu.",
       "tooLarge": "Berkas melebihi batas ukuran yang diizinkan.",
-      "aborted": "Operasi media dibatalkan."
+      "aborted": "Operasi media dibatalkan.",
+      "failed": "Operasi media gagal. Coba lagi."
     }
   },
   "connection": {
@@ -649,7 +653,7 @@
     },
     "statusVersion": { "text": "╭─「 *VERSI* 」\n│ aplikasi: {{version}}\n│ commit: {{commit}}\n│ skema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *METRIK* 」\n│ pesan: {{messages}} · galat: {{messageErrors}}\n│ perintah: {{commands}} · galat: {{commandErrors}} · ditolak: {{denied}}\n│ media ok/galat: {{mediaSuccess}}/{{mediaErrors}} · byte: {{mediaBytes}}\n│ antrean aktif/tertunda: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · koneksi ulang: {{reconnects}}\n│ rata-rata perintah/media: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ kegagalan perintah: {{commandFailures}}\n│ kegagalan provider: {{providerFailures}}\n╰─"
+      "text": "╭─「 *METRIK* 」\n│ pesan: {{messages}} · galat: {{messageErrors}}\n│ proses aktif/menunggu: {{messageActive}}/{{messagePending}}\n│ dibuang/timeout: {{messageDropped}}/{{messageTimeouts}}\n│ perintah: {{commands}} · galat: {{commandErrors}} · ditolak: {{denied}}\n│ media ok/galat: {{mediaSuccess}}/{{mediaErrors}} · byte: {{mediaBytes}}\n│ antrean aktif/tertunda: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · koneksi ulang: {{reconnects}}\n│ rata-rata perintah/media: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ kegagalan perintah: {{commandFailures}}\n│ kegagalan provider: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ Debug pesan aktif. Semua event pesan akan dicatat di terminal.",

@@ -5,6 +5,11 @@
 export type LogLevel = "debug" | "info" | "warn" | "error" | "silent";
 
 export type OperationalConfig = {
+  messages: {
+    maxConcurrent: number;
+    maxPending: number;
+    queueTimeoutSeconds: number;
+  };
   media: {
     maxConcurrent: number;
     maxPending: number;
@@ -33,6 +38,11 @@ export type OperationalConfig = {
 };
 
 export const defaultOperationalConfig: OperationalConfig = {
+  messages: {
+    maxConcurrent: 10,
+    maxPending: 200,
+    queueTimeoutSeconds: 60,
+  },
   media: {
     maxConcurrent: 2,
     maxPending: 20,
@@ -70,6 +80,7 @@ function boundedInteger(value: unknown, min: number, max: number, fallback: numb
 
 export function normalizeOperationalConfig(value: unknown): OperationalConfig {
   const input = asObject(value);
+  const messages = asObject(input.messages);
   const media = asObject(input.media);
   const sizes = asObject(media.maxFileSizeMiB);
   const youtube = asObject(input.youtube);
@@ -78,6 +89,11 @@ export function normalizeOperationalConfig(value: unknown): OperationalConfig {
   const logLevel = logging.level;
 
   return {
+    messages: {
+      maxConcurrent: boundedInteger(messages.maxConcurrent, 1, 50, defaultOperationalConfig.messages.maxConcurrent),
+      maxPending: boundedInteger(messages.maxPending, 0, 5_000, defaultOperationalConfig.messages.maxPending),
+      queueTimeoutSeconds: boundedInteger(messages.queueTimeoutSeconds, 1, 600, defaultOperationalConfig.messages.queueTimeoutSeconds),
+    },
     media: {
       maxConcurrent: boundedInteger(media.maxConcurrent, 1, 16, defaultOperationalConfig.media.maxConcurrent),
       maxPending: boundedInteger(media.maxPending, 0, 1_000, defaultOperationalConfig.media.maxPending),

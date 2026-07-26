@@ -5,10 +5,11 @@ export default {
     "src/media/downloadToTemp.ts",
     "src/media/ffmpegLimiter.ts",
     "src/helpers/youtube/providerPool.ts",
+    "src/handlers/messageDispatcher.ts",
   ],
   testRunner: "command",
   commandRunner: {
-    command: "node --test --import tsx tests/mediaQueue.test.ts tests/downloadToTemp.test.ts tests/ffmpegLimiter.test.ts tests/youtubeProviderPool.test.ts tests/runtimeConfig.test.ts",
+    command: "node --test --import tsx tests/mediaQueue.test.ts tests/messageDispatcher.test.ts tests/downloadToTemp.test.ts tests/ffmpegLimiter.test.ts tests/youtubeProviderPool.test.ts tests/runtimeConfig.test.ts",
   },
   checkers: ["typescript"],
   tsconfigFile: "tsconfig.json",

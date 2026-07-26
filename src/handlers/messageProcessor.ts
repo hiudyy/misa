@@ -12,13 +12,13 @@ import { applyAntiStealth, countNormalGroupMessage } from "../helpers/antiStealt
 import { tryHandleApkReply } from "../helpers/apkReply.js";
 import { recordGroupActivity } from "../helpers/groupActivity.js";
 import { isAdmin, isBotAdmin } from "../helpers/isAdmin.js";
-import { isOwner } from "../helpers/isOwner.js";
+import { isOwnerFromConfig } from "../helpers/isOwner.js";
 import { applyMediaRestriction } from "../helpers/messageRestrictions.js";
-import { isBlockedCommand, isBlockedUser, isGroupBanned } from "../helpers/ownerRestrictions.js";
+import { isBlockedCommandInEntries, isBlockedUserInEntries } from "../helpers/ownerRestrictions.js";
 import { resolveCommandPrefix } from "../helpers/resolveCommandPrefix.js";
 import { toLID } from "../helpers/toLID.js";
 import { findSimilarCommand, sendUnknownCommandMessage } from "../helpers/unknownCommand.js";
-import { createTranslator, resolveLocale } from "../i18n/index.js";
+import { createTranslator } from "../i18n/index.js";
 import { log } from "../logger.js";
 import { getOwnerConfig } from "../ownerConfig.js";
 import { Command } from "../types/Command.js";
@@ -98,12 +98,14 @@ export async function processMessage(
 
   const from = key.remoteJid;
   if (!from) return;
-  const runtimeConfig = await getBotConfig();
-
   const isGroup = from.endsWith("@g.us");
-  if (isGroup) await groupCache.ensure(from, misa);
-  const groupConfig = isGroup ? await getGroup(from) : null;
+  const [runtimeConfig, groupConfig, ownerConfig] = await Promise.all([
+    getBotConfig(),
+    isGroup ? getGroup(from) : Promise.resolve(null),
+    getOwnerConfig(),
+  ]);
   const fallbackPrefix = groupConfig?.prefix || runtimeConfig.prefix;
+  const sessionLocale = groupConfig?.language ?? runtimeConfig.language;
 
   const rawSender = (isGroup ? key.participant : key.remoteJid) || "";
   const senderLID = rawSender ? await toLID(rawSender, misa) : null;
@@ -118,17 +120,16 @@ export async function processMessage(
   if (message.participant) message.participant = senderLID;
 
   const sender = senderLID;
-  const userIsOwner = await isOwner(sender);
-  let userAdmin: boolean | undefined;
-  let botAdmin: boolean | undefined;
-  const getUserAdmin = async () => userAdmin ??= await isAdmin(from, sender, misa);
-  const getBotAdmin = async () => botAdmin ??= await isBotAdmin(from, misa);
+  const userIsOwner = isOwnerFromConfig(sender, runtimeConfig);
+  let userAdmin: Promise<boolean> | undefined;
+  let botAdmin: Promise<boolean> | undefined;
+  const getUserAdmin = () => userAdmin ??= isAdmin(from, sender, misa);
+  const getBotAdmin = () => botAdmin ??= isBotAdmin(from, misa);
 
   if (!message.message) {
     if (isGroup && !userIsOwner) {
-      const locale = await resolveLocale(from);
       if (!(await getUserAdmin()) && await getBotAdmin()) {
-        await applyAntiStealth(misa, message, from, sender, locale);
+        await applyAntiStealth(misa, message, from, sender, sessionLocale);
       }
     }
     return;
@@ -136,14 +137,13 @@ export async function processMessage(
 
   if (isGroup) countNormalGroupMessage(from, sender);
 
-  if (!userIsOwner && await isBlockedUser(sender)) return;
+  if (!userIsOwner && isBlockedUserInEntries(ownerConfig.blockedUsers, sender)) return;
 
   if (!isGroup && !userIsOwner) {
-    const ownerConfig = await getOwnerConfig();
     if (ownerConfig.antiPrivate) return;
   }
 
-  if (isGroup && !userIsOwner && await isGroupBanned(from)) return;
+  if (isGroup && !userIsOwner && groupConfig?.botBan.ativo) return;
 
   const body =
     message.message.conversation ||
@@ -157,30 +157,27 @@ export async function processMessage(
   const isCommandMessage = resolved.matched;
   if (isGroup) {
     const isStickerMessage = Boolean(message.message.stickerMessage);
-    await recordGroupActivity(from, sender, isCommandMessage ? "command" : isStickerMessage ? "sticker" : "message")
-      .catch((error) => log.warn("ATIVIDADE", String(error)));
+    recordGroupActivity(from, sender, isCommandMessage ? "command" : isStickerMessage ? "sticker" : "message");
   }
 
   if (isGroup) {
-    const currentUserAdmin = userIsOwner ? true : await getUserAdmin();
-    const currentBotAdmin = await getBotAdmin();
+    const [currentUserAdmin, currentBotAdmin] = userIsOwner
+      ? [true, await getBotAdmin()]
+      : await Promise.all([getUserAdmin(), getBotAdmin()]);
 
     if (!userIsOwner && !currentUserAdmin && currentBotAdmin) {
-      const locale = await resolveLocale(from);
-      const blockedMedia = await applyMediaRestriction(misa, message, from, sender, locale);
+      const blockedMedia = await applyMediaRestriction(misa, message, from, sender, sessionLocale);
       if (blockedMedia) return;
     }
 
     if (!isCommandMessage && !userIsOwner && !currentUserAdmin && currentBotAdmin) {
-      const locale = await resolveLocale(from);
-      const handled = await applyAntiLink(misa, message, from, sender, locale);
+      const handled = await applyAntiLink(misa, message, from, sender, sessionLocale);
       if (handled) return;
     }
   }
 
   if (!isCommandMessage) {
-    const locale = await resolveLocale(from);
-    const sessionT = createTranslator(locale);
+    const sessionT = createTranslator(sessionLocale);
     const activityT = createTranslator(runtimeConfig.language || "pt");
     logMessageActivity({ message, from, sender, isGroup, body, t: activityT });
     await tryHandleApkReply({ misa, from, sender, body, message, t: sessionT });
@@ -191,7 +188,7 @@ export async function processMessage(
   if (!commandName) return;
 
   const command = commandHandler.get(commandName);
-  const locale = resolved.locale ?? (await resolveLocale(from));
+  const locale = resolved.locale ?? sessionLocale;
   const cmdTranslator = createTranslator(locale);
 
   if (!command) {
@@ -210,7 +207,7 @@ export async function processMessage(
     groupAdminOnly: Boolean(groupConfig?.soadmin),
     userIsAdmin: getUserAdmin,
     botIsAdmin: getBotAdmin,
-    isCommandBlocked: () => isBlockedCommand(command.name),
+    isCommandBlocked: async () => isBlockedCommandInEntries(ownerConfig.blockedCommands, command.name),
     t: cmdTranslator,
   });
   if (!authorized) {
@@ -232,7 +229,7 @@ export async function processMessage(
       sender,
       from,
       groupCache,
-      isOwner: () => isOwner(sender),
+      isOwner: async () => userIsOwner,
       isGroup,
       isAdmin: getUserAdmin,
       isBotAdmin: getBotAdmin,

@@ -17,15 +17,7 @@ async function findParticipant(
 ): Promise<GroupParticipant | null> {
   const userLID = await toLID(userId, misa);
   if (!userLID) return null;
-
-  for (const participant of participants) {
-    const participantLID = await toLID(participant.id, misa);
-    if (participantLID === userLID) {
-      return participant;
-    }
-  }
-
-  return null;
+  return participants.find((participant) => participant.id === userLID) ?? null;
 }
 
 export async function isAdmin(groupId: string, userId: string, misa: WASocket): Promise<boolean> {

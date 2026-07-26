@@ -20,7 +20,7 @@ describe("doctor", () => {
     await fs.writeFile(path.join(root, "dist", "index.js"), "");
     await fs.writeFile(path.join(root, "dist", "assets", "menu.jpeg"), "x");
     await fs.writeFile(path.join(root, "ffmpeg"), "x", { mode: 0o700 });
-    await fs.writeFile(path.join(root, "dados", "config.json"), JSON.stringify({ schemaVersion: 1 }));
+    await fs.writeFile(path.join(root, "dados", "config.json"), JSON.stringify({ schemaVersion: 2 }));
     await Promise.all(locales.map((locale) => fs.writeFile(path.join(root, "dist", "i18n", `${locale}.json`), "{}")));
   });
   afterEach(() => fs.rm(root, { recursive: true, force: true }));
@@ -32,12 +32,12 @@ describe("doctor", () => {
   });
 
   it("reports old Node, future schema and incomplete build without secrets", async () => {
-    await fs.writeFile(path.join(root, "dados", "config.json"), JSON.stringify({ schemaVersion: 2, ownerNumber: "5511999999999" }));
+    await fs.writeFile(path.join(root, "dados", "config.json"), JSON.stringify({ schemaVersion: 3, ownerNumber: "5511999999999" }));
     await fs.rm(path.join(root, "dist", "index.js"));
     const result = await runDoctor(root, { nodeVersion: "20.0.0", ffmpegPath: path.join(root, "missing") });
     assert.equal(result.ok, false);
     assert.match(result.errors.join("\n"), /Node\.js >=22/);
-    assert.match(result.errors.join("\n"), /schema 2/);
+    assert.match(result.errors.join("\n"), /schema 3/);
     assert.doesNotMatch(result.errors.join("\n"), /5511999999999/);
   });
 });

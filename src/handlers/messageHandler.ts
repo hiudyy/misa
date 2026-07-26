@@ -7,7 +7,11 @@ import { isMessageDebugEnabled, logMessageDebug } from "../helpers/messageDebug.
 import { log } from "../logger.js";
 import { CommandHandler } from "./commandHandler.js";
 import { processMessage } from "./messageProcessor.js";
-import { MessageQueue } from "./messageQueue.js";
+import {
+  createMessageDispatcher,
+  MessageDispatcherCode,
+  MessageDispatcherError,
+} from "./messageDispatcher.js";
 import { metrics } from "../metrics.js";
 
 type MessageProcessor = typeof processMessage;
@@ -22,7 +26,18 @@ export function setupMessageHandler(
   commandHandler: CommandHandler,
   processor: MessageProcessor = processMessage,
 ): MessageHandlerControl {
-  const queue = new MessageQueue();
+  const dispatcher = createMessageDispatcher((snapshot) => {
+    metrics.setMessageDispatch(snapshot.active, snapshot.pending);
+  });
+  metrics.setMessageDispatch(0, 0);
+  let lastBacklogLogAt = 0;
+
+  const logBacklog = (code: string, chatId: string) => {
+    const now = Date.now();
+    if (now - lastBacklogLogAt < 5_000) return;
+    lastBacklogLogAt = now;
+    log.warn("MESSAGE", `${code}:${chatId}`);
+  };
 
   const listener = (event: Parameters<Parameters<typeof misa.ev.on<"messages.upsert">>[1]>[0]) => {
     if (isMessageDebugEnabled()) logMessageDebug(event);
@@ -33,7 +48,8 @@ export function setupMessageHandler(
       if (!chatId) continue;
       metrics.recordMessage("received");
 
-      void queue.enqueue(chatId, async () => {
+      const pendingBefore = dispatcher.snapshot().pending;
+      void dispatcher.submit(async () => {
         try {
           await processor(misa, commandHandler, message);
           metrics.recordMessage("processed");
@@ -44,9 +60,20 @@ export function setupMessageHandler(
           log.error("MESSAGE", `MESSAGE_PROCESSING_FAILED:${messageId}:${chatId}:${sender}`, error);
         }
       }).catch((error) => {
-        if (String(error).includes("MESSAGE_QUEUE_STOPPED")) return;
-        log.error("MESSAGE", `MESSAGE_QUEUE_FAILED:${chatId}`, error);
+        if (error instanceof MessageDispatcherError && error.code === MessageDispatcherCode.STOPPED) return;
+        if (error instanceof MessageDispatcherError && error.code === MessageDispatcherCode.FULL) {
+          metrics.recordMessage("dropped");
+          logBacklog(error.code, chatId);
+          return;
+        }
+        if (error instanceof MessageDispatcherError && error.code === MessageDispatcherCode.TIMEOUT) {
+          metrics.recordMessage("timedOut");
+          logBacklog(error.code, chatId);
+          return;
+        }
+        log.error("MESSAGE", `MESSAGE_DISPATCH_FAILED:${chatId}`, error);
       });
+      if (dispatcher.snapshot().pending > pendingBefore) metrics.recordMessage("queued");
     }
   };
 
@@ -54,9 +81,9 @@ export function setupMessageHandler(
 
   return {
     dispose() {
-      queue.stop();
+      dispatcher.stop({ cancelPending: true });
       misa.ev.off("messages.upsert", listener);
     },
-    drain: (timeoutMs) => queue.drain(timeoutMs),
+    drain: (timeoutMs) => dispatcher.drain(timeoutMs),
   };
 }

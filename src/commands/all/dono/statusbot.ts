@@ -59,6 +59,10 @@ const statusbotCommand: Command = {
     const metricsSection = t("commands.statusMetrics.text", {
       messages: String(snapshot.messages.processed),
       messageErrors: String(snapshot.messages.failed),
+      messageActive: String(snapshot.messages.active),
+      messagePending: String(snapshot.messages.pending),
+      messageDropped: String(snapshot.messages.dropped),
+      messageTimeouts: String(snapshot.messages.timedOut),
       commands: String(snapshot.commands.started),
       commandErrors: String(snapshot.commands.failure),
       denied: String(snapshot.commands.denied),

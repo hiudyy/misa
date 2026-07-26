@@ -22,6 +22,8 @@ type ActivityData = {
   users: Record<string, ActivityStats>;
 };
 
+type ActivityDelta = ActivityStats;
+
 const DEFAULT_STATS: ActivityStats = {
   messages: 0,
   commands: 0,
@@ -30,6 +32,10 @@ const DEFAULT_STATS: ActivityStats = {
 };
 
 const activityDir = path.join(paths.dados, "atividade");
+const FLUSH_INTERVAL_MS = 5_000;
+const pending = new Map<string, Map<string, ActivityDelta>>();
+let flushTimer: NodeJS.Timeout | null = null;
+let flushChain: Promise<void> = Promise.resolve();
 
 function activityPath(groupId: string): string {
   return path.join(activityDir, `${groupId.replace("@g.us", "")}.json`);
@@ -60,31 +66,91 @@ function readActivity(groupId: string): Promise<ActivityData> {
   return readJson(activityPath(groupId), { defaultValue: { users: {} }, normalize: normalizeActivity });
 }
 
-export async function recordGroupActivity(
+function mergeDelta(target: ActivityDelta, source: ActivityDelta): void {
+  target.messages += source.messages;
+  target.commands += source.commands;
+  target.stickers += source.stickers;
+  if (source.lastAt && (!target.lastAt || source.lastAt > target.lastAt)) target.lastAt = source.lastAt;
+}
+
+function requeue(groupId: string, snapshot: Map<string, ActivityDelta>): void {
+  const group = pending.get(groupId) ?? new Map<string, ActivityDelta>();
+  for (const [userId, delta] of snapshot) {
+    const current = group.get(userId) ?? normalizeStats();
+    mergeDelta(current, delta);
+    group.set(userId, current);
+  }
+  pending.set(groupId, group);
+  scheduleFlush();
+}
+
+function scheduleFlush(): void {
+  if (flushTimer) return;
+  flushTimer = setTimeout(() => {
+    flushTimer = null;
+    void flushGroupActivity().catch(() => undefined);
+  }, FLUSH_INTERVAL_MS);
+  flushTimer.unref?.();
+}
+
+async function flushSnapshot(groupId: string, snapshot: Map<string, ActivityDelta>): Promise<void> {
+  try {
+    await updateJson(activityPath(groupId), { defaultValue: { users: {} }, normalize: normalizeActivity }, (data) => {
+      for (const [userId, delta] of snapshot) {
+        const current = normalizeStats(data.users[userId]);
+        mergeDelta(current, delta);
+        data.users[userId] = current;
+      }
+      return data;
+    });
+  } catch (error) {
+    requeue(groupId, snapshot);
+    throw error;
+  }
+}
+
+export function recordGroupActivity(
   groupId: string,
   userId: string,
   type: "message" | "command" | "sticker",
-): Promise<void> {
-  await updateJson(activityPath(groupId), { defaultValue: { users: {} }, normalize: normalizeActivity }, async (data) => {
-    const current = normalizeStats(data.users[userId]);
+): void {
+  const group = pending.get(groupId) ?? new Map<string, ActivityDelta>();
+  const delta = group.get(userId) ?? normalizeStats();
+  if (type === "command") delta.commands += 1;
+  else if (type === "sticker") delta.stickers += 1;
+  else delta.messages += 1;
+  delta.lastAt = new Date().toISOString();
+  group.set(userId, delta);
+  pending.set(groupId, group);
+  scheduleFlush();
+}
 
-    if (type === "command") current.commands += 1;
-    else if (type === "sticker") current.stickers += 1;
-    else current.messages += 1;
-
-    current.lastAt = new Date().toISOString();
-    data.users[userId] = current;
-    return data;
+export function flushGroupActivity(groupId?: string): Promise<void> {
+  flushChain = flushChain.catch(() => undefined).then(async () => {
+    const groupIds = groupId ? [groupId] : [...pending.keys()];
+    for (const id of groupIds) {
+      const snapshot = pending.get(id);
+      if (!snapshot || snapshot.size === 0) continue;
+      pending.delete(id);
+      await flushSnapshot(id, snapshot);
+    }
+    if (pending.size === 0 && flushTimer) {
+      clearTimeout(flushTimer);
+      flushTimer = null;
+    }
   });
+  return flushChain;
 }
 
 export async function getUserActivity(groupId: string, userId: string): Promise<ActivityRankEntry> {
+  await flushGroupActivity(groupId);
   const data = await readActivity(groupId);
   const stats = normalizeStats(data.users[userId]);
   return { userId, ...stats, total: getTotal(stats) };
 }
 
 export async function getActiveRank(groupId: string): Promise<ActivityRankEntry[]> {
+  await flushGroupActivity(groupId);
   const data = await readActivity(groupId);
   return Object.entries(data.users)
     .map(([userId, stats]) => {
@@ -95,6 +161,7 @@ export async function getActiveRank(groupId: string): Promise<ActivityRankEntry[
 }
 
 export async function getInactiveRank(groupId: string, participantIds: string[]): Promise<ActivityRankEntry[]> {
+  await flushGroupActivity(groupId);
   const data = await readActivity(groupId);
   return participantIds
     .map((userId) => {
@@ -108,4 +175,11 @@ export async function getInactiveRank(groupId: string, participantIds: string[])
       if (!b.lastAt) return 1;
       return a.lastAt.localeCompare(b.lastAt);
     });
+}
+
+export function clearGroupActivityBufferForTests(): void {
+  pending.clear();
+  if (flushTimer) clearTimeout(flushTimer);
+  flushTimer = null;
+  flushChain = Promise.resolve();
 }

@@ -1,7 +1,9 @@
 <!-- locale: fr; docs-version: 1 -->
 # Configuration
 
-La source unique est `dados/config.json`. Le `schemaVersion` courant est 1. Un fichier sans version est migré ; un JSON cassé est sauvegardé en `.corrupt-*`. Un schema futur bloque le démarrage sans écraser les données. Les changements opérationnels nécessitent un restart.
+La source unique est `dados/config.json`. Le `schemaVersion` courant est 2. Un fichier sans version est migré ; un JSON cassé est sauvegardé en `.corrupt-*`. Un schema futur bloque le démarrage sans écraser les données. Les changements opérationnels nécessitent un restart.
+
+`operations.messages` règle `maxConcurrent` (10, plage 1-50), `maxPending` (200, plage 0-5000) et `queueTimeoutSeconds` (60, plage 1-600). Les chats ne sont pas sérialisés ; le surplus attend dans un backlog global.
 
 Champs simples : `botName`, `ownerName`, `prefix`, `prefixByLocale`, `ownerNumber`, `autoUpdate`, `language`. `operations.media` contient `maxConcurrent` 2, `maxPending` 20, `timeoutSeconds` 300, `ffmpegConcurrency` 1 et `maxFileSizeMiB` : image 20, audio 40, video/document 80, sticker 20.
 

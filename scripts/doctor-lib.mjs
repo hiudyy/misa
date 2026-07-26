@@ -41,8 +41,8 @@ export async function runDoctor(root, options = {}) {
   if (await accessible(configPath)) {
     try {
       const config = JSON.parse(await fs.readFile(configPath, "utf8"));
-      if (typeof config.schemaVersion === "number" && config.schemaVersion > 1) {
-        errors.push(`config schema ${config.schemaVersion} is newer than supported schema 1`);
+      if (typeof config.schemaVersion === "number" && config.schemaVersion > 2) {
+        errors.push(`config schema ${config.schemaVersion} is newer than supported schema 2`);
       } else checks.push(`config schema ${config.schemaVersion ?? 0} readable`);
     } catch {
       errors.push("dados/config.json is invalid JSON");

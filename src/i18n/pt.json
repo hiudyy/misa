@@ -50,6 +50,9 @@
     "advanced": {
       "header": "CONFIGURAÇÃO AVANÇADA",
       "pressEnter": "Pressione Enter para manter cada valor atual.",
+      "messageConcurrent": "Mensagens processadas simultaneamente",
+      "messagePending": "Máximo de mensagens aguardando",
+      "messageTimeout": "Tempo limite da fila de mensagens",
       "maxConcurrent": "Operações de mídia simultâneas",
       "maxPending": "Tamanho máximo da fila de mídia",
       "timeout": "Tempo limite total da mídia",
@@ -61,7 +64,7 @@
       "cooldown": "Cooldown do provider",
       "logLevel": "Nível de log",
       "maxBackups": "Quantidade de backups de atualização",
-      "jobs": "jobs", "seconds": "segundos", "attempts": "tentativas", "failures": "falhas", "minutes": "minutos", "backups": "backups",
+      "jobs": "jobs", "messages": "mensagens", "seconds": "segundos", "attempts": "tentativas", "failures": "falhas", "minutes": "minutos", "backups": "backups",
       "invalidRange": "Informe um inteiro entre {{min}} e {{max}}.",
       "invalidLogLevel": "Nível inválido. Use debug, info, warn, error ou silent.",
       "summary": "Resumo das operações:",
@@ -141,7 +144,8 @@
       "queueFull": "❌ A fila de mídia está cheia. Tente novamente mais tarde.",
       "timeout": "❌ A operação de mídia excedeu o tempo limite.",
       "tooLarge": "O arquivo excede o limite de tamanho permitido.",
-      "aborted": "A operação de mídia foi cancelada."
+      "aborted": "A operação de mídia foi cancelada.",
+      "failed": "A operação de mídia falhou. Tente novamente."
     }
   },
   "connection": {
@@ -649,7 +653,7 @@
     },
     "statusVersion": { "text": "╭─「 *VERSÃO* 」\n│ aplicação: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *MÉTRICAS* 」\n│ mensagens: {{messages}} · erros: {{messageErrors}}\n│ comandos: {{commands}} · erros: {{commandErrors}} · negados: {{denied}}\n│ mídia ok/erro: {{mediaSuccess}}/{{mediaErrors}} · bytes: {{mediaBytes}}\n│ fila ativa/pendente: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · reconexões: {{reconnects}}\n│ média comando/mídia: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ falhas comando: {{commandFailures}}\n│ falhas provider: {{providerFailures}}\n╰─"
+      "text": "╭─「 *MÉTRICAS* 」\n│ mensagens: {{messages}} · erros: {{messageErrors}}\n│ processamento ativo/pendente: {{messageActive}}/{{messagePending}}\n│ descartadas/timeout: {{messageDropped}}/{{messageTimeouts}}\n│ comandos: {{commands}} · erros: {{commandErrors}} · negados: {{denied}}\n│ mídia ok/erro: {{mediaSuccess}}/{{mediaErrors}} · bytes: {{mediaBytes}}\n│ fila ativa/pendente: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ cache hit: {{cacheRate}} · reconexões: {{reconnects}}\n│ média comando/mídia: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ falhas comando: {{commandFailures}}\n│ falhas provider: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ Debug de mensagens ativado. Todos os eventos de mensagem serão logados no terminal.",

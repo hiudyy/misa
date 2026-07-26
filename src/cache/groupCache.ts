@@ -7,6 +7,7 @@ import { toLID } from "../helpers/toLID.js";
 
 class GroupCache {
   private readonly cache = new Map<string, GroupMetadata>();
+  private readonly inflight = new Map<string, Promise<GroupMetadata | undefined>>();
 
   private async normalizeParticipant(participant: GroupParticipant, misa: WASocket): Promise<GroupParticipant | null> {
     const lid = await toLID(participant.id, misa);
@@ -31,6 +32,7 @@ class GroupCache {
 
   clear(): void {
     this.cache.clear();
+    this.inflight.clear();
   }
 
   async patch(id: string, partial: Partial<GroupMetadata>, misa: WASocket): Promise<void> {
@@ -73,14 +75,21 @@ class GroupCache {
 
   async ensure(id: string, misa: WASocket): Promise<GroupMetadata | undefined> {
     if (this.cache.has(id)) return this.cache.get(id);
-
-    try {
-      const meta = await misa.groupMetadata(id);
-      await this.set(meta, misa);
-      return this.cache.get(id);
-    } catch {
-      return undefined;
-    }
+    const existing = this.inflight.get(id);
+    if (existing) return existing;
+    const loading = (async () => {
+      try {
+        const meta = await misa.groupMetadata(id);
+        await this.set(meta, misa);
+        return this.cache.get(id);
+      } catch {
+        return undefined;
+      } finally {
+        this.inflight.delete(id);
+      }
+    })();
+    this.inflight.set(id, loading);
+    return loading;
   }
 
   async ensureAndPatch(id: string, partial: Partial<GroupMetadata>, misa: WASocket): Promise<void> {

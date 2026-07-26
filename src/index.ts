@@ -22,6 +22,7 @@ import { requestShutdown, setShutdownHandler } from "./lifecycle.js";
 import { drainJsonWrites } from "./storage/jsonStore.js";
 import { metrics } from "./metrics.js";
 import { mediaQueue } from "./media/mediaQueue.js";
+import { flushGroupActivity } from "./helpers/groupActivity.js";
 import { applyOperationalConfig } from "./config/runtime.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -79,6 +80,7 @@ async function runBotCycle(
       disposeGroupCache();
 
       await messageControl.drain().catch((error) => log.error("BOT", "MESSAGE_DRAIN_FAILED", error));
+      await flushGroupActivity().catch((error) => log.error("BOT", "ACTIVITY_FLUSH_FAILED", error));
       await lidCache.flush().catch((error) => log.error("BOT", "LID_CACHE_FLUSH_FAILED", error));
       await drainJsonWrites().catch((error) => log.error("BOT", "JSON_DRAIN_FAILED", error));
       if (closeSocket) await misa.end(undefined).catch((error) => log.error("BOT", "SOCKET_CLOSE_FAILED", error));
@@ -169,6 +171,7 @@ export async function startBot(authMode: "qr" | "pairing" = "qr", phoneNumber?: 
     process.off("SIGINT", onSigint);
     process.off("SIGTERM", onSigterm);
     setShutdownHandler(null);
+    await flushGroupActivity().catch((error) => log.error("BOT", "ACTIVITY_FLUSH_FAILED", error));
     await lidCache.flush().catch((error) => log.error("BOT", "LID_CACHE_FLUSH_FAILED", error));
     await drainJsonWrites().catch((error) => log.error("BOT", "JSON_DRAIN_FAILED", error));
   }

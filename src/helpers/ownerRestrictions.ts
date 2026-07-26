@@ -21,13 +21,26 @@ export async function cleanupExpiredBlockedUsers(): Promise<BlockedUserEntry[]> 
 }
 
 export async function isBlockedUser(userLID: string): Promise<boolean> {
-  const active = await cleanupExpiredBlockedUsers();
-  return active.some((entry) => entry.lid === userLID);
+  const config = await getOwnerConfig();
+  return isBlockedUserInEntries(config.blockedUsers, userLID);
 }
 
 export async function isBlockedCommand(commandName: string): Promise<boolean> {
   const config = await getOwnerConfig();
   return config.blockedCommands.includes(commandName.toLowerCase());
+}
+
+export function isBlockedUserInEntries(entries: BlockedUserEntry[], userLID: string, now = Date.now()): boolean {
+  return entries.some((entry) => {
+    if (entry.lid !== userLID) return false;
+    if (!entry.expiresAt) return true;
+    const expiresAt = new Date(entry.expiresAt).getTime();
+    return Number.isNaN(expiresAt) || expiresAt > now;
+  });
+}
+
+export function isBlockedCommandInEntries(entries: string[], commandName: string): boolean {
+  return entries.includes(commandName.toLowerCase());
 }
 
 export async function setGroupBan(groupId: string, createdBy: string, reason?: string): Promise<void> {

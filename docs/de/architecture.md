@@ -1,12 +1,12 @@
 <!-- locale: de; docs-version: 1 -->
 # Architektur
 
-Der Hauptfluss lautet WhatsApp -> `MessageHandler` -> Chat-Warteschlange -> `messageProcessor` -> Autorisierung -> Befehl. Ein Chat bleibt geordnet, verschiedene Chats laufen parallel. Schwere Aufgaben gehen durch `MediaQueue`, die Parallelität, timeout und FFmpeg begrenzt.
+Der Hauptfluss lautet WhatsApp -> `MessageHandler` -> globaler Dispatcher -> `messageProcessor` -> Autorisierung -> Befehl. Bis zu 10 Nachrichten laufen parallel ohne Chat-Reihenfolge; 200 können warten. Medien laufen über `MediaQueue` im Hintergrund weiter.
 
 ```mermaid
 flowchart LR
  WA[WhatsApp] --> MH[MessageHandler]
- MH --> CQ[Chat-Queue]
+ MH --> CQ[Globaler Dispatcher]
  CQ --> MP[MessageProcessor]
  MP --> A[Autorisierung]
  A --> C[Befehl]

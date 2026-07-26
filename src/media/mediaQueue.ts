@@ -55,6 +55,12 @@ export type MediaQueueSnapshot = {
   timeoutMs: number;
 };
 
+export type MediaJobHandle<T> = {
+  completion: Promise<T>;
+  startedImmediately: boolean;
+  position: number | null;
+};
+
 export class MediaQueue {
   private readonly maxActive: number;
   private readonly maxPending: number;
@@ -71,14 +77,15 @@ export class MediaQueue {
     this.now = options.now ?? Date.now;
   }
 
-  run<T>(options: RunOptions, task: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  enqueue<T>(options: RunOptions, task: (signal: AbortSignal) => Promise<T>): MediaJobHandle<T> {
     const canStart = this.active.size < this.maxActive && !this.activeUsers.has(options.userId);
     if (!canStart && this.pending.length >= this.maxPending) {
       metrics.recordMediaEvent("rejected");
-      return Promise.reject(new MediaQueueError(MediaQueueCode.FULL));
+      throw new MediaQueueError(MediaQueueCode.FULL);
     }
 
-    return new Promise<T>((resolve, reject) => {
+    let position: number | null = null;
+    const completion = new Promise<T>((resolve, reject) => {
       const controller = new AbortController();
       const job: PendingJob = {
         id: randomUUID(),
@@ -100,9 +107,19 @@ export class MediaQueue {
       }
 
       this.pending.push(job);
+      position = this.pending.length;
       metrics.recordMediaEvent("queued");
-      void Promise.resolve(options.onQueued?.(this.pending.length)).catch(() => undefined);
+      void Promise.resolve(options.onQueued?.(position)).catch(() => undefined);
     });
+    return { completion, startedImmediately: canStart, position };
+  }
+
+  run<T>(options: RunOptions, task: (signal: AbortSignal) => Promise<T>): Promise<T> {
+    try {
+      return this.enqueue(options, task).completion;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   cancelAll(): void {

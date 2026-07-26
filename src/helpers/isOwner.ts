@@ -2,7 +2,7 @@
  * @author Hiudy · github.com/hiudyy
  * @project Misa Bot
  */
-import { getBotConfig } from "../config.js";
+import { getBotConfig, type BotConfig } from "../config.js";
 import { lidCache } from "../cache/lidCache.js";
 
 /** Extrai apenas dígitos do user part de um JID/número. */
@@ -53,6 +53,18 @@ export async function isOwner(userLID: string): Promise<boolean> {
     }
   }
 
+  return matchesOwnerIdentity(userLID, {
+    ownerLID: config.ownerLID,
+    ownerNumber: config.ownerNumber,
+    cachedOwnerLid,
+  });
+}
+
+export function isOwnerFromConfig(userLID: string, config: Pick<BotConfig, "ownerLID" | "ownerNumber">): boolean {
+  const ownerDigits = extractIdentityDigits(config.ownerNumber ?? "");
+  const cachedOwnerLid = !config.ownerLID && ownerDigits
+    ? lidCache.get(`${ownerDigits}@s.whatsapp.net`)
+    : null;
   return matchesOwnerIdentity(userLID, {
     ownerLID: config.ownerLID,
     ownerNumber: config.ownerNumber,

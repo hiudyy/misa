@@ -87,6 +87,20 @@ export const DEFAULT_GROUP: GroupData = {
   antistealth: false,
 };
 
+const GROUP_DATA_CACHE_MAX = 500;
+const groupDataCache = new Map<string, GroupData>();
+const groupDataLoads = new Map<string, Promise<GroupData>>();
+
+function cacheGroup(groupId: string, data: GroupData): void {
+  groupDataCache.delete(groupId);
+  groupDataCache.set(groupId, structuredClone(data));
+  while (groupDataCache.size > GROUP_DATA_CACHE_MAX) {
+    const oldest = groupDataCache.keys().next().value;
+    if (oldest) groupDataCache.delete(oldest);
+    else break;
+  }
+}
+
 function groupPath(groupId: string): string {
   const id = groupId.replace("@g.us", "");
   return path.join(paths.grupos, `${id}.json`);
@@ -154,11 +168,26 @@ export function normalizeGroupData(value: unknown): GroupData {
 }
 
 export async function getGroup(groupId: string): Promise<GroupData> {
-  return readJson(groupPath(groupId), { defaultValue: DEFAULT_GROUP, normalize: normalizeGroupData });
+  const cached = groupDataCache.get(groupId);
+  if (cached) {
+    cacheGroup(groupId, cached);
+    return structuredClone(cached);
+  }
+  let loading = groupDataLoads.get(groupId);
+  if (!loading) {
+    loading = readJson(groupPath(groupId), { defaultValue: DEFAULT_GROUP, normalize: normalizeGroupData })
+      .then((data) => {
+        cacheGroup(groupId, data);
+        return data;
+      })
+      .finally(() => groupDataLoads.delete(groupId));
+    groupDataLoads.set(groupId, loading);
+  }
+  return structuredClone(await loading);
 }
 
 export async function saveGroup(groupId: string, data: Partial<GroupData>): Promise<GroupData> {
-  return updateJson(groupPath(groupId), { defaultValue: DEFAULT_GROUP, normalize: normalizeGroupData }, (current) => ({
+  const updated = await updateJson(groupPath(groupId), { defaultValue: DEFAULT_GROUP, normalize: normalizeGroupData }, (current) => ({
     ...current,
     ...data,
     botBan: { ...current.botBan, ...data.botBan },
@@ -168,6 +197,13 @@ export async function saveGroup(groupId: string, data: Partial<GroupData>): Prom
     antilinkgp: { ...current.antilinkgp, ...data.antilinkgp },
     antilinkch: { ...current.antilinkch, ...data.antilinkch },
   }));
+  cacheGroup(groupId, updated);
+  return structuredClone(updated);
+}
+
+export function clearGroupDataCache(): void {
+  groupDataCache.clear();
+  groupDataLoads.clear();
 }
 
 export async function listBannedGroups(): Promise<Array<{ groupId: string; data: GroupData }>> {

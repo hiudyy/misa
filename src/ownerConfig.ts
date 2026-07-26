@@ -36,6 +36,9 @@ export const defaultOwnerConfig: OwnerConfig = {
   blockedCommands: [],
 };
 
+let ownerConfigCache: OwnerConfig | null = null;
+let ownerConfigLoad: Promise<OwnerConfig> | null = null;
+
 function asObject(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
 }
@@ -57,17 +60,35 @@ export function normalizeOwnerConfig(value: unknown): OwnerConfig {
 }
 
 export async function getOwnerConfig(): Promise<OwnerConfig> {
-  return readJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig });
+  if (ownerConfigCache) return structuredClone(ownerConfigCache);
+  ownerConfigLoad ??= readJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig })
+    .then((config) => {
+      ownerConfigCache = structuredClone(config);
+      return config;
+    })
+    .finally(() => {
+      ownerConfigLoad = null;
+    });
+  return structuredClone(await ownerConfigLoad);
 }
 
 export async function saveOwnerConfig(config: OwnerConfig): Promise<void> {
-  await writeJson(paths.ownerConfig, normalizeOwnerConfig(config));
+  const normalized = normalizeOwnerConfig(config);
+  await writeJson(paths.ownerConfig, normalized);
+  ownerConfigCache = structuredClone(normalized);
 }
 
-export function updateOwnerConfig(
+export async function updateOwnerConfig(
   update: (current: OwnerConfig) => OwnerConfig | Promise<OwnerConfig>,
 ): Promise<OwnerConfig> {
-  return updateJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig }, update);
+  const updated = await updateJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig }, update);
+  ownerConfigCache = structuredClone(updated);
+  return structuredClone(updated);
+}
+
+export function clearOwnerConfigCache(): void {
+  ownerConfigCache = null;
+  ownerConfigLoad = null;
 }
 
 function normalizeBlockedUsers(entries: unknown): BlockedUserEntry[] {

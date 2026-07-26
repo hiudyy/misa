@@ -1,12 +1,12 @@
 <!-- locale: ar; docs-version: 1 -->
 # البنية
 
-المسار الرئيسي هو WhatsApp -> `MessageHandler` -> طابور لكل محادثة -> `messageProcessor` -> التفويض -> الأمر. تبقى رسائل المحادثة مرتبة، بينما تعمل محادثات مختلفة بالتوازي. تدخل المهام الثقيلة إلى `MediaQueue` التي تضبط التزامن وtimeout وFFmpeg.
+المسار الرئيسي هو WhatsApp -> `MessageHandler` -> dispatcher عام -> `messageProcessor` -> التفويض -> الأمر. تعمل 10 رسائل بالتوازي دون ترتيب للمحادثة، ويمكن أن تنتظر 200. تستمر الوسائط في الخلفية عبر `MediaQueue`.
 
 ```mermaid
 flowchart LR
  WA[WhatsApp] --> MH[MessageHandler]
- MH --> CQ[Chat queue]
+ MH --> CQ[Global dispatcher]
  CQ --> MP[MessageProcessor]
  MP --> A[Authorization]
  A --> C[Command]

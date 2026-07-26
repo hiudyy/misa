@@ -1,12 +1,12 @@
 <!-- locale: bn; docs-version: 1 -->
 # আর্কিটেকচার
 
-মূল flow WhatsApp -> `MessageHandler` -> প্রতি-chat queue -> `messageProcessor` -> authorization -> command। একই chat-এর ক্রম অক্ষুণ্ণ থাকে, আলাদা chat সমান্তরালে চলে। ভারী কাজ `MediaQueue`-তে যায়, যা concurrency, timeout ও FFmpeg সীমিত করে।
+মূল flow WhatsApp -> `MessageHandler` -> global dispatcher -> `messageProcessor` -> authorization -> command। Chat ক্রম ছাড়া 10 বার্তা সমান্তরালে চলে এবং 200 অপেক্ষা করতে পারে। Media `MediaQueue` দিয়ে background-এ চলে।
 
 ```mermaid
 flowchart LR
  WA[WhatsApp] --> MH[MessageHandler]
- MH --> CQ[Chat queue]
+ MH --> CQ[Global dispatcher]
  CQ --> MP[MessageProcessor]
  MP --> A[Authorization]
  A --> C[Command]

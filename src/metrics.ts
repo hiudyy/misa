@@ -25,7 +25,16 @@ type ProviderStats = OperationStats & {
 };
 
 export type MetricsSnapshot = {
-  messages: { received: number; processed: number; failed: number };
+  messages: {
+    received: number;
+    processed: number;
+    failed: number;
+    queued: number;
+    dropped: number;
+    timedOut: number;
+    active: number;
+    pending: number;
+  };
   commands: { started: number; success: number; failure: number; denied: number };
   commandStats: Readonly<Record<string, OperationStats>>;
   media: {
@@ -60,7 +69,7 @@ function cloneRecord<T extends object>(source: Map<string, T>): Record<string, T
 }
 
 class MetricsRegistry {
-  private messages = { received: 0, processed: 0, failed: 0 };
+  private messages = { received: 0, processed: 0, failed: 0, queued: 0, dropped: 0, timedOut: 0, active: 0, pending: 0 };
   private commands = { started: 0, success: 0, failure: 0, denied: 0 };
   private media = { queued: 0, started: 0, success: 0, failure: 0, rejected: 0, timeout: 0, bytes: 0 };
   private reconnects = 0;
@@ -69,8 +78,13 @@ class MetricsRegistry {
   private readonly providers = new Map<string, ProviderStats>();
   private readonly caches = new Map<string, CacheStats>();
 
-  recordMessage(stage: keyof typeof this.messages): void {
+  recordMessage(stage: "received" | "processed" | "failed" | "queued" | "dropped" | "timedOut"): void {
     this.messages[stage] += 1;
+  }
+
+  setMessageDispatch(active: number, pending: number): void {
+    this.messages.active = active;
+    this.messages.pending = pending;
   }
 
   startCommand(): void {
@@ -138,7 +152,7 @@ class MetricsRegistry {
   }
 
   reset(): void {
-    this.messages = { received: 0, processed: 0, failed: 0 };
+    this.messages = { received: 0, processed: 0, failed: 0, queued: 0, dropped: 0, timedOut: 0, active: 0, pending: 0 };
     this.commands = { started: 0, success: 0, failure: 0, denied: 0 };
     this.media = { queued: 0, started: 0, success: 0, failure: 0, rejected: 0, timeout: 0, bytes: 0 };
     this.reconnects = 0;

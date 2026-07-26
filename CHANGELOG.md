@@ -2,6 +2,13 @@
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## 1.1.0 - 2026-07-26
+
+- Global message dispatcher with configurable concurrency and bounded backlog.
+- Background media jobs that no longer block message processing slots.
+- In-memory config/group caches and faster admin checks.
+- Batched group activity persistence with graceful shutdown flush.
+
 ## 1.0.0 - 2026-07-26
 
 - Stable modular command and event architecture.

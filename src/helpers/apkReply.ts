@@ -74,7 +74,7 @@ export async function tryHandleApkReply(params: {
           } finally {
             await media.cleanup();
           }
-        });
+        }, { waitForCompletion: true });
       } else {
         await sendText(misa, from, infoMsg, message);
       }

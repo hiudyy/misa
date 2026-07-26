@@ -4,7 +4,7 @@ services:
       context: .
       args:
         MISA_COMMIT_SHA: ${MISA_COMMIT_SHA:-unknown}
-    image: misa-bot:1.0.0
+    image: misa-bot:1.1.0
     init: true
     stdin_open: true
     tty: true

@@ -50,6 +50,9 @@
     "advanced": {
       "header": "GELİŞMİŞ YAPILANDIRMA",
       "pressEnter": "Mevcut değeri korumak için Enter'a basın.",
+      "messageConcurrent": "Eşzamanlı işlenen mesajlar",
+      "messagePending": "Maksimum bekleyen mesaj",
+      "messageTimeout": "Mesaj kuyruğu zaman aşımı",
       "maxConcurrent": "Eşzamanlı medya işlemleri",
       "maxPending": "Maksimum medya kuyruğu",
       "timeout": "Toplam medya zaman aşımı",
@@ -61,7 +64,7 @@
       "cooldown": "Sağlayıcı cooldown süresi",
       "logLevel": "Log seviyesi",
       "maxBackups": "Güncelleme backup sayısı",
-      "jobs": "iş", "seconds": "saniye", "attempts": "deneme", "failures": "hata", "minutes": "dakika", "backups": "backup",
+      "jobs": "iş", "messages": "mesaj", "seconds": "saniye", "attempts": "deneme", "failures": "hata", "minutes": "dakika", "backups": "backup",
       "invalidRange": "{{min}} ile {{max}} arasında bir tam sayı girin.",
       "invalidLogLevel": "Geçersiz seviye. debug, info, warn, error veya silent kullanın.",
       "summary": "İşlem özeti:",
@@ -141,7 +144,8 @@
       "queueFull": "❌ Medya sırası dolu. Daha sonra tekrar deneyin.",
       "timeout": "❌ Medya işlemi zaman aşımına uğradı.",
       "tooLarge": "Dosya izin verilen boyut sınırını aşıyor.",
-      "aborted": "Medya işlemi iptal edildi."
+      "aborted": "Medya işlemi iptal edildi.",
+      "failed": "Medya işlemi başarısız oldu. Tekrar deneyin."
     }
   },
   "connection": {
@@ -649,7 +653,7 @@
     },
     "statusVersion": { "text": "╭─「 *SÜRÜM* 」\n│ uygulama: {{version}}\n│ commit: {{commit}}\n│ şema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *METRİKLER* 」\n│ mesajlar: {{messages}} · hatalar: {{messageErrors}}\n│ komutlar: {{commands}} · hatalar: {{commandErrors}} · reddedilen: {{denied}}\n│ medya ok/hata: {{mediaSuccess}}/{{mediaErrors}} · bayt: {{mediaBytes}}\n│ kuyruk aktif/bekleyen: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ önbellek isabeti: {{cacheRate}} · yeniden bağlantı: {{reconnects}}\n│ ortalama komut/medya: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ komut hataları: {{commandFailures}}\n│ sağlayıcı hataları: {{providerFailures}}\n╰─"
+      "text": "╭─「 *METRİKLER* 」\n│ mesajlar: {{messages}} · hatalar: {{messageErrors}}\n│ işlem aktif/bekleyen: {{messageActive}}/{{messagePending}}\n│ atılan/zaman aşımı: {{messageDropped}}/{{messageTimeouts}}\n│ komutlar: {{commands}} · hatalar: {{commandErrors}} · reddedilen: {{denied}}\n│ medya ok/hata: {{mediaSuccess}}/{{mediaErrors}} · bayt: {{mediaBytes}}\n│ kuyruk aktif/bekleyen: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ önbellek isabeti: {{cacheRate}} · yeniden bağlantı: {{reconnects}}\n│ ortalama komut/medya: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ komut hataları: {{commandFailures}}\n│ sağlayıcı hataları: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ Mesaj debug aktif. Tüm mesaj olayları terminale yazdırılacak.",

@@ -1,12 +1,12 @@
 <!-- locale: hi; docs-version: 1 -->
 # आर्किटेक्चर
 
-मुख्य flow WhatsApp -> `MessageHandler` -> प्रति-chat queue -> `messageProcessor` -> authorization -> command है। एक chat का क्रम सुरक्षित रहता है और अलग chats समानांतर चलते हैं। भारी काम `MediaQueue` में जाते हैं, जो concurrency, timeout और FFmpeg सीमित करती है।
+मुख्य flow WhatsApp -> `MessageHandler` -> global dispatcher -> `messageProcessor` -> authorization -> command है। 10 संदेश बिना chat क्रम के समानांतर चलते हैं और 200 प्रतीक्षा कर सकते हैं। Media `MediaQueue` में background में चलता है।
 
 ```mermaid
 flowchart LR
  WA[WhatsApp] --> MH[MessageHandler]
- MH --> CQ[Chat queue]
+ MH --> CQ[Global dispatcher]
  CQ --> MP[MessageProcessor]
  MP --> A[Authorization]
  A --> C[Command]

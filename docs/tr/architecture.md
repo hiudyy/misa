@@ -1,12 +1,12 @@
 <!-- locale: tr; docs-version: 1 -->
 # Mimari
 
-Ana akış WhatsApp -> `MessageHandler` -> chat başına kuyruk -> `messageProcessor` -> yetkilendirme -> command şeklindedir. Aynı chat sıralı kalır, farklı chat'ler paralel ilerler. Ağır işler concurrency, timeout ve FFmpeg sınırlarını uygulayan `MediaQueue` üzerinden geçer.
+Ana akış WhatsApp -> `MessageHandler` -> global dispatcher -> `messageProcessor` -> yetkilendirme -> command şeklindedir. En fazla 10 mesaj chat sırası olmadan paralel çalışır; 200 mesaj bekleyebilir. Medya `MediaQueue` ile arka planda sürer.
 
 ```mermaid
 flowchart LR
  WA[WhatsApp] --> MH[MessageHandler]
- MH --> CQ[Chat queue]
+ MH --> CQ[Global dispatcher]
  CQ --> MP[MessageProcessor]
  MP --> A[Authorization]
  A --> C[Command]

@@ -50,10 +50,13 @@
     "advanced": {
       "header": "الإعدادات المتقدمة",
       "pressEnter": "اضغط Enter للاحتفاظ بكل قيمة حالية.",
+      "messageConcurrent": "الرسائل المعالجة بالتزامن",
+      "messagePending": "الحد الأقصى للرسائل المنتظرة",
+      "messageTimeout": "مهلة طابور الرسائل",
       "maxConcurrent": "عمليات الوسائط المتزامنة", "maxPending": "الحد الأقصى لطابور الوسائط", "timeout": "مهلة الوسائط الإجمالية", "ffmpeg": "عمليات FFmpeg المتزامنة",
       "size": { "image": "حد الصور", "audio": "حد الصوت", "video": "حد الفيديو", "document": "حد المستندات", "sticker": "حد الملصقات" },
       "providerRetries": "المحاولات لكل مزود YouTube", "retryDelay": "الفاصل بين المحاولات", "maxFailures": "الإخفاقات قبل التهدئة", "cooldown": "مدة تهدئة المزود", "logLevel": "مستوى السجل", "maxBackups": "عدد نسخ التحديث الاحتياطية",
-      "jobs": "مهام", "seconds": "ثوانٍ", "attempts": "محاولات", "failures": "إخفاقات", "minutes": "دقائق", "backups": "نسخ",
+      "jobs": "مهام", "messages": "رسائل", "seconds": "ثوانٍ", "attempts": "محاولات", "failures": "إخفاقات", "minutes": "دقائق", "backups": "نسخ",
       "invalidRange": "أدخل عددًا صحيحًا بين {{min}} و{{max}}.", "invalidLogLevel": "مستوى غير صالح. استخدم debug أو info أو warn أو error أو silent.",
       "summary": "ملخص العمليات:", "confirm": "حفظ هذه الإعدادات المتقدمة؟", "cancelled": "تم إلغاء الإعدادات المتقدمة.", "saved": "تم حفظ الإعدادات المتقدمة.", "restartRequired": "أعد تشغيل البوت لتطبيق الإعدادات الجديدة."
     },
@@ -128,7 +131,8 @@
       "queueFull": "❌ طابور الوسائط ممتلئ. حاول لاحقًا.",
       "timeout": "❌ تجاوزت عملية الوسائط المهلة المحددة.",
       "tooLarge": "يتجاوز الملف حد الحجم المسموح.",
-      "aborted": "تم إلغاء عملية الوسائط."
+      "aborted": "تم إلغاء عملية الوسائط.",
+      "failed": "فشلت عملية الوسائط. حاول مرة أخرى."
     }
   },
   "connection": {
@@ -636,7 +640,7 @@
     },
     "statusVersion": { "text": "╭─「 *الإصدار* 」\n│ التطبيق: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *المقاييس* 」\n│ الرسائل: {{messages}} · الأخطاء: {{messageErrors}}\n│ الأوامر: {{commands}} · الأخطاء: {{commandErrors}} · المرفوضة: {{denied}}\n│ الوسائط ناجح/خطأ: {{mediaSuccess}}/{{mediaErrors}} · البايتات: {{mediaBytes}}\n│ الطابور نشط/منتظر: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ إصابات التخزين: {{cacheRate}} · إعادة الاتصال: {{reconnects}}\n│ متوسط الأمر/الوسائط: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ فشل الأوامر: {{commandFailures}}\n│ فشل المزودين: {{providerFailures}}\n╰─"
+      "text": "╭─「 *المقاييس* 」\n│ الرسائل: {{messages}} · الأخطاء: {{messageErrors}}\n│ المعالجة نشطة/منتظرة: {{messageActive}}/{{messagePending}}\n│ المهملة/المهلة: {{messageDropped}}/{{messageTimeouts}}\n│ الأوامر: {{commands}} · الأخطاء: {{commandErrors}} · المرفوضة: {{denied}}\n│ الوسائط ناجح/خطأ: {{mediaSuccess}}/{{mediaErrors}} · البايتات: {{mediaBytes}}\n│ الطابور نشط/منتظر: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ إصابات التخزين: {{cacheRate}} · إعادة الاتصال: {{reconnects}}\n│ متوسط الأمر/الوسائط: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ فشل الأوامر: {{commandFailures}}\n│ فشل المزودين: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ تم تفعيل تصحيح الرسائل. سيتم تسجيل كل أحداث الرسائل في الطرفية.",

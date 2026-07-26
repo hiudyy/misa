@@ -8,8 +8,14 @@ import { configureFfmpegLimiter } from "../media/ffmpegLimiter.js";
 import { configureMediaLimits } from "../media/types.js";
 import { configureDefaultYouTubePool } from "../helpers/youtube/index.js";
 import { setLogLevel } from "../logger.js";
+import { configureMessageDispatcherDefaults } from "../handlers/messageDispatcher.js";
 
 export function applyOperationalConfig(operations: OperationalConfig): void {
+  configureMessageDispatcherDefaults({
+    maxConcurrent: operations.messages.maxConcurrent,
+    maxPending: operations.messages.maxPending,
+    queueTimeoutMs: operations.messages.queueTimeoutSeconds * 1_000,
+  });
   configureMediaQueue({
     maxActive: operations.media.maxConcurrent,
     maxPending: operations.media.maxPending,

@@ -4,7 +4,7 @@
  */
 import { defaultOperationalConfig } from "./operations.js";
 
-export const CURRENT_CONFIG_SCHEMA_VERSION = 1;
+export const CURRENT_CONFIG_SCHEMA_VERSION = 2;
 
 function asObject(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
@@ -27,6 +27,19 @@ export function migrateBotConfig(value: unknown): Record<string, unknown> {
         operations: current.operations ?? structuredClone(defaultOperationalConfig),
       };
       version = 1;
+      continue;
+    }
+    if (version === 1) {
+      const operations = asObject(current.operations);
+      current = {
+        ...current,
+        schemaVersion: 2,
+        operations: {
+          ...operations,
+          messages: operations.messages ?? structuredClone(defaultOperationalConfig.messages),
+        },
+      };
+      version = 2;
       continue;
     }
     throw new Error(`CONFIG_SCHEMA_MIGRATION_MISSING:${version}`);

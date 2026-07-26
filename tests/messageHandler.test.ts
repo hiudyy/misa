@@ -21,6 +21,23 @@ function message(id: string, chat: string): proto.IWebMessageInfo {
 }
 
 describe("messageHandler", () => {
+  it("processes messages from the same chat concurrently", async () => {
+    const { socket, emitter } = createSocket();
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+    let secondStarted = false;
+    const control = setupMessageHandler(socket, new CommandHandler(), async (_socket, _commands, item) => {
+      if (item.key?.id === "1") await gate;
+      else secondStarted = true;
+    });
+    emitter.emit("messages.upsert", { type: "notify", messages: [message("1", "same"), message("2", "same")] });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(secondStarted, true);
+    release();
+    control.dispose();
+    await control.drain();
+  });
+
   it("processes every message in a notify batch", async () => {
     const { socket, emitter } = createSocket();
     const ids: string[] = [];

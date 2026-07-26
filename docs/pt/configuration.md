@@ -1,7 +1,9 @@
 <!-- locale: pt; docs-version: 1 -->
 # Configuração
 
-A fonte única é `dados/config.json`. O `schemaVersion` atual é 1. Arquivos antigos sem versão são migrados; JSON quebrado recebe backup `.corrupt-*`. Schema futuro interrompe a inicialização sem sobrescrever dados. Mudanças operacionais exigem restart.
+A fonte única é `dados/config.json`. O `schemaVersion` atual é 2. Arquivos antigos sem versão são migrados; JSON quebrado recebe backup `.corrupt-*`. Schema futuro interrompe a inicialização sem sobrescrever dados. Mudanças operacionais exigem restart.
+
+`operations.messages` controla `maxConcurrent` (10, faixa 1-50), `maxPending` (200, faixa 0-5000) e `queueTimeoutSeconds` (60, faixa 1-600). Não há ordenação por chat; excesso aguarda no backlog global.
 
 Campos básicos: `botName`, `ownerName`, `prefix`, `prefixByLocale`, `ownerNumber`, `autoUpdate` e `language`. A seção `operations.media` controla `maxConcurrent` (2), `maxPending` (20), `timeoutSeconds` (300), `ffmpegConcurrency` (1) e `maxFileSizeMiB` para image 20, audio 40, video/document 80 e sticker 20.
 

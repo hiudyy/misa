@@ -1,7 +1,9 @@
 <!-- locale: id; docs-version: 1 -->
 # Konfigurasi
 
-Sumber tunggal adalah `dados/config.json`. `schemaVersion` saat ini 1. File tanpa versi dimigrasikan; JSON rusak disimpan sebagai `.corrupt-*`. Schema masa depan menghentikan startup tanpa menimpa data. Perubahan operasi membutuhkan restart.
+Sumber tunggal adalah `dados/config.json`. `schemaVersion` saat ini 2. File tanpa versi dimigrasikan; JSON rusak disimpan sebagai `.corrupt-*`. Schema masa depan menghentikan startup tanpa menimpa data. Perubahan operasi membutuhkan restart.
+
+`operations.messages` mengatur `maxConcurrent` (10, rentang 1-50), `maxPending` (200, rentang 0-5000), dan `queueTimeoutSeconds` (60, rentang 1-600). Chat tidak diserialkan; kelebihan pesan menunggu di backlog global.
 
 Field dasar: `botName`, `ownerName`, `prefix`, `prefixByLocale`, `ownerNumber`, `autoUpdate`, `language`. `operations.media` berisi `maxConcurrent` 2, `maxPending` 20, `timeoutSeconds` 300, `ffmpegConcurrency` 1, dan `maxFileSizeMiB`: image 20, audio 40, video/document 80, sticker 20.
 

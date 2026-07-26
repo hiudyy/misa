@@ -9,9 +9,9 @@ describe("build info", () => {
       env: { MISA_COMMIT_SHA: "b".repeat(40) },
       gitCommit: () => "ccccccc",
     });
-    assert.equal(info.version, "1.0.0");
+    assert.equal(info.version, "1.1.0");
     assert.equal(info.commit, "a".repeat(12));
-    assert.equal(info.schemaVersion, 1);
+    assert.equal(info.schemaVersion, 2);
   });
 
   it("falls back to environment then git", async () => {

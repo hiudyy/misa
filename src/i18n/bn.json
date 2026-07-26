@@ -50,10 +50,13 @@
     "advanced": {
       "header": "উন্নত কনফিগারেশন",
       "pressEnter": "বর্তমান মান রাখতে Enter চাপুন।",
+      "messageConcurrent": "একসাথে প্রসেস হওয়া বার্তা",
+      "messagePending": "সর্বোচ্চ অপেক্ষমাণ বার্তা",
+      "messageTimeout": "বার্তা সারির সময়সীমা",
       "maxConcurrent": "একসাথে মিডিয়া কাজ", "maxPending": "সর্বোচ্চ মিডিয়া সারি", "timeout": "মিডিয়ার মোট সময়সীমা", "ffmpeg": "একসাথে FFmpeg প্রসেস",
       "size": { "image": "ছবির সীমা", "audio": "অডিও সীমা", "video": "ভিডিও সীমা", "document": "ডকুমেন্ট সীমা", "sticker": "স্টিকার সীমা" },
       "providerRetries": "প্রতি YouTube প্রোভাইডার চেষ্টা", "retryDelay": "চেষ্টার মধ্যবর্তী বিরতি", "maxFailures": "কুলডাউনের আগে ব্যর্থতা", "cooldown": "প্রোভাইডার কুলডাউন", "logLevel": "লগ স্তর", "maxBackups": "আপডেট ব্যাকআপ সংখ্যা",
-      "jobs": "কাজ", "seconds": "সেকেন্ড", "attempts": "চেষ্টা", "failures": "ব্যর্থতা", "minutes": "মিনিট", "backups": "ব্যাকআপ",
+      "jobs": "কাজ", "messages": "বার্তা", "seconds": "সেকেন্ড", "attempts": "চেষ্টা", "failures": "ব্যর্থতা", "minutes": "মিনিট", "backups": "ব্যাকআপ",
       "invalidRange": "{{min}} এবং {{max}}-এর মধ্যে পূর্ণসংখ্যা দিন।", "invalidLogLevel": "অবৈধ স্তর। debug, info, warn, error অথবা silent ব্যবহার করুন।",
       "summary": "অপারেশন সারাংশ:", "confirm": "এই উন্নত কনফিগারেশন সংরক্ষণ করবেন?", "cancelled": "উন্নত কনফিগারেশন বাতিল হয়েছে।", "saved": "উন্নত কনফিগারেশন সংরক্ষিত হয়েছে।", "restartRequired": "নতুন সেটিং প্রয়োগ করতে বট পুনরায় চালু করুন।"
     },
@@ -128,7 +131,8 @@
       "queueFull": "❌ মিডিয়া সারি পূর্ণ। পরে আবার চেষ্টা করুন।",
       "timeout": "❌ মিডিয়া কাজের সময়সীমা শেষ হয়েছে।",
       "tooLarge": "ফাইল অনুমোদিত আকারের সীমা ছাড়িয়েছে।",
-      "aborted": "মিডিয়া কাজ বাতিল করা হয়েছে।"
+      "aborted": "মিডিয়া কাজ বাতিল করা হয়েছে।",
+      "failed": "মিডিয়া কাজ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
     }
   },
   "connection": {
@@ -636,7 +640,7 @@
     },
     "statusVersion": { "text": "╭─「 *সংস্করণ* 」\n│ অ্যাপ: {{version}}\n│ commit: {{commit}}\n│ schema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *মেট্রিক্স* 」\n│ বার্তা: {{messages}} · ত্রুটি: {{messageErrors}}\n│ কমান্ড: {{commands}} · ত্রুটি: {{commandErrors}} · প্রত্যাখ্যাত: {{denied}}\n│ মিডিয়া সফল/ত্রুটি: {{mediaSuccess}}/{{mediaErrors}} · বাইট: {{mediaBytes}}\n│ সারি সক্রিয়/অপেক্ষা: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ ক্যাশ হিট: {{cacheRate}} · পুনঃসংযোগ: {{reconnects}}\n│ গড় কমান্ড/মিডিয়া: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ কমান্ড ব্যর্থতা: {{commandFailures}}\n│ প্রোভাইডার ব্যর্থতা: {{providerFailures}}\n╰─"
+      "text": "╭─「 *মেট্রিক্স* 」\n│ বার্তা: {{messages}} · ত্রুটি: {{messageErrors}}\n│ প্রসেস সক্রিয়/অপেক্ষা: {{messageActive}}/{{messagePending}}\n│ বাদ/টাইমআউট: {{messageDropped}}/{{messageTimeouts}}\n│ কমান্ড: {{commands}} · ত্রুটি: {{commandErrors}} · প্রত্যাখ্যাত: {{denied}}\n│ মিডিয়া সফল/ত্রুটি: {{mediaSuccess}}/{{mediaErrors}} · বাইট: {{mediaBytes}}\n│ সারি সক্রিয়/অপেক্ষা: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ ক্যাশ হিট: {{cacheRate}} · পুনঃসংযোগ: {{reconnects}}\n│ গড় কমান্ড/মিডিয়া: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ কমান্ড ব্যর্থতা: {{commandFailures}}\n│ প্রোভাইডার ব্যর্থতা: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ মেসেজ debug চালু হয়েছে। সব message event টার্মিনালে log হবে।",

@@ -1,12 +1,12 @@
 <!-- locale: id; docs-version: 1 -->
 # Arsitektur
 
-Alur utama: WhatsApp -> `MessageHandler` -> antrean per chat -> `messageProcessor` -> otorisasi -> command. Pesan satu chat tetap berurutan, sedangkan chat berbeda berjalan paralel. Operasi berat masuk `MediaQueue` yang membatasi konkurensi, timeout, dan FFmpeg.
+Alur utama: WhatsApp -> `MessageHandler` -> dispatcher global -> `messageProcessor` -> otorisasi -> command. Hingga 10 pesan diproses paralel tanpa urutan per chat; 200 dapat menunggu. Media berjalan di latar belakang melalui `MediaQueue`.
 
 ```mermaid
 flowchart LR
   WA[WhatsApp] --> MH[MessageHandler]
-  MH --> CQ[Antrean chat]
+  MH --> CQ[Dispatcher global]
   CQ --> MP[MessageProcessor]
   MP --> AUTH[Otorisasi]
   AUTH --> CMD[Command]

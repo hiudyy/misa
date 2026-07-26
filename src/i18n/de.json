@@ -50,6 +50,9 @@
     "advanced": {
       "header": "ERWEITERTE KONFIGURATION",
       "pressEnter": "Drücke Enter, um den aktuellen Wert zu behalten.",
+      "messageConcurrent": "Gleichzeitig verarbeitete Nachrichten",
+      "messagePending": "Maximal wartende Nachrichten",
+      "messageTimeout": "Zeitlimit der Nachrichtenwarteschlange",
       "maxConcurrent": "Gleichzeitige Medienvorgänge",
       "maxPending": "Maximale Medienwarteschlange",
       "timeout": "Gesamtes Medien-Zeitlimit",
@@ -61,7 +64,7 @@
       "cooldown": "Provider-Cooldown",
       "logLevel": "Log-Level",
       "maxBackups": "Anzahl Update-Backups",
-      "jobs": "Jobs", "seconds": "Sekunden", "attempts": "Versuche", "failures": "Fehler", "minutes": "Minuten", "backups": "Backups",
+      "jobs": "Jobs", "messages": "Nachrichten", "seconds": "Sekunden", "attempts": "Versuche", "failures": "Fehler", "minutes": "Minuten", "backups": "Backups",
       "invalidRange": "Gib eine ganze Zahl zwischen {{min}} und {{max}} ein.",
       "invalidLogLevel": "Ungültiges Level. Nutze debug, info, warn, error oder silent.",
       "summary": "Betriebsübersicht:",
@@ -141,7 +144,8 @@
       "queueFull": "❌ Die Medienwarteschlange ist voll. Versuche es später erneut.",
       "timeout": "❌ Der Medienvorgang hat das Zeitlimit überschritten.",
       "tooLarge": "Die Datei überschreitet das erlaubte Größenlimit.",
-      "aborted": "Der Medienvorgang wurde abgebrochen."
+      "aborted": "Der Medienvorgang wurde abgebrochen.",
+      "failed": "Der Medienvorgang ist fehlgeschlagen. Versuche es erneut."
     }
   },
   "connection": {
@@ -649,7 +653,7 @@
     },
     "statusVersion": { "text": "╭─「 *VERSION* 」\n│ Anwendung: {{version}}\n│ Commit: {{commit}}\n│ Schema: {{schema}}\n╰─" },
     "statusMetrics": {
-      "text": "╭─「 *METRIKEN* 」\n│ Nachrichten: {{messages}} · Fehler: {{messageErrors}}\n│ Befehle: {{commands}} · Fehler: {{commandErrors}} · abgelehnt: {{denied}}\n│ Medien ok/Fehler: {{mediaSuccess}}/{{mediaErrors}} · Bytes: {{mediaBytes}}\n│ Warteschlange aktiv/offen: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ Cache-Treffer: {{cacheRate}} · Neuverbindungen: {{reconnects}}\n│ Mittel Befehl/Medien: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ Befehlsfehler: {{commandFailures}}\n│ Providerfehler: {{providerFailures}}\n╰─"
+      "text": "╭─「 *METRIKEN* 」\n│ Nachrichten: {{messages}} · Fehler: {{messageErrors}}\n│ Verarbeitung aktiv/offen: {{messageActive}}/{{messagePending}}\n│ verworfen/Timeouts: {{messageDropped}}/{{messageTimeouts}}\n│ Befehle: {{commands}} · Fehler: {{commandErrors}} · abgelehnt: {{denied}}\n│ Medien ok/Fehler: {{mediaSuccess}}/{{mediaErrors}} · Bytes: {{mediaBytes}}\n│ Warteschlange aktiv/offen: {{active}}/{{pending}} · ffmpeg: {{ffmpeg}}\n│ Cache-Treffer: {{cacheRate}} · Neuverbindungen: {{reconnects}}\n│ Mittel Befehl/Medien: {{avgCommand}} / {{avgMedia}}\n│ rss/heap/cpu: {{rss}} / {{heap}} / {{cpu}}\n│ Befehlsfehler: {{commandFailures}}\n│ Providerfehler: {{providerFailures}}\n╰─"
     },
     "debug": {
       "enabled": "✅ Nachrichten-Debug aktiviert. Alle Nachrichtenereignisse werden im Terminal geloggt.",

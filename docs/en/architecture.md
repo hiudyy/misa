@@ -1,12 +1,12 @@
 <!-- locale: en; docs-version: 1 -->
 # Architecture
 
-The main flow is WhatsApp -> `MessageHandler` -> per-chat queue -> `messageProcessor` -> authorization -> command. Messages in one chat remain ordered while separate chats can progress concurrently. Heavy commands enter `MediaQueue`, which bounds concurrency, timeouts, and FFmpeg usage.
+The main flow is WhatsApp -> `MessageHandler` -> global dispatcher -> `messageProcessor` -> authorization -> command. Up to 10 messages run concurrently with no per-chat ordering; up to 200 wait in the backlog. Media commands continue in the background through `MediaQueue`.
 
 ```mermaid
 flowchart LR
   WA[WhatsApp] --> MH[MessageHandler]
-  MH --> CQ[Per-chat queue]
+  MH --> CQ[Global dispatcher]
   CQ --> MP[MessageProcessor]
   MP --> AUTH[Authorization]
   AUTH --> CMD[Command]

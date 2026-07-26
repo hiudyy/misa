@@ -1,7 +1,9 @@
 <!-- locale: hi; docs-version: 1 -->
 # कॉन्फ़िगरेशन
 
-एकमात्र स्रोत `dados/config.json` है। वर्तमान `schemaVersion` 1 है। बिना version वाली file migrate होती है; खराब JSON `.corrupt-*` में सुरक्षित रहता है। भविष्य का schema data बदले बिना startup रोकता है। Operational बदलाव के लिए restart जरूरी है।
+एकमात्र स्रोत `dados/config.json` है। वर्तमान `schemaVersion` 2 है। बिना version वाली file migrate होती है; खराब JSON `.corrupt-*` में सुरक्षित रहता है। भविष्य का schema data बदले बिना startup रोकता है। Operational बदलाव के लिए restart जरूरी है।
+
+`operations.messages` में `maxConcurrent` (10, सीमा 1-50), `maxPending` (200, सीमा 0-5000) और `queueTimeoutSeconds` (60, सीमा 1-600) हैं। Chat क्रमबद्ध नहीं होते; अतिरिक्त संदेश global backlog में प्रतीक्षा करते हैं।
 
 Basic fields: `botName`, `ownerName`, `prefix`, `prefixByLocale`, `ownerNumber`, `autoUpdate`, `language`। `operations.media` में `maxConcurrent` 2, `maxPending` 20, `timeoutSeconds` 300, `ffmpegConcurrency` 1 और `maxFileSizeMiB`: image 20, audio 40, video/document 80, sticker 20 हैं।
 
