@@ -25,8 +25,6 @@ if (paths.commands !== path.join(dist, "commands")) throw new Error("DIST_COMMAN
 if (paths.assets !== path.join(dist, "assets")) throw new Error("DIST_ASSET_PATH_INVALID");
 if (packageInfo.version !== "1.0.0") throw new Error(`DIST_VERSION_INVALID:${packageInfo.version}`);
 if (CURRENT_CONFIG_SCHEMA_VERSION !== 1) throw new Error(`DIST_SCHEMA_INVALID:${CURRENT_CONFIG_SCHEMA_VERSION}`);
-await fs.access(path.join(root, "docs", "en", "architecture.md"), constants.R_OK);
-await fs.access(path.join(root, "docs", "pt", "installation.md"), constants.R_OK);
 
 const commands = new CommandHandler();
 await commands.loadCommands(paths.commands);

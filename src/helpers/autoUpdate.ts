@@ -67,7 +67,12 @@ function defaultRunCommand(command: string, args: string[], cwd: string): void {
   execFileSync(command, args, { cwd, stdio: "inherit" });
 }
 
+export function shouldSpawnUpdateRestart(env: NodeJS.ProcessEnv = process.env): boolean {
+  return !("pm_id" in env || "PM2_HOME" in env || "NODE_APP_INSTANCE" in env);
+}
+
 function defaultRestart(root: string): void {
+  if (!shouldSpawnUpdateRestart()) return;
   const child = spawn(npmExecutable(), ["run", "start:fast", "--", "--no-update"], {
     cwd: root,
     detached: true,

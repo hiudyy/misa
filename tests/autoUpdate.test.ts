@@ -13,6 +13,7 @@ import {
   runAutoUpdate,
   safeExtractPath,
   selectBackupsToDelete,
+  shouldSpawnUpdateRestart,
 } from "../src/helpers/autoUpdate.js";
 
 type ZipEntry = { name: string; data: string | Buffer; declaredSize?: number };
@@ -165,6 +166,18 @@ describe("approveNpmInstallScripts", () => {
   it("runs without throwing against the project root", () => {
     const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
     assert.doesNotThrow(() => approveNpmInstallScripts(root));
+  });
+});
+
+describe("shouldSpawnUpdateRestart", () => {
+  it("spawns a standalone restart without a process manager", () => {
+    assert.equal(shouldSpawnUpdateRestart({}), true);
+  });
+
+  it("delegates restart to PM2 for every supported marker", () => {
+    assert.equal(shouldSpawnUpdateRestart({ pm_id: "0" }), false);
+    assert.equal(shouldSpawnUpdateRestart({ PM2_HOME: "/home/ubuntu/.pm2" }), false);
+    assert.equal(shouldSpawnUpdateRestart({ NODE_APP_INSTANCE: "0" }), false);
   });
 });
 
