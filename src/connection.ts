@@ -186,9 +186,8 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
   const misa = makeWASocket({
     version,
     auth: state,
-    logger,
-    browser: Browsers.ubuntu(config.botName),
-  });
+    logger
+ });
 
   misa.ev.on("creds.update", saveCreds);
 
