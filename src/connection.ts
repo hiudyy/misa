@@ -184,7 +184,7 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
   }
 
   const misa = makeWASocket({
-    version,
+    version: [2, 3000, 1044006379],
     auth: state,
     logger
  });
