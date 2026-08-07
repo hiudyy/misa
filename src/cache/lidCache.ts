@@ -6,6 +6,8 @@ import { paths } from "../config/paths.js";
 import { readJson, writeJson } from "../storage/jsonStore.js";
 
 const DEBOUNCE_MS = 2000;
+const MAX_LID_CACHE_SIZE = 50_000;
+const LID_CACHE_EVICT_COUNT = 1_000;
 
 class LIDCache {
   private store = new Map<string, string>();
@@ -15,6 +17,17 @@ class LIDCache {
   private scheduleSave(): void {
     if (this.saveTimer) clearTimeout(this.saveTimer);
     this.saveTimer = setTimeout(() => void this.flush().catch(() => undefined), DEBOUNCE_MS);
+  }
+
+  /** Remove as entradas mais antigas (FIFO) quando o cache excede o limite. */
+  private evictIfNeeded(): void {
+    if (this.store.size <= MAX_LID_CACHE_SIZE) return;
+    const keys = this.store.keys();
+    for (let i = 0; i < LID_CACHE_EVICT_COUNT; i++) {
+      const key = keys.next().value;
+      if (key === undefined) break;
+      this.store.delete(key);
+    }
   }
 
   async flush(): Promise<void> {
@@ -46,6 +59,7 @@ class LIDCache {
   set(pn: string, lid: string): void {
     if (this.store.get(pn) === lid) return;
     this.store.set(pn, lid);
+    this.evictIfNeeded();
     this.scheduleSave();
   }
 }

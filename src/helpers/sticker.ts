@@ -101,7 +101,7 @@ async function convertToWebp(mediaBuffer: Buffer, isVideo = false, forceSquare =
 
   try {
     return await ffmpegLimiter.run(async () => {
-    for (let attempt = 0; attempt < 8; attempt += 1) {
+    for (let attempt = 0; attempt < 4; attempt += 1) {
       const outputPath = await createTempFile("webp");
       const outputOptions = [
         "-vf", filters,

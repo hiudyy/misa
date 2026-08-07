@@ -85,7 +85,7 @@ export function t(key: string, locale: Locale, vars?: Record<string, string>): s
   // Interpolação de variáveis
   if (vars && text !== key) {
     for (const [varName, value] of Object.entries(vars)) {
-      text = text.replace(new RegExp(`\\{\\{${varName}\\}\\}`, "g"), value);
+      text = text.replaceAll(`{{${varName}}}`, value);
     }
   }
 
@@ -93,11 +93,21 @@ export function t(key: string, locale: Locale, vars?: Record<string, string>): s
 }
 
 /**
+ * Cache de tradutores por locale para evitar recriação de closures a cada chamada.
+ */
+const translatorCache = new Map<Locale, (key: string, vars?: Record<string, string>) => string>();
+
+/**
  * Cria um tradutor vinculado a um locale específico.
  * Atalho para não precisar passar o locale em cada chamada.
  */
 export function createTranslator(locale: Locale): (key: string, vars?: Record<string, string>) => string {
-  return (key: string, vars?: Record<string, string>) => t(key, locale, vars);
+  let cached = translatorCache.get(locale);
+  if (!cached) {
+    cached = (key: string, vars?: Record<string, string>) => t(key, locale, vars);
+    translatorCache.set(locale, cached);
+  }
+  return cached;
 }
 
 /**

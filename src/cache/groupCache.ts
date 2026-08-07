@@ -5,9 +5,54 @@
 import { GroupMetadata, GroupParticipant, ParticipantAction, WASocket } from "baileys";
 import { toLID } from "../helpers/toLID.js";
 
+const MAX_CACHE_SIZE = 500;
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutos
+const CLEANUP_INTERVAL_MS = 5 * 60 * 1000; // 5 minutos
+
 class GroupCache {
   private readonly cache = new Map<string, GroupMetadata>();
   private readonly inflight = new Map<string, Promise<GroupMetadata | undefined>>();
+  private readonly lastAccess = new Map<string, number>();
+  private readonly cleanupTimer: NodeJS.Timeout;
+
+  constructor() {
+    this.cleanupTimer = setInterval(() => this.cleanup(), CLEANUP_INTERVAL_MS);
+    this.cleanupTimer.unref();
+  }
+
+  /** Atualiza o timestamp de último acesso de uma entrada. */
+  private touch(id: string): void {
+    this.lastAccess.set(id, Date.now());
+  }
+
+  /** Insere/atualiza uma entrada mantendo a ordem LRU (remove e reinsere no Map). */
+  private put(id: string, data: GroupMetadata): void {
+    this.cache.delete(id);
+    this.cache.set(id, data);
+    this.touch(id);
+    this.evictIfNeeded();
+  }
+
+  /** Remove a entrada menos recentemente usada (LRU) quando o cache excede o limite. */
+  private evictIfNeeded(): void {
+    while (this.cache.size > MAX_CACHE_SIZE) {
+      const firstKey = this.cache.keys().next().value;
+      if (firstKey === undefined) break;
+      this.cache.delete(firstKey);
+      this.lastAccess.delete(firstKey);
+    }
+  }
+
+  /** Remove entradas expiradas (sem acesso há mais de CACHE_TTL_MS). */
+  private cleanup(): void {
+    const now = Date.now();
+    for (const [id, timestamp] of this.lastAccess) {
+      if (now - timestamp > CACHE_TTL_MS) {
+        this.cache.delete(id);
+        this.lastAccess.delete(id);
+      }
+    }
+  }
 
   private async normalizeParticipant(participant: GroupParticipant, misa: WASocket): Promise<GroupParticipant | null> {
     const lid = await toLID(participant.id, misa);
@@ -23,16 +68,24 @@ class GroupCache {
 
   async set(data: GroupMetadata, misa: WASocket): Promise<void> {
     const participants = await this.normalizeParticipants(data.participants, misa);
-    this.cache.set(data.id, { ...data, participants });
+    this.put(data.id, { ...data, participants });
   }
 
   get(id: string): GroupMetadata | undefined {
-    return this.cache.get(id);
+    const data = this.cache.get(id);
+    if (data) {
+      // Reinsere para atualizar a ordem LRU e o timestamp de acesso
+      this.cache.delete(id);
+      this.cache.set(id, data);
+      this.touch(id);
+    }
+    return data;
   }
 
   clear(): void {
     this.cache.clear();
     this.inflight.clear();
+    this.lastAccess.clear();
   }
 
   async patch(id: string, partial: Partial<GroupMetadata>, misa: WASocket): Promise<void> {
@@ -42,7 +95,7 @@ class GroupCache {
         ? await this.normalizeParticipants(partial.participants, misa)
         : existing.participants;
 
-      this.cache.set(id, { ...existing, ...partial, participants });
+      this.put(id, { ...existing, ...partial, participants });
     }
   }
 
@@ -70,18 +123,19 @@ class GroupCache {
       updated = updated.map((p) => (map.has(p.id) ? { ...p, ...map.get(p.id) } : p));
     }
 
-    this.cache.set(id, { ...group, participants: updated });
+    this.put(id, { ...group, participants: updated });
   }
 
   async ensure(id: string, misa: WASocket): Promise<GroupMetadata | undefined> {
-    if (this.cache.has(id)) return this.cache.get(id);
+    const cached = this.get(id);
+    if (cached) return cached;
     const existing = this.inflight.get(id);
     if (existing) return existing;
     const loading = (async () => {
       try {
         const meta = await misa.groupMetadata(id);
         await this.set(meta, misa);
-        return this.cache.get(id);
+        return this.get(id);
       } catch {
         return undefined;
       } finally {

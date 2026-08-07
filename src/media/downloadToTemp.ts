@@ -119,13 +119,12 @@ export async function downloadToTemp(options: DownloadOptions): Promise<TempMedi
   try {
     for await (const chunk of response.body) {
       if (signal.aborted) throw signal.reason ?? new Error(ErrorCode.MEDIA_ABORTED);
-      const buffer = Buffer.from(chunk);
+      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
       size += buffer.length;
       if (size > maxBytes) throw new Error(ErrorCode.MEDIA_DOWNLOAD_TOO_LARGE);
       await handle.write(buffer);
     }
     if (size === 0) throw new Error(ErrorCode.DOWNLOAD_NO_DATA);
-    await handle.sync();
     completed = true;
   } catch (error) {
     if (signal.aborted) {

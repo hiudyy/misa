@@ -39,6 +39,28 @@ export const defaultOwnerConfig: OwnerConfig = {
 let ownerConfigCache: OwnerConfig | null = null;
 let ownerConfigLoad: Promise<OwnerConfig> | null = null;
 
+/**
+ * Cria uma visão read-only via Proxy que ignora escritas silenciosamente.
+ * Evita o custo de structuredClone a cada leitura, mantendo proteção contra mutação.
+ */
+function readonlyView<T extends object>(obj: T): T {
+  return new Proxy(obj, {
+    get(target, prop, receiver) {
+      const value = Reflect.get(target, prop, receiver);
+      if (typeof value === "object" && value !== null) {
+        return readonlyView(value as object);
+      }
+      return value;
+    },
+    set() {
+      return true;
+    },
+    deleteProperty() {
+      return true;
+    },
+  });
+}
+
 function asObject(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
 }
@@ -60,30 +82,30 @@ export function normalizeOwnerConfig(value: unknown): OwnerConfig {
 }
 
 export async function getOwnerConfig(): Promise<OwnerConfig> {
-  if (ownerConfigCache) return structuredClone(ownerConfigCache);
+  if (ownerConfigCache) return readonlyView(ownerConfigCache);
   ownerConfigLoad ??= readJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig })
     .then((config) => {
-      ownerConfigCache = structuredClone(config);
-      return config;
+      ownerConfigCache = config;
+      return readonlyView(config);
     })
     .finally(() => {
       ownerConfigLoad = null;
     });
-  return structuredClone(await ownerConfigLoad);
+  return ownerConfigLoad;
 }
 
 export async function saveOwnerConfig(config: OwnerConfig): Promise<void> {
   const normalized = normalizeOwnerConfig(config);
   await writeJson(paths.ownerConfig, normalized);
-  ownerConfigCache = structuredClone(normalized);
+  ownerConfigCache = normalized;
 }
 
 export async function updateOwnerConfig(
   update: (current: OwnerConfig) => OwnerConfig | Promise<OwnerConfig>,
 ): Promise<OwnerConfig> {
   const updated = await updateJson(paths.ownerConfig, { defaultValue: defaultOwnerConfig, normalize: normalizeOwnerConfig }, update);
-  ownerConfigCache = structuredClone(updated);
-  return structuredClone(updated);
+  ownerConfigCache = updated;
+  return readonlyView(updated);
 }
 
 export function clearOwnerConfigCache(): void {

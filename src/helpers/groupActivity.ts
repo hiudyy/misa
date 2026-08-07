@@ -22,7 +22,12 @@ type ActivityData = {
   users: Record<string, ActivityStats>;
 };
 
-type ActivityDelta = ActivityStats;
+type ActivityDelta = {
+  messages: number;
+  commands: number;
+  stickers: number;
+  lastAt: number | null;
+};
 
 const DEFAULT_STATS: ActivityStats = {
   messages: 0,
@@ -70,13 +75,13 @@ function mergeDelta(target: ActivityDelta, source: ActivityDelta): void {
   target.messages += source.messages;
   target.commands += source.commands;
   target.stickers += source.stickers;
-  if (source.lastAt && (!target.lastAt || source.lastAt > target.lastAt)) target.lastAt = source.lastAt;
+  if (source.lastAt !== null && (target.lastAt === null || source.lastAt > target.lastAt)) target.lastAt = source.lastAt;
 }
 
 function requeue(groupId: string, snapshot: Map<string, ActivityDelta>): void {
   const group = pending.get(groupId) ?? new Map<string, ActivityDelta>();
   for (const [userId, delta] of snapshot) {
-    const current = group.get(userId) ?? normalizeStats();
+    const current = group.get(userId) ?? { messages: 0, commands: 0, stickers: 0, lastAt: null };
     mergeDelta(current, delta);
     group.set(userId, current);
   }
@@ -98,7 +103,13 @@ async function flushSnapshot(groupId: string, snapshot: Map<string, ActivityDelt
     await updateJson(activityPath(groupId), { defaultValue: { users: {} }, normalize: normalizeActivity }, (data) => {
       for (const [userId, delta] of snapshot) {
         const current = normalizeStats(data.users[userId]);
-        mergeDelta(current, delta);
+        current.messages += delta.messages;
+        current.commands += delta.commands;
+        current.stickers += delta.stickers;
+        if (delta.lastAt !== null) {
+          const iso = new Date(delta.lastAt).toISOString();
+          if (!current.lastAt || iso > current.lastAt) current.lastAt = iso;
+        }
         data.users[userId] = current;
       }
       return data;
@@ -115,11 +126,11 @@ export function recordGroupActivity(
   type: "message" | "command" | "sticker",
 ): void {
   const group = pending.get(groupId) ?? new Map<string, ActivityDelta>();
-  const delta = group.get(userId) ?? normalizeStats();
+  const delta = group.get(userId) ?? { messages: 0, commands: 0, stickers: 0, lastAt: null };
   if (type === "command") delta.commands += 1;
   else if (type === "sticker") delta.stickers += 1;
   else delta.messages += 1;
-  delta.lastAt = new Date().toISOString();
+  delta.lastAt = Date.now();
   group.set(userId, delta);
   pending.set(groupId, group);
   scheduleFlush();

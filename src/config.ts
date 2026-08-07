@@ -101,17 +101,39 @@ async function migrateLegacyConfig(): Promise<void> {
   }
 }
 
+/**
+ * Cria uma visão read-only via Proxy que ignora escritas silenciosamente.
+ * Evita o custo de structuredClone a cada leitura, mantendo proteção contra mutação.
+ */
+function readonlyView<T extends object>(obj: T): T {
+  return new Proxy(obj, {
+    get(target, prop, receiver) {
+      const value = Reflect.get(target, prop, receiver);
+      if (typeof value === "object" && value !== null) {
+        return readonlyView(value as object);
+      }
+      return value;
+    },
+    set() {
+      return true;
+    },
+    deleteProperty() {
+      return true;
+    },
+  });
+}
+
 export async function getBotConfig(): Promise<BotConfig> {
-  if (botConfigCache) return structuredClone(botConfigCache);
+  if (botConfigCache) return readonlyView(botConfigCache);
   botConfigLoad ??= (async () => {
     await migrateLegacyConfig();
     const config = await readJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig });
-    botConfigCache = structuredClone(config);
-    return config;
+    botConfigCache = config;
+    return readonlyView(config);
   })().finally(() => {
     botConfigLoad = null;
   });
-  return structuredClone(await botConfigLoad);
+  return botConfigLoad;
 }
 
 /** True only if config.json exists and has an explicit valid language field. */
@@ -128,13 +150,13 @@ export async function isLanguageConfigured(): Promise<boolean> {
 export async function saveBotConfig(config: BotConfig): Promise<void> {
   const normalized = normalizeBotConfig(config);
   await writeJson(paths.botConfig, normalized);
-  botConfigCache = structuredClone(normalized);
+  botConfigCache = normalized;
 }
 
 export async function updateBotConfig(update: (current: BotConfig) => BotConfig | Promise<BotConfig>): Promise<BotConfig> {
   const updated = await updateJson(paths.botConfig, { defaultValue: defaultConfig, normalize: normalizeBotConfig }, update);
-  botConfigCache = structuredClone(updated);
-  return structuredClone(updated);
+  botConfigCache = updated;
+  return readonlyView(updated);
 }
 
 export function clearBotConfigCache(): void {

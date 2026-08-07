@@ -91,6 +91,28 @@ const GROUP_DATA_CACHE_MAX = 500;
 const groupDataCache = new Map<string, GroupData>();
 const groupDataLoads = new Map<string, Promise<GroupData>>();
 
+/**
+ * Cria uma visão read-only via Proxy que ignora escritas silenciosamente.
+ * Evita o custo de structuredClone a cada leitura, mantendo proteção contra mutação.
+ */
+function readonlyView<T extends object>(obj: T): T {
+  return new Proxy(obj, {
+    get(target, prop, receiver) {
+      const value = Reflect.get(target, prop, receiver);
+      if (typeof value === "object" && value !== null) {
+        return readonlyView(value as object);
+      }
+      return value;
+    },
+    set() {
+      return true;
+    },
+    deleteProperty() {
+      return true;
+    },
+  });
+}
+
 function cacheGroup(groupId: string, data: GroupData): void {
   groupDataCache.delete(groupId);
   groupDataCache.set(groupId, structuredClone(data));
@@ -170,20 +192,22 @@ export function normalizeGroupData(value: unknown): GroupData {
 export async function getGroup(groupId: string): Promise<GroupData> {
   const cached = groupDataCache.get(groupId);
   if (cached) {
-    cacheGroup(groupId, cached);
-    return structuredClone(cached);
+    // Reordena no cache (LRU) sem re-clonar
+    groupDataCache.delete(groupId);
+    groupDataCache.set(groupId, cached);
+    return readonlyView(cached);
   }
   let loading = groupDataLoads.get(groupId);
   if (!loading) {
     loading = readJson(groupPath(groupId), { defaultValue: DEFAULT_GROUP, normalize: normalizeGroupData })
       .then((data) => {
         cacheGroup(groupId, data);
-        return data;
+        return readonlyView(groupDataCache.get(groupId)!);
       })
       .finally(() => groupDataLoads.delete(groupId));
     groupDataLoads.set(groupId, loading);
   }
-  return structuredClone(await loading);
+  return loading;
 }
 
 export async function saveGroup(groupId: string, data: Partial<GroupData>): Promise<GroupData> {

@@ -21,6 +21,10 @@ import { getGlobalLocale, createTranslator } from "./i18n/index.js";
 
 const logger = pino({ level: "silent" });
 
+let cachedBaileysVersion: [number, number, number] | null = null;
+let versionCacheTimestamp = 0;
+const VERSION_CACHE_TTL = 60 * 60 * 1000; // 1 hora
+
 type DisconnectInfo = {
   title: string;
   description: string;
@@ -175,7 +179,23 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
   const config = await getBotConfig();
 
   const { state, saveCreds } = await useMultiFileAuthState(paths.auth);
-  const { version } = await fetchLatestBaileysVersion();
+
+  let version: [number, number, number] = [2, 3000, 1044006379];
+  const now = Date.now();
+  if (cachedBaileysVersion && (now - versionCacheTimestamp) < VERSION_CACHE_TTL) {
+    version = cachedBaileysVersion;
+    log.info("CONNECTION", `Usando versão em cache do WhatsApp: ${version.join(".")}`);
+  } else {
+    try {
+      const fetched = await fetchLatestBaileysVersion();
+      version = fetched.version;
+      cachedBaileysVersion = version;
+      versionCacheTimestamp = now;
+      log.info("CONNECTION", `Usando versão mais recente do WhatsApp: ${version.join(".")}`);
+    } catch (error) {
+      log.warn("CONNECTION", `Falha ao buscar versão mais recente do WhatsApp, usando fallback: ${version.join(".")}`);
+    }
+  }
 
   // Verifica se já existe uma sessão válida
   const hasSession = await hasValidSession();
@@ -184,10 +204,12 @@ export async function createConnection(authMode: "qr" | "pairing" = "qr", phoneN
   }
 
   const misa = makeWASocket({
-    version: [2, 3000, 1044006379],
+    version,
     auth: state,
-    logger
- });
+    logger,
+    syncFullHistory: false,
+    markOnlineOnConnect: false,
+  });
 
   misa.ev.on("creds.update", saveCreds);
 

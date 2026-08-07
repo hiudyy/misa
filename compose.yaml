@@ -11,3 +11,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./dados:/app/dados
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'

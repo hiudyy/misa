@@ -20,4 +20,4 @@ RUN mkdir -p /app/dados && chown node:node /app/dados
 USER node
 VOLUME ["/app/dados"]
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 CMD ["node", "-e", "process.kill(1, 0)"]
-CMD ["node", "dist/index.js"]
+CMD ["node", "--optimize-for-size", "dist/index.js"]

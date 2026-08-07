@@ -30,7 +30,11 @@ function pad(text: string, width: number): string {
 }
 
 function timestamp(): string {
-  return paint(new Date().toLocaleTimeString("pt-BR"), "gray", "dim");
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, "0");
+  const m = String(now.getMinutes()).padStart(2, "0");
+  const s = String(now.getSeconds()).padStart(2, "0");
+  return paint(`${h}:${m}:${s}`, "gray", "dim");
 }
 
 const icons: Record<string, string> = {

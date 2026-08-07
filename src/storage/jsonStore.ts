@@ -37,7 +37,7 @@ function runExclusive<T>(filePath: string, action: () => Promise<T>): Promise<T>
   return current;
 }
 
-async function atomicWrite(filePath: string, value: unknown): Promise<void> {
+async function atomicWrite(filePath: string, value: unknown, skipSync?: boolean): Promise<void> {
   const directory = path.dirname(filePath);
   const temporary = path.join(directory, `.${path.basename(filePath)}.${process.pid}.${randomUUID()}.tmp`);
   await fs.mkdir(directory, { recursive: true });
@@ -46,7 +46,7 @@ async function atomicWrite(filePath: string, value: unknown): Promise<void> {
   try {
     handle = await fs.open(temporary, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY, 0o600);
     await handle.writeFile(serialize(value), "utf8");
-    await handle.sync();
+    if (!skipSync) await handle.sync();
     await handle.close();
     handle = null;
     await fs.rename(temporary, filePath);
