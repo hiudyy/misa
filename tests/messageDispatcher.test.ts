@@ -14,13 +14,13 @@ function deferred<T = void>() {
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe("MessageDispatcher", () => {
-  it("uses the operational defaults 10/200/60s", () => {
+  it("uses the operational defaults 25/500/120s", () => {
     assert.deepEqual(new MessageDispatcher().snapshot(), {
       active: 0,
       pending: 0,
-      maxConcurrent: 10,
-      maxPending: 200,
-      queueTimeoutMs: 60_000,
+      maxConcurrent: 25,
+      maxPending: 500,
+      queueTimeoutMs: 120_000,
       accepting: true,
     });
   });

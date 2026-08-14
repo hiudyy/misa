@@ -52,9 +52,9 @@ export class MessageDispatcher {
   private accepting = true;
 
   constructor(options: MessageDispatcherOptions = {}) {
-    this.maxConcurrent = options.maxConcurrent ?? 10;
-    this.maxPending = options.maxPending ?? 200;
-    this.queueTimeoutMs = options.queueTimeoutMs ?? 60_000;
+    this.maxConcurrent = options.maxConcurrent ?? 25;
+    this.maxPending = options.maxPending ?? 500;
+    this.queueTimeoutMs = options.queueTimeoutMs ?? 120_000;
     this.onStateChange = options.onStateChange;
     if (!Number.isInteger(this.maxConcurrent) || this.maxConcurrent < 1) throw new Error("MESSAGE_CONCURRENCY_INVALID");
     if (!Number.isInteger(this.maxPending) || this.maxPending < 0) throw new Error("MESSAGE_PENDING_INVALID");
@@ -96,7 +96,7 @@ export class MessageDispatcher {
     }
   }
 
-  async drain(timeoutMs = 10_000): Promise<void> {
+  async drain(timeoutMs = 15_000): Promise<void> {
     if (this.active.size === 0 && this.pending.length === 0) return;
     let timer: NodeJS.Timeout | undefined;
     let idleResolve!: () => void;
@@ -171,9 +171,9 @@ export class MessageDispatcher {
 }
 
 let dispatcherDefaults: Required<Omit<MessageDispatcherOptions, "onStateChange">> = {
-  maxConcurrent: 10,
-  maxPending: 200,
-  queueTimeoutMs: 60_000,
+  maxConcurrent: 25,
+  maxPending: 500,
+  queueTimeoutMs: 120_000,
 };
 
 export function configureMessageDispatcherDefaults(options: Required<Omit<MessageDispatcherOptions, "onStateChange">>): void {

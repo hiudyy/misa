@@ -3,7 +3,6 @@ import { describe, it } from "node:test";
 import assert from "node:assert";
 import type { YtProviderContext } from "../src/helpers/youtube/types.js";
 import {
-  bronxyshostProvider,
   flvtoProvider,
   lukaProvider,
   nayanProvider,
@@ -90,11 +89,6 @@ describe("YouTube provider parsers", () => {
     ));
     assert.equal(result.url, "https://cdn/audio");
     assert.equal(result.title, "title");
-  });
-
-  it("builds BronxysHost URL without fetching", async () => {
-    const result = await bronxyshostProvider.resolve("query", "mp4", context());
-    assert.match(result.url, /play_video/);
   });
 
   it("parses Luka SSE completion", async () => {

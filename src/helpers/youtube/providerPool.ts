@@ -39,32 +39,40 @@ export class YouTubeProviderPool {
     context: YtProviderContext,
     use: (provider: YouTubeProvider, resolution: YtProviderResolution) => Promise<T>,
   ): Promise<T> {
-    let lastError: unknown = new Error(ErrorCode.DOWNLOAD_FAILED);
-    for (const provider of [...this.order]) {
-      if (provider.supports && !provider.supports(format)) continue;
-      if (this.inCooldown(provider.name)) continue;
+    const available = this.order.filter((provider) => {
+      if (provider.supports && !provider.supports(format)) return false;
+      return !this.inCooldown(provider.name);
+    });
 
-      for (let attempt = 0; attempt < this.retries; attempt++) {
-        if (context.signal?.aborted) throw context.signal.reason;
-        if (attempt > 0) await context.sleep(this.retryDelayMs);
-        const startedAt = this.now();
-        try {
-          const resolution = await provider.resolve(url, format, context);
-          const result = await use(provider, resolution);
-          metrics.recordProvider(provider.name, "success", this.now() - startedAt);
-          this.failures.delete(provider.name);
-          this.promote(provider.name);
-          return result;
-        } catch (error) {
-          if (context.signal?.aborted) throw context.signal.reason ?? error;
-          lastError = error;
-          metrics.recordProvider(provider.name, "failure", this.now() - startedAt);
-        }
+    let lastError: unknown = new Error(ErrorCode.DOWNLOAD_FAILED);
+
+    for (const provider of available) {
+      if (context.signal?.aborted) throw context.signal.reason;
+
+      let resolution: YtProviderResolution;
+      try {
+        ({ resolution } = await this.tryProvider(provider, url, format, context));
+      } catch (error) {
+        if (context.signal?.aborted) throw context.signal.reason ?? error;
+        lastError = error;
+        this.recordFailure(provider.name);
+        this.demote(provider.name);
+        continue;
       }
 
-      this.recordFailure(provider.name);
-      this.demote(provider.name);
+      try {
+        const result = await use(provider, resolution);
+        this.promote(provider.name);
+        return result;
+      } catch (useError) {
+        if (context.signal?.aborted) throw context.signal.reason ?? useError;
+        lastError = useError;
+        metrics.recordProvider(provider.name, "failure", 0);
+        this.recordFailure(provider.name);
+        this.demote(provider.name);
+      }
     }
+
     const message = lastError instanceof Error ? lastError.message : String(lastError);
     throw new Error(`${ErrorCode.DOWNLOAD_FAILED}:${message}`);
   }
@@ -84,6 +92,31 @@ export class YouTubeProviderPool {
       retries: this.retries,
       retryDelayMs: this.retryDelayMs,
     };
+  }
+
+  private async tryProvider(
+    provider: YouTubeProvider,
+    url: string,
+    format: YtFormat,
+    context: YtProviderContext,
+  ): Promise<{ provider: YouTubeProvider; resolution: YtProviderResolution }> {
+    let lastError: unknown;
+    for (let attempt = 0; attempt < this.retries; attempt++) {
+      if (context.signal?.aborted) throw context.signal.reason;
+      if (attempt > 0 && this.retryDelayMs > 0) await context.sleep(this.retryDelayMs);
+      const startedAt = this.now();
+      try {
+        const resolution = await provider.resolve(url, format, context);
+        metrics.recordProvider(provider.name, "success", this.now() - startedAt);
+        this.failures.delete(provider.name);
+        return { provider, resolution };
+      } catch (error) {
+        if (context.signal?.aborted) throw context.signal.reason ?? error;
+        lastError = error;
+        metrics.recordProvider(provider.name, "failure", this.now() - startedAt);
+      }
+    }
+    throw lastError;
   }
 
   private inCooldown(name: string): boolean {

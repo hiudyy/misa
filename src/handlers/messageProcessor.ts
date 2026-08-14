@@ -69,19 +69,26 @@ export async function authorizeCommand(input: AuthorizationInput): Promise<boole
     await misa.sendMessage(from, { text: t("errors.privateOnly") });
     return false;
   }
-  if (command.adminOnly && isGroup && !(await input.userIsAdmin()) && !userIsOwner) {
+
+  const [userAdmin, botAdmin, blocked] = await Promise.all([
+    input.userIsAdmin(),
+    input.botIsAdmin(),
+    input.isCommandBlocked(),
+  ]);
+
+  if (command.adminOnly && isGroup && !userAdmin && !userIsOwner) {
     await misa.sendMessage(from, { text: t("errors.adminOnly") });
     return false;
   }
-  if (isGroup && groupAdminOnly && !userIsOwner && !(await input.userIsAdmin())) {
+  if (isGroup && groupAdminOnly && !userIsOwner && !userAdmin) {
     await misa.sendMessage(from, { text: t("errors.groupCommandsAdminOnly") });
     return false;
   }
-  if (command.botAdminRequired && isGroup && !(await input.botIsAdmin())) {
+  if (command.botAdminRequired && isGroup && !botAdmin) {
     await misa.sendMessage(from, { text: t("errors.botAdminRequired") });
     return false;
   }
-  if (!userIsOwner && await input.isCommandBlocked()) {
+  if (!userIsOwner && blocked) {
     await misa.sendMessage(from, { text: t("errors.commandBlocked") });
     return false;
   }

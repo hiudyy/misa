@@ -37,16 +37,16 @@ describe("bot config schema", () => {
       logging: { level: "warn" },
       updates: { maxBackups: 51 },
     });
-    assert.deepEqual(normalized.messages, { maxConcurrent: 50, maxPending: 200, queueTimeoutSeconds: 60 });
+    assert.deepEqual(normalized.messages, { maxConcurrent: 50, maxPending: 500, queueTimeoutSeconds: 120 });
     assert.equal(normalized.media.maxConcurrent, 16);
-    assert.equal(normalized.media.maxPending, 20);
-    assert.equal(normalized.media.timeoutSeconds, 300);
+    assert.equal(normalized.media.maxPending, 200);
+    assert.equal(normalized.media.timeoutSeconds, 600);
     assert.equal(normalized.media.ffmpegConcurrency, 4);
     assert.equal(normalized.media.maxFileSizeMiB.image, 1);
     assert.equal(normalized.media.maxFileSizeMiB.audio, 2048);
     assert.equal(normalized.media.maxFileSizeMiB.video, 80);
     assert.equal(normalized.youtube.providerRetries, 10);
-    assert.equal(normalized.youtube.maxFailures, 3);
+    assert.equal(normalized.youtube.maxFailures, 5);
     assert.equal(normalized.logging.level, "warn");
     assert.equal(normalized.updates.maxBackups, 5);
   });

@@ -41,7 +41,7 @@ describe("funMedia", () => {
   });
 
   it("resolves local media paths that exist on disk", async () => {
-    const media = resolveFunMediaPath("games", "gay");
+    const media = await resolveFunMediaPath("games", "gay");
     assert.ok(media);
     assert.strictEqual(media?.type, "image");
     await fs.access(media!.absolutePath);
@@ -53,22 +53,22 @@ describe("funMedia", () => {
     assert.ok(files.some((name) => name.endsWith(".jpg") || name.endsWith(".webp")));
   });
 
-  it("covers all percent traits via direct media or fallback", () => {
+  it("covers all percent traits via direct media or fallback", async () => {
     const traits = [...MALE_PERCENT_TRAITS, ...FEMALE_PERCENT_TRAITS].map((t) => t.name);
-    const { withMedia, total } = countPercentTraitsWithMedia(traits);
+    const { withMedia, total } = await countPercentTraitsWithMedia(traits);
     assert.strictEqual(withMedia, total);
     assert.ok(total > 50);
   });
 
   it("resolves fallback media for traits without own image", async () => {
-    const media = resolveFunMediaPath("games", "inteligente");
+    const media = await resolveFunMediaPath("games", "inteligente");
     assert.ok(media);
     await fs.access(media!.absolutePath);
   });
 
   it("resolves games2 media for every interaction command", async () => {
     for (const action of INTERACTION_ACTIONS) {
-      const media = resolveFunMediaPath("games2", action.name);
+      const media = await resolveFunMediaPath("games2", action.name);
       assert.ok(media, `missing media for ${action.name}`);
       await fs.access(media!.absolutePath);
     }

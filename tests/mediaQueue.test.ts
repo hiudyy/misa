@@ -22,22 +22,16 @@ function abortableGate(signal: AbortSignal, gate: Promise<void>): Promise<void> 
 describe("MediaQueue", () => {
   beforeEach(() => resetMetricsForTests());
 
-  it("never exceeds global concurrency and one active job per user", async () => {
+  it("never exceeds global concurrency", async () => {
     const queue = new MediaQueue({ maxActive: 2, timeoutMs: 1_000 });
     const gates = [deferred(), deferred(), deferred()];
     let active = 0;
     let maxActive = 0;
-    const userActive = new Map<string, number>();
-    const maxByUser = new Map<string, number>();
     const run = (userId: string, index: number) => queue.run({ userId, chatId: "c", kind: "test" }, async () => {
       active += 1;
       maxActive = Math.max(maxActive, active);
-      const count = (userActive.get(userId) ?? 0) + 1;
-      userActive.set(userId, count);
-      maxByUser.set(userId, Math.max(maxByUser.get(userId) ?? 0, count));
       await gates[index].promise;
       active -= 1;
-      userActive.set(userId, count - 1);
     });
 
     const jobs = [run("same", 0), run("same", 1), run("other", 2)];
@@ -49,12 +43,11 @@ describe("MediaQueue", () => {
     gates[1].resolve();
     await Promise.all(jobs);
     assert.equal(maxActive, 2);
-    assert.equal(maxByUser.get("same"), 1);
   });
 
   it("exposes the configured timeout and limits", () => {
     const defaults = new MediaQueue().snapshot();
-    assert.deepEqual(defaults, { active: 0, pending: 0, maxActive: 2, maxPending: 20, timeoutMs: 300_000 });
+    assert.deepEqual(defaults, { active: 0, pending: 0, maxActive: 16, maxPending: 200, timeoutMs: 600_000 });
   });
 
   it("allows multiple queued jobs from one user and preserves eligible FIFO", async () => {
@@ -70,17 +63,17 @@ describe("MediaQueue", () => {
     assert.deepEqual(order, ["one", "two", "three"]);
   });
 
-  it("bypasses a blocked user at the queue head", async () => {
+  it("dispatches jobs in FIFO order regardless of user", async () => {
     const queue = new MediaQueue({ maxActive: 2, timeoutMs: 1_000 });
     const gate = deferred();
     const order: string[] = [];
     const first = queue.run({ userId: "u", chatId: "c", kind: "x" }, async () => { order.push("u-active"); await gate.promise; });
     const same = queue.run({ userId: "u", chatId: "c", kind: "x" }, async () => { order.push("u-next"); });
     const other = queue.run({ userId: "v", chatId: "c", kind: "x" }, async () => { order.push("v"); });
-    await other;
-    assert.deepEqual(order, ["u-active", "v"]);
+    await Promise.all([same, other]);
+    assert.deepEqual(order, ["u-active", "u-next", "v"]);
     gate.resolve();
-    await Promise.all([first, same]);
+    await first;
   });
 
   it("rejects when pending capacity is full", async () => {

@@ -6,7 +6,6 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promises as fs } from "node:fs";
-import { readdirSync } from "node:fs";
 import {
   GAMES2_MEDIA_KEYS,
   GAMES_MEDIA_FALLBACKS,
@@ -36,7 +35,7 @@ function ensureTextsLoaded(): void {
   if (!rankHeaders) rankHeaders = loadJson("ranks.json");
 }
 
-function indexSection(section: "games" | "ranks" | "games2"): Map<string, MediaHit> {
+async function indexSection(section: "games" | "ranks" | "games2"): Promise<Map<string, MediaHit>> {
   const cached = sectionIndex.get(section);
   if (cached) return cached;
 
@@ -44,7 +43,7 @@ function indexSection(section: "games" | "ranks" | "games2"): Map<string, MediaH
   const dir = path.join(funDir, section);
   let entries: string[] = [];
   try {
-    entries = readdirSync(dir);
+    entries = await fs.readdir(dir);
   } catch {
     sectionIndex.set(section, map);
     return map;
@@ -67,12 +66,12 @@ function indexSection(section: "games" | "ranks" | "games2"): Map<string, MediaH
   return map;
 }
 
-function lookupKey(
+async function lookupKey(
   section: "games" | "ranks" | "games2",
   key: string,
-): MediaHit | undefined {
+): Promise<MediaHit | undefined> {
   if (!key) return undefined;
-  return indexSection(section).get(key);
+  return (await indexSection(section)).get(key);
 }
 
 export function formatFunTemplate(template: string, nome: string, level: string | number): string {
@@ -91,31 +90,35 @@ export function getRankHeader(commandName: string, fallback: string): string {
   return rankHeaders?.[commandName] ?? fallback;
 }
 
-function resolveEntry(
+async function resolveEntry(
   section: "games" | "ranks" | "games2",
   key: string,
-): MediaHit | undefined {
+): Promise<MediaHit | undefined> {
   if (section === "games") {
-    return lookupKey("games", key) ?? lookupKey("games", GAMES_MEDIA_FALLBACKS[key] ?? "");
+    return (await lookupKey("games", key)) ?? (await lookupKey("games", GAMES_MEDIA_FALLBACKS[key] ?? ""));
   }
 
   if (section === "ranks") {
     const fallback = RANKS_MEDIA_FALLBACKS[key];
-    if (lookupKey("ranks", key)) return lookupKey("ranks", key);
-    if (fallback && lookupKey("ranks", fallback)) return lookupKey("ranks", fallback);
+    const direct = await lookupKey("ranks", key);
+    if (direct) return direct;
+    if (fallback) {
+      const fallbackHit = await lookupKey("ranks", fallback);
+      if (fallbackHit) return fallbackHit;
+    }
     const trait = key.replace(/^rank/, "");
-    return lookupKey("games", trait) ?? lookupKey("games", GAMES_MEDIA_FALLBACKS[trait] ?? "");
+    return (await lookupKey("games", trait)) ?? (await lookupKey("games", GAMES_MEDIA_FALLBACKS[trait] ?? ""));
   }
 
   const mediaKey = GAMES2_MEDIA_KEYS[key] ?? key;
-  return lookupKey("games2", mediaKey) ?? lookupKey("games2", key);
+  return (await lookupKey("games2", mediaKey)) ?? (await lookupKey("games2", key));
 }
 
-export function resolveFunMediaPath(
+export async function resolveFunMediaPath(
   section: "games" | "ranks" | "games2",
   key: string,
-): { type: "image" | "video"; absolutePath: string } | null {
-  const entry = resolveEntry(section, key);
+): Promise<{ type: "image" | "video"; absolutePath: string } | null> {
+  const entry = await resolveEntry(section, key);
   if (!entry) return null;
   return { type: entry.type, absolutePath: path.join(funDir, entry.relativePath) };
 }
@@ -124,7 +127,7 @@ export async function readFunMedia(
   section: "games" | "ranks" | "games2",
   key: string,
 ): Promise<{ type: "image" | "video"; buffer: Buffer } | null> {
-  const resolved = resolveFunMediaPath(section, key);
+  const resolved = await resolveFunMediaPath(section, key);
   if (!resolved) return null;
 
   try {
@@ -137,10 +140,10 @@ export async function readFunMedia(
 }
 
 /** Quantos traits de porcentagem resolvem para alguma mídia local (direto ou fallback). */
-export function countPercentTraitsWithMedia(traits: string[]): { withMedia: number; total: number } {
+export async function countPercentTraitsWithMedia(traits: string[]): Promise<{ withMedia: number; total: number }> {
   let withMedia = 0;
   for (const trait of traits) {
-    if (resolveEntry("games", trait)) withMedia += 1;
+    if (await resolveEntry("games", trait)) withMedia += 1;
   }
   return { withMedia, total: traits.length };
 }

@@ -5,18 +5,16 @@ import { ytconvertProvider } from "./ytconvert.js";
 import { nevercapProvider } from "./nevercap.js";
 import { oceansaverProvider } from "./oceansaver.js";
 import { savetubeProvider } from "./savetube.js";
-import { bronxyshostProvider } from "./bronxyshost.js";
 import { lukaProvider } from "./luka.js";
 
 export const youtubeProviders: YouTubeProvider[] = [
+  savetubeProvider,
   nayanProvider,
   flvtoProvider,
+  lukaProvider,
   ytconvertProvider,
   nevercapProvider,
   oceansaverProvider,
-  savetubeProvider,
-  bronxyshostProvider,
-  lukaProvider,
 ];
 
 export {
@@ -26,6 +24,5 @@ export {
   nevercapProvider,
   oceansaverProvider,
   savetubeProvider,
-  bronxyshostProvider,
   lukaProvider,
 };

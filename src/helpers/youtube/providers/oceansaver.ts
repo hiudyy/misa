@@ -12,8 +12,8 @@ export const oceansaverProvider: YouTubeProvider = {
       `https://p.oceansaver.in/ajax/download.php?format=${formatParam}&url=${encodeURIComponent(videoURL)}`,
     );
     if (!started.success || !started.id) throw new Error(ErrorCode.DOWNLOAD_FAILED);
-    for (let attempt = 0; attempt < 20; attempt++) {
-      await context.sleep(3_000);
+    for (let attempt = 0; attempt < 10; attempt++) {
+      await context.sleep(2_000);
       const progress = await fetchJson<{ download_url?: string; title?: string }>(
         context,
         `https://p.oceansaver.in/api/progress?id=${encodeURIComponent(started.id)}`,

@@ -14,8 +14,8 @@ export const nevercapProvider: YouTubeProvider = {
     );
     const id = asNumber(started.data?.id);
     if (!started.success || !id) throw new Error(ErrorCode.DOWNLOAD_FAILED);
-    for (let attempt = 0; attempt < 15; attempt++) {
-      await context.sleep(2_000);
+    for (let attempt = 0; attempt < 10; attempt++) {
+      await context.sleep(1_500);
       const checked = await fetchJson<{ data?: { fileMetaInfo?: { fileUrl?: string; fileName?: string; fileType?: string } } }>(
         context,
         "https://nevercap.ai/wapi/fileServer/file/file/uploadUrlStatusOpen",

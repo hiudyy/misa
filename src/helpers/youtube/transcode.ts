@@ -29,7 +29,7 @@ async function runFfmpeg(input: string, output: string, format: YtFormat, signal
     } else {
       command
         .videoCodec("libx264")
-        .outputOptions(["-preset", "fast", "-crf", "28", "-movflags", "+faststart", "-pix_fmt", "yuv420p"])
+        .outputOptions(["-preset", "ultrafast", "-crf", "28", "-movflags", "+faststart", "-pix_fmt", "yuv420p"])
         .audioCodec("aac")
         .audioBitrate("128k")
         .audioFrequency(44_100)
@@ -54,6 +54,27 @@ async function runFfmpeg(input: string, output: string, format: YtFormat, signal
 }
 
 export async function transcodeYouTubeMedia(input: TempMedia, format: YtFormat, signal?: AbortSignal): Promise<TempMedia> {
+  // Verificar compatibilidade ANTES de entrar na fila do limiter
+  if (compatible(input, format)) {
+    const outputPath = path.join(paths.tmp, `yt_${randomUUID()}.${format}`);
+    await fs.mkdir(paths.tmp, { recursive: true });
+    await fs.copyFile(input.path, outputPath);
+    await input.cleanup();
+    const stat = await fs.stat(outputPath);
+    let cleaned = false;
+    return {
+      path: outputPath,
+      size: stat.size,
+      contentType: format === "mp3" ? "audio/mpeg" : "video/mp4",
+      kind: format === "mp3" ? "audio" : "video",
+      async cleanup() {
+        if (cleaned) return;
+        cleaned = true;
+        await fs.rm(outputPath, { force: true });
+      },
+    };
+  }
+
   const outputPath = path.join(paths.tmp, `yt_${randomUUID()}.${format}`);
   await fs.mkdir(paths.tmp, { recursive: true });
   try {
@@ -80,7 +101,6 @@ export async function transcodeYouTubeMedia(input: TempMedia, format: YtFormat, 
       await input.cleanup();
       throw signal.reason ?? error;
     }
-    if (compatible(input, format)) return input;
     await input.cleanup();
     throw error;
   }

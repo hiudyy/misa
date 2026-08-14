@@ -89,6 +89,10 @@ export function assertMediaSize(size: number | { toString(): string } | null | u
   }
 }
 
+const createdDirectories = new Set<string>();
+
+const WRITE_THRESHOLD = 256 * 1024; // 256KB
+
 export async function downloadToTemp(options: DownloadOptions): Promise<TempMedia> {
   const url = assertHttpUrl(options.url);
   const fetchImpl = options.fetchImpl ?? fetch;
@@ -110,19 +114,34 @@ export async function downloadToTemp(options: DownloadOptions): Promise<TempMedi
   if (announced !== null && announced > maxBytes) throw new Error(ErrorCode.MEDIA_DOWNLOAD_TOO_LARGE);
 
   const directory = options.tempDir ?? paths.tmp;
-  await fs.mkdir(directory, { recursive: true });
+  if (!createdDirectories.has(directory)) {
+    await fs.mkdir(directory, { recursive: true });
+    createdDirectories.add(directory);
+  }
   const filePath = path.join(directory, `media_${randomUUID()}${extensionFor(contentType, url)}`);
   const handle = await fs.open(filePath, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY, 0o600);
   let size = 0;
   let completed = false;
 
   try {
+    let pendingChunks: Buffer[] = [];
+    let pendingSize = 0;
+
     for await (const chunk of response.body) {
       if (signal.aborted) throw signal.reason ?? new Error(ErrorCode.MEDIA_ABORTED);
       const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
       size += buffer.length;
       if (size > maxBytes) throw new Error(ErrorCode.MEDIA_DOWNLOAD_TOO_LARGE);
-      await handle.write(buffer);
+      pendingChunks.push(buffer);
+      pendingSize += buffer.length;
+      if (pendingSize >= WRITE_THRESHOLD) {
+        await handle.write(Buffer.concat(pendingChunks));
+        pendingChunks = [];
+        pendingSize = 0;
+      }
+    }
+    if (pendingChunks.length > 0) {
+      await handle.write(Buffer.concat(pendingChunks));
     }
     if (size === 0) throw new Error(ErrorCode.DOWNLOAD_NO_DATA);
     completed = true;

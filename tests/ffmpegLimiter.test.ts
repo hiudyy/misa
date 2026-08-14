@@ -5,8 +5,8 @@ import { FfmpegLimiter, assertFfmpegLimiterIdle } from "../src/media/ffmpegLimit
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe("FfmpegLimiter", () => {
-  it("runs only one task at a time", async () => {
-    const limiter = new FfmpegLimiter();
+  it("runs only one task at a time with capacity 1", async () => {
+    const limiter = new FfmpegLimiter(1);
     let active = 0;
     let max = 0;
     const task = () => limiter.run(async () => {
@@ -47,7 +47,7 @@ describe("FfmpegLimiter", () => {
   });
 
   it("removes an aborted waiter", async () => {
-    const limiter = new FfmpegLimiter();
+    const limiter = new FfmpegLimiter(1);
     let release!: () => void;
     const gate = new Promise<void>((resolve) => { release = resolve; });
     const first = limiter.run(() => gate);
@@ -69,7 +69,7 @@ describe("FfmpegLimiter", () => {
   });
 
   it("hands off to the next waiter after the first waiter aborts", async () => {
-    const limiter = new FfmpegLimiter();
+    const limiter = new FfmpegLimiter(1);
     let release!: () => void;
     const gate = new Promise<void>((resolve) => { release = resolve; });
     const first = limiter.run(() => gate);

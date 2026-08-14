@@ -68,17 +68,16 @@ export class MediaQueue {
   private readonly now: () => number;
   private readonly pending: PendingJob[] = [];
   private readonly active = new Map<string, PendingJob>();
-  private readonly activeUsers = new Set<string>();
 
   constructor(options: QueueOptions = {}) {
-    this.maxActive = options.maxActive ?? 2;
-    this.maxPending = options.maxPending ?? 20;
-    this.timeoutMs = options.timeoutMs ?? 5 * 60_000;
+    this.maxActive = options.maxActive ?? 16;
+    this.maxPending = options.maxPending ?? 200;
+    this.timeoutMs = options.timeoutMs ?? 10 * 60_000;
     this.now = options.now ?? Date.now;
   }
 
   enqueue<T>(options: RunOptions, task: (signal: AbortSignal) => Promise<T>): MediaJobHandle<T> {
-    const canStart = this.active.size < this.maxActive && !this.activeUsers.has(options.userId);
+    const canStart = this.active.size < this.maxActive;
     if (!canStart && this.pending.length >= this.maxPending) {
       metrics.recordMediaEvent("rejected");
       throw new MediaQueueError(MediaQueueCode.FULL);
@@ -148,7 +147,6 @@ export class MediaQueue {
   private start(job: PendingJob): void {
     job.started = true;
     this.active.set(job.id, job);
-    this.activeUsers.add(job.userId);
     metrics.recordMediaEvent("started");
     const startedAt = this.now();
 
@@ -169,16 +167,13 @@ export class MediaQueue {
       .finally(() => {
         clearTimeout(job.timer);
         this.active.delete(job.id);
-        this.activeUsers.delete(job.userId);
         this.dispatch();
       });
   }
 
   private dispatch(): void {
-    while (this.active.size < this.maxActive) {
-      const index = this.pending.findIndex((job) => !this.activeUsers.has(job.userId));
-      if (index < 0) return;
-      const [job] = this.pending.splice(index, 1);
+    while (this.active.size < this.maxActive && this.pending.length > 0) {
+      const [job] = this.pending.splice(0, 1);
       this.start(job);
     }
   }

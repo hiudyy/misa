@@ -25,8 +25,8 @@ export const ytconvertProvider: YouTubeProvider = {
     });
     if (!started.statusUrl) throw new Error(ErrorCode.DOWNLOAD_NO_DATA);
 
-    for (let attempt = 0; attempt < 30; attempt++) {
-      await context.sleep(2_000);
+    for (let attempt = 0; attempt < 15; attempt++) {
+      await context.sleep(1_500);
       const status = await fetchJson<{
         status?: string;
         title?: string;

@@ -39,15 +39,15 @@ export type OperationalConfig = {
 
 export const defaultOperationalConfig: OperationalConfig = {
   messages: {
-    maxConcurrent: 10,
-    maxPending: 200,
-    queueTimeoutSeconds: 60,
+    maxConcurrent: 25,
+    maxPending: 500,
+    queueTimeoutSeconds: 120,
   },
   media: {
-    maxConcurrent: 2,
-    maxPending: 20,
-    timeoutSeconds: 300,
-    ffmpegConcurrency: 1,
+    maxConcurrent: 16,
+    maxPending: 200,
+    timeoutSeconds: 600,
+    ffmpegConcurrency: 3,
     maxFileSizeMiB: {
       image: 20,
       audio: 40,
@@ -57,10 +57,10 @@ export const defaultOperationalConfig: OperationalConfig = {
     },
   },
   youtube: {
-    providerRetries: 2,
-    retryDelaySeconds: 2,
-    maxFailures: 3,
-    cooldownMinutes: 300,
+    providerRetries: 3,
+    retryDelaySeconds: 0,
+    maxFailures: 5,
+    cooldownMinutes: 10,
   },
   logging: {
     level: "info",

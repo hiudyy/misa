@@ -38,14 +38,44 @@ export async function searchYouTube(query: string, signal?: AbortSignal, fetchIm
   if (fromCache) return fromCache;
   const response = await fetchImpl(`https://www.youtube.com/results?search_query=${encodeURIComponent(trimmed)}`, {
     headers: { "User-Agent": YOUTUBE_USER_AGENT, "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8" },
-    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(30_000)]) : AbortSignal.timeout(30_000),
+    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(15_000)]) : AbortSignal.timeout(15_000),
   });
   if (!response.ok) throw new Error(`${ErrorCode.DOWNLOAD_FAILED}:HTTP_${response.status}`);
   const html = await response.text();
-  const match = /var ytInitialData = (\{.*?\});/s.exec(html) ?? /ytInitialData\s*=\s*(\{.*?\});/s.exec(html);
-  if (!match?.[1]) throw new Error(ErrorCode.DOWNLOAD_NO_DATA);
+
+  // Para respostas grandes (>2MB), usar regex mais específico para extrair apenas ytInitialData
+  let jsonStr: string | undefined;
+  if (html.length > 2 * 1024 * 1024) {
+    const startMarker = "var ytInitialData = ";
+    const altMarker = "ytInitialData\u0020=\u0020";
+    let startIdx = html.indexOf(startMarker);
+    let markerLen = startMarker.length;
+    if (startIdx === -1) {
+      startIdx = html.indexOf(altMarker);
+      markerLen = altMarker.length;
+    }
+    if (startIdx !== -1) {
+      const jsonStart = startIdx + markerLen;
+      // Encontrar o fim do JSON contando chaves
+      let depth = 0;
+      let endIdx = jsonStart;
+      for (let i = jsonStart; i < html.length; i++) {
+        if (html[i] === "{") depth++;
+        else if (html[i] === "}") {
+          depth--;
+          if (depth === 0) { endIdx = i + 1; break; }
+        }
+      }
+      jsonStr = html.slice(jsonStart, endIdx);
+    }
+  } else {
+    const match = /var ytInitialData = (\{.*?\});/s.exec(html) ?? /ytInitialData\s*=\s*(\{.*?\});/s.exec(html);
+    jsonStr = match?.[1];
+  }
+
+  if (!jsonStr) throw new Error(ErrorCode.DOWNLOAD_NO_DATA);
   const contents = navigateJSON(
-    JSON.parse(match[1]),
+    JSON.parse(jsonStr),
     "contents",
     "twoColumnSearchResultsRenderer",
     "primaryContents",

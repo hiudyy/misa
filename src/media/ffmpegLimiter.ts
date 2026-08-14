@@ -13,7 +13,7 @@ export class FfmpegLimiter {
   private activeCount = 0;
   private readonly waiters: Waiter[] = [];
 
-  constructor(private readonly maxActive = 1) {
+  constructor(private readonly maxActive = 3) {
     if (!Number.isInteger(maxActive) || maxActive < 1) throw new Error("FFMPEG_CONCURRENCY_INVALID");
   }
 
