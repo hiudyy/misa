@@ -200,7 +200,14 @@ async function resolveMainSha(fetchImpl: typeof fetch): Promise<string> {
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   const response = await fetchImpl(REF_URL, { headers, signal: AbortSignal.timeout(30_000) });
   if (!response.ok) throw new Error(`UPDATE_REF_HTTP_${response.status}`);
-  const data = await response.json() as { object?: { sha?: unknown } };
+  const text = await response.text();
+  if (!text || text.trim().length === 0) throw new Error("UPDATE_REF_EMPTY_BODY");
+  let data: { object?: { sha?: unknown } };
+  try {
+    data = JSON.parse(text) as { object?: { sha?: unknown } };
+  } catch {
+    throw new Error("UPDATE_REF_INVALID_JSON");
+  }
   const sha = data.object?.sha;
   if (typeof sha !== "string" || !/^[a-f0-9]{40}$/i.test(sha)) throw new Error("UPDATE_REF_SHA_INVALID");
   return sha.toLowerCase();
